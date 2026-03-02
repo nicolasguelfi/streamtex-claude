@@ -1,0 +1,121 @@
+name: Validate Profiles
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Validate profile manifests
+        run: |
+          python3 -c "
+          import tomllib
+          import sys
+          from pathlib import Path
+
+          errors = []
+          profiles_dir = Path('profiles')
+
+          for profile_dir in sorted(profiles_dir.iterdir()):
+              if not profile_dir.is_dir():
+                  continue
+
+              manifest_path = profile_dir / 'manifest.toml'
+              if not manifest_path.exists():
+                  errors.append(f'{profile_dir.name}: missing manifest.toml')
+                  continue
+
+              with open(manifest_path, 'rb') as f:
+                  manifest = tomllib.load(f)
+
+              profile_info = manifest.get('profile', {})
+              name = profile_info.get('name', '')
+              extends = profile_info.get('extends', '')
+
+              if not name:
+                  errors.append(f'{profile_dir.name}: missing profile.name')
+
+              # Category-to-path mapping
+              skill_paths = {
+                  'designer': 'designer/skills',
+                  'developer': 'developer/skills',
+                  'designer_ros': 'designer/ros_designer_default/skills',
+              }
+              agent_paths = {
+                  'designer': 'designer/agents',
+                  'developer': 'developer/agents',
+                  'designer_ros': 'designer/ros_designer_default/agents',
+              }
+
+              # For profiles with extends, check overlay/ directory
+              base = profile_dir / 'overlay' if extends else profile_dir
+
+              # Check commands
+              for subdir, files in manifest.get('commands', {}).items():
+                  for f in files:
+                      path = base / 'commands' / subdir / f
+                      if not path.exists():
+                          errors.append(f'{profile_dir.name}: missing {path.relative_to(profiles_dir)}')
+
+              # Check skills
+              for subdir, files in manifest.get('skills', {}).items():
+                  fs_path = skill_paths.get(subdir, f'skills/{subdir}')
+                  for f in files:
+                      path = base / fs_path / f
+                      if not path.exists():
+                          errors.append(f'{profile_dir.name}: missing {path.relative_to(profiles_dir)}')
+
+              # Check agents
+              for subdir, files in manifest.get('agents', {}).items():
+                  fs_path = agent_paths.get(subdir, f'agents/{subdir}')
+                  for f in files:
+                      path = base / fs_path / f
+                      if not path.exists():
+                          errors.append(f'{profile_dir.name}: missing {path.relative_to(profiles_dir)}')
+
+              # Check shared references
+              for subdir, files in manifest.get('shared', {}).items():
+                  for f in files:
+                      path = Path('shared') / subdir / f
+                      if not path.exists():
+                          errors.append(f'{profile_dir.name}: missing shared/{subdir}/{f}')
+
+              # Check CLAUDE.md.j2 exists (or parent has one)
+              template = profile_dir / 'CLAUDE.md.j2'
+              if not template.exists() and not extends:
+                  errors.append(f'{profile_dir.name}: missing CLAUDE.md.j2')
+
+              print(f'  ✓ {name}: manifest valid')
+
+          if errors:
+              print()
+              print('ERRORS:')
+              for e in errors:
+                  print(f'  ✗ {e}')
+              sys.exit(1)
+          else:
+              print()
+              print('All profiles valid!')
+          "
+
+      - name: Test install script
+        run: |
+          for profile in project presentation library documentation; do
+            echo "Testing install: $profile"
+            python3 install.py "$profile" "/tmp/test-$profile" --name "test-$profile"
+            if [ ! -f "/tmp/test-$profile/.claude/.stx-profile" ]; then
+              echo "ERROR: .stx-profile not created for $profile"
+              exit 1
+            fi
+            echo "  ✓ $profile installed successfully"
+          done

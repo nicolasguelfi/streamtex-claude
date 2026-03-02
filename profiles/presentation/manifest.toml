@@ -1,0 +1,17 @@
+# profiles/presentation/manifest.toml
+# Live projection presentations profile (extends project)
+
+[profile]
+name = "presentation"
+description = "Live projection presentations (10-20m distance)"
+extends = "project"
+
+# Only additions relative to parent profile
+[commands]
+designer = ["presentation-audit.md", "presentation-fix.md", "survey-convert.md"]
+
+[skills]
+designer_ros = ["presentation-design-rules.md", "survey-chart-conversion.md"]
+
+[agents]
+designer_ros = ["presentation-designer.md"]

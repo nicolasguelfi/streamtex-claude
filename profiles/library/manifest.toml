@@ -1,0 +1,16 @@
+# profiles/library/manifest.toml
+# StreamTeX library development profile (Nicolas)
+
+[profile]
+name = "library"
+description = "StreamTeX library development"
+extends = ""
+
+[commands]
+developer = ["test-run.md", "lint.md", "deploy.md"]
+
+[skills]
+developer = ["architecture.md", "testing-patterns.md"]
+
+[shared]
+references = ["coding_standards.md", "streamtex_cheatsheet_en.md"]
