@@ -66,12 +66,18 @@ your-project/
 
 ## Profile Details
 
-### `project` (23 commands/skills/agents)
+### `project` (28 commands/skills/agents)
 
-- **Commands**: designer (7), migration (5), project (3), developer (2)
-- **Skills**: designer (3), developer (1)
-- **Agents**: designer (2)
+- **Commands**: designer (7), migration (5), project (5), developer (2)
+- **Skills**: designer (4), developer (1)
+- **Agents**: designer (3)
 - **Shared**: coding_standards.md, streamtex_cheatsheet_en.md
+
+New in v2 (2026-03-02):
+- `/project:project-init` — Initialize a complete project interactively from a natural language description
+- `/project:project-customize` — Customize an existing project (theme, typography, navigation, features)
+- `block-blueprints.md` skill — Catalog of 10 block templates (title, comparison, timeline, etc.)
+- `project-architect.md` agent — Designs project structure before generation
 
 ### `presentation` (extends project + 6 overlay files)
 

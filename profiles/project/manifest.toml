@@ -15,15 +15,15 @@ migration = [
     "conversion-audit.md", "html-convert-batch.md", "html-convert-block.md",
     "html-export.md", "html-migrate.md"
 ]
-project = ["course-generate.md", "project-upgrade.md", "collection-new.md"]
+project = ["course-generate.md", "project-upgrade.md", "collection-new.md", "project-init.md", "project-customize.md"]
 developer = ["test-run.md", "lint.md"]
 
 [skills]
-designer = ["visual-design-rules.md", "style-conventions.md", "streamtex-quick-reference.md"]
+designer = ["visual-design-rules.md", "style-conventions.md", "streamtex-quick-reference.md", "block-blueprints.md"]
 developer = ["testing-patterns.md"]
 
 [agents]
-designer = ["slide-designer.md", "slide-reviewer.md"]
+designer = ["slide-designer.md", "slide-reviewer.md", "project-architect.md"]
 
 [shared]
 references = ["coding_standards.md", "streamtex_cheatsheet_en.md"]
