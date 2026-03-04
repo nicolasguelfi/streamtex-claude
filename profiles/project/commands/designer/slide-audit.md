@@ -13,11 +13,11 @@ Arguments: $ARGUMENTS (file path or block name, e.g. "bck_04_text_styles" or pat
 - [ ] **Block structure**: Has `BlockStyles` class, `bs` alias, `build()` function
 - [ ] **Centered content**: `build()` wraps in `with st_block(s.center_txt):`
 - [ ] **Heading**: Main heading uses `tag=t.div, toc_lvl="1"`
-- [ ] **Imports**: Includes `helpers`, `textwrap`
+- [ ] **Imports**: Includes `helpers`
 - [ ] **Line length**: No visible text line exceeds ~45 characters
 - [ ] **No string concatenation**: No multi-arg string `st_write()` calls
 - [ ] **Code before rendering**: Every live example preceded by `show_code()`
-- [ ] **textwrap.dedent**: All `show_explanation()`, `show_details()`, `show_code()` use `textwrap.dedent("""\...""")`
+- [ ] **Multi-line strings**: All `show_explanation()`, `show_details()`, `show_code()` use `"""\..."""` (auto-dedented)
 - [ ] **Body text size**: Uses `s.large` (32pt) for body, not `s.big`
 - [ ] **WRONG explanations**: Every WRONG box explains WHY (uses `st_write` + `st_br`)
 - [ ] **Default values**: Details sections document parameter defaults

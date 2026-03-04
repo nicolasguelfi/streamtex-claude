@@ -164,7 +164,7 @@ def build():
         with st_grid([1, 1]):
             st_code(
                 bs.code,
-                code=textwrap.dedent("""\
+                code="""\
                     # Code source
                     def hello():
                         print("Hello!")

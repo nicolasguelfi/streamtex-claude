@@ -13,9 +13,11 @@ designer = [
 ]
 project = ["course-generate.md"]
 developer = ["test-run.md", "lint.md"]
+coherence = ["audit.md"]
 
 [skills]
 designer = ["visual-design-rules.md", "style-conventions.md", "streamtex-quick-reference.md"]
+developer = ["coherence-checks.md"]
 
 [agents]
 designer = ["slide-designer.md", "slide-reviewer.md"]

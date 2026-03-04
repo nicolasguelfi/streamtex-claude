@@ -25,15 +25,16 @@ st_write(s.large, "that reads well on a slide.")
 
 ## 2. Multi-line Text Blocks
 
-- Use `textwrap.dedent("""\...""")` for all helper text arguments.
-- Applies to: `show_explanation()`, `show_details()`, `show_code()`.
-- Each line in the dedented string becomes a separate rendered line.
+- Use `"""\..."""` for all multi-line helper text arguments (auto-dedented).
+- Applies to: `show_explanation()`, `show_details()`, `show_code()`, `show_code_inline()`, `st_write()`, `st_code()`.
+- Each line in the string becomes a separate rendered line.
+- Do NOT wrap with `textwrap.dedent()` — it is applied automatically.
 
 ```python
-show_explanation(textwrap.dedent("""\
+show_explanation("""\
     Short first line for readability.
     Second line continues the explanation.
-"""))
+""")
 ```
 
 ## 3. Font Size Hierarchy
@@ -63,16 +64,16 @@ st_write(bs.sub, "Feature Name", toc_lvl="+1")
 st_space("v", 1)
 
 # 2. Explanation box (what & why)
-show_explanation(textwrap.dedent("""\
+show_explanation("""\
     What this feature does.
     Why you would use it.
-"""))
+""")
 st_space("v", 1)
 
 # 3. Code box (syntax-highlighted)
-show_code(textwrap.dedent("""\
+show_code("""\
     st_write(s.large, "Example code")
-"""))
+""")
 st_space("v", 1)
 
 # 4. Live rendering
@@ -80,10 +81,10 @@ st_write(s.large, "Example code")
 st_space("v", 2)
 
 # 5. Optional: details box (defaults & tips)
-show_details(textwrap.dedent("""\
+show_details("""\
     Default: param=value.
     Additional tips about this feature.
-"""))
+""")
 ```
 
 ## 5. Every Example Must Have Code
@@ -106,9 +107,9 @@ with st_block(s.project.containers.bad_callout):
     st_br()
     st_write(s.large, "Explanation line 2.")
     st_space("v", 1)
-    show_code_inline(textwrap.dedent("""\
+    show_code_inline("""\
         # the wrong code here
-    """))
+    """)
 ```
 
 ## 7. Default Parameter Values

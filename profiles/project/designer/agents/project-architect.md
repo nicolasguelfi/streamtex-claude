@@ -42,12 +42,12 @@ Pour les cours et formations, suivre cette progression :
 
 Choisir selon le type de projet :
 
-| Type | Pagination | TOC | Banner | Marker | Export |
-|------|-----------|-----|--------|--------|--------|
-| Presentation amphi | oui | sidebar | oui | oui (PageUp/Down) | non |
-| Presentation ecran | oui | sidebar | optionnel | oui | optionnel |
-| Documentation | non (scroll) | sidebar numerote | non | non | oui (HTML) |
-| Collection | non | non | non | non | non |
+| Type | Pagination | TOC | Sidebar | Banner | Marker | Export |
+|------|-----------|-----|---------|--------|--------|--------|
+| Presentation amphi | oui | SIDEBAR_ONLY, max_level=2 | expanded | oui | oui (PageUp/Down) | non |
+| Presentation ecran | oui | SIDEBAR_ONLY, max_level=2 | expanded | optionnel | oui | optionnel |
+| Documentation | non (scroll) | SIDEBAR_ONLY, max_level=2 | expanded | non | non | oui (HTML) |
+| Collection | non | SIDEBAR_ONLY, max_level=2 | expanded | non | non | non |
 
 ### Dimensionnement du texte
 
@@ -103,7 +103,8 @@ Blocks : N
 
 Fonctionnalites :
 - Pagination : [oui/non]
-- TOC : [sidebar / sidebar numerote / non]
+- TOC : SIDEBAR_ONLY, sidebar_max_level=2 (defaut pour tous les types)
+- Sidebar : expanded (toujours ouvert par defaut)
 - Banner : [oui/non] — [description]
 - Marker : [oui/non] — [touches]
 - Export : [oui/non]

@@ -35,7 +35,8 @@ Extraire de la description de l'utilisateur :
 Si des informations manquent, utiliser les valeurs par defaut :
 - Type : presentation
 - Theme : dark
-- TOC : sidebar
+- TOC : `numbering=NumberingMode.SIDEBAR_ONLY, sidebar_max_level=2` (numerotation dans le sidebar seulement, jusqu'au niveau 2)
+- Sidebar : `initial_sidebar_state="expanded"` (toujours ouvert par defaut)
 - Pagination : oui
 - Public : ecran
 
@@ -77,6 +78,8 @@ Pour chaque block :
 
 2. Mettre a jour `book.py` :
    - Importer `blocks` (registry)
+   - Configurer `st.set_page_config(initial_sidebar_state="expanded")`
+   - Configurer `TOCConfig(numbering=NumberingMode.SIDEBAR_ONLY, sidebar_max_level=2, search=True)`
    - Configurer `st_book()` avec la liste des blocks dans l'ordre
    - Activer les fonctionnalites choisies (pagination, TOC, banner, marker)
 

@@ -28,7 +28,7 @@ pedagogically structured slide content for presentation projects.
 - WRONG examples always explain WHY they're wrong
 
 ### Code Quality
-- All text blocks use `textwrap.dedent("""\...""")`
+- All multi-line text blocks use `"""\..."""`
 - Standard imports + helpers in every block
 - `BlockStyles` class with `heading` and `sub` + `bs` alias
 - All content wrapped in `with st_block(s.center_txt):`
@@ -38,7 +38,7 @@ pedagogically structured slide content for presentation projects.
 1. `st_write(s.large, "long text", " more text", " even more")`
    -> Use separate `st_write()` + `st_br()` calls
 2. `show_explanation("line1", "line2")`
-   -> Use `show_explanation(textwrap.dedent("""\..."""))`
+   -> Use `show_explanation("""\...""")`
 3. Live rendering without preceding `show_code()`
 4. WRONG box without explaining why it's wrong
 5. Missing default values in details sections

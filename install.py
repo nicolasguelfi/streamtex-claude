@@ -191,7 +191,7 @@ def install_profile(profile_name: str, target_dir: Path,
                     shutil.copy2(src_file, dst_dir / filename)
                     total_files += 1
 
-    # Copy shared resources
+    # Copy shared resources (read-only copies)
     if "shared" in manifest:
         for subdir, files in manifest["shared"].items():
             src_dir = SHARED_DIR / subdir
@@ -202,7 +202,9 @@ def install_profile(profile_name: str, target_dir: Path,
                 if not src_file.exists():
                     print(f"  Warning: shared/{subdir}/{filename} not found, skipping")
                     continue
-                shutil.copy2(src_file, dst_dir / filename)
+                dst_file = dst_dir / filename
+                shutil.copy2(src_file, dst_file)
+                dst_file.chmod(0o444)
                 total_files += 1
 
     # Copy settings.json

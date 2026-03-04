@@ -45,7 +45,8 @@ L'utilisateur decrit les changements de personnalisation souhaites. Exemples :
 
 **Fichiers concernes** : `book.py`
 
-- **TOC** : on/off, mode sidebar, numerotation on/off
+- **TOC** : on/off, mode `numbering=NumberingMode.SIDEBAR_ONLY` (defaut), `sidebar_max_level=2` (defaut)
+- **Sidebar** : `initial_sidebar_state="expanded"` (toujours ouvert par defaut)
 - **Pagination** : on/off (paginate=True/False dans st_book)
 - **Marker** : on/off, touches de navigation (PageUp/PageDown par defaut)
 - **Banner** : on/off, configuration (titre, logo, couleur)
@@ -92,7 +93,8 @@ Changements proposes :
    - base = "dark" → base = "light"
 
 3. book.py
-   + toc_config = TocConfig(sidebar=True, numbered=True)
+   + toc_config = TOCConfig(numbering=NumberingMode.SIDEBAR_ONLY, sidebar_max_level=2, search=True)
+   + initial_sidebar_state="expanded"
    + paginate = True
 
 Fichiers touches : 3

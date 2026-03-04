@@ -34,9 +34,9 @@ for visual design compliance and pedagogical completeness.
 - [ ] `show_details()` documents parameter defaults
 
 ### Text Formatting (mandatory)
-- [ ] All `show_explanation()` use `textwrap.dedent("""\...""")`
-- [ ] All `show_details()` use `textwrap.dedent("""\...""")`
-- [ ] All `show_code()` use `textwrap.dedent("""\...""")`
+- [ ] All `show_explanation()` use `"""\..."""` (auto-dedented)
+- [ ] All `show_details()` use `"""\..."""` (auto-dedented)
+- [ ] All `show_code()` use `"""\..."""` (auto-dedented)
 
 ### Style Compliance (warning-level)
 - [ ] No hardcoded black/white colors
