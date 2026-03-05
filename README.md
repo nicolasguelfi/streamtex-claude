@@ -17,11 +17,11 @@ uv tool install streamtex[cli]
 # 2. Create a workspace with Claude profiles
 mkdir streamtex-dev && cd streamtex-dev
 stx workspace init .                     # standard preset (docs + claude)
-stx workspace clone
+stx workspace update                     # clones repos, syncs deps, installs /stx-guide globally
 
 # 3. Create a project and install a Claude profile
-stx project new mon-projet
-cd projects/stx-mon-projet
+stx project new my-project
+cd projects/stx-my-project
 stx claude install project .
 
 # 4. Open in Claude Code or Cursor
@@ -32,9 +32,9 @@ Lighter setup (Claude profiles only, no docs):
 
 ```bash
 stx workspace init . --preset user
-stx workspace clone
-stx project new mon-projet
-cd projects/stx-mon-projet
+stx workspace update                     # clones repos, syncs deps, installs /stx-guide globally
+stx project new my-project
+cd projects/stx-my-project
 stx claude install project .
 ```
 
@@ -99,10 +99,12 @@ your-project/
 └── .claude/
     ├── settings.json          # Claude Code permissions
     ├── .stx-profile           # Installed profile marker
-    ├── commands/              # Slash commands (/designer:*, /project:*, etc.)
+    ├── commands/
+    │   ├── stx-guide.md       # Shared: ecosystem navigation guide
+    │   └── designer/          # Slash commands (/designer:*, /project:*, etc.)
+    ├── references/            # Shared: coding standards + cheatsheet
     ├── designer/              # Design skills and agents
-    ├── developer/             # Developer skills
-    └── references/            # Coding standards + cheatsheet
+    └── developer/             # Developer skills
 ```
 
 ## Command Overview
@@ -166,7 +168,29 @@ your-project/
 
 ## Updating
 
-Use the StreamTeX CLI for fine-grained control:
+After a new StreamTeX release:
+
+```bash
+# 1. Update the CLI
+uv tool install "streamtex[cli]" -U
+
+# 2. Update everything (repos + deps + profiles + global commands)
+cd streamtex-dev/
+stx workspace update
+
+# 3. Verify
+stx claude check
+```
+
+Fine-grained control:
+```bash
+stx workspace update --skip-sync      # skip uv sync
+stx workspace update --skip-profiles  # skip Claude profile update
+```
+
+> Use `/stx-guide update` inside Claude Code for guided assistance.
+
+Fine-grained control for a single project:
 
 ```bash
 stx claude diff .           # Compare installed vs source
@@ -174,11 +198,30 @@ stx claude update .         # Update (preserves local CLAUDE.md)
 stx claude update . --force # Override everything including CLAUDE.md
 ```
 
-Or re-run the install command to overwrite:
+### What gets updated
 
-```bash
-stx claude install project ./my-project
-```
+| Source in `streamtex-claude/` | Destination in each project |
+|---|---|
+| `shared/references/*.md` | `.claude/references/` |
+| `shared/commands/*.md` | `.claude/commands/` (per-project) |
+| `shared/commands/*.md` | `~/.claude/commands/` (global, via `stx workspace update`) |
+| `profiles/<profile>/commands/` | `.claude/commands/` |
+| `profiles/<profile>/*/skills/` | `.claude/*/skills/` |
+| `profiles/<profile>/*/agents/` | `.claude/*/agents/` |
+| `profiles/<profile>/CLAUDE.md` | `CLAUDE.md` (preserved unless `--force`) |
+
+Shared files (references and commands) are set read-only (0o444) to signal they are managed automatically.
+
+> **Global commands**: `stx workspace update` also copies `shared/commands/` to `~/.claude/commands/`,
+> making commands like `/stx-guide` available globally — even outside any project directory.
+
+### How projects are discovered
+
+`stx claude update --all` and `stx claude check` scan:
+- Top-level workspace directories (e.g., `streamtex/`, `streamtex-docs/`)
+- Subdirectories of `projects/` (e.g., `projects/stx-ai4se/`)
+
+Projects are identified by the `.claude/.stx-profile` marker file.
 
 ## Related
 
@@ -203,7 +246,8 @@ streamtex-claude/
 │   ├── library/            # Library development profile
 │   └── documentation/      # Documentation authoring profile
 ├── shared/
-│   └── references/         # Shared coding standards + cheatsheet
+│   ├── references/         # Shared coding standards + cheatsheet
+│   └── commands/           # Shared commands (stx-guide, etc.)
 └── .github/
     └── workflows/
         └── validate.yml    # CI: validate profile completeness
