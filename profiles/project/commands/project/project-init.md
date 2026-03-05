@@ -1,16 +1,16 @@
-# /project:project-init — Initialiser un projet StreamTeX complet
+# /project:project-init — Initialize a complete StreamTeX project
 
-Arguments: $ARGUMENTS (description en langage naturel du projet souhaite)
+Arguments: $ARGUMENTS (natural language description of the desired project)
 
-## Declencheur
+## Trigger
 
-L'utilisateur decrit un projet en langage naturel. Exemples :
+The user describes a project in natural language. Examples:
 
-- `"cours Docker pour debutants, 8 slides, style presentation sombre"`
-- `"documentation technique API REST, 12 sections, avec exemples de code"`
-- `"portfolio de projets recherche, 5 projets, mode collection"`
+- `"Docker course for beginners, 8 slides, dark presentation style"`
+- `"technical REST API documentation, 12 sections, with code examples"`
+- `"research project portfolio, 5 projects, collection mode"`
 
-## Lectures obligatoires AVANT generation
+## Required readings BEFORE generation
 
 1. `.claude/references/coding_standards.md`
 2. `.claude/references/streamtex_cheatsheet_en.md`
@@ -18,118 +18,118 @@ L'utilisateur decrit un projet en langage naturel. Exemples :
 4. `.claude/designer/skills/style-conventions.md`
 5. `.claude/designer/skills/block-blueprints.md`
 6. `.claude/designer/agents/project-architect.md`
-7. `book.py` existant (si le projet a deja ete scaffold)
+7. Existing `book.py` (if the project has already been scaffolded)
 
 ## Workflow
 
-### Etape 1 : Analyser la demande
+### Step 1: Analyze the request
 
-Extraire de la description de l'utilisateur :
+Extract from the user's description:
 
-- **Type** : presentation | documentation | collection
-- **Nombre de sections/slides** : N
-- **Theme visuel** : sombre (dark) | clair (light) | custom
-- **Fonctionnalites** : TOC, pagination, banner, export, interactivite
-- **Public cible** : amphitheatre (gros texte, `s.Large` min) | ecran (texte normal, `s.large`)
+- **Type**: presentation | documentation | collection
+- **Number of sections/slides**: N
+- **Visual theme**: dark | light | custom
+- **Features**: TOC, pagination, banner, export, interactivity
+- **Target audience**: auditorium (large text, `s.Large` min) | screen (normal text, `s.large`)
 
-Si des informations manquent, utiliser les valeurs par defaut :
-- Type : presentation
-- Theme : dark
-- TOC : `numbering=NumberingMode.SIDEBAR_ONLY, sidebar_max_level=2` (numerotation dans le sidebar seulement, jusqu'au niveau 2)
-- Sidebar : `initial_sidebar_state="expanded"` (toujours ouvert par defaut)
-- Pagination : oui
-- Public : ecran
+If information is missing, use default values:
+- Type: presentation
+- Theme: dark
+- TOC: `numbering=NumberingMode.SIDEBAR_ONLY, sidebar_max_level=2` (numbering in sidebar only, up to level 2)
+- Sidebar: `initial_sidebar_state="expanded"` (always open by default)
+- Pagination: yes
+- Audience: screen
 
-### Etape 2 : Proposer un plan
+### Step 2: Propose a plan
 
-Adopter le role de **Project Architect** (`.claude/designer/agents/project-architect.md`)
-et proposer a l'utilisateur :
+Adopt the **Project Architect** role (`.claude/designer/agents/project-architect.md`)
+and propose to the user:
 
-1. **Liste des N blocks** avec noms, blueprints associes, et descriptions
-2. **Structure du book.py** (pagination, TOC, banner, marker)
-3. **Palette de couleurs** proposee
-4. **Fonctionnalites activees**
+1. **List of N blocks** with names, associated blueprints, and descriptions
+2. **book.py structure** (pagination, TOC, banner, marker)
+3. **Proposed color palette**
+4. **Enabled features**
 
-Utiliser le format de sortie defini dans `project-architect.md`.
+Use the output format defined in `project-architect.md`.
 
-**Demander confirmation avant de generer.** Ne jamais generer sans accord explicite.
+**Ask for confirmation before generating.** Never generate without explicit approval.
 
-### Etape 3 : Generer les fichiers
+### Step 3: Generate files
 
-Pour chaque block :
+For each block:
 
-1. Creer `blocks/bck_NN_<nom>.py` avec :
-   - Docstring descriptive du contenu du block
-   - Imports conformes a `coding_standards.md` :
+1. Create `blocks/bck_NN_<name>.py` with:
+   - Descriptive docstring of the block's content
+   - Imports conforming to `coding_standards.md`:
      ```python
      from streamtex import *
      from streamtex.styles import Style as ns
      from streamtex.enums import Tags as t, ListTypes as lt
      from custom.styles import Styles as s
      ```
-   - `BlockStyles` class avec styles adaptes au theme et au public cible
+   - `BlockStyles` class with styles adapted to the theme and target audience
    - `bs = BlockStyles` alias
-   - `def build()` implementant la structure du blueprint choisi
-   - Contenu placeholder structure (pas de Lorem Ipsum) :
-     - Titres descriptifs du sujet reel
-     - Bullet points avec `"[A completer : description du contenu attendu]"`
-     - Emplacements d'images avec commentaires `# TODO: ajouter image`
-   - `toc_lvl` sur le titre principal pour le sommaire
+   - `def build()` implementing the chosen blueprint's structure
+   - Structured placeholder content (no Lorem Ipsum):
+     - Descriptive titles matching the actual subject
+     - Bullet points with `"[TODO: description of expected content]"`
+     - Image placeholders with comments `# TODO: add image`
+   - `toc_lvl` on the main title for the table of contents
 
-2. Mettre a jour `book.py` :
-   - Importer `blocks` (registry)
-   - Configurer `st.set_page_config(initial_sidebar_state="expanded")`
-   - Configurer `TOCConfig(numbering=NumberingMode.SIDEBAR_ONLY, sidebar_max_level=2, search=True)`
-   - Configurer `st_book()` avec la liste des blocks dans l'ordre
-   - Activer les fonctionnalites choisies (pagination, TOC, banner, marker)
+2. Update `book.py`:
+   - Import `blocks` (registry)
+   - Configure `st.set_page_config(initial_sidebar_state="expanded")`
+   - Configure `TOCConfig(numbering=NumberingMode.SIDEBAR_ONLY, sidebar_max_level=2, search=True)`
+   - Configure `st_book()` with the list of blocks in order
+   - Enable chosen features (pagination, TOC, banner, marker)
 
-3. Adapter `custom/styles.py` :
-   - Definir la palette de couleurs choisie
-   - Creer les styles project-level (titles, containers, colors)
+3. Adapt `custom/styles.py`:
+   - Define the chosen color palette
+   - Create project-level styles (titles, containers, colors)
 
-4. Adapter `custom/themes.py` si le theme n'est pas le defaut
+4. Adapt `custom/themes.py` if the theme is not the default
 
-5. Mettre a jour `.streamlit/config.toml` si necessaire (theme dark/light)
+5. Update `.streamlit/config.toml` if necessary (dark/light theme)
 
-### Etape 4 : Valider
+### Step 4: Validate
 
-- Verifier que tous les blocks ont une fonction `build()`
-- Verifier que `book.py` reference tous les blocks generes
-- Verifier la coherence des styles (pas de style reference non defini)
-- Afficher un resume des fichiers generes :
+- Verify that all blocks have a `build()` function
+- Verify that `book.py` references all generated blocks
+- Verify style consistency (no referenced style left undefined)
+- Display a summary of generated files:
 
 ```
-Fichiers generes :
-  book.py                          (mis a jour)
-  custom/styles.py                 (mis a jour)
-  blocks/bck_01_titre.py           (cree)
-  blocks/bck_02_intro.py           (cree)
+Generated files:
+  book.py                          (updated)
+  custom/styles.py                 (updated)
+  blocks/bck_01_title.py           (created)
+  blocks/bck_02_intro.py           (created)
   ...
-  blocks/bck_NN_conclusion.py      (cree)
+  blocks/bck_NN_conclusion.py      (created)
 
-Prochaines etapes :
-  1. Remplir le contenu des blocks (remplacer les "[A completer : ...]")
-  2. Ajouter les images dans static/images/
-  3. Tester : uv run streamlit run book.py
-  4. Utiliser /designer:slide-audit pour verifier la conformite
+Next steps:
+  1. Fill in block content (replace "[TODO: ...]" placeholders)
+  2. Add images to static/images/
+  3. Test: uv run streamlit run book.py
+  4. Use /designer:slide-audit to check compliance
 ```
 
-## Regles de generation
+## Generation rules
 
-- Tous les blocks suivent le pattern `BlockStyles` + `build()`
-- Les noms de styles sont en anglais (`style-conventions.md`)
-- Les tailles de texte respectent le public cible :
-  - Amphitheatre : `s.Large` (48pt) minimum pour le corps
-  - Ecran : `s.large` (32pt) pour le corps
-- Chaque block a un `toc_lvl` pour le sommaire
-- Le contenu est du placeholder structure (pas du Lorem Ipsum)
-- Les blocks sont numerotes : `bck_01_`, `bck_02_`, etc.
-- Pas de raw HTML/CSS — utiliser uniquement les fonctions `stx.*`
-- Pas de hardcoded black/white — utiliser le systeme de styles
+- All blocks follow the `BlockStyles` + `build()` pattern
+- Style names are in English (`style-conventions.md`)
+- Text sizes respect the target audience:
+  - Auditorium: `s.Large` (48pt) minimum for body text
+  - Screen: `s.large` (32pt) for body text
+- Each block has a `toc_lvl` for the table of contents
+- Content is structured placeholder (no Lorem Ipsum)
+- Blocks are numbered: `bck_01_`, `bck_02_`, etc.
+- No raw HTML/CSS — use only `stx.*` functions
+- No hardcoded black/white — use the style system
 
-## Contraintes
+## Constraints
 
-- Suivre TOUTES les regles de CLAUDE.md
-- Maximum 15 blocks par projet (sinon, suggerer une collection)
-- Toujours inclure un block de titre (Blueprint 1) et un de conclusion (Blueprint 10)
-- Si le projet est deja scaffold (`book.py` existe), adapter plutot que re-creer
+- Follow ALL rules in CLAUDE.md
+- Maximum 15 blocks per project (otherwise, suggest a collection)
+- Always include a title block (Blueprint 1) and a conclusion block (Blueprint 10)
+- If the project is already scaffolded (`book.py` exists), adapt rather than recreate

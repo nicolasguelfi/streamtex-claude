@@ -1,143 +1,143 @@
-# /project:project-customize — Personnaliser un projet StreamTeX
+# /project:project-customize — Customize a StreamTeX project
 
-Arguments: $ARGUMENTS (description des changements souhaites en langage naturel)
+Arguments: $ARGUMENTS (natural language description of desired changes)
 
-## Declencheur
+## Trigger
 
-L'utilisateur decrit les changements de personnalisation souhaites. Exemples :
+The user describes the desired customization changes. Examples:
 
-- `"passer en theme clair avec palette verte"`
-- `"ajouter un TOC sidebar avec numerotation"`
-- `"activer l'export HTML et le mode banner"`
-- `"adapter pour projection en amphitheatre (gros texte)"`
-- `"changer la palette en bleu et orange, ajouter la pagination"`
+- `"switch to light theme with green palette"`
+- `"add a TOC sidebar with numbering"`
+- `"enable HTML export and banner mode"`
+- `"adapt for auditorium projection (large text)"`
+- `"change palette to blue and orange, add pagination"`
 
-## Lectures obligatoires
+## Required readings
 
-1. `book.py` — configuration actuelle du projet
-2. `custom/styles.py` — palette et styles actuels
-3. `custom/themes.py` — theme actuel (si le fichier existe)
-4. `.streamlit/config.toml` — configuration Streamlit actuelle
+1. `book.py` — current project configuration
+2. `custom/styles.py` — current palette and styles
+3. `custom/themes.py` — current theme (if file exists)
+4. `.streamlit/config.toml` — current Streamlit configuration
 5. `.claude/references/coding_standards.md`
 6. `.claude/designer/skills/style-conventions.md`
 
-## Domaines de personnalisation
+## Customization domains
 
-### 1. Theme et couleurs
+### 1. Theme and colors
 
-**Fichiers concernes** : `custom/styles.py`, `custom/themes.py`, `.streamlit/config.toml`
+**Affected files**: `custom/styles.py`, `custom/themes.py`, `.streamlit/config.toml`
 
-- Palette de couleurs : `primary`, `accent`, `highlight`, `success`, `muted`
-- Theme Streamlit : dark / light (dans `.streamlit/config.toml`)
-- Couleurs de fond des blocks (via `Style.create()`)
-- Couleurs d'accent pour les titres, liens, bullets
+- Color palette: `primary`, `accent`, `highlight`, `success`, `muted`
+- Streamlit theme: dark / light (in `.streamlit/config.toml`)
+- Block background colors (via `Style.create()`)
+- Accent colors for titles, links, bullets
 
-### 2. Typographie
+### 2. Typography
 
-**Fichiers concernes** : `custom/styles.py`, tous les blocks
+**Affected files**: `custom/styles.py`, all blocks
 
-- Tailles de police : ecran (`s.large` corps) vs amphitheatre (`s.Large` corps)
-- Hierarchie des titres : `s.huge` > `s.Large` > `s.large`
-- Style des bullets dans les listes
-- Police personnalisee (si demandee)
+- Font sizes: screen (`s.large` body) vs auditorium (`s.Large` body)
+- Title hierarchy: `s.huge` > `s.Large` > `s.large`
+- Bullet style in lists
+- Custom font (if requested)
 
 ### 3. Navigation
 
-**Fichiers concernes** : `book.py`
+**Affected files**: `book.py`
 
-- **TOC** : on/off, mode `numbering=NumberingMode.SIDEBAR_ONLY` (defaut), `sidebar_max_level=2` (defaut)
-- **Sidebar** : `initial_sidebar_state="expanded"` (toujours ouvert par defaut)
-- **Pagination** : on/off (paginate=True/False dans st_book)
-- **Marker** : on/off, touches de navigation (PageUp/PageDown par defaut)
-- **Banner** : on/off, configuration (titre, logo, couleur)
+- **TOC**: on/off, mode `numbering=NumberingMode.SIDEBAR_ONLY` (default), `sidebar_max_level=2` (default)
+- **Sidebar**: `initial_sidebar_state="expanded"` (always open by default)
+- **Pagination**: on/off (paginate=True/False in st_book)
+- **Marker**: on/off, navigation keys (PageUp/PageDown by default)
+- **Banner**: on/off, configuration (title, logo, color)
 
-### 4. Fonctionnalites
+### 4. Features
 
-**Fichiers concernes** : `book.py`, `custom/styles.py`
+**Affected files**: `book.py`, `custom/styles.py`
 
-- **Export HTML** : on/off (ExportConfig dans book.py)
-- **Inspector** : on/off (mode debug live)
-- **Zoom** : on/off, valeur par defaut
-- **Mode collection** : conversion projet → collection (ajout collection.toml)
+- **HTML export**: on/off (ExportConfig in book.py)
+- **Inspector**: on/off (live debug mode)
+- **Zoom**: on/off, default value
+- **Collection mode**: convert project to collection (add collection.toml)
 
 ## Workflow
 
-### Etape 1 : Lire la configuration actuelle
+### Step 1: Read the current configuration
 
-Lire les fichiers du projet pour comprendre l'etat actuel :
-- Quel theme est utilise ?
-- Quelles fonctionnalites sont activees ?
-- Quelle palette de couleurs ?
-- Quel public cible ?
+Read the project files to understand the current state:
+- Which theme is used?
+- Which features are enabled?
+- Which color palette?
+- Which target audience?
 
-### Etape 2 : Identifier les changements demandes
+### Step 2: Identify requested changes
 
-Parser la description de l'utilisateur et determiner :
-- Quels domaines sont concernes (theme, typo, navigation, fonctionnalites)
-- Quels fichiers doivent etre modifies
-- Y a-t-il des conflits avec la configuration actuelle ?
+Parse the user's description and determine:
+- Which domains are affected (theme, typography, navigation, features)
+- Which files need to be modified
+- Are there any conflicts with the current configuration?
 
-### Etape 3 : Proposer les modifications
+### Step 3: Propose modifications
 
-Afficher un resume clair des changements proposes :
+Display a clear summary of the proposed changes:
 
 ```
-Changements proposes :
+Proposed changes:
 
 1. custom/styles.py
-   - primary : #1a1a2e → #2d5016 (vert fonce)
-   - accent  : #e94560 → #4caf50 (vert)
-   + highlight : #81c784 (vert clair) [nouveau]
+   - primary : #1a1a2e -> #2d5016 (dark green)
+   - accent  : #e94560 -> #4caf50 (green)
+   + highlight : #81c784 (light green) [new]
 
 2. .streamlit/config.toml
-   - base = "dark" → base = "light"
+   - base = "dark" -> base = "light"
 
 3. book.py
    + toc_config = TOCConfig(numbering=NumberingMode.SIDEBAR_ONLY, sidebar_max_level=2, search=True)
    + initial_sidebar_state="expanded"
    + paginate = True
 
-Fichiers touches : 3
-Blocks a mettre a jour : 0
+Files affected: 3
+Blocks to update: 0
 ```
 
-**Demander confirmation avant d'appliquer.**
+**Ask for confirmation before applying.**
 
-### Etape 4 : Appliquer les modifications
+### Step 4: Apply modifications
 
-Modifier les fichiers dans l'ordre :
-1. `custom/styles.py` (palette, styles project-level)
-2. `custom/themes.py` (theme si necessaire)
-3. `.streamlit/config.toml` (theme Streamlit)
-4. `book.py` (navigation, fonctionnalites)
-5. Blocks individuels (seulement si les tailles de police changent)
+Modify files in order:
+1. `custom/styles.py` (palette, project-level styles)
+2. `custom/themes.py` (theme if necessary)
+3. `.streamlit/config.toml` (Streamlit theme)
+4. `book.py` (navigation, features)
+5. Individual blocks (only if font sizes change)
 
-### Etape 5 : Valider
+### Step 5: Validate
 
-- Verifier qu'aucun style reference n'est manquant
-- Verifier la coherence entre theme Streamlit et styles custom
-- Afficher un resume des modifications appliquees
+- Verify that no referenced style is missing
+- Verify consistency between Streamlit theme and custom styles
+- Display a summary of applied modifications
 
 ```
-Modifications appliquees :
-  custom/styles.py       — palette mise a jour (3 couleurs)
-  .streamlit/config.toml — theme passe en light
-  book.py                — TOC + pagination actives
+Applied modifications:
+  custom/styles.py       — palette updated (3 colors)
+  .streamlit/config.toml — theme switched to light
+  book.py                — TOC + pagination enabled
 
-Tester : uv run streamlit run book.py
+Test: uv run streamlit run book.py
 ```
 
-## Regles
+## Rules
 
-- Ne JAMAIS supprimer du contenu existant dans les blocks
-- Ne modifier les blocks que pour les tailles de police (changement de public cible)
-- Toujours utiliser `Style.create()` pour les couleurs, jamais de raw CSS
-- Toujours proposer un diff avant d'appliquer
-- Si le changement affecte tous les blocks (ex: changement de public), avertir l'utilisateur du nombre de fichiers touches
+- NEVER delete existing content in blocks
+- Only modify blocks for font sizes (target audience change)
+- Always use `Style.create()` for colors, never raw CSS
+- Always propose a diff before applying
+- If the change affects all blocks (e.g. audience change), warn the user about the number of files affected
 
-## Contraintes
+## Constraints
 
-- Suivre TOUTES les regles de CLAUDE.md
-- Pas de hardcoded black/white — utiliser le systeme de styles
-- Pas de raw HTML/CSS
-- Noms de styles en anglais uniquement
+- Follow ALL rules in CLAUDE.md
+- No hardcoded black/white — use the style system
+- No raw HTML/CSS
+- Style names in English only

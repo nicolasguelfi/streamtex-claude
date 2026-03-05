@@ -27,3 +27,4 @@ designer = ["slide-designer.md", "slide-reviewer.md", "project-architect.md"]
 
 [shared]
 references = ["coding_standards.md", "streamtex_cheatsheet_en.md"]
+commands = ["stx-guide.md"]

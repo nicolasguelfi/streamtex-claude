@@ -134,7 +134,6 @@ from streamtex.styles import Style as ns, StyleGrid as sg
 from streamtex.enums import Tags as t, ListTypes as lt
 from custom.styles import Styles as s
 from blocks.helpers import show_code, show_explanation, show_details
-import textwrap
 
 
 class BlockStyles:

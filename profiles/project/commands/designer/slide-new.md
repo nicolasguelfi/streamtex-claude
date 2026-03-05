@@ -9,7 +9,7 @@ Arguments: $ARGUMENTS (slide name and description, e.g. "bck_19_zoom - Zoom cont
 3. **Parse arguments**: Extract block name (must follow `bck_NN_description` format).
 4. **Determine target project**: Use current working directory or ask the user.
 5. **Create the block file** in `[project]/blocks/` with:
-   - Standard imports including `from blocks.helpers import show_code, show_explanation, show_details` and `import textwrap`
+   - Standard imports including `from blocks.helpers import show_code, show_explanation, show_details`
    - `BlockStyles` class with `heading` and `sub` styles
    - `bs = BlockStyles` alias
    - `build()` function wrapping all content in `with st_block(s.center_txt):`

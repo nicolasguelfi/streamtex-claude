@@ -15,3 +15,4 @@ developer = ["architecture.md", "testing-patterns.md", "coherence-checks.md"]
 
 [shared]
 references = ["coding_standards.md", "streamtex_cheatsheet_en.md"]
+commands = ["stx-guide.md"]

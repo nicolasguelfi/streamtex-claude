@@ -7,17 +7,10 @@ Arguments: $ARGUMENTS (optional: project path, e.g. "projects/project_myproject"
 1. **Identify the target project**: Use $ARGUMENTS or the current working directory. Read the project's `book.py`.
 
 2. **Check export readiness**:
-   - Verify `book.py` imports `ExportConfig` from `streamtex`
-   - Verify `ExportConfig(enabled=True)` is passed to `st_book()` via `export_config=`
-   - If not configured, add the export configuration:
+   - Verify `book.py` passes `export=True` to `st_book()` (this is the default, so export is enabled unless explicitly disabled)
+   - Optionally set a custom title with `export_title=`:
      ```python
-     from streamtex import ExportConfig
-
-     export = ExportConfig(
-         enabled=True,
-         page_title="My Presentation",
-     )
-     st_book(module_list, toc_config=toc, export_config=export)
+     st_book(module_list, toc_config=toc, export=True, export_title="My Presentation")
      ```
 
 3. **Audit export-aware widgets**: Scan all `bck_*.py` files for widget usage:
@@ -42,7 +35,7 @@ Arguments: $ARGUMENTS (optional: project path, e.g. "projects/project_myproject"
    ```bash
    uv run streamlit run <project>/book.py
    ```
-   - The "Download HTML" button will appear in the sidebar when `export_config.enabled=True`
+   - The "Download HTML" button will appear in the sidebar when `export=True` (the default)
    - Click it to download the self-contained HTML file
 
 6. **Validate the export**: Open the downloaded HTML file in a browser and verify:
@@ -55,9 +48,10 @@ Arguments: $ARGUMENTS (optional: project path, e.g. "projects/project_myproject"
 
 For fine-grained control over what gets exported, blocks can use:
 ```python
-with stx.st_export(export_config) as exp:
-    # Content here is captured for both Streamlit and HTML export
-    st_write(s.large, "This appears in both modes")
+with stx.st_export('<p>Static fallback for export</p>'):
+    # The Streamlit widget below is invisible in HTML export
+    # The fallback HTML above is used instead
+    st.plotly_chart(fig)
 ```
 
 ## Troubleshooting
