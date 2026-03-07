@@ -1,4 +1,8 @@
-# StreamTeX Claude AI Profiles
+<p align="center">
+  <img src="https://raw.githubusercontent.com/nicolasguelfi/streamtex/main/documentation/images/logo-stx-no-bckgd.png" alt="StreamTeX" width="200">
+</p>
+
+<h1 align="center">StreamTeX Claude AI Profiles</h1>
 
 [![Works with Claude Code](https://img.shields.io/badge/Works%20with-Claude%20Code-blueviolet)](https://claude.ai/claude-code)
 [![Works with Cursor](https://img.shields.io/badge/Works%20with-Cursor-blue)](https://cursor.com)
