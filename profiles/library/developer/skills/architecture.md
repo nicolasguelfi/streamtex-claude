@@ -32,6 +32,7 @@ __init__.py (public API re-exports)
   +-- marker.py (MarkerConfig, st_marker) -> toc
   +-- book.py (st_book, st_include, st_toc, load_css) -> toc, marker, export, zoom
   +-- zoom.py (add_zoom_options, inject_zoom_logic) -> constants
+  +-- slide.py (SlideBreakMode, SlideBreakConfig, st_slide_break, add_slide_break_options, inject_slide_break_css) -> constants
   |
   +-- blocks.py (LazyBlockRegistry, ProjectBlockRegistry, static resolution) -> independent
   +-- block_helpers.py (BlockHelper, show_code/explanation/details, DI config) -> code, container, write, styles

@@ -16,12 +16,12 @@ developer = ["test-run.md", "lint.md"]
 coherence = ["audit.md"]
 
 [skills]
-designer = ["visual-design-rules.md", "style-conventions.md", "streamtex-quick-reference.md"]
+designer = ["slide-design-rules.md", "visual-design-rules.md", "style-conventions.md", "streamtex-quick-reference.md"]
 developer = ["coherence-checks.md"]
 
 [agents]
 designer = ["slide-designer.md", "slide-reviewer.md"]
 
 [shared]
-references = ["coding_standards.md", "streamtex_cheatsheet_en.md"]
+references = ["coding_standards.md", "streamtex_cheatsheet_en.md", "presentation_cheatsheet_en.md"]
 commands = ["stx-guide.md"]

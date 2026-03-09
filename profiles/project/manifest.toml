@@ -19,12 +19,12 @@ project = ["course-generate.md", "project-upgrade.md", "collection-new.md", "pro
 developer = ["test-run.md", "lint.md"]
 
 [skills]
-designer = ["visual-design-rules.md", "style-conventions.md", "streamtex-quick-reference.md", "block-blueprints.md"]
+designer = ["slide-design-rules.md", "visual-design-rules.md", "style-conventions.md", "streamtex-quick-reference.md", "block-blueprints.md"]
 developer = ["testing-patterns.md"]
 
 [agents]
 designer = ["slide-designer.md", "slide-reviewer.md", "project-architect.md"]
 
 [shared]
-references = ["coding_standards.md", "streamtex_cheatsheet_en.md"]
+references = ["coding_standards.md", "streamtex_cheatsheet_en.md", "presentation_cheatsheet_en.md"]
 commands = ["stx-guide.md"]
