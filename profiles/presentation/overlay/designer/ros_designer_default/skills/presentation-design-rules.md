@@ -158,6 +158,10 @@ Images must be large enough to see from the back of the room.
 | Preferred width | 600px+ |
 | Logo (decorative) | 160px acceptable |
 
+> **AI Generation**: If `AIImageConfig` is configured, use `st_ai_image("prompt...")` instead of
+> static placeholders. For batch generation, use `generate_image("prompt...", provider="openai")`
+> then `st_image(uri=path)`. Images are cached on disk — no API cost on Streamlit reruns.
+
 ---
 
 ## Rule 9 — Simplified Block Structure

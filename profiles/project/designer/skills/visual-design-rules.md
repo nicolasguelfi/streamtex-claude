@@ -121,6 +121,7 @@ with st_block(s.project.containers.bad_callout):
   - `st_grid`: cols=2, grid_style=none, cell_styles=none
   - `st_list`: list_type=lt.unordered, l_style=none, li_style=none
   - `st_image`: width="100%", height="auto"
+  - `st_ai_image`: provider=from config, size="1024x1024", quality="standard"
   - `st_space`: direction="v", size="1em"
   - `st_code`: language="python", line_numbers=True, font_size="var(--stx-code-size, 18pt)", wrap=False
 

@@ -36,8 +36,11 @@ Read these files **in order** (mandatory):
 
 ### Image Strategy
 - When user provides images: use them in L2 image cell
-- When NO image provided: insert **placeholder + generation prompt + filename suggestion**
-- Naming: `static/images/bck_{NN}_{description}.png`
+- When NO image provided **and AI image generation is configured** (`AIImageConfig` set in book.py):
+  use `st_ai_image(prompt, ...)` to generate and display the image directly
+- When NO image provided **and AI generation is NOT configured**: insert **placeholder + generation prompt + filename suggestion**
+- For batch/scripted generation (e.g. Claude building a full presentation): use `generate_image(prompt)` then reference the saved file with `st_image(uri=path)`
+- Naming: `static/images/bck_{NN}_{description}.png` (manual) or auto-generated hash in `static/images/ai/` (AI)
 
 ### Code Quality
 - All styles defined at project level in `custom/styles.py`

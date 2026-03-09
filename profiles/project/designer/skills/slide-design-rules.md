@@ -261,6 +261,11 @@ with g.cell():
     # SUGGESTED FILENAME: static/images/bck_concept_name.png
 ```
 
+> **AI alternative**: If `AIImageConfig` is configured in `book.py`, replace the placeholder
+> with `st_ai_image("prompt...")` to generate and display the image directly.
+> For batch workflows, use `generate_image("prompt...", provider="openai")` to save to disk,
+> then reference with `st_image(uri=path)`. See `streamtex_cheatsheet_en.md` Section 8.
+
 3. **Naming convention** for suggested filenames:
 ```
 static/images/bck_{short_description}.{ext}

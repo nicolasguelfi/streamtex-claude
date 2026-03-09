@@ -294,6 +294,68 @@ def build():
 
 ---
 
+## Blueprint 11: AI-Generated Image + Text (bck_ai_image)
+
+A slide with an AI-generated image and explanatory text.
+
+**When to use**: the user wants an illustration but has no image file. Requires
+`streamtex[ai]` and an `AIImageConfig` in book.py.
+
+**Structure**:
+```python
+def build():
+    with st_block(s.center_txt):
+        st_write(bs.heading, "AI-Illustrated Concept", tag=t.div, toc_lvl="2")
+        st_space("v", 2)
+        with st_grid(cols="repeat(auto-fit, minmax(350px, 1fr))", gap="24px") as g:
+            with g.cell():
+                st_ai_image(
+                    "A minimalist diagram of [topic], flat design, "
+                    "dark background, blue and violet accents",
+                    width="100%",
+                    provider="openai",
+                )
+            with g.cell():
+                st_write(bs.body, "Explanatory text alongside the AI image.")
+                st_space("v", 1)
+                with st_list(l_style=bs.body, li_style=bs.body, list_type=lt.unordered) as l:
+                    with l.item(): st_write(bs.body, "Detail 1")
+                    with l.item(): st_write(bs.body, "Detail 2")
+```
+
+**Typical styles**: same as Blueprint 5 (Image + Text).
+
+**Prompt tips**: include style keywords (flat design, vector, dark bg, specific colors),
+subject description, and composition guidance. Keep prompts under 200 characters.
+
+---
+
+## Blueprint 12: Interactive Image Lab (bck_image_lab)
+
+A block with an interactive AI image generation widget.
+
+**When to use**: hands-on demo, workshop, or when the end-user should
+experiment with prompts.
+
+**Structure**:
+```python
+def build():
+    with st_block(s.center_txt):
+        st_write(bs.heading, "Image Lab", tag=t.div, toc_lvl="2")
+        st_space("v", 2)
+        st_ai_image_widget(
+            default_prompt="A serene mountain landscape at dawn",
+            provider="openai",
+            key="image_lab",
+            show_save=True,
+        )
+```
+
+**Note**: This blueprint uses Streamlit interactive widgets internally.
+In manual mode (default), no API call is made until the user clicks Generate.
+
+---
+
 ## Quick reference
 
 | User requests... | Blueprint |
@@ -308,3 +370,5 @@ def build():
 | "quote", "key message", "highlight" | 8 — Quote |
 | "gallery", "portfolio", "screenshots" | 9 — Gallery |
 | "conclusion", "summary", "key takeaways" | 10 — Conclusion |
+| "AI image", "generate image", "image from prompt" | 11 — AI Image + Text |
+| "image lab", "interactive generation", "prompt editor" | 12 — Interactive Image Lab |

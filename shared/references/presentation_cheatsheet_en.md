@@ -216,6 +216,24 @@ st_image(uri="static/images/bck_architecture.png", width="100%")
 
 Naming convention: `static/images/bck_{description}.png`
 
+### AI-generated images
+
+```python
+# Declarative — generate + display (requires streamtex[ai] + AIImageConfig in book.py)
+st_ai_image("Flat vector illustration of microservices architecture, dark bg, cyan accent")
+
+# With overrides
+st_ai_image("A futuristic dashboard", provider="google", size="1024x1024")
+
+# Interactive widget — user types prompt in the browser
+st_ai_image_widget(default_prompt="A modern cloud architecture diagram")
+
+# Programmatic — generate to file, then use st_image
+from streamtex import generate_image
+path = generate_image("Minimalist AI brain illustration", provider="openai")
+st_image(uri=path, width="100%")
+```
+
 ### Without images (placeholder + prompt)
 
 ```python
