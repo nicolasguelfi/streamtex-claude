@@ -16,7 +16,7 @@
 
 **AI profiles for [StreamTeX](https://github.com/nicolasguelfi/streamtex)** — build presentations, courses, and web-books with slash commands and agents, no coding required.
 
-> Install a profile to get 22 slash commands, 4 specialized agents, 10 block templates,
+> Install a profile to get **25 slash commands**, **3 specialized agents**, **6 blueprints**,
 > coding standards, and a project-specific CLAUDE.md — all tailored to your use case.
 
 ## Quick Start for End-Users
@@ -234,7 +234,7 @@ Projects are identified by the `.claude/.stx-profile` marker file.
 streamtex-claude/
 ├── install.py              # Installation script
 ├── profiles/
-│   ├── project/            # Standard project profile (19 commands, 3 agents)
+│   ├── project/            # Standard project profile (24 commands, 3 agents)
 │   ├── presentation/       # Live projection overlay (extends project)
 │   ├── library/            # Library development profile
 │   └── documentation/      # Documentation authoring profile
