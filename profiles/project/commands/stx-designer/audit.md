@@ -96,6 +96,10 @@ For each block file, check:
 - [ ] Heading hierarchy is consistent (no level jumps > 1)
 - [ ] All major sections have `toc_lvl` entries
 
+#### Marker visibility (ERROR)
+- [ ] Block contains at least one `st_write(...)` with `toc_lvl="1"` — required for sidebar and floating bar navigation (via `auto_marker_on_toc`). A block without any `toc_lvl` heading is invisible in all navigation panels.
+- [ ] If using `st_ai_image_widget()`, verify `editable=True` is set when the block is intended for interactive image generation
+
 ### Style audit (`--target styles`)
 
 Check `custom/styles.py` and all `BlockStyles` classes:

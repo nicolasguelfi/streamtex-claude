@@ -12,6 +12,8 @@ color palette, target audience).
 Blueprints define the **structure** (which `stx.*` calls, in which order),
 not the exact content. Content is always adapted to the user's request.
 
+> **MANDATORY CONVENTION**: Every block MUST contain at least one `st_write(...)` with `toc_lvl="1"` (or `toc_lvl="2"` for sub-sections within a larger block). This heading is required for the block to appear in the sidebar navigation and in the floating marker bar (`auto_marker_on_toc`). A block without any `toc_lvl` heading will be invisible in navigation. Even if the user does not request a title, always generate one that describes the block's purpose.
+
 ---
 
 ## Blueprint 1: Title (bck_title)
@@ -348,11 +350,14 @@ def build():
             provider="openai",
             key="image_lab",
             show_save=True,
+            editable=True,
         )
 ```
 
 **Note**: This blueprint uses Streamlit interactive widgets internally.
 In manual mode (default), no API call is made until the user clicks Generate.
+When the user requests an "editable" AI image, always use `editable=True` (default).
+This lets the end-user modify the prompt and regenerate the image interactively.
 
 ---
 

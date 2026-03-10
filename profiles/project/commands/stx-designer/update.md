@@ -85,7 +85,8 @@ If the mode is ambiguous, state what you detected and ask for confirmation.
 4. **Create the block file** in `blocks/` with:
    - Standard imports, `BlockStyles` class, `bs` alias, `build()` function
    - Content adapted to the user's description using the blueprint structure
-   - TOC entries if the block has headings
+   - **MANDATORY: At least one `st_write(...)` with `toc_lvl="1"` as the first significant heading.** Without this, the block will be invisible in the sidebar and floating navigation bar (markers are auto-generated from TOC level-1 entries via `auto_marker_on_toc`). Even if the user does not explicitly ask for a title, always include one.
+   - When the user requests an **editable AI image** (or "image AI editable/modifiable"), use `st_ai_image_widget(...)` with `editable=True` by default. The `editable` parameter allows the user to modify the prompt and regenerate the image interactively.
 5. **Show wiring instructions**: Tell the user how to add the block to `book.py`:
    ```python
    import blocks
