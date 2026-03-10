@@ -52,8 +52,7 @@ stx claude install project .
 Then use slash commands to build your project:
 
 ```
-/project:project-init
-> "Docker introduction course, 10 slides, dark theme, with table of contents"
+/stx-designer:init Docker introduction course, 10 slides, dark theme, with table of contents
 ```
 
 The AI agent proposes a structure, you approve, and all files are generated.
@@ -112,61 +111,44 @@ your-project/
     ├── .stx-profile           # Installed profile marker
     ├── commands/
     │   ├── stx-guide.md       # Shared: ecosystem navigation guide
-    │   └── designer/          # Slash commands (/designer:*, /project:*, etc.)
+    │   └── stx-designer/      # Slash commands (/stx-designer:init, update, audit, fix, tool)
     ├── references/            # Shared: coding standards + cheatsheet
-    ├── designer/              # Design skills and agents
+    ├── designer/              # Design skills, agents, templates, tools
     └── developer/             # Developer skills
 ```
 
 ## Command Overview
 
-### Project Commands (5)
+### stx-designer Commands (5) — Project lifecycle
 
 | Command | What it does |
 |---------|-------------|
-| `/project:project-init` | Create a complete project from natural language |
-| `/project:project-customize` | Modify theme, colors, typography, navigation |
-| `/project:course-generate` | Generate `book.py` from a CSV block list |
-| `/project:collection-new` | Create a multi-project collection hub |
-| `/project:project-upgrade` | Upgrade project to latest template |
+| `/stx-designer:init [--template] <desc>` | Create a complete project from natural language. Templates: `project` (default), `presentation`, `collection`, `course` |
+| `/stx-designer:update [--upgrade\|--migrate\|--export] <desc>` | Add blocks, change styles, migrate HTML, export, upgrade structure |
+| `/stx-designer:audit [--all\|--target <name>] <desc>` | Check project quality: structure, styles, design rules, presentation compliance |
+| `/stx-designer:fix [--all\|--target <name>] <desc>` | Auto-fix issues found by audit |
+| `/stx-designer:tool <tool-name> <desc>` | Run specialized tools (e.g. `survey-convert`) |
 
-### Designer Commands (7)
+**Lifecycle**: `init` → `update` → `audit` → `fix` → `update` → ...
 
-| Command | What it does |
-|---------|-------------|
-| `/designer:slide-new` | Create a slide from a description |
-| `/designer:block-new` | Create a block with blueprint matching |
-| `/designer:slide-audit` | Validate design rules |
-| `/designer:slide-fix` | Auto-fix design violations |
-| `/designer:style-audit` | Check styles for consistency |
-| `/designer:style-refactor` | Extract and optimize styles |
-| `/designer:block-preview` | Validate structure and assets |
+All commands accept `--help` to show the full cheatsheet.
 
-### Migration Commands (5)
-
-| Command | What it does |
-|---------|-------------|
-| `/migration:html-migrate` | Convert HTML to StreamTeX |
-| `/migration:html-convert-batch` | Batch convert HTML files |
-| `/migration:html-convert-block` | Convert a single HTML block |
-| `/migration:html-export` | Configure HTML export |
-| `/migration:conversion-audit` | Audit conversion quality |
-
-### Developer Commands (3)
+### Developer Commands (2-3)
 
 | Command | What it does |
 |---------|-------------|
 | `/developer:test-run` | Run test suite |
 | `/developer:lint` | Run linter with auto-fix |
-| `/developer:deploy` | Deploy to Docker/HF/GCP |
+| `/developer:deploy` | Deploy to Docker/HF/GCP (library profile only) |
 
-### Presentation Commands (3, overlay)
+### Presentation overlay
 
-| Command | What it does |
-|---------|-------------|
-| `/designer:presentation-audit` | Check live projection compliance |
-| `/designer:presentation-fix` | Fix projection design issues |
-| `/designer:survey-convert` | Convert survey screenshots to blocks |
+The `presentation` profile extends `project` with additional **skills and agents** (not commands):
+- `presentation-design-rules.md` — Live projection rules (48pt min, keywords only)
+- `survey-chart-conversion.md` — Survey screenshot conversion schema
+- `presentation-designer.md` — Agent for projection-optimized slides
+
+The stx-designer commands **auto-detect** presentation profile and apply projection rules.
 
 ## Agents
 

@@ -26,11 +26,11 @@ Read these files (mandatory):
 ### Examples
 
 ```
-/designer:survey-convert                                      # interactive — list temp/ images, ask which
-/designer:survey-convert --all                                # batch — convert all images in temp/
-/designer:survey-convert --list                               # list images in temp/ without converting
-/designer:survey-convert projects/AI4SE/temp/Screenshot.png   # convert one specific image
-/designer:survey-convert --all /path/to/other/folder          # batch from a custom folder
+/stx-designer:tool survey-convert                                      # interactive — list temp/ images, ask which
+/stx-designer:tool survey-convert --all                                # batch — convert all images in temp/
+/stx-designer:tool survey-convert --list                               # list images in temp/ without converting
+/stx-designer:tool survey-convert projects/AI4SE/temp/Screenshot.png   # convert one specific image
+/stx-designer:tool survey-convert --all /path/to/other/folder          # batch from a custom folder
 ```
 
 ## Path Resolution

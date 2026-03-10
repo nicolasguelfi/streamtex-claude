@@ -7,15 +7,7 @@ description = "Standard StreamTeX project development"
 extends = ""
 
 [commands]
-designer = [
-    "block-new.md", "block-preview.md", "slide-audit.md",
-    "slide-fix.md", "slide-new.md", "style-audit.md", "style-refactor.md"
-]
-migration = [
-    "conversion-audit.md", "html-convert-batch.md", "html-convert-block.md",
-    "html-export.md", "html-migrate.md"
-]
-project = ["course-generate.md", "project-upgrade.md", "collection-new.md", "project-init.md", "project-customize.md"]
+stx-designer = ["init.md", "update.md", "audit.md", "fix.md", "tool.md"]
 developer = ["test-run.md", "lint.md"]
 
 [skills]
@@ -24,6 +16,12 @@ developer = ["testing-patterns.md"]
 
 [agents]
 designer = ["slide-designer.md", "slide-reviewer.md", "project-architect.md"]
+
+[templates]
+designer = ["project.md", "presentation.md", "collection.md", "course.md"]
+
+[tools]
+designer = ["survey-convert.md"]
 
 [shared]
 references = ["coding_standards.md", "streamtex_cheatsheet_en.md", "presentation_cheatsheet_en.md"]

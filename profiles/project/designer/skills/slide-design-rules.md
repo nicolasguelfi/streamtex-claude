@@ -1,7 +1,7 @@
 # Slide Design Rules — StreamTeX Presentations
 
 > **Scope**: This skill defines the default design rules for StreamTeX presentation slides.
-> It is the primary reference for the `slide-designer` agent and `/designer:slide-new` command.
+> It is the primary reference for the `slide-designer` agent and `/stx-designer:update` command (add slide).
 > It **extends** `visual-design-rules.md` and `style-conventions.md` — where a rule here
 > conflicts with those base files, **this file wins**.
 

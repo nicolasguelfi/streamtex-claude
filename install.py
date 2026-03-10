@@ -81,6 +81,12 @@ CATEGORY_PATHS = {
         "developer": "developer/agents",
         "designer_ros": "designer/ros_designer_default/agents",
     },
+    "templates": {
+        "designer": "designer/templates",
+    },
+    "tools": {
+        "designer": "designer/tools",
+    },
 }
 
 
@@ -175,7 +181,7 @@ def install_profile(profile_name: str, target_dir: Path,
             print(f"  Overlaid {count} files from '{profile_name}'")
     else:
         # Copy files from manifest categories
-        for category in ["commands", "skills", "agents"]:
+        for category in ["commands", "skills", "agents", "templates", "tools"]:
             if category not in manifest:
                 continue
             for subdir, files in manifest[category].items():

@@ -1,12 +1,12 @@
 Create a new slide (block file) for a StreamTeX presentation project.
 
-Arguments: $ARGUMENTS (slide name and description, e.g. "bck_19_zoom - Zoom controls demo")
+Arguments: $ARGUMENTS (slide name and description, e.g. "bck_zoom - Zoom controls demo")
 
 ## Steps
 
 1. **Load rules**: Read `.claude/designer/skills/visual-design-rules.md` for the full design ruleset.
 2. **Read style conventions**: Read `.claude/designer/skills/style-conventions.md`.
-3. **Parse arguments**: Extract block name (must follow `bck_NN_description` format).
+3. **Parse arguments**: Extract block name (must follow `bck_description` format — semantic name, no numbered prefix).
 4. **Determine target project**: Use current working directory or ask the user.
 5. **Create the block file** in `[project]/blocks/` with:
    - Standard imports including `from blocks.helpers import show_code, show_explanation, show_details`

@@ -6,7 +6,7 @@ You design the structure of StreamTeX projects. You determine the number of bloc
 their content, their order, and the required features (pagination, TOC,
 banner, export, etc.).
 
-You are implicitly consulted by `/project:project-init` and can be invoked
+You are implicitly consulted by `/stx-designer:init` and can be invoked
 directly to plan a project's structure before generation.
 
 ## Required readings
@@ -25,7 +25,7 @@ Before designing a project, systematically read:
 - **One block = one idea / one topic** — do not mix multiple concepts in a single block
 - **Logical order**: introduction -> development -> conclusion
 - **Limit**: no more than 15 blocks per project (beyond that, consider a collection)
-- **Naming**: `bck_NN_short_description.py` (NN = 2-digit sequence number)
+- **Naming**: `bck_short_description.py` (semantic name, no numbered prefix)
 - **Separation**: transition blocks (section headers) help structure the flow
 
 ### Pedagogical progression
@@ -96,10 +96,10 @@ Audience: [auditorium | screen | reading]
 Blocks: N
 
  N.  Block name                   Blueprint  Description
- 1.  bck_01_title                 1          Title slide with...
- 2.  bck_02_intro                 3          Introduction to...
+ 1.  bck_title                    1          Title slide with...
+ 2.  bck_intro                    3          Introduction to...
  ...
- N.  bck_NN_conclusion            10         Key points and...
+ N.  bck_conclusion               10         Key points and...
 
 Features:
 - Pagination: [yes/no]

@@ -89,9 +89,17 @@ uv run streamlit run book.py
 └── .streamlit/config.toml  # Streamlit config
 ```
 
-## Workflows
-1. **New Block** -> Read coding_standards.md, inspect existing blocks (`/designer:block-new`)
-2. **New Slide** -> Read designer skills (`/designer:slide-new`)
-3. **HTML Migration** -> Read migration commands (`/migration:html-migrate`)
-4. **Testing** -> `uv run pytest tests/ -v` (`/developer:test-run`)
-5. **Linting** -> `uv run ruff check` (`/developer:lint`)
+## Workflows — stx-designer Commands
+
+The `stx-designer` commands cover the full project lifecycle:
+
+1. **Create project** -> `/stx-designer:init <description>` (templates: project, presentation, collection, course)
+2. **Add content** -> `/stx-designer:update add a new block about X` or `/stx-designer:update add 3 slides on Y`
+3. **Customize** -> `/stx-designer:update change palette to blue/violet` or `/stx-designer:update switch to auditorium mode`
+4. **Migrate HTML** -> `/stx-designer:update --migrate convert intro.html`
+5. **Audit quality** -> `/stx-designer:audit --all` or `/stx-designer:audit --target bck_intro`
+6. **Fix issues** -> `/stx-designer:fix --all` or `/stx-designer:fix --target bck_intro`
+7. **Specialized tools** -> `/stx-designer:tool survey-convert`
+8. **Help** -> `/stx-designer:init --help` (cheatsheet for all commands)
+9. **Testing** -> `uv run pytest tests/ -v` (`/developer:test-run`)
+10. **Linting** -> `uv run ruff check` (`/developer:lint`)

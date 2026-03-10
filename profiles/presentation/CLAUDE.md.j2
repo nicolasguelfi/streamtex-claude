@@ -91,10 +91,10 @@ uv run streamlit run book.py
 ```
 
 ## Workflows
-1. **New Block** -> Read coding_standards.md, inspect existing blocks (`/designer:block-new`)
-2. **New Slide** -> Read designer skills (`/designer:slide-new`)
-3. **Presentation Audit** -> Check block for live projection compliance (`/designer:presentation-audit`)
-4. **Presentation Fix** -> Auto-fix projection violations (`/designer:presentation-fix`)
-5. **HTML Migration** -> Read migration commands (`/migration:html-migrate`)
+1. **New Block** -> Read coding_standards.md, inspect existing blocks (`/stx-designer:update` add block)
+2. **New Slide** -> Read designer skills (`/stx-designer:update` add slide)
+3. **Presentation Audit** -> Check block for live projection compliance (`/stx-designer:audit` presentation)
+4. **Presentation Fix** -> Auto-fix projection violations (`/stx-designer:fix` presentation)
+5. **HTML Migration** -> Read migration commands (`/stx-designer:update --migrate`)
 6. **Testing** -> `uv run pytest tests/ -v` (`/developer:test-run`)
 7. **Linting** -> `uv run ruff check` (`/developer:lint`)

@@ -7,8 +7,9 @@ description = "Live projection presentations (10-20m distance)"
 extends = "project"
 
 # Only additions relative to parent profile
-[commands]
-designer = ["presentation-audit.md", "presentation-fix.md", "survey-convert.md"]
+# Note: stx-designer commands are inherited from project profile.
+# The presentation overlay adds skills and agents that the stx-designer
+# commands detect and use automatically.
 
 [skills]
 designer_ros = ["presentation-design-rules.md", "survey-chart-conversion.md"]

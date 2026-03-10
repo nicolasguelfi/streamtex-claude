@@ -1,6 +1,6 @@
 Audit a StreamTeX slide (block file) for visual design compliance.
 
-Arguments: $ARGUMENTS (file path or block name, e.g. "bck_04_text_styles" or path to file)
+Arguments: $ARGUMENTS (file path or block name, e.g. "bck_text_styles" or path to file)
 
 ## Steps
 

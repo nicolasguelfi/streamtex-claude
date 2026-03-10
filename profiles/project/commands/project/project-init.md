@@ -58,7 +58,7 @@ Use the output format defined in `project-architect.md`.
 
 For each block:
 
-1. Create `blocks/bck_NN_<name>.py` with:
+1. Create `blocks/bck_<name>.py` with:
    - Descriptive docstring of the block's content
    - Imports conforming to `coding_standards.md`:
      ```python
@@ -102,16 +102,16 @@ For each block:
 Generated files:
   book.py                          (updated)
   custom/styles.py                 (updated)
-  blocks/bck_01_title.py           (created)
-  blocks/bck_02_intro.py           (created)
+  blocks/bck_title.py              (created)
+  blocks/bck_intro.py              (created)
   ...
-  blocks/bck_NN_conclusion.py      (created)
+  blocks/bck_conclusion.py         (created)
 
 Next steps:
   1. Fill in block content (replace "[TODO: ...]" placeholders)
   2. Add images to static/images/
   3. Test: uv run streamlit run book.py
-  4. Use /designer:slide-audit to check compliance
+  4. Use /stx-designer:audit to check compliance
 ```
 
 ## Generation rules
@@ -123,7 +123,7 @@ Next steps:
   - Screen: `s.large` (32pt) for body text
 - Each block has a `toc_lvl` for the table of contents
 - Content is structured placeholder (no Lorem Ipsum)
-- Blocks are numbered: `bck_01_`, `bck_02_`, etc.
+- Block filenames use semantic names: `bck_title.py`, `bck_intro.py`, etc. (no numbered prefixes)
 - No raw HTML/CSS — use only `stx.*` functions
 - No hardcoded black/white — use the style system
 
