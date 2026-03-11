@@ -34,6 +34,18 @@ If `$ARGUMENTS` is empty or only `--help`, show the Help section.
 6. The **template file** matching the chosen template (see Template resolution below)
 7. Existing `book.py` (if the project has already been scaffolded)
 
+### Documentation lookup (recommended)
+
+Before generating blocks, search for real examples in the StreamTeX manuals:
+
+1. **Check if manuals exist**: Look for `../../streamtex-docs/manuals/` (or `../streamtex-docs/manuals/`).
+2. **If found** — search for blocks matching the topic you're about to create:
+   - Use glob: `../../streamtex-docs/manuals/stx_manual_*/blocks/**/bck_*<keyword>*.py`
+   - Read matching blocks to study their `build()` function, `BlockStyles` patterns, and `show_code()` examples
+   - Use these real examples as reference for structure, style naming, and API usage
+   - Manual index: intro (text, grids, lists, images), advanced (export, PDF, diagrams, overlays), ai (AI images), deploy (Docker, CI), developer (architecture, testing)
+3. **If NOT found** — rely on cheatsheet and block-blueprints (no action needed)
+
 ### Presentation-specific readings
 
 If the project type is **presentation** (or `--presentation` template), also read:

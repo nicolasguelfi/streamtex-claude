@@ -28,6 +28,14 @@ ask the user what they want to fix.
 /stx-designer:fix --target styles refactor duplicates
 ```
 
+## Documentation reference (recommended)
+
+Before fixing, check if real manual blocks are available for reference:
+
+1. **Check if manuals exist**: Look for `../../streamtex-docs/manuals/` (or `../streamtex-docs/manuals/`).
+2. **If found** — when applying fixes, consult similar manual blocks to ensure the fix follows the correct pattern. Search with: `../../streamtex-docs/manuals/stx_manual_*/blocks/**/bck_*<keyword>*.py`
+3. **If NOT found** — rely on cheatsheet and coding_standards.md
+
 ## Workflow
 
 ### Step 1: Implicit audit

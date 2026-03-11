@@ -37,6 +37,17 @@ Always read before auditing:
 1. `.claude/references/coding_standards.md` — coding rules
 2. `.claude/designer/skills/style-conventions.md` — style naming rules
 
+### Documentation reference (recommended)
+
+When auditing, consult real manual blocks as the gold standard for correct patterns:
+
+1. **Check if manuals exist**: Look for `../../streamtex-docs/manuals/` (or `../streamtex-docs/manuals/`).
+2. **If found** — when an audit finding is ambiguous, compare the audited code against similar manual blocks to determine the correct pattern. This is especially useful for:
+   - API usage validation (correct function signatures, valid parameters)
+   - Style patterns (how `BlockStyles` should be structured)
+   - Block structure (canonical `build()` organization)
+3. **If NOT found** — rely on cheatsheet and coding_standards.md (no action needed)
+
 ### Rule set selection
 
 The audit applies different rule sets based on context:
@@ -98,7 +109,7 @@ For each block file, check:
 
 #### Marker visibility (ERROR)
 - [ ] Block contains at least one `st_write(...)` with `toc_lvl="1"` — required for sidebar and floating bar navigation (via `auto_marker_on_toc`). A block without any `toc_lvl` heading is invisible in all navigation panels.
-- [ ] If using `st_ai_image_widget()`, verify `editable=True` is set when the block is intended for interactive image generation
+- [ ] If using `st_ai_image_widget()`, confirm no invalid kwargs are passed (`editable` is NOT a valid parameter — the widget is inherently interactive)
 
 ### Style audit (`--target styles`)
 

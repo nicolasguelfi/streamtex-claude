@@ -28,8 +28,8 @@ uv tool install streamtex[cli]
 
 # 2. Create a workspace with Claude profiles
 mkdir streamtex-dev && cd streamtex-dev
-stx workspace init .                     # standard preset (docs + claude)
-stx workspace update                     # clones repos, syncs deps, installs /stx-guide globally
+stx install                              # standard preset (docs + claude)
+stx update                               # clones repos, syncs deps, installs /stx-guide globally
 
 # 3. Create a project and install a Claude profile
 stx project new my-project
@@ -43,8 +43,8 @@ claude          # or: cursor .
 Lighter setup (Claude profiles only, no docs):
 
 ```bash
-stx workspace init . --preset user
-stx workspace update                     # clones repos, syncs deps, installs /stx-guide globally
+stx install --preset user
+stx update                               # clones repos, syncs deps, installs /stx-guide globally
 stx project new my-project
 cd projects/stx-my-project
 stx claude install project .
@@ -60,6 +60,32 @@ The AI agent proposes a structure, you approve, and all files are generated.
 Run `uv run streamlit run book.py` to preview.
 
 See the **[AI Guide](https://github.com/nicolasguelfi/streamtex/blob/main/AI_GUIDE.md)** for all workflows and examples.
+
+## Workspace Presets
+
+The `stx install` command supports 5 presets that control which repos and extras are set up:
+
+| Preset | Repos | Extras | Use case |
+|--------|-------|--------|----------|
+| `basic` | — | pdf | Workspace only, upgrade later |
+| `user` | streamtex-claude | pdf | + Claude AI profiles |
+| `standard` *(default)* | streamtex-docs, streamtex-claude | pdf, ai | + rich templates, local docs |
+| `power` | streamtex-docs, streamtex-claude | pdf, ai, inspector | + all extras |
+| `developer` | all 3 repos | pdf, ai, inspector | + library source, editable install |
+
+```bash
+stx install --preset user       # Claude profiles only
+stx install                     # standard (default)
+stx install --preset power --project my-project  # all extras
+stx install --preset developer  # full developer setup
+```
+
+Upgrade an existing workspace to a higher preset:
+
+```bash
+stx install --preset developer
+stx update
+```
 
 ## Profiles
 
@@ -142,6 +168,13 @@ All commands accept `--help` to show the full cheatsheet.
 | `/developer:lint` | Run linter with auto-fix |
 | `/developer:deploy` | Deploy to Docker/HF/GCP (library profile only) |
 
+### Workspace & Project Management
+
+| Command | What it does |
+|---------|-------------|
+| `stx status` | Show workspace status: preset, repos, installed profiles, project list |
+| `stx project upgrade` | Upgrade a project's dependencies and extras to match the current preset |
+
 ### Presentation overlay
 
 The `presentation` profile extends `project` with additional **skills and agents** (not commands):
@@ -170,7 +203,7 @@ uv tool install "streamtex[cli]" -U
 
 # 2. Update everything (repos + deps + profiles + global commands)
 cd streamtex-dev/
-stx workspace update
+stx update
 
 # 3. Verify
 stx claude check
@@ -178,8 +211,8 @@ stx claude check
 
 Fine-grained control:
 ```bash
-stx workspace update --skip-sync      # skip uv sync
-stx workspace update --skip-profiles  # skip Claude profile update
+stx update --skip-sync      # skip uv sync
+stx update --skip-profiles  # skip Claude profile update
 ```
 
 > Use `/stx-guide update` inside Claude Code for guided assistance.
@@ -198,7 +231,7 @@ stx claude update . --force # Override everything including CLAUDE.md
 |---|---|
 | `shared/references/*.md` | `.claude/references/` |
 | `shared/commands/*.md` | `.claude/commands/` (per-project) |
-| `shared/commands/*.md` | `~/.claude/commands/` (global, via `stx workspace update`) |
+| `shared/commands/*.md` | `~/.claude/commands/` (global, via `stx update`) |
 | `profiles/<profile>/commands/` | `.claude/commands/` |
 | `profiles/<profile>/*/skills/` | `.claude/*/skills/` |
 | `profiles/<profile>/*/agents/` | `.claude/*/agents/` |
@@ -206,7 +239,7 @@ stx claude update . --force # Override everything including CLAUDE.md
 
 Shared files (references and commands) are set read-only (0o444) to signal they are managed automatically.
 
-> **Global commands**: `stx workspace update` also copies `shared/commands/` to `~/.claude/commands/`,
+> **Global commands**: `stx update` also copies `shared/commands/` to `~/.claude/commands/`,
 > making commands like `/stx-guide` available globally — even outside any project directory.
 
 ### How projects are discovered

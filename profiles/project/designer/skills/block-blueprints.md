@@ -350,14 +350,13 @@ def build():
             provider="openai",
             key="image_lab",
             show_save=True,
-            editable=True,
         )
 ```
 
 **Note**: This blueprint uses Streamlit interactive widgets internally.
 In manual mode (default), no API call is made until the user clicks Generate.
-When the user requests an "editable" AI image, always use `editable=True` (default).
-This lets the end-user modify the prompt and regenerate the image interactively.
+The widget is inherently interactive — the end-user can modify the prompt and
+regenerate the image without any additional parameter.
 
 ---
 

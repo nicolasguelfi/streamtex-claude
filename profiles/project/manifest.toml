@@ -12,7 +12,7 @@ developer = ["test-run.md", "lint.md"]
 
 [skills]
 designer = ["slide-design-rules.md", "visual-design-rules.md", "style-conventions.md", "streamtex-quick-reference.md", "block-blueprints.md"]
-developer = ["testing-patterns.md"]
+developer = ["testing-patterns.md", "stx-migrate.md", "docs-lookup.md"]
 
 [agents]
 designer = ["slide-designer.md", "slide-reviewer.md", "project-architect.md"]

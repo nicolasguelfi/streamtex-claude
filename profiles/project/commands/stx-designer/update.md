@@ -51,6 +51,18 @@ If `$ARGUMENTS` is empty, ask the user what they want to modify.
 | Export HTML | `streamtex_cheatsheet_en.md` Section "Export" |
 | Generate course | `block-blueprints.md`, `project-architect.md` |
 
+### Documentation lookup (recommended for Add, Migrate, Course modes)
+
+Before generating blocks, search for real examples in the StreamTeX manuals:
+
+1. **Check if manuals exist**: Look for `../../streamtex-docs/manuals/` (or `../streamtex-docs/manuals/`).
+2. **If found** — search for blocks matching the topic or component you're about to use:
+   - Use glob: `../../streamtex-docs/manuals/stx_manual_*/blocks/**/bck_*<keyword>*.py`
+   - Read matching blocks to study their `build()` function, `BlockStyles` patterns, and real API usage
+   - **Prioritize real examples over generating from scratch** — manual blocks are the gold standard
+   - Manual index: intro (text, grids, lists, images), advanced (export, PDF, diagrams, overlays), ai (AI images), deploy (Docker, CI), developer (architecture, testing)
+3. **If NOT found** — rely on cheatsheet and block-blueprints (no action needed)
+
 ## Mode detection
 
 Analyze `<description>` to determine the operation mode:
@@ -86,7 +98,7 @@ If the mode is ambiguous, state what you detected and ask for confirmation.
    - Standard imports, `BlockStyles` class, `bs` alias, `build()` function
    - Content adapted to the user's description using the blueprint structure
    - **MANDATORY: At least one `st_write(...)` with `toc_lvl="1"` as the first significant heading.** Without this, the block will be invisible in the sidebar and floating navigation bar (markers are auto-generated from TOC level-1 entries via `auto_marker_on_toc`). Even if the user does not explicitly ask for a title, always include one.
-   - When the user requests an **editable AI image** (or "image AI editable/modifiable"), use `st_ai_image_widget(...)` with `editable=True` by default. The `editable` parameter allows the user to modify the prompt and regenerate the image interactively.
+   - When the user requests an **interactive AI image** (or "image AI editable/modifiable"), use `st_ai_image_widget(...)`. The widget is inherently interactive — the user can modify the prompt and regenerate the image without any additional parameter.
 5. **Show wiring instructions**: Tell the user how to add the block to `book.py`:
    ```python
    import blocks
