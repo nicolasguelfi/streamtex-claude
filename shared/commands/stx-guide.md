@@ -1028,7 +1028,7 @@ et controler l'affichage du footer.
 
 | Tache | Commande |
 |-------|----------|
-| Audit complet (10 checks) | `/coherence:audit` ou `/coherence:audit all` |
+| Audit complet (19 checks) | `/coherence:audit` ou `/coherence:audit all` |
 | Audit API + cheatsheet | `/coherence:audit library` |
 | Audit blocs + manuels | `/coherence:audit docs` |
 | Audit sync profils + stx-guide | `/coherence:audit profiles` |

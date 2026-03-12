@@ -7,7 +7,6 @@ description = "Manual and documentation authoring"
 extends = ""
 
 [commands]
-stx-designer = ["init.md", "update.md", "audit.md", "fix.md", "tool.md"]
 developer = ["test-run.md", "lint.md"]
 coherence = ["audit.md"]
 
