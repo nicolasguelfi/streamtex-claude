@@ -56,7 +56,7 @@ Si `$ARGUMENTS` correspond a un **topic** reconnu (voir liste ci-dessous) : repo
 Si `$ARGUMENTS` est une **question libre** en langage naturel : utilise toute la base de connaissances
 pour fournir une reponse contextuelle.
 
-### Topics reconnus (17)
+### Topics reconnus (18)
 
 | Topic | Description |
 |-------|-------------|
@@ -73,6 +73,7 @@ pour fournir une reponse contextuelle.
 | `book` | Orchestration book.py (TOC, markers, banners, zoom) |
 | `ai-images` | Generation d'images IA (OpenAI, Google Imagen, fal.ai) |
 | `presentation` | Mode presentation fullscreen 16/9 |
+| `issues` | Creer des issues GitHub avec metadata auto-collectees |
 | `troubleshooting` | Gotchas connus et resolution de problemes |
 | `stx-cli` | Reference complete de toutes les commandes `stx` |
 | `release` | Workflow de release complet (dev : publier + propager) |
@@ -91,6 +92,8 @@ pour fournir une reponse contextuelle.
 - "comment publier une nouvelle version et propager a tous les users ?"
 - "comment mettre a jour mon workspace apres une nouvelle release ?"
 - "comment generer des images avec l'IA dans mon projet StreamTeX ?"
+- "comment reporter un bug dans StreamTeX ?"
+- "comment creer une issue GitHub depuis Claude ?"
 
 ---
 
@@ -414,6 +417,7 @@ claude
 |-----------|-----------|-------------|
 | stx-designer (5) | init, update, audit, fix, tool | Cycle de vie complet du projet |
 | Developer (2) | test-run, lint | Tests et linting |
+| Project (1) | issue | Creer des issues GitHub avec metadata |
 | Skills (8) | visual-design-rules, slide-design-rules, style-conventions, streamtex-quick-reference, block-blueprints, testing-patterns, stx-migrate, docs-lookup | Regles de conception |
 | Agents (3) | slide-designer, slide-reviewer, project-architect | Agents specialises |
 | Templates (4) | project, presentation, collection, course | Templates pour init |
@@ -1144,6 +1148,81 @@ class Styles(StxStyles):
 
 ---
 
+## Section 4e — Issues GitHub (topic: `issues`)
+
+La commande `/stx-issue` permet de creer des issues GitHub directement depuis Claude,
+avec collecte automatique des metadata d'environnement.
+
+### Prerequis
+
+```bash
+# Installer GitHub CLI
+brew install gh          # macOS
+
+# S'authentifier
+gh auth login
+
+# Verifier
+gh auth status
+```
+
+### Usage
+
+```bash
+# Reporter un bug
+> /stx-issue bug st_grid ne s'affiche pas quand cols="1fr 2fr" sur mobile
+
+# Demander une feature
+> /stx-issue feature Ajouter un toggle dark mode dans la sidebar st_book
+
+# Poser une question
+> /stx-issue question Comment utiliser st_collection avec des routes custom ?
+
+# Ameliorer la documentation
+> /stx-issue docs Ajouter un exemple pour st_overlay positioning
+
+# Aide
+> /stx-issue --help
+```
+
+### Types d'issues
+
+| Type | Label GitHub | Fallback titre |
+|------|-------------|----------------|
+| `bug` | `bug` | `[Bug]` |
+| `feature` | `enhancement` | `[Feature]` |
+| `question` | `question` | `[Question]` |
+| `docs` | `documentation` | `[Docs]` |
+
+### Metadata collectees automatiquement
+
+- Version StreamTeX, Python, OS, uv
+- Nom du projet, preset du workspace, profil Claude
+- Branche git et dernier commit
+
+### Routage automatique
+
+La commande detecte le repo cible automatiquement :
+- Bugs sur l'API (`st_*`, erreurs Python) → `streamtex`
+- Issues sur la documentation (manuels, blocs) → `streamtex-docs`
+- Issues sur les profils Claude (commandes, installation) → `streamtex-claude`
+- En cas d'ambiguite, la commande demande de choisir
+
+### Securite
+
+- Preview complete avant chaque creation (confirmation obligatoire)
+- Pas de donnees sensibles dans le body (cles API, tokens filtres)
+- Labels appliques seulement si l'utilisateur a les droits d'ecriture
+- Langue par defaut : anglais (francais sur demande explicite)
+
+### GitHub Issue Templates
+
+Les 3 repos StreamTeX incluent des templates d'issues (`.github/ISSUE_TEMPLATE/`)
+pour les bug reports, feature requests, questions et ameliorations de documentation.
+Ces templates sont utilises aussi depuis l'interface web GitHub.
+
+---
+
 ## Section 5 — Gotchas connus
 
 ### 1. `from streamtex import *` masque `list()`
@@ -1231,6 +1310,16 @@ class Styles(StxStyles):
 | Publier sur PyPI (CI) | `gh release create vX.Y.Z` (OIDC) |
 | Generer stubs bib | `stx bib generate-stubs refs.bib` |
 | Lancer un projet | `stx run` |
+
+### Commandes Claude (issues)
+
+| Tache | Commande |
+|-------|----------|
+| Reporter un bug | `/stx-issue bug <description>` |
+| Demander une feature | `/stx-issue feature <description>` |
+| Poser une question | `/stx-issue question <description>` |
+| Ameliorer la doc | `/stx-issue docs <description>` |
+| Aide | `/stx-issue --help` |
 
 ### Commandes Claude (coherence)
 

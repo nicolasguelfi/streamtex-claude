@@ -9,7 +9,10 @@
       "Bash(git log*)",
       "Bash(git add *)",
       "Bash(git commit *)",
-      "Bash(ls *)"
+      "Bash(ls *)",
+      "Bash(gh issue *)",
+      "Bash(gh auth *)",
+      "Bash(gh repo view *)"
     ]
   }
 }

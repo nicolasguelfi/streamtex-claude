@@ -8,6 +8,7 @@ extends = ""
 
 [commands]
 developer = ["test-run.md", "lint.md"]
+project = ["issue.md"]
 coherence = ["audit.md"]
 
 [skills]
