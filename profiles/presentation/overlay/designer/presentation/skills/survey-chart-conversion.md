@@ -1,4 +1,4 @@
-# Survey Chart Conversion Schema — `ros_designer_default`
+# Survey Chart Conversion Schema — `presentation`
 
 > Converts Stack Overflow Developer Survey screenshots into **code-generated** StreamTeX blocks.
 > The screenshot is the **source** — the output is pure Python code. No static image dependency.

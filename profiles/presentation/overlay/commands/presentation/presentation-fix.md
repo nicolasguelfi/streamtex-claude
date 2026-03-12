@@ -3,7 +3,7 @@ Fix all presentation design violations in a StreamTeX block for live projection.
 ## Before Fixing
 
 Read these files (mandatory):
-1. `.claude/designer/ros_designer_default/skills/presentation-design-rules.md`
+1. `.claude/designer/presentation/skills/presentation-design-rules.md`
 2. `.claude/designer/skills/visual-design-rules.md` (base rules)
 3. `.claude/designer/skills/style-conventions.md`
 4. The target project's `custom/styles.py`

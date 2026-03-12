@@ -63,7 +63,7 @@ The audit applies different rule sets based on context:
 
 ### Auto-detection of presentation profile
 
-If `.claude/designer/ros_designer_default/` exists OR `.claude/.stx-profile` contains "presentation",
+If `.claude/designer/presentation/` exists OR `.claude/.stx-profile` contains "presentation",
 automatically include presentation rules (no need for the user to specify "presentation" in desc).
 
 ## Audit targets

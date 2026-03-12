@@ -74,12 +74,12 @@ CATEGORY_PATHS = {
     "skills": {
         "designer": "designer/skills",
         "developer": "developer/skills",
-        "designer_ros": "designer/ros_designer_default/skills",
+        "presentation": "designer/presentation/skills",
     },
     "agents": {
         "designer": "designer/agents",
         "developer": "developer/agents",
-        "designer_ros": "designer/ros_designer_default/agents",
+        "presentation": "designer/presentation/agents",
     },
     "templates": {
         "designer": "designer/templates",

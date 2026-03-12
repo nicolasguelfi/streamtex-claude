@@ -22,7 +22,7 @@ StreamTeX presentation optimized for live projection at 10-20m distance.
 
 **MANDATORY**: Read `.claude/designer/skills/slide-design-rules.md` for L1/L2/L3 grid system.
 
-If `.claude/designer/ros_designer_default/skills/presentation-design-rules.md` exists,
+If `.claude/designer/presentation/skills/presentation-design-rules.md` exists,
 also read it — it overrides base rules for live projection.
 
 ## Presentation-specific constraints

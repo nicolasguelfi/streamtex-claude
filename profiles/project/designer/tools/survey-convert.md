@@ -28,8 +28,8 @@ Passed from `/stx-designer:tool survey-convert <arguments>`:
 ## Before converting
 
 Read these files (mandatory):
-1. `.claude/designer/ros_designer_default/skills/survey-chart-conversion.md` — conversion schema and template
-2. `.claude/designer/ros_designer_default/skills/presentation-design-rules.md` — presentation rules
+1. `.claude/designer/presentation/skills/survey-chart-conversion.md` — conversion schema and template
+2. `.claude/designer/presentation/skills/presentation-design-rules.md` — presentation rules
 3. Target project's `CLAUDE.md` — contains project paths (blocks dir, book.py)
 4. Target project's `custom/styles.py` — palette and containers
 

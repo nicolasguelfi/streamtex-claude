@@ -50,7 +50,7 @@ Before generating blocks, search for real examples in the StreamTeX manuals:
 
 If the project type is **presentation** (or `--presentation` template), also read:
 - `.claude/designer/skills/slide-design-rules.md` — L1/L2/L3 grid system
-- `.claude/designer/ros_designer_default/skills/presentation-design-rules.md` (if present — live projection rules)
+- `.claude/designer/presentation/skills/presentation-design-rules.md` (if present — live projection rules)
 
 ## Template resolution
 

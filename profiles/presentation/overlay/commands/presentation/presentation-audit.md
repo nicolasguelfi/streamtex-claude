@@ -3,7 +3,7 @@ Audit a StreamTeX presentation block for live projection compliance.
 ## Before Auditing
 
 Read these files (mandatory):
-1. `.claude/designer/ros_designer_default/skills/presentation-design-rules.md`
+1. `.claude/designer/presentation/skills/presentation-design-rules.md`
 2. `.claude/designer/skills/visual-design-rules.md` (base rules)
 3. The target project's `custom/styles.py`
 

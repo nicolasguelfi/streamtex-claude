@@ -12,10 +12,10 @@ extends = "project"
 # commands detect and use automatically.
 
 [commands]
-designer_ros = ["presentation-audit.md", "presentation-fix.md", "survey-convert.md"]
+presentation = ["presentation-audit.md", "presentation-fix.md", "survey-convert.md"]
 
 [skills]
-designer_ros = ["presentation-design-rules.md", "fullscreen-presentation-rules.md", "survey-chart-conversion.md"]
+presentation = ["presentation-design-rules.md", "fullscreen-presentation-rules.md", "survey-chart-conversion.md"]
 
 [agents]
-designer_ros = ["presentation-designer.md"]
+presentation = ["presentation-designer.md"]

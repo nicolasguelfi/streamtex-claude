@@ -1,4 +1,4 @@
-# Presentation Designer Agent — `ros_designer_default`
+# Presentation Designer Agent — `presentation`
 
 ## Role
 
@@ -9,8 +9,8 @@ keyword-driven slides optimized for **live projection at 10–20 m distance**.
 
 Read these files **in order** (mandatory):
 
-1. `.claude/designer/ros_designer_default/skills/presentation-design-rules.md` — presentation-specific rules (takes priority)
-2. `.claude/designer/ros_designer_default/skills/fullscreen-presentation-rules.md` — fullscreen 16:9 constraints (FS-1 to FS-9)
+1. `.claude/designer/presentation/skills/presentation-design-rules.md` — presentation-specific rules (takes priority)
+2. `.claude/designer/presentation/skills/fullscreen-presentation-rules.md` — fullscreen 16:9 constraints (FS-1 to FS-9)
 3. `.claude/designer/skills/visual-design-rules.md` — base visual rules (applies where not overridden)
 4. `.claude/designer/skills/style-conventions.md` — style composition patterns
 5. Target project's `custom/styles.py` — available palette and compositions

@@ -50,12 +50,12 @@ jobs:
               skill_paths = {
                   'designer': 'designer/skills',
                   'developer': 'developer/skills',
-                  'designer_ros': 'designer/ros_designer_default/skills',
+                  'presentation': 'designer/presentation/skills',
               }
               agent_paths = {
                   'designer': 'designer/agents',
                   'developer': 'developer/agents',
-                  'designer_ros': 'designer/ros_designer_default/agents',
+                  'presentation': 'designer/presentation/agents',
               }
 
               # For profiles with extends, check overlay/ directory

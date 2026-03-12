@@ -108,7 +108,7 @@ If the mode is ambiguous, state what you detected and ask for confirmation.
 
 ### Presentation-aware generation
 
-If the project has presentation skills (`.claude/designer/ros_designer_default/` exists or profile is `presentation`):
+If the project has presentation skills (`.claude/designer/presentation/` exists or profile is `presentation`):
 - Use `s.Large` (48pt) for body text instead of `s.large` (32pt)
 - Apply L1/L2/L3 grid structure from `slide-design-rules.md`
 - Keyword-driven text (3-7 words/bullet, max 3-5 bullets)

@@ -1,4 +1,4 @@
-# Presentation Design Rules — `ros_designer_default`
+# Presentation Design Rules — `presentation`
 
 > **Relationship to base rules**: This file **extends** `visual-design-rules.md` (shared skills).
 > Where a rule here conflicts with the base, **this file wins**.
