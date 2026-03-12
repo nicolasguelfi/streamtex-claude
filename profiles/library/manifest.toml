@@ -8,7 +8,6 @@ extends = ""
 
 [commands]
 stx-developer = ["test-run.md", "lint.md", "deploy.md"]
-stx-project = ["issue.md"]
 stx-coherence = ["audit.md"]
 
 [skills]
@@ -16,4 +15,4 @@ developer = ["architecture.md", "testing-patterns.md", "coherence-checks.md"]
 
 [shared]
 references = ["coding_standards.md", "streamtex_cheatsheet_en.md"]
-commands = ["stx-guide.md"]
+commands = ["stx-guide.md", "stx-issue"]

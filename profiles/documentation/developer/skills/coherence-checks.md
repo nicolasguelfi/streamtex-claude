@@ -156,6 +156,8 @@ Reference file for `/stx-coherence:audit`. Defines 20 check categories.
 - WARNING if CLI templates documented in stx-guide do not match `AVAILABLE_TEMPLATES` in `install_cmd.py`
 - WARNING if presets documented in stx-guide do not match `PRESET_ORDER` in `workspace_cmd.py`
 - WARNING if the distinction between CLI templates and stx-designer templates is not documented
+- WARNING if `/stx-issue:*` commands are missing from the stx-guide topics table or Section 4e
+- WARNING if `/stx-issue:bug`, `/stx-issue:feature`, `/stx-issue:question`, `/stx-issue:docs`, `/stx-issue:comment`, `/stx-issue:list` are missing from the quick reference table (Section 6)
 - INFO: report stx-guide line count and last-known sync date
 
 ---
@@ -600,23 +602,25 @@ for cls in [PdfConfig, ExportConfig, BannerConfig]:
 
 ---
 
-## Check 19: GitHub Issue Template Sync (scope: profiles, all)
+## Check 19: GitHub Issue Template & Command Sync (scope: profiles, all)
 
-**Goal**: All three StreamTeX repositories have consistent GitHub issue templates, and the `/stx-issue` command file exists in all profiles that declare it.
+**Goal**: All three StreamTeX repositories have consistent GitHub issue templates, and the shared `stx-issue/` command directory exists with all 6 command files.
 
 **Source files**:
 - `streamtex/.github/ISSUE_TEMPLATE/` → bug_report.md, feature_request.md, question.md, docs.md
 - `streamtex-docs/.github/ISSUE_TEMPLATE/` → same 4 files
 - `streamtex-claude/.github/ISSUE_TEMPLATE/` → same 4 files
-- `streamtex-claude/profiles/*/manifest.toml` → `[commands] stx-project = ["issue.md"]`
-- `streamtex-claude/profiles/*/commands/stx-project/issue.md` → command file
+- `streamtex-claude/shared/commands/stx-issue/` → 6 files: bug.md, feature.md, question.md, docs.md, comment.md, list.md
+- `streamtex-claude/profiles/*/manifest.toml` → `[shared] commands` must include `"stx-issue"`
 
 **Rules**:
 - ERROR if a repo is missing `.github/ISSUE_TEMPLATE/` directory
 - ERROR if any of the 4 template files is missing from a repo
-- ERROR if a manifest declares `issue.md` but the file does not exist
+- ERROR if `shared/commands/stx-issue/` is missing any of the 6 command files
+- ERROR if a profile does not include `"stx-issue"` in `[shared] commands`
+- ERROR if any profile still has `commands/stx-project/issue.md` (orphan from old structure)
 - WARNING if issue templates differ between repos
-- WARNING if stx-guide.md does not reference `/stx-issue`
+- WARNING if stx-guide.md does not reference `/stx-issue:*`
 - INFO: report template existence status across all repos and profiles
 
 ---

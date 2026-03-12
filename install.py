@@ -203,15 +203,24 @@ def install_profile(profile_name: str, target_dir: Path,
             src_dir = SHARED_DIR / subdir
             dst_dir = target_claude / subdir
             dst_dir.mkdir(parents=True, exist_ok=True)
-            for filename in files:
-                src_file = src_dir / filename
-                if not src_file.exists():
-                    print(f"  Warning: shared/{subdir}/{filename} not found, skipping")
+            for entry_name in files:
+                src_entry = src_dir / entry_name
+                if not src_entry.exists():
+                    print(f"  Warning: shared/{subdir}/{entry_name} not found, skipping")
                     continue
-                dst_file = dst_dir / filename
-                shutil.copy2(src_file, dst_file)
-                dst_file.chmod(0o444)
-                total_files += 1
+                if src_entry.is_dir():
+                    dst_entry_dir = dst_dir / entry_name
+                    dst_entry_dir.mkdir(parents=True, exist_ok=True)
+                    count = _copy_tree(src_entry, dst_entry_dir)
+                    for item in dst_entry_dir.rglob("*"):
+                        if item.is_file():
+                            item.chmod(0o444)
+                    total_files += count
+                else:
+                    dst_file = dst_dir / entry_name
+                    shutil.copy2(src_entry, dst_file)
+                    dst_file.chmod(0o444)
+                    total_files += 1
 
     # Copy settings.json
     settings_src = profile_dir / "settings.json"
