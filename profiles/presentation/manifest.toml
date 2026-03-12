@@ -11,6 +11,9 @@ extends = "project"
 # The presentation overlay adds skills and agents that the stx-designer
 # commands detect and use automatically.
 
+[commands]
+designer_ros = ["presentation-audit.md", "presentation-fix.md", "survey-convert.md"]
+
 [skills]
 designer_ros = ["presentation-design-rules.md", "fullscreen-presentation-rules.md", "survey-chart-conversion.md"]
 
