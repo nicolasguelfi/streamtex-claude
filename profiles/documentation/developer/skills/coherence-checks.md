@@ -608,8 +608,8 @@ for cls in [PdfConfig, ExportConfig, BannerConfig]:
 - `streamtex/.github/ISSUE_TEMPLATE/` → bug_report.md, feature_request.md, question.md, docs.md
 - `streamtex-docs/.github/ISSUE_TEMPLATE/` → same 4 files
 - `streamtex-claude/.github/ISSUE_TEMPLATE/` → same 4 files
-- `streamtex-claude/profiles/*/manifest.toml` → `[commands] project = ["issue.md"]`
-- `streamtex-claude/profiles/*/commands/project/issue.md` → command file
+- `streamtex-claude/profiles/*/manifest.toml` → `[commands] stx-project = ["issue.md"]`
+- `streamtex-claude/profiles/*/commands/stx-project/issue.md` → command file
 
 **Rules**:
 - ERROR if a repo is missing `.github/ISSUE_TEMPLATE/` directory
