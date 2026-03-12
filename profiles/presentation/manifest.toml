@@ -12,7 +12,7 @@ extends = "project"
 # commands detect and use automatically.
 
 [commands]
-presentation = ["presentation-audit.md", "presentation-fix.md", "survey-convert.md"]
+stx-presentation = ["presentation-audit.md", "presentation-fix.md", "survey-convert.md"]
 
 [skills]
 presentation = ["presentation-design-rules.md", "fullscreen-presentation-rules.md", "survey-chart-conversion.md"]

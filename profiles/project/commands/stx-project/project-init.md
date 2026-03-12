@@ -1,4 +1,4 @@
-# /project:project-init — Initialize a complete StreamTeX project
+# /stx-project:project-init — Initialize a complete StreamTeX project
 
 Arguments: $ARGUMENTS (natural language description of the desired project)
 

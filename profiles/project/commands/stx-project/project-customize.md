@@ -1,4 +1,4 @@
-# /project:project-customize — Customize a StreamTeX project
+# /stx-project:project-customize — Customize a StreamTeX project
 
 Arguments: $ARGUMENTS (natural language description of desired changes)
 

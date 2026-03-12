@@ -7,9 +7,10 @@ description = "Manual and documentation authoring"
 extends = ""
 
 [commands]
-developer = ["test-run.md", "lint.md"]
-project = ["issue.md"]
-coherence = ["audit.md"]
+stx-designer = ["slide-new.md", "slide-audit.md", "slide-fix.md", "style-audit.md", "style-refactor.md", "block-new.md", "block-preview.md"]
+stx-developer = ["test-run.md", "lint.md"]
+stx-project = ["issue.md"]
+stx-coherence = ["audit.md"]
 
 [skills]
 designer = ["slide-design-rules.md", "visual-design-rules.md", "style-conventions.md", "streamtex-quick-reference.md"]

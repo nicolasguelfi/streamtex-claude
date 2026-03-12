@@ -138,7 +138,9 @@ your-project/
     ├── .stx-profile           # Installed profile marker
     ├── commands/
     │   ├── stx-guide.md       # Shared: ecosystem navigation guide
-    │   └── stx-designer/      # Slash commands (/stx-designer:init, update, audit, fix, tool)
+    │   ├── stx-designer/      # Design commands (/stx-designer:init, update, audit, fix, tool, slide-*, style-*, block-*)
+    │   ├── stx-developer/     # Dev commands (/stx-developer:test-run, lint, deploy)
+    │   └── stx-project/       # Project commands (/stx-project:issue)
     ├── references/            # Shared: coding standards + cheatsheet
     ├── designer/              # Design skills, agents, templates, tools
     └── developer/             # Developer skills
@@ -164,9 +166,9 @@ All commands accept `--help` to show the full cheatsheet.
 
 | Command | What it does |
 |---------|-------------|
-| `/developer:test-run` | Run test suite |
-| `/developer:lint` | Run linter with auto-fix |
-| `/developer:deploy` | Deploy to Docker/HF/GCP (library profile only) |
+| `/stx-developer:test-run` | Run test suite |
+| `/stx-developer:lint` | Run linter with auto-fix |
+| `/stx-developer:deploy` | Deploy to Docker/HF/GCP (library profile only) |
 
 ### Workspace & Project Management
 

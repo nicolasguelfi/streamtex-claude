@@ -1,6 +1,6 @@
 # Coherence Check Rules
 
-Reference file for `/coherence:audit`. Defines 20 check categories.
+Reference file for `/stx-coherence:audit`. Defines 20 check categories.
 
 ---
 

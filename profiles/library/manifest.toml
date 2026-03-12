@@ -7,9 +7,9 @@ description = "StreamTeX library development"
 extends = ""
 
 [commands]
-developer = ["test-run.md", "lint.md", "deploy.md"]
-project = ["issue.md"]
-coherence = ["audit.md"]
+stx-developer = ["test-run.md", "lint.md", "deploy.md"]
+stx-project = ["issue.md"]
+stx-coherence = ["audit.md"]
 
 [skills]
 developer = ["architecture.md", "testing-patterns.md", "coherence-checks.md"]
