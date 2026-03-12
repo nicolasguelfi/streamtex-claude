@@ -200,7 +200,7 @@ show_code_inline("inline code")               # Code without wrapper box
 from streamtex import st_book, TOCConfig, MarkerConfig, BannerConfig
 
 toc = TOCConfig(numerate_titles=False, toc_position=0)
-marker = MarkerConfig(auto_marker_on_toc=1, show_nav_ui=True)
+marker = MarkerConfig(auto_marker_on_toc=1, show_nav_ui=True, draggable=True, collapsible=True)
 
 st_book([blocks.bck_01, blocks.bck_02, ...],
         toc_config=toc, marker_config=marker, paginate=True,
