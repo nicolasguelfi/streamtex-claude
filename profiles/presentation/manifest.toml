@@ -12,7 +12,7 @@ extends = "project"
 # commands detect and use automatically.
 
 [skills]
-designer_ros = ["presentation-design-rules.md", "survey-chart-conversion.md"]
+designer_ros = ["presentation-design-rules.md", "fullscreen-presentation-rules.md", "survey-chart-conversion.md"]
 
 [agents]
 designer_ros = ["presentation-designer.md"]

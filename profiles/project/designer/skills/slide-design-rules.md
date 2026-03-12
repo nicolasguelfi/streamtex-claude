@@ -17,6 +17,10 @@ Every slide MUST fit entirely on a **16:9 screen** without scrolling.
 | Max content height | ~90vh (leave margins for Streamlit chrome) |
 | Overflow | NEVER — if content overflows, split into multiple slides |
 
+**Technical implementation**: Use `PresentationConfig(enforce_ratio=True)` in `book.py`
+to enforce the 16:9 aspect ratio constraint programmatically. This ensures the viewport
+is locked to the correct proportions in fullscreen mode.
+
 **Implication**: content density must be low. Prefer fewer elements with larger fonts
 over cramming information. When in doubt, **split the slide**.
 
@@ -288,6 +292,15 @@ Where:
 Each block file (`bck_description.py`) represents one logical unit.
 If a block contains multiple sections that work as independent slides,
 use `st_slide_break()` to separate them.
+
+### Recommended slide break config for presentations
+
+For fullscreen presentations, use `SlideBreakConfig(fullscreen=True)` to enable
+viewport-height slide separation optimized for presentation mode:
+
+```python
+set_slide_break_config(SlideBreakConfig(fullscreen=True, mode=SlideBreakMode.HIDDEN, marker=True))
+```
 
 ### Slide break naming
 

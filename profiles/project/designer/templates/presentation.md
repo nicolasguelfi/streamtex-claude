@@ -61,6 +61,36 @@ class BlockStyles:
     caption = s.large + s.project.colors.muted  # Sources/footers only
 ```
 
+## book.py — Presentation Config Pattern
+
+```python
+from streamtex import (
+    st_book, TOCConfig, MarkerConfig,
+    set_presentation_config, PresentationConfig,
+    set_slide_break_config, SlideBreakConfig, SlideBreakMode,
+)
+
+# Presentation configuration (fullscreen 16:9)
+set_presentation_config(PresentationConfig(
+    title="{{title}}",
+    aspect_ratio="16/9",
+    footer=True,
+    center_content=True,
+    hide_streamlit_header=True,
+))
+
+set_slide_break_config(SlideBreakConfig(
+    mode=SlideBreakMode.HIDDEN,
+    fullscreen=True,
+    marker=True,
+))
+```
+
+## Block Naming Convention
+
+Block files use **descriptive names** (e.g., `bck_title.py`, `bck_containers.py`, `bck_overview.py`),
+never numeric prefixes (e.g., ~~`bck_01_title.py`~~). Order is defined in the `st_book([...])` call.
+
 ## Styles base
 
 ```python

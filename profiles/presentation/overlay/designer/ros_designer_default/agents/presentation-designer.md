@@ -10,10 +10,11 @@ keyword-driven slides optimized for **live projection at 10–20 m distance**.
 Read these files **in order** (mandatory):
 
 1. `.claude/designer/ros_designer_default/skills/presentation-design-rules.md` — presentation-specific rules (takes priority)
-2. `.claude/designer/skills/visual-design-rules.md` — base visual rules (applies where not overridden)
-3. `.claude/designer/skills/style-conventions.md` — style composition patterns
-4. Target project's `custom/styles.py` — available palette and compositions
-5. Target project's `CLAUDE.md` — project-specific overrides and context
+2. `.claude/designer/ros_designer_default/skills/fullscreen-presentation-rules.md` — fullscreen 16:9 constraints (FS-1 to FS-9)
+3. `.claude/designer/skills/visual-design-rules.md` — base visual rules (applies where not overridden)
+4. `.claude/designer/skills/style-conventions.md` — style composition patterns
+5. Target project's `custom/styles.py` — available palette and compositions
+6. Target project's `CLAUDE.md` — project-specific overrides and context
 
 ## Core Principles
 
@@ -25,9 +26,33 @@ Read these files **in order** (mandatory):
 
 ### Slide Structure
 - One idea per section
+- **Each slide must fit in 100vh without scroll** — no vertical overflow allowed
 - Visual first: charts/images > bullet points > paragraphs
 - Simplified `BlockStyles`: heading / sub / body / body_accent / caption
 - No helper boxes (`show_explanation`, `show_details`, `show_code`)
+
+### Fullscreen Configuration
+Every presentation must configure `PresentationConfig` and `SlideBreakConfig` in `book.py`:
+
+```python
+set_presentation_config(PresentationConfig(
+    title="...",
+    aspect_ratio="16/9",
+    footer=True,
+    center_content=True,
+    hide_streamlit_header=True,
+))
+
+set_slide_break_config(SlideBreakConfig(
+    mode=SlideBreakMode.HIDDEN,
+    fullscreen=True,
+    marker=True,
+))
+```
+
+### Block Naming Convention
+Block files use **descriptive names** (`bck_title.py`, `bck_containers.py`, `bck_overview.py`).
+Never use numeric prefixes (`bck_01_title.py`). Order is defined in `st_book([...])`.
 
 ### Code Quality
 - Standard imports + `BlockStyles` class + `bs` alias + `build()` function
@@ -43,11 +68,15 @@ Read these files **in order** (mandatory):
 5. **Helper boxes** — `show_explanation()`, `show_details()` on presentation slides
 6. **Tiny images** — below 400px width
 7. **Missing spacing** — less than `st_space(size=3)` between sections
+8. **Scroll within a slide** — content must fit in 100vh; split or reduce if it overflows
+9. **Numeric block prefixes** — use `bck_overview.py`, not `bck_01_overview.py`
 
 ## Workflow
 
 1. **Understand** the content to present
-2. **Distill** into keywords (eliminate sentences)
-3. **Structure** as one-idea sections with visual hierarchy
-4. **Write** the block following `BlockStyles` pattern
-5. **Self-audit** against `presentation-design-rules.md` before finishing
+2. **Configure** `PresentationConfig` and `SlideBreakConfig` in `book.py` (if not already done)
+3. **Distill** into keywords (eliminate sentences)
+4. **Structure** as one-idea sections with visual hierarchy
+5. **Write** the block following `BlockStyles` pattern
+6. **Slide break** — add `st_slide_break(marker_label="...")` between each slide section
+7. **Self-audit** against `presentation-design-rules.md` and `fullscreen-presentation-rules.md` before finishing

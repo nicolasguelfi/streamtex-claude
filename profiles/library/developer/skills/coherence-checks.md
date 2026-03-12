@@ -16,9 +16,11 @@ Reference file for `/coherence:audit`. Defines 16 check categories.
 - INFO if an export appears in blocks but has no `show_code()` example
 - SKIP internal names (prefixed with `_`), type aliases, and re-exports of enums
 
+**Presentation exports to verify**: `PresentationConfig`, `set_presentation_config`, `get_presentation_config`, `st_presentation_footer`, `add_presentation_options`
+
 **Known exceptions** (not expected in blocks):
 - Low-level exports: `export_append`, `export_push_wrapper`, `export_pop_wrapper`, `generate_export_html`, `reset_export_buffer`, `is_export_active`
-- Config internals: `get_block_helper_config`, `get_bib_config`, `get_gsheet_config`, `get_link_config`, `get_bib_registry`, `reset_bib_registry`, `get_ai_image_config`, `get_slide_break_config`
+- Config internals: `get_block_helper_config`, `get_bib_config`, `get_gsheet_config`, `get_link_config`, `get_bib_registry`, `reset_bib_registry`, `get_ai_image_config`, `get_slide_break_config`, `get_presentation_config`
 - Parser internals: `parse_bibtex_string`, `parse_ris_string`, `register_bib_parser`
 - Utility re-exports: `generate_bib_stubs`, `export_bibtex`, `load_css`, `exec_static`, `resolve_content`, `inject_link_preview_scaffold`, `add_wrap_all_option`, `add_slide_break_options`
 - Error/result types: `AIImageError`, `AIImageResult`, `BibParseError`, `GSheetError`
@@ -34,7 +36,7 @@ Reference file for `/coherence:audit`. Defines 16 check categories.
 
 **Source files**:
 - `streamtex/streamtex/__init__.py` (exports)
-- Key module files: `write.py`, `code.py`, `book.py`, `grid.py`, `list.py`, `container.py`, `block_helpers.py`
+- Key module files: `write.py`, `code.py`, `book.py`, `grid.py`, `list.py`, `container.py`, `block_helpers.py`, `presentation.py`
 
 **Target files**:
 - `streamtex-claude/shared/references/streamtex_cheatsheet_en.md`
@@ -44,6 +46,7 @@ Reference file for `/coherence:audit`. Defines 16 check categories.
 - WARNING if a function's signature (new parameter) is not reflected in the cheatsheet
 - ERROR if the coding standards recommend a pattern that contradicts current library behavior
 - WARNING if the cheatsheet documents a function that no longer exists in `__init__.py`
+- WARNING if `presentation.py` signatures (`PresentationConfig`, `set_presentation_config`, `get_presentation_config`, `st_presentation_footer`, `add_presentation_options`) are missing from the cheatsheet
 
 **How to check signatures**: For each major function, read the `def` line in the source module. Compare parameter names with those listed in the cheatsheet.
 
@@ -153,6 +156,7 @@ Reference file for `/coherence:audit`. Defines 16 check categories.
 - WARNING if a profile listed by `install.py --list` is missing from stx-guide
 - WARNING if a manual in `streamtex-docs/manuals/` is missing from Section 2 layout
 - WARNING if a gotcha in Section 5 references deprecated behavior
+- WARNING if topic "presentation" is missing from the topics table or does not document PresentationConfig
 - INFO: report stx-guide line count and last-known sync date
 
 ---
@@ -296,6 +300,7 @@ Then for each code block, parse function calls and verify parameter names and en
 
 **Rules**:
 - WARNING if a source module with public functions has no corresponding test file
+- WARNING if `test_presentation.py` does not exist (presentation module must have dedicated tests)
 - INFO: report module → test file mapping and coverage ratio
 
 **Known exceptions** (modules not expected to have dedicated test files):
@@ -466,6 +471,7 @@ Then for each `show_code()` string, parse function calls and verify keyword argu
 | `from streamtex import ExportConfig` | — | Constructor parameters |
 | `from streamtex import BannerConfig` | — | Constructor parameters |
 | `from streamtex import AIImageConfig` | — | Constructor parameters |
+| `from streamtex import PresentationConfig` | — | Constructor parameters (`title`, `aspect_ratio`, `footer`, `center_content`, `hide_streamlit_header`, `enforce_ratio`) |
 | `from custom.styles import Styles` | `s` | Project-specific (skip — not library) |
 
 **Rules**:
