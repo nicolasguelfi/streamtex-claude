@@ -9,7 +9,7 @@ extends = ""
 [commands]
 stx-designer = ["slide-new.md", "slide-audit.md", "slide-fix.md", "style-audit.md", "style-refactor.md", "block-new.md", "block-preview.md"]
 stx-developer = ["test-run.md", "lint.md"]
-stx-project = ["issue.md"]
+stx-project = ["issue.md", "course-generate.md"]
 stx-coherence = ["audit.md"]
 
 [skills]

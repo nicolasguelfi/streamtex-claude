@@ -140,6 +140,24 @@ streamtex-dev/                  # Workspace root
     stx-modelsward/
 ```
 
+### Ports des manuels (run-manuals.sh)
+
+| Manuel | Port |
+|--------|------|
+| Collection hub | 8501 |
+| Introduction | 8502 |
+| Advanced | 8503 |
+| Deploy | 8504 |
+| Developer | 8505 |
+| AI | 8506 |
+
+```bash
+./run-manuals.sh --all        # Lance les 6 manuels
+./run-manuals.sh --intro      # Lance seulement l'intro
+./run-manuals.sh --developer  # Lance seulement le developer
+./run-manuals.sh --ai         # Lance seulement l'AI
+```
+
 ### Flux de dependances
 
 ```
@@ -1331,6 +1349,43 @@ Ces templates sont utilises aussi depuis l'interface web GitHub.
 | Audit sync profils + stx-guide | `/stx-coherence:audit profiles` |
 | Audit blocs + structure + templates | `/stx-coherence:audit blocks` |
 | Audit langue anglaise | `/stx-coherence:audit language` |
+
+### Commandes Claude (developer)
+
+| Tache | Commande |
+|-------|----------|
+| Lancer les tests | `/stx-developer:test-run` |
+| Lancer le linter | `/stx-developer:lint` |
+| Deployer (profil library) | `/stx-developer:deploy` |
+
+### Commandes Claude (project)
+
+| Tache | Commande |
+|-------|----------|
+| Creer un issue GitHub | `/stx-project:issue <type> <description>` |
+| Initialiser un projet | `/stx-project:project-init <description>` |
+| Personnaliser un projet | `/stx-project:project-customize <description>` |
+| Upgrader un projet | `/stx-project:project-upgrade` |
+| Creer une collection | `/stx-project:collection-new <description>` |
+| Generer un cours | `/stx-project:course-generate` |
+
+### Commandes Claude (migration)
+
+| Tache | Commande |
+|-------|----------|
+| Migrer du HTML vers StreamTeX | `/stx-migration:html-migrate <description>` |
+| Convertir un bloc HTML | `/stx-migration:html-convert-block <description>` |
+| Conversion batch HTML | `/stx-migration:html-convert-batch` |
+| Exporter en HTML | `/stx-migration:html-export` |
+| Auditer une conversion | `/stx-migration:conversion-audit` |
+
+### Commandes Claude (presentation)
+
+| Tache | Commande |
+|-------|----------|
+| Auditer la projection | `/stx-presentation:presentation-audit` |
+| Corriger les violations | `/stx-presentation:presentation-fix` |
+| Convertir un sondage | `/stx-presentation:survey-convert` |
 
 ### Commandes GitHub CLI (gh)
 

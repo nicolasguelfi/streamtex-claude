@@ -9,7 +9,8 @@ extends = ""
 [commands]
 stx-designer = ["init.md", "update.md", "audit.md", "fix.md", "tool.md", "slide-new.md", "slide-audit.md", "slide-fix.md", "style-audit.md", "style-refactor.md", "block-new.md", "block-preview.md"]
 stx-developer = ["test-run.md", "lint.md"]
-stx-project = ["issue.md"]
+stx-project = ["issue.md", "collection-new.md", "course-generate.md", "project-customize.md", "project-init.md", "project-upgrade.md"]
+stx-migration = ["conversion-audit.md", "html-convert-batch.md", "html-convert-block.md", "html-export.md", "html-migrate.md"]
 
 [skills]
 designer = ["slide-design-rules.md", "visual-design-rules.md", "style-conventions.md", "streamtex-quick-reference.md", "block-blueprints.md"]
