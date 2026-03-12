@@ -393,7 +393,7 @@ def build():
             with st_block():
                 st_write(bs.sub, "Subtitle")
                 st_space(size=2)
-                with st_list(style=bs.body) as l:
+                with st_list(l_style=bs.body, li_style=bs.body) as l:
                     with l.item(): st_write(bs.body, "Key point 1")
                     with l.item(): st_write(bs.body, "Key point 2")
                     with l.item(): st_write(bs.body, "Key point 3")
