@@ -9,4 +9,4 @@ Upgrade a StreamTeX project to match the latest template: $ARGUMENTS
 3. Report differences and apply updates where safe
 4. Do NOT modify `custom/styles.py` or `custom/themes.py` (these are project-specific)
 5. Do NOT modify block content files
-6. Run `uv run streamlit run <project>/book.py` in a dry check if possible
+6. Run `stx run` in a dry check if possible

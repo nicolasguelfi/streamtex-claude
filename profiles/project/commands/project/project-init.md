@@ -110,7 +110,7 @@ Generated files:
 Next steps:
   1. Fill in block content (replace "[TODO: ...]" placeholders)
   2. Add images to static/images/
-  3. Test: uv run streamlit run book.py
+  3. Test: stx run
   4. Use /stx-designer:audit to check compliance
 ```
 

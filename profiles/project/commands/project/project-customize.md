@@ -124,7 +124,7 @@ Applied modifications:
   .streamlit/config.toml — theme switched to light
   book.py                — TOC + pagination enabled
 
-Test: uv run streamlit run book.py
+Test: stx run
 ```
 
 ## Rules

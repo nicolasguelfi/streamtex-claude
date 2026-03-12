@@ -24,5 +24,5 @@ Generate book.py for a course from its blocks.csv.
 
 5. **Test** the course (if requested):
    ```bash
-   uv run streamlit run projects/convert_html_to_streamtex/courses/$ARGUMENTS/book.py
+   cd projects/convert_html_to_streamtex/courses/$ARGUMENTS && stx run
    ```

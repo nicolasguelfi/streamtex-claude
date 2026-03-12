@@ -57,7 +57,7 @@ Then use slash commands to build your project:
 ```
 
 The AI agent proposes a structure, you approve, and all files are generated.
-Run `uv run streamlit run book.py` to preview.
+Run `stx run` to preview.
 
 See the **[AI Guide](https://github.com/nicolasguelfi/streamtex/blob/main/AI_GUIDE.md)** for all workflows and examples.
 

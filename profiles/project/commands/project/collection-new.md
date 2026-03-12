@@ -57,13 +57,13 @@ Arguments: $ARGUMENTS (collection name, e.g. "my_course_library")
 
 7. **Validate**: Confirm the collection can run:
    ```bash
-   uv run streamlit run projects/[collection_name]/book.py
+   cd projects/[collection_name] && stx run
    ```
 
 8. **Show next steps**:
    - How to add more projects to `collection.toml`
    - How to customize the home page in `blocks/bck_home.py`
-   - How to run individual projects on different ports: `uv run streamlit run <project>/book.py --server.port 8502`
+   - How to run individual projects on different ports: `stx run --port 8502`
    - How to use `./run-test-projects.sh` for running multiple projects simultaneously
 
 ## Reference Projects

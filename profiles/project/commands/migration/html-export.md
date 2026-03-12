@@ -33,7 +33,7 @@ Arguments: $ARGUMENTS (optional: project path, e.g. "projects/project_myproject"
 
 5. **Run the export**: Launch the app and instruct the user:
    ```bash
-   uv run streamlit run <project>/book.py
+   cd <project> && stx run
    ```
    - The "Download HTML" button will appear in the sidebar when `export=True` (the default)
    - Click it to download the self-contained HTML file
