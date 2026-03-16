@@ -120,3 +120,21 @@ jobs:
             fi
             echo "  ✓ $profile installed successfully"
           done
+
+      - name: Cursor toolchain coherence
+        run: python3 cursor/check_coherence.py
+
+      - name: Test cursor conversion
+        run: |
+          for profile in project presentation library documentation; do
+            echo "Testing cursor conversion: $profile"
+            python3 cursor/generate_cursor.py \
+              --source "/tmp/test-$profile/.claude" \
+              --target "/tmp/test-$profile/.cursor" \
+              --clean
+            if [ ! -d "/tmp/test-$profile/.cursor/rules" ]; then
+              echo "ERROR: .cursor/rules/ not created for $profile"
+              exit 1
+            fi
+            echo "  ✓ $profile cursor conversion successful"
+          done
