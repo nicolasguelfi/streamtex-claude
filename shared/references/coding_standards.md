@@ -96,6 +96,49 @@ stx.st_html('<div>long content</div>', height=600, scrolling=True)
 ```
 
 ## 6. Critical Layout Rules
+
+### Fundamental rule: use the most specific `stx.*` component
+
+For each type of content, always use the dedicated `stx.*` component when one exists.
+It is **forbidden** to simulate a component with more generic functions (`st_write`, `st_html`, markdown).
+
+| Content type | MUST use | NEVER simulate with |
+|--------------|----------|---------------------|
+| Lists / enumerations | `st_list()` + `l.item()` | `st_write("- item")`, bullets `•`/`‣` in text, `\n`-separated items |
+| Grids / columns | `st_grid()` + `g.cell()` | Multiple `st.columns()`, HTML tables |
+| Images | `st_image()` | `st.image()`, `st.markdown("![]()")` |
+| Code blocks | `st_code()` | `st.code()`, markdown fenced blocks |
+| Spacing | `st_space()`, `st_br()` | Empty `st_write("")`, `st.markdown("<br>")` |
+
+### Lists — MANDATORY `st_list()` usage
+
+Any enumeration of 2 or more items MUST use `st_list()`. Never simulate a list
+with successive `st_write()` calls, markdown dashes, or unicode bullets.
+
+```python
+# BAD — simulated list (no proper indentation, no bullets, no consistent styling)
+st_write(bs.body, "- First point")
+st_write(bs.body, "- Second point")
+st_write(bs.body, "- Third point")
+
+# BAD — bullets in text (bypasses list rendering engine)
+st_write(bs.body, "• First point\n• Second point\n• Third point")
+
+# BAD — markdown list in st_write (no style control, no export support)
+st_write(bs.body, "1. First\n2. Second\n3. Third")
+
+# GOOD — proper styled list with correct rendering, export support, and style control
+with st_list(l_style=bs.body, li_style=bs.body, list_type=lt.unordered) as l:
+    with l.item(): st_write(bs.body, "First point")
+    with l.item(): st_write(bs.body, "Second point")
+    with l.item(): st_write(bs.body, "Third point")
+
+# GOOD — ordered list
+with st_list(l_style=bs.body, li_style=bs.body, list_type=lt.ordered) as l:
+    with l.item(): st_write(bs.body, "Step one")
+    with l.item(): st_write(bs.body, "Step two")
+```
+
 1. **Inline text**: Multiple `st_write()` calls STACK VERTICALLY. For inline mixed-style text, use ONE `st_write()` with tuple arguments:
    ```python
    # WRONG — stacks vertically

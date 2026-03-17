@@ -177,6 +177,7 @@ Next steps:
 - Always include a title block (Blueprint 1) and a conclusion block (Blueprint 10)
 - No raw HTML/CSS — use only `stx.*` functions
 - No hardcoded black/white — use the style system
+- Use the most specific `stx.*` component for each content type: `st_list()` for lists (never `st_write("- item")`), `st_grid()` for layouts, `st_image()` for images, `st_code()` for code blocks
 - If the project is already scaffolded (`book.py` exists), adapt rather than recreate
 
 ## Constraints

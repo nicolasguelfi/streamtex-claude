@@ -119,7 +119,7 @@ with st_block(s.project.containers.bad_callout):
 - Key defaults to remember:
   - `st_write`: tag=Tags.span, toc_lvl=None, link="", hover=True
   - `st_grid`: cols=2, grid_style=none, cell_styles=none
-  - `st_list`: list_type=lt.unordered, l_style=none, li_style=none
+  - `st_list`: list_type=lt.unordered, l_style=none, li_style=none — **MANDATORY for any enumeration of 2+ items** (never simulate with `st_write("- item")` or unicode bullets)
   - `st_image`: width="100%", height="auto"
   - `st_ai_image`: provider=from config, size="1024x1024", quality="standard"
   - `st_space`: direction="v", size="1em"

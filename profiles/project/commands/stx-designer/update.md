@@ -98,6 +98,7 @@ If the mode is ambiguous, state what you detected and ask for confirmation.
    - Standard imports, `BlockStyles` class, `bs` alias, `build()` function
    - Content adapted to the user's description using the blueprint structure
    - **MANDATORY: At least one `st_write(...)` with `toc_lvl="1"` as the first significant heading.** Without this, the block will be invisible in the sidebar and floating navigation bar (markers are auto-generated from TOC level-1 entries via `auto_marker_on_toc`). Even if the user does not explicitly ask for a title, always include one.
+   - **MANDATORY: Use the most specific `stx.*` component for each content type.** In particular, any enumeration of 2+ items MUST use `st_list()` with `l.item()` — never simulate lists with successive `st_write()` calls, markdown dashes (`"- item"`), or unicode bullets (`"• item"`). See `coding_standards.md` section 6 for BAD/GOOD patterns.
    - When the user requests an **interactive AI image** (or "image AI editable/modifiable"), use `st_ai_image_widget(...)`. The widget is inherently interactive — the user can modify the prompt and regenerate the image without any additional parameter.
 5. **Show wiring instructions**: Tell the user how to add the block to `book.py`:
    ```python

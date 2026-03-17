@@ -79,6 +79,7 @@ For each block file, check:
 - [ ] No raw HTML strings (`<div`, `<span`, `<style`, `unsafe_allow_html`)
 - [ ] No raw CSS strings outside of `Style()` or `ns()` constructors
 - [ ] Uses `stx.*` functions, not raw `st.*` for content
+- [ ] No simulated lists — any enumeration of 2+ items must use `st_list()` with `l.item()`, not successive `st_write()` with dashes/bullets (`"- item"`, `"• item"`, `"1. item"`), nor `\n`-separated bullet text in a single `st_write()`
 
 #### Visual design (ERROR)
 - [ ] `build()` wraps content in `with st_block(s.center_txt):`
