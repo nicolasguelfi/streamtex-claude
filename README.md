@@ -17,7 +17,7 @@
 
 **AI profiles for [StreamTeX](https://github.com/nicolasguelfi/streamtex)** — build presentations, courses, and web-books with slash commands and agents, no coding required.
 
-> Install a profile to get **25 slash commands**, **3 specialized agents**, **6 blueprints**,
+> Install a profile to get **up to 31 slash commands**, **3 specialized agents**, **8 blueprints**,
 > coding standards, and a project-specific CLAUDE.md — all tailored to your use case.
 
 ## Quick Start for End-Users
@@ -91,10 +91,10 @@ stx update
 
 | Profile | Audience | Commands | Agents | Skills | Key Use Cases |
 |---------|----------|:--------:|:------:|:------:|---------------|
-| **project** | Content creators, teachers | 19 | 3 | 5 | Create projects, design slides, migrate HTML, audit design |
-| **presentation** | Live presenters | +3 | +1 | +2 | All of `project` + live projection rules (48pt+ fonts, 10-20m) |
-| **library** | Library contributors | 3 | — | 2 | Test, lint, deploy the StreamTeX library |
-| **documentation** | Manual authors | 10 | 2 | 3 | Multi-manual coordination, course generation |
+| **project** | Content creators, teachers | 24 | 3 | 8 | Create projects, design slides, migrate HTML, audit design |
+| **presentation** | Live presenters | +3 | +1 | +3 | All of `project` + live projection rules (48pt+ fonts, 10-20m) |
+| **library** | Library contributors | 4 | — | 3 | Test, lint, deploy the StreamTeX library |
+| **documentation** | Manual authors | 11 | 2 | 5 | Multi-manual coordination, course generation |
 
 ## Installation
 
@@ -148,7 +148,7 @@ your-project/
 
 ## Command Overview
 
-### stx-designer Commands (5) — Project lifecycle
+### stx-designer Commands (12) — Project lifecycle
 
 | Command | What it does |
 |---------|-------------|

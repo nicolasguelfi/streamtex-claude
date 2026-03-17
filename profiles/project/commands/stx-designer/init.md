@@ -131,6 +131,7 @@ For each block:
    - Configure `TOCConfig(numbering=NumberingMode.SIDEBAR_ONLY, sidebar_max_level=2, search=True)`
    - Configure `st_book()` with the list of blocks in order
    - Enable chosen features (pagination, TOC, banner, marker)
+   - Add default `exports=[...]` config with `ExportMode.NEVER` (HTML + PDF), so users can enable auto-export later by changing `NEVER` to `ALWAYS`
 
 3. Adapt `custom/styles.py`:
    - Define the chosen color palette

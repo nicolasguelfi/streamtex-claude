@@ -616,10 +616,10 @@ the project's `helpers.py`, or per-call with the `config=` parameter.
 
 Call `add_slide_break_options()` in `book.py` alongside `add_zoom_options()`
 to add sidebar controls for enabling/disabling slide breaks, selecting the
-mode, and adjusting spacer height. The low-level `inject_slide_break_css()`
-injects CSS variables (`--stx-break-space`, `--stx-break-thickness`,
-`--stx-break-opacity`, `--stx-break-rule-display`, `--stx-break-spacer-display`)
-that `st_slide_break()` uses for runtime display and sizing control.
+mode, and adjusting spacer height. CSS variables (`--stx-break-space`,
+`--stx-break-thickness`, `--stx-break-opacity`, `--stx-break-rule-display`,
+`--stx-break-spacer-display`) control runtime display and sizing of
+`st_slide_break()`.
 
 ### PDF export
 

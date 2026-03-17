@@ -201,11 +201,15 @@ If the project has presentation skills (`.claude/designer/presentation/` exists 
 
 ### Workflow
 
-1. **Check export readiness**: Verify `book.py` has `export=True` (default)
-2. **Audit export-aware widgets**: Scan all `bck_*.py` for bare `st.*` widget calls that should be `stx.*`
-3. **Check image assets**: Verify all `st_image(uri=...)` references exist
-4. **Report issues** and suggest fixes
-5. **Show export instructions**: Launch app and use the "Download HTML" button
+1. **Check export readiness**: Verify `book.py` has an `exports=[...]` list in `st_book()`. If missing, add default configs with `ExportMode.NEVER`.
+2. **Configure exports**: Help the user set up `ExportConfig` entries:
+   - `format`: `"html"` or `"pdf"`
+   - `mode`: `ExportMode.ALWAYS` (auto-export after render), `ExportMode.MANUAL` (sidebar panel), `ExportMode.NEVER` (disabled)
+   - `output_dir`, `filename`, `timestamp` (adds `-YYMMDD-HHMMSS` suffix)
+   - `pdf`: optional `PdfConfig(format="A4", landscape=True, ...)` for PDF exports
+3. **Audit export-aware widgets**: Scan all `bck_*.py` for bare `st.*` widget calls that should be `stx.*`
+4. **Check image assets**: Verify all `st_image(uri=...)` references exist
+5. **Report issues** and suggest fixes
 
 ---
 

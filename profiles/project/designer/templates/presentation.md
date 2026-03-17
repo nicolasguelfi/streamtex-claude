@@ -68,6 +68,7 @@ from streamtex import (
     st_book, TOCConfig, MarkerConfig,
     set_presentation_config, PresentationConfig,
     set_slide_break_config, SlideBreakConfig, SlideBreakMode,
+    PdfConfig, ExportConfig, ExportMode,
 )
 
 # Presentation configuration (fullscreen 16:9)
@@ -84,6 +85,32 @@ set_slide_break_config(SlideBreakConfig(
     fullscreen=True,
     marker=True,
 ))
+
+st_book(
+    module_list,
+    toc_config=toc,
+    marker_config=marker,
+    paginate=True,
+    banner=BannerConfig.full(),
+    # Auto-export to disk (disabled by default — change NEVER to ALWAYS to enable)
+    exports=[
+        ExportConfig(
+            format="html",
+            mode=ExportMode.NEVER,
+            output_dir="./exports",
+            filename="my-presentation",
+            timestamp=True,
+        ),
+        ExportConfig(
+            format="pdf",
+            mode=ExportMode.NEVER,
+            output_dir="./exports",
+            filename="my-presentation",
+            timestamp=True,
+            pdf=PdfConfig(format="A4", landscape=True),
+        ),
+    ],
+)
 ```
 
 ## Block Naming Convention

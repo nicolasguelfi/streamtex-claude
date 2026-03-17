@@ -37,6 +37,11 @@ Standard StreamTeX project for screen viewing.
 
 ```python
 # book.py configuration
+from streamtex import (
+    st_book, TOCConfig, NumberingMode, MarkerConfig, BannerConfig,
+    PdfConfig, ExportConfig, ExportMode,
+)
+
 toc = TOCConfig(
     numbering=NumberingMode.SIDEBAR_ONLY,
     sidebar_max_level=2,
@@ -50,6 +55,24 @@ st_book(
     marker_config=marker,
     paginate=True,
     banner=BannerConfig.full(),
+    # Auto-export to disk (disabled by default — change NEVER to ALWAYS to enable)
+    exports=[
+        ExportConfig(
+            format="html",
+            mode=ExportMode.NEVER,
+            output_dir="./exports",
+            filename="my-project",
+            timestamp=True,
+        ),
+        ExportConfig(
+            format="pdf",
+            mode=ExportMode.NEVER,
+            output_dir="./exports",
+            filename="my-project",
+            timestamp=True,
+            pdf=PdfConfig(format="A4", landscape=True),
+        ),
+    ],
 )
 ```
 
