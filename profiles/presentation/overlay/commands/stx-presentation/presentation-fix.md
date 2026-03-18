@@ -68,6 +68,7 @@ set_presentation_config(PresentationConfig(
     title="...",
     aspect_ratio="16/9",
     footer=True,
+    counter_mode="bloc",       # "bloc" (sections) or "slide" (markers, synced with nav bar)
     center_content=True,
     hide_streamlit_header=True,
 ))

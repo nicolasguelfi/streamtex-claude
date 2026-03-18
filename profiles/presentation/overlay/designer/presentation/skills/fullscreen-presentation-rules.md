@@ -120,6 +120,10 @@ Each block should end with a slide break (or begin with one after the first slid
 **Never generate footer content manually.** Use `PresentationConfig(footer=True)`
 which renders a consistent footer automatically via `st_presentation_footer()`.
 
+Two counter modes are available via `counter_mode`:
+- `"bloc"` (default): shows "Bloc N / M" — counts sections/modules (static, server-side).
+- `"slide"`: shows "Slide N / M" — counts markers, synced with the floating navigation bar (dynamic, JS-driven).
+
 ### WRONG
 ```python
 # Manual footer in block
@@ -132,5 +136,6 @@ st_write(s.small, "Course Title — Page 3")
 set_presentation_config(PresentationConfig(
     title="My Presentation",
     footer=True,
+    counter_mode="bloc",   # or "slide" to sync with marker navigation bar
 ))
 ```
