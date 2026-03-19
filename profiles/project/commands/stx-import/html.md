@@ -1,16 +1,30 @@
-Migrate HTML content to a StreamTeX block.
+# /stx-import:html — Import HTML content into a StreamTeX block
 
-The user will provide raw HTML (typically from a Google Docs export) either inline or as a file path.
+Migrate HTML content (typically from a Google Docs export) to a StreamTeX block.
 
-Arguments: $ARGUMENTS (optional: block name or file path to HTML)
+Arguments: $ARGUMENTS
 
-## Mandatory Pre-Reading
+## Argument parsing
 
-Before starting, read ALL of these:
-1. `.cursor/rules/streamtex/html-migration/RULE.md`
-2. `.cursor/rules/streamtex/html-migration/color-fidelity/RULE.md`
-3. `documentation/streamtex_cheatsheet_en.md`
-4. Existing blocks in the target project (for style conventions and patterns already in use)
+Parse `$ARGUMENTS` as: `[BLOCK_NAME | FILE_PATH]`
+
+- **BLOCK_NAME**: Name of the block to create (e.g. `bck_ethics_overview`)
+- **FILE_PATH**: Path to an HTML file to import
+
+### Examples
+
+```
+/stx-import:html bck_ethics_overview
+/stx-import:html ./exports/page.html
+```
+
+## Required readings BEFORE execution
+
+1. `.claude/developer/agents/import-converter.md` — import agent role
+2. `.claude/developer/skills/import-conventions.md` — shared import rules
+3. `.claude/import-formats/html/conventions.md` — HTML-specific rules
+4. `.claude/references/coding_standards.md` — coding rules
+5. Existing blocks in the target project (for style conventions already in use)
 
 ## Phase 1: Analysis (Internal)
 
@@ -44,20 +58,6 @@ Before starting, read ALL of these:
 
 After the first complete implementation:
 1. **Re-read the source HTML** top-to-bottom. For each element, confirm a corresponding structure exists in the block.
-2. **Re-read the migration rules** (both html-migration and color-fidelity).
+2. **Re-read the import rules** (both shared and HTML-specific conventions).
 3. **Fix any mismatches**: update styles, layout, or content.
-4. **Run the migration checklist**:
-   - [ ] No raw HTML strings
-   - [ ] Semantic style names (not c1/c2)
-   - [ ] Images renamed per convention
-   - [ ] Lists use stx.st_list
-   - [ ] Inline content uses ONE st_write with tuples
-   - [ ] Font sizes included on link styles where needed
-   - [ ] stx.st_br() for line breaks
-   - [ ] st_grid with cell_styles for tables
-   - [ ] No hardcoded black/white
-   - [ ] Bold and italic correctly applied
-   - [ ] All non-default text colors mapped
-   - [ ] All non-default background/border colors mapped
-   - [ ] Color-mapping summary in BlockStyles
-   - [ ] Color sanity check passed (3-5 key elements verified)
+4. **Run the verification checklist** from `.claude/import-formats/html/conventions.md`.

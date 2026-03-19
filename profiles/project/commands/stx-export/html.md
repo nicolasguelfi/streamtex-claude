@@ -1,8 +1,23 @@
+# /stx-export:html — Export StreamTeX project to HTML
+
 Guide the HTML export of a StreamTeX presentation to a self-contained HTML file.
 
-Arguments: $ARGUMENTS (optional: project path, e.g. "projects/project_myproject")
+Arguments: $ARGUMENTS
 
-## Steps
+## Argument parsing
+
+Parse `$ARGUMENTS` as: `[PROJECT_PATH]`
+
+- **PROJECT_PATH**: Path to the project (default: current directory)
+
+### Examples
+
+```
+/stx-export:html
+/stx-export:html ./projects/cours-python
+```
+
+## Workflow
 
 1. **Identify the target project**: Use $ARGUMENTS or the current working directory. Read the project's `book.py`.
 

@@ -68,7 +68,7 @@ from streamtex import (
     st_book, TOCConfig, MarkerConfig,
     set_presentation_config, PresentationConfig,
     set_slide_break_config, SlideBreakConfig, SlideBreakMode,
-    PdfConfig, ExportConfig, ExportMode,
+    PdfConfig, ExportConfig, ExportMode, PresentationProfile,
 )
 
 # Presentation configuration (fullscreen 16:9)
@@ -110,6 +110,8 @@ st_book(
             pdf=PdfConfig(format="A4", landscape=True),
         ),
     ],
+    # Display profiles: Presenter + Audience + Handout (phone icon in sidebar & floating bar)
+    presentation_profiles=PresentationProfile.presentation_preset(),
 )
 ```
 

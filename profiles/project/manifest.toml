@@ -10,20 +10,27 @@ extends = ""
 stx-designer = ["init.md", "update.md", "audit.md", "fix.md", "tool.md", "slide-new.md", "slide-audit.md", "slide-fix.md", "style-audit.md", "style-refactor.md", "block-new.md", "block-preview.md"]
 stx-developer = ["test-run.md", "lint.md"]
 stx-project = ["collection-new.md", "course-generate.md", "project-customize.md", "project-init.md", "project-upgrade.md"]
-stx-migration = ["conversion-audit.md", "html-convert-batch.md", "html-convert-block.md", "html-export.md", "html-migrate.md"]
+stx-import = ["marp.md", "marp-analyze.md", "html.md", "html-block.md", "html-batch.md", "html-audit.md"]
+stx-export = ["html.md"]
+stx-deploy = ["preflight.md", "provision.md", "secure.md", "install-coolify.md", "configure-domain.md", "deploy.md", "deploy-batch.md", "setup-loadbalancer.md", "update.md", "status.md", "scale.md"]
 
 [skills]
 designer = ["slide-design-rules.md", "visual-design-rules.md", "style-conventions.md", "streamtex-quick-reference.md", "block-blueprints.md"]
-developer = ["testing-patterns.md", "stx-migrate.md", "docs-lookup.md"]
+developer = ["testing-patterns.md", "stx-migrate.md", "docs-lookup.md", "hetzner-infrastructure.md", "import-conventions.md"]
 
 [agents]
 designer = ["slide-designer.md", "slide-reviewer.md", "project-architect.md"]
+developer = ["deploy-operator.md", "import-converter.md"]
 
 [templates]
 designer = ["project.md", "presentation.md", "collection.md", "course.md"]
 
 [tools]
 designer = ["survey-convert.md"]
+
+[import-formats]
+marp = ["conventions.md", "steps/", "profiles/"]
+html = ["conventions.md"]
 
 [shared]
 references = ["coding_standards.md", "streamtex_cheatsheet_en.md", "presentation_cheatsheet_en.md"]

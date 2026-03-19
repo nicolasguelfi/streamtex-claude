@@ -87,6 +87,7 @@ CATEGORY_PATHS = {
     "tools": {
         "designer": "designer/tools",
     },
+    "import-formats": "import-formats",
 }
 
 
@@ -181,7 +182,8 @@ def install_profile(profile_name: str, target_dir: Path,
             print(f"  Overlaid {count} files from '{profile_name}'")
     else:
         # Copy files from manifest categories
-        for category in ["commands", "skills", "agents", "templates", "tools"]:
+        for category in ["commands", "skills", "agents", "templates", "tools",
+                         "import-formats"]:
             if category not in manifest:
                 continue
             for subdir, files in manifest[category].items():
@@ -190,12 +192,16 @@ def install_profile(profile_name: str, target_dir: Path,
                 dst_dir = target_claude / fs_path
                 dst_dir.mkdir(parents=True, exist_ok=True)
                 for filename in files:
-                    src_file = src_dir / filename
-                    if not src_file.exists():
-                        print(f"  Warning: {src_file} not found, skipping")
+                    src_entry = src_dir / filename
+                    if not src_entry.exists():
+                        print(f"  Warning: {src_entry} not found, skipping")
                         continue
-                    shutil.copy2(src_file, dst_dir / filename)
-                    total_files += 1
+                    if src_entry.is_dir():
+                        count = _copy_tree(src_entry, dst_dir / filename)
+                        total_files += count
+                    else:
+                        shutil.copy2(src_entry, dst_dir / filename)
+                        total_files += 1
 
     # Copy shared resources (read-only copies)
     if "shared" in manifest:

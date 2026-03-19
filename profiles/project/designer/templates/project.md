@@ -39,7 +39,7 @@ Standard StreamTeX project for screen viewing.
 # book.py configuration
 from streamtex import (
     st_book, TOCConfig, NumberingMode, MarkerConfig, BannerConfig,
-    PdfConfig, ExportConfig, ExportMode,
+    PdfConfig, ExportConfig, ExportMode, PresentationProfile,
 )
 
 toc = TOCConfig(
@@ -73,6 +73,8 @@ st_book(
             pdf=PdfConfig(format="A4", landscape=True),
         ),
     ],
+    # Display profiles: Desktop + Mobile (phone icon in sidebar & floating bar)
+    presentation_profiles=PresentationProfile.desktop_mobile_preset(),
 )
 ```
 
