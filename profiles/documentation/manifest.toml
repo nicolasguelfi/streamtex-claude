@@ -1,24 +1,14 @@
 # profiles/documentation/manifest.toml
 # Manual and documentation authoring profile (Nicolas)
+# Inherits ALL project commands + shared resources, adds coherence tools
 
 [profile]
 name = "documentation"
 description = "Manual and documentation authoring"
-extends = ""
+extends = "project"
 
-[commands]
-stx-designer = ["slide-new.md", "slide-audit.md", "slide-fix.md", "style-audit.md", "style-refactor.md", "block-new.md", "block-preview.md"]
-stx-developer = ["test-run.md", "lint.md"]
-stx-project = ["course-generate.md"]
-stx-coherence = ["audit.md"]
-
-[skills]
-designer = ["slide-design-rules.md", "visual-design-rules.md", "style-conventions.md", "streamtex-quick-reference.md"]
-developer = ["coherence-checks.md"]
-
-[agents]
-designer = ["slide-designer.md", "slide-reviewer.md"]
+# Overlay adds:
+#   developer/skills/coherence-checks.md — documentation-specific coherence rules
 
 [shared]
-references = ["coding_standards.md", "streamtex_cheatsheet_en.md", "presentation_cheatsheet_en.md"]
-commands = ["stx-guide.md", "stx-issue"]
+commands = ["stx-coherence"]

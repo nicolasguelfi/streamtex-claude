@@ -68,6 +68,16 @@ except ModuleNotFoundError:
 PROFILES_DIR = Path(__file__).parent / "profiles"
 SHARED_DIR = Path(__file__).parent / "shared"
 
+# Mapping from shared/ subdirectory to target .claude/ subdirectory.
+# e.g. shared/skills/foo.md → .claude/developer/skills/foo.md
+SHARED_DEST_PATHS: dict[str, str] = {
+    "references": "references",
+    "commands": "commands",
+    "skills": "developer/skills",
+    "agents": "developer/agents",
+    "import-formats": "import-formats",
+}
+
 # Mapping from manifest category to filesystem paths
 CATEGORY_PATHS = {
     "commands": "commands",
@@ -207,7 +217,8 @@ def install_profile(profile_name: str, target_dir: Path,
     if "shared" in manifest:
         for subdir, files in manifest["shared"].items():
             src_dir = SHARED_DIR / subdir
-            dst_dir = target_claude / subdir
+            dest_subdir = SHARED_DEST_PATHS.get(subdir, subdir)
+            dst_dir = target_claude / dest_subdir
             dst_dir.mkdir(parents=True, exist_ok=True)
             for entry_name in files:
                 src_entry = src_dir / entry_name

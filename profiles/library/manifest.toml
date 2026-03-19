@@ -1,18 +1,16 @@
 # profiles/library/manifest.toml
 # StreamTeX library development profile (Nicolas)
+# Inherits ALL project commands + shared resources, adds library-specific tools
 
 [profile]
 name = "library"
 description = "StreamTeX library development"
-extends = ""
+extends = "project"
 
-[commands]
-stx-developer = ["test-run.md", "lint.md", "deploy.md"]
-stx-coherence = ["audit.md"]
-
-[skills]
-developer = ["architecture.md", "testing-patterns.md", "coherence-checks.md"]
+# Overlay adds:
+#   commands/stx-developer/deploy.md   — PyPI publication
+#   developer/skills/architecture.md   — library architecture overview
+#   developer/skills/coherence-checks.md — coherence check rules
 
 [shared]
-references = ["coding_standards.md", "streamtex_cheatsheet_en.md"]
-commands = ["stx-guide.md", "stx-issue"]
+commands = ["stx-coherence"]
