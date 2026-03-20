@@ -1,6 +1,6 @@
 # Coherence Check Rules
 
-Reference file for `/stx-coherence:audit`. Defines 20 check categories.
+Reference file for `/stx-coherence:audit`. Defines 22 check categories.
 
 ---
 
@@ -16,9 +16,11 @@ Reference file for `/stx-coherence:audit`. Defines 20 check categories.
 - INFO if an export appears in blocks but has no `show_code()` example
 - SKIP internal names (prefixed with `_`), type aliases, and re-exports of enums
 
+**Presentation exports to verify**: `PresentationConfig`, `set_presentation_config`, `get_presentation_config`, `st_presentation_footer`, `add_presentation_options`
+
 **Known exceptions** (not expected in blocks):
 - Low-level exports: `export_append`, `export_push_wrapper`, `export_pop_wrapper`, `generate_export_html`, `reset_export_buffer`, `is_export_active`
-- Config internals: `get_block_helper_config`, `get_bib_config`, `get_gsheet_config`, `get_link_config`, `get_bib_registry`, `reset_bib_registry`, `get_ai_image_config`, `get_slide_break_config`
+- Config internals: `get_block_helper_config`, `get_bib_config`, `get_gsheet_config`, `get_link_config`, `get_bib_registry`, `reset_bib_registry`, `get_ai_image_config`, `get_slide_break_config`, `get_presentation_config`
 - Parser internals: `parse_bibtex_string`, `parse_ris_string`, `register_bib_parser`
 - Utility re-exports: `generate_bib_stubs`, `export_bibtex`, `load_css`, `exec_static`, `resolve_content`, `inject_link_preview_scaffold`, `add_wrap_all_option`, `add_slide_break_options`
 - Error/result types: `AIImageError`, `AIImageResult`, `BibParseError`, `GSheetError`
@@ -34,7 +36,7 @@ Reference file for `/stx-coherence:audit`. Defines 20 check categories.
 
 **Source files**:
 - `streamtex/streamtex/__init__.py` (exports)
-- Key module files: `write.py`, `code.py`, `book.py`, `grid.py`, `list.py`, `container.py`, `block_helpers.py`
+- Key module files: `write.py`, `code.py`, `book.py`, `grid.py`, `list.py`, `container.py`, `block_helpers.py`, `presentation.py`
 
 **Target files**:
 - `streamtex-claude/shared/references/streamtex_cheatsheet_en.md`
@@ -44,6 +46,7 @@ Reference file for `/stx-coherence:audit`. Defines 20 check categories.
 - WARNING if a function's signature (new parameter) is not reflected in the cheatsheet
 - ERROR if the coding standards recommend a pattern that contradicts current library behavior
 - WARNING if the cheatsheet documents a function that no longer exists in `__init__.py`
+- WARNING if `presentation.py` signatures (`PresentationConfig`, `set_presentation_config`, `get_presentation_config`, `st_presentation_footer`, `add_presentation_options`) are missing from the cheatsheet
 
 **How to check signatures**: For each major function, read the `def` line in the source module. Compare parameter names with those listed in the cheatsheet.
 
@@ -92,14 +95,20 @@ Reference file for `/stx-coherence:audit`. Defines 20 check categories.
 
 ---
 
-## Check 5: Version Alignment (scope: all)
+## Check 5: Version Alignment (scope: library, all)
 
-**Goal**: Library version satisfies all dependency constraints.
+**Goal**: Library version is consistent across all locations and satisfies all dependency constraints.
 
-**Source**: `streamtex/pyproject.toml` → `[project] version`
+**Source files**:
+- `streamtex/pyproject.toml` → `[project] version`
+- `streamtex/streamtex/__init__.py` → `__version__`
+- `streamtex/CHANGELOG.md` → latest `## [X.Y.Z]` entry
+
 **Targets**: All `pyproject.toml` files in `streamtex-docs/`, `projects/*/`
 
 **Rules**:
+- ERROR if `pyproject.toml` version differs from `__init__.py` `__version__`
+- ERROR if CHANGELOG.md latest entry version differs from `pyproject.toml` version
 - WARNING if library version doesn't satisfy a `streamtex>=X.Y.Z` constraint
 - INFO: report current library version and all constraints found
 
@@ -153,6 +162,7 @@ Reference file for `/stx-coherence:audit`. Defines 20 check categories.
 - WARNING if a profile listed by `install.py --list` is missing from stx-guide
 - WARNING if a manual in `streamtex-docs/manuals/` is missing from Section 2 layout
 - WARNING if a gotcha in Section 5 references deprecated behavior
+- WARNING if topic "presentation" is missing from the topics table or does not document PresentationConfig
 - WARNING if CLI templates documented in stx-guide do not match `AVAILABLE_TEMPLATES` in `install_cmd.py`
 - WARNING if presets documented in stx-guide do not match `PRESET_ORDER` in `workspace_cmd.py`
 - WARNING if the distinction between CLI templates and stx-designer templates is not documented
@@ -301,6 +311,7 @@ Then for each code block, parse function calls and verify parameter names and en
 
 **Rules**:
 - WARNING if a source module with public functions has no corresponding test file
+- WARNING if `test_presentation.py` does not exist (presentation module must have dedicated tests)
 - INFO: report module → test file mapping and coverage ratio
 
 **Known exceptions** (modules not expected to have dedicated test files):
@@ -471,6 +482,7 @@ Then for each `show_code()` string, parse function calls and verify keyword argu
 | `from streamtex import ExportConfig` | — | Constructor parameters |
 | `from streamtex import BannerConfig` | — | Constructor parameters |
 | `from streamtex import AIImageConfig` | — | Constructor parameters |
+| `from streamtex import PresentationConfig` | — | Constructor parameters (`title`, `aspect_ratio`, `footer`, `center_content`, `hide_streamlit_header`, `enforce_ratio`) |
 | `from custom.styles import Styles` | `s` | Project-specific (skip — not library) |
 
 **Rules**:
@@ -532,7 +544,21 @@ for cls in [PdfConfig, ExportConfig, BannerConfig]:
 
 ---
 
-## Check 17: Manifest File Existence (scope: profiles, all)
+## Check 17: CHANGELOG Freshness (scope: library, all)
+
+**Goal**: The CHANGELOG.md accurately reflects the current library version and recent changes.
+
+**Source**: `streamtex/CHANGELOG.md` + `streamtex/pyproject.toml` (version)
+
+**Rules**:
+- ERROR if the library version in `pyproject.toml` has no matching `## [X.Y.Z]` entry in CHANGELOG.md
+- WARNING if the latest CHANGELOG entry has no `### Added`, `### Changed`, `### Fixed`, or `### Removed` subsection
+- WARNING if CHANGELOG entries are not in reverse chronological order
+- INFO: report current library version and latest CHANGELOG version
+
+---
+
+## Check 18: Manifest File Existence (scope: profiles, all)
 
 **Goal**: Every file declared in a profile's `manifest.toml` must physically exist at the path resolved by `install.py`'s `CATEGORY_PATHS` mapping.
 
@@ -568,7 +594,7 @@ for cls in [PdfConfig, ExportConfig, BannerConfig]:
 
 ---
 
-## Check 18: CLI Template Registry Sync (scope: profiles, all)
+## Check 19: CLI Template Registry Sync (scope: profiles, all)
 
 **Goal**: The CLI template registry, the `click.Choice` validator, the template directories on disk, and the documentation are all synchronized.
 
@@ -602,9 +628,11 @@ for cls in [PdfConfig, ExportConfig, BannerConfig]:
 
 ---
 
-## Check 19: GitHub Issue Template & Command Sync (scope: profiles, all)
+## Check 20: GitHub Issue Template & Command Sync (scope: profiles, all)
 
 **Goal**: All three StreamTeX repositories have consistent GitHub issue templates, and the shared `stx-issue/` command directory exists with all 6 command files.
+
+**Why this check is critical**: Issue templates ensure a consistent experience for users creating issues via the web or via `/stx-issue:*`. Missing templates in one repo but not others creates confusion. Missing command files cause silent installation failures.
 
 **Source files**:
 - `streamtex/.github/ISSUE_TEMPLATE/` → bug_report.md, feature_request.md, question.md, docs.md
@@ -613,19 +641,29 @@ for cls in [PdfConfig, ExportConfig, BannerConfig]:
 - `streamtex-claude/shared/commands/stx-issue/` → 6 files: bug.md, feature.md, question.md, docs.md, comment.md, list.md
 - `streamtex-claude/profiles/*/manifest.toml` → `[shared] commands` must include `"stx-issue"`
 
+**Method**:
+1. For each repo (streamtex, streamtex-docs, streamtex-claude):
+   - Verify `.github/ISSUE_TEMPLATE/` directory exists
+   - Verify all 4 template files exist: `bug_report.md`, `feature_request.md`, `question.md`, `docs.md`
+   - Verify templates have correct YAML frontmatter (name, about, labels)
+2. Verify `shared/commands/stx-issue/` contains all 6 files: `bug.md`, `feature.md`, `question.md`, `docs.md`, `comment.md`, `list.md`
+3. Verify all profiles include `"stx-issue"` in their `[shared] commands` list
+4. Verify stx-guide.md references `/stx-issue:*` in topics table and Section 6
+5. Verify NO profile still has `stx-project = ["issue.md"]` or `commands/stx-project/issue.md`
+
 **Rules**:
 - ERROR if a repo is missing `.github/ISSUE_TEMPLATE/` directory
 - ERROR if any of the 4 template files is missing from a repo
 - ERROR if `shared/commands/stx-issue/` is missing any of the 6 command files
 - ERROR if a profile does not include `"stx-issue"` in `[shared] commands`
 - ERROR if any profile still has `commands/stx-project/issue.md` (orphan from old structure)
-- WARNING if issue templates differ between repos
+- WARNING if issue templates differ between repos (content should be consistent)
 - WARNING if stx-guide.md does not reference `/stx-issue:*`
 - INFO: report template existence status across all repos and profiles
 
 ---
 
-## Check 20: Command Namespace stx- Prefix Convention (scope: profiles, all)
+## Check 21: Command Namespace stx- Prefix Convention (scope: profiles, all)
 
 **What**: All command namespace directories and their references must use the `stx-` prefix convention. No bare namespace directories (e.g. `developer/`, `project/`, `designer/`) should exist under `commands/`.
 
@@ -648,3 +686,74 @@ for cls in [PdfConfig, ExportConfig, BannerConfig]:
 - ERROR if any file contains a bare namespace slash command reference (e.g. `/developer:test-run` instead of `/stx-developer:test-run`)
 - WARNING if any file contains a bare namespace path reference (e.g. `commands/project/` instead of `commands/stx-project/`)
 - INFO: report all namespace directories found and their prefix status
+
+---
+
+## Check 22: Release & Deploy Pipeline Coherence (scope: library, all)
+
+**Goal**: The release pipeline (git tag → PyPI → lock file → Render deploy → GitHub Release) is fully consistent. Every step must be completed and synchronized.
+
+**Why this check is critical**: Missing any step in the release pipeline causes silent failures: Render installs the wrong version from PyPI, GitHub shows an outdated "Latest" badge, lock files reference non-existent versions, or users install an old version. This check was added after a session where multiple pipeline steps were skipped, causing hours of debugging.
+
+**Source files**:
+- `streamtex/pyproject.toml` → `[project] version`
+- `streamtex/streamtex/__init__.py` → `__version__`
+- `streamtex/CHANGELOG.md` → latest `## [X.Y.Z]` entry
+- Git tags: `git tag --sort=-creatordate | head -1`
+- PyPI: `curl -s https://pypi.org/pypi/streamtex/json | python3 -c "import sys,json; print(json.load(sys.stdin)['info']['version'])"`
+- `streamtex-docs/uv.lock` → `name = "streamtex"` version
+- GitHub Releases: `gh release list -R nicolasguelfi/streamtex --limit 1`
+- Render deploy: `gh run list -R nicolasguelfi/streamtex-docs --workflow=render-deploy.yml --limit=1 --json conclusion`
+
+**Method**:
+1. Read the library version from `pyproject.toml` and `__init__.py` — they MUST match
+2. Read the latest CHANGELOG entry version — MUST match library version
+3. Read the latest git tag — MUST match library version (format: `vX.Y.Z`)
+4. Query PyPI for the latest published version — MUST match library version
+5. Read `streamtex-docs/uv.lock` streamtex version — MUST match PyPI version
+6. Query GitHub Releases for the latest release — MUST match library version
+7. Query the last Render deploy workflow run — MUST be `success`
+
+**Rules**:
+- ERROR if `pyproject.toml` version ≠ `__init__.py` `__version__`
+- ERROR if CHANGELOG latest entry ≠ library version
+- ERROR if latest git tag ≠ `v{library_version}`
+- ERROR if PyPI latest version ≠ library version (library not published)
+- ERROR if `streamtex-docs/uv.lock` streamtex version ≠ PyPI latest (lock file stale)
+- ERROR if no GitHub Release exists for the library version
+- WARNING if the latest Render deploy workflow run is `failure`
+- WARNING if the GitHub Release for the library version is not marked as "Latest"
+- INFO: report the complete pipeline state (version, tag, PyPI, lock, release, deploy)
+
+**How to check** (automated):
+```bash
+# Library version
+LIB_VER=$(grep 'version =' streamtex/pyproject.toml | head -1 | sed 's/.*"\(.*\)".*/\1/')
+INIT_VER=$(grep '__version__' streamtex/streamtex/__init__.py | sed 's/.*"\(.*\)".*/\1/')
+CHANGELOG_VER=$(grep '^## \[' streamtex/CHANGELOG.md | head -1 | sed 's/.*\[\(.*\)\].*/\1/')
+GIT_TAG=$(cd streamtex && git tag --sort=-creatordate | head -1)
+PYPI_VER=$(curl -s https://pypi.org/pypi/streamtex/json | python3 -c "import sys,json; print(json.load(sys.stdin)['info']['version'])")
+LOCK_VER=$(grep -A1 'name = "streamtex"' streamtex-docs/uv.lock | grep version | head -1 | sed 's/.*"\(.*\)".*/\1/')
+GH_RELEASE=$(gh release list -R nicolasguelfi/streamtex --limit 1 --json tagName,isLatest -q '.[0].tagName')
+RENDER_STATUS=$(gh run list -R nicolasguelfi/streamtex-docs --workflow=render-deploy.yml --limit=1 --json conclusion -q '.[0].conclusion')
+
+echo "pyproject.toml: $LIB_VER"
+echo "__init__.py:    $INIT_VER"
+echo "CHANGELOG:      $CHANGELOG_VER"
+echo "Git tag:        $GIT_TAG"
+echo "PyPI:           $PYPI_VER"
+echo "Lock file:      $LOCK_VER"
+echo "GitHub Release: $GH_RELEASE"
+echo "Render deploy:  $RENDER_STATUS"
+```
+
+**Release pipeline checklist** (correct order):
+1. Bump version in `pyproject.toml` + `__init__.py` + `CHANGELOG.md`
+2. Commit + push to GitHub
+3. `uv build && uv publish --token $PYPI_TOKEN`
+4. `git tag vX.Y.Z && git push origin vX.Y.Z`
+5. `gh release create vX.Y.Z --title "..." --notes "..." --latest`
+6. Update `streamtex-docs/uv.lock`: `uv lock --upgrade-package streamtex`
+7. Commit + push streamtex-docs
+8. `gh workflow run render-deploy.yml -R nicolasguelfi/streamtex-docs`
+9. Verify deploy success
