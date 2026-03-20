@@ -257,7 +257,7 @@ Projects are identified by the `.claude/.stx-profile` marker file.
 - **[StreamTeX](https://github.com/nicolasguelfi/streamtex)** — Core library (Python API)
 - **[AI Guide](https://github.com/nicolasguelfi/streamtex/blob/main/AI_GUIDE.md)** — Complete zero-code workflow guide
 - **[StreamTeX Docs](https://github.com/nicolasguelfi/streamtex-docs)** — Interactive manuals and examples
-- **[Online Manuals](https://streamtex.onrender.com)** — Live documentation
+- **[Online Manuals](https://docs.streamtex.ros.lu)** — Live documentation
 
 ## Dependencies
 
