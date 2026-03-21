@@ -98,6 +98,30 @@ cd manuals/stx_manuals_collection && stx run
 - To add a slash command: create `.claude/commands/my-cmd/run.md` (commands go in `commands/`, not `custom/commands/`)
 - See `.claude/custom/README.md` for full details
 
+## Staging Workflow
+Staging (`https://docs-staging.streamtex.org`) runs on Hetzner/Coolify with `Dockerfile.staging`.
+It installs the streamtex lib from a **git branch** at container startup (not from PyPI).
+
+### Commands (`deploy-staging.sh`)
+```bash
+./deploy-staging.sh --lib-branch fix/foo                    # lib branch only
+./deploy-staging.sh --lib-branch fix/foo --docs-branch fix/bar  # both branches
+./deploy-staging.sh --status                                # show session + staleness
+./deploy-staging.sh --cleanup                               # reset to main/main
+./deploy-staging.sh --conclude                              # merge branches → main
+```
+
+### Rules (MANDATORY)
+- **NEVER push staging infra changes to `streamtex-docs/main`** — triggers prod redeploy of all services
+- For `Dockerfile.staging`, `staging-banner.sh`, `deploy-staging.sh` changes: create a branch, use `--docs-branch`
+- The staging banner shows lib branch, commit, version, docs branch, commit, and deploy time
+- After validation: merge branches → main (use `--conclude` or manual merge + cleanup)
+
+### Technical constraints
+- Container uses `/app/.venv/bin/` binaries directly (not `uv run`) to avoid lockfile re-sync
+- `uv pip install --no-cache` to avoid stale git refs
+- Docs git info passed as Coolify env vars (`.git/` excluded from Docker image by `.dockerignore`)
+
 ## Workflows
 1. **New Block** -> Read coding_standards.md, inspect existing blocks (`/stx-designer:update` add block)
 2. **New Slide** -> Read designer skills (`/stx-designer:update` add slide)
