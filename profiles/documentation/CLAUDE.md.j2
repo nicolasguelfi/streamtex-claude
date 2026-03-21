@@ -6,7 +6,7 @@ You NEVER write standard Streamlit code for content rendering.
 You ALWAYS use the `streamtex` library (`stx.*` functions) instead of raw `st.*` calls.
 
 ## Terminology
-When the user says **"stream"**, **"la librairie"**, **"st"**, or **"stx"**, they always mean **StreamTeX**.
+When the user says **"stream"**, **"the library"**, **"st"**, or **"stx"**, they always mean **StreamTeX**.
 
 ## Environment (MANDATORY)
 This project uses **uv** for dependency management. You MUST:
@@ -43,7 +43,7 @@ See `.claude/references/coding_standards.md` for the full reference. Key rules:
 - `st_markdown(style, file=)` — Markdown rendering (Streamlit native engine)
 
 ### Organization & Navigation
-- `st_book(blocks, paginate=True|False, view_modes=[ViewMode.PAGINATED, ViewMode.CONTINUOUS])` — Book orchestration with paginated/continuous modes; `view_modes` restricts which modes are available (single-mode hides the radio button)
+- `st_book(blocks, paginate=True|False, loading=True)` — Book orchestration with paginated/continuous modes + loading overlay
 - `st_collection(config)` — Multi-project collection system
 
 ### Styling
@@ -53,12 +53,27 @@ See `.claude/references/coding_standards.md` for the full reference. Key rules:
 
 ### Media & Visual
 - `st_image(style, src)` — Image handling with base64 encoding
+- `st_ai_image(prompt, ...)` — AI image generation + display (requires `streamtex[ai]`)
+- `st_image(style, uri=, editable=True, name=, prompt=)` — Unified image with editing panel (replaces st_ai_image for new code)
+- `get_available_models(provider)` — List available AI models per provider
+- `st_ai_image_widget(...)` — Interactive AI image generation widget
 - `st_code(style, code=, language=)` — Code blocks with Pygments
 - `st_space(dir, amount)`, `st_br()` — Spacing
+- `st_slide_break()` — Presentation section break (styled rule + viewport spacer + hidden marker)
 - `st_mermaid(style, code)` — Mermaid diagrams
 - `st_plantuml(style, code)` — PlantUML diagrams
 - `st_tikz(style, code)` — TikZ diagrams via LaTeX pipeline
 - `st_latex(style, code)` — LaTeX math rendering
+
+### Export
+- `st_export(config)`, `st_html()` — HTML export with ExportConfig
+- `st_book(..., pdf_config=PdfConfig(...))` — PDF settings passed to st_book for the sidebar UI
+- `st_book(..., exports=[ExportConfig(...)])` — Auto-export to disk (list of configs, one per output file)
+- `ExportConfig(format, mode, output_dir, filename, timestamp, pdf)` — Auto-export configuration
+- `ExportMode.ALWAYS` / `ExportMode.MANUAL` / `ExportMode.NEVER` — When to export
+- `export_pdf(html, output_path, config)` — PDF export via Playwright (requires `streamtex[pdf]`)
+- `PdfConfig(mode, format, landscape, scale, margins, page_numbers, ...)` — PDF configuration
+- `PdfMode.CONTINUOUS` / `PdfMode.PAGINATED` — How slide breaks are handled in PDF
 
 ### Block Infrastructure
 - `ProjectBlockRegistry` — Lazy-loading block registry
@@ -71,7 +86,9 @@ See `.claude/references/coding_standards.md` for the full reference. Key rules:
 ├── manuals/
 │   ├── stx_manual_intro/       # Introduction course
 │   ├── stx_manual_advanced/    # Advanced features
+│   ├── stx_manual_ai/          # AI & Claude integration
 │   ├── stx_manual_deploy/      # Deployment guide
+│   ├── stx_manual_developer/   # Developer guide
 │   ├── stx_manuals_collection/ # Collection hub
 │   └── shared-blocks/          # Shared block library
 ├── references/
@@ -79,7 +96,8 @@ See `.claude/references/coding_standards.md` for the full reference. Key rules:
 │   └── streamtex_cheatsheet_en.md  # Syntax reference
 └── templates/
     ├── template_project/       # Project starter template
-    └── template_collection/    # Collection starter template
+    ├── template_collection/    # Collection starter template
+    └── template_slides/        # Presentation slides template (fullscreen 16/9)
 ```
 
 ## Running Manuals
@@ -88,7 +106,29 @@ cd manuals/stx_manual_intro && stx run
 cd manuals/stx_manual_advanced && stx run
 cd manuals/stx_manual_deploy && stx run
 cd manuals/stx_manuals_collection && stx run
+# With options:
+stx run --port 8510 --browser chrome
 ```
+
+## Critical Gotchas (code generation)
+
+### `show_explanation()` is a function, NOT a context manager
+`show_explanation("text")` creates a box, writes the text, and **closes the box** on return.
+Anything that follows (st_list, st_write, etc.) is rendered **outside** the box.
+- **BAD**: `show_explanation("intro")` followed by `st_list(...)` → list outside the box
+- **GOOD**: `with st_block(s.project.containers.explanation_box):` then `st_write(...)` + `st_list(...)` inside
+- Same logic for `show_details()` and `show_code()` — they are functions, not context managers
+
+### `from streamtex import *` shadows `list()`
+`st_list` overrides the Python builtin `list()`. Use `[*iterable]` instead of `list(iterable)`.
+
+### Multiple inline styles: ONE `st_write` with tuples
+Multiple `st_write` calls stack vertically. For inline text with different styles:
+`st_write(s.Large, (s.red, "Red "), (s.blue, "Blue"))` — single call.
+
+## CLI — Unified install/upgrade command
+Always use `uv tool install "streamtex[cli]" -U` in docs and user instructions.
+This command works for both installation AND upgrade. Do NOT use `uv tool upgrade` (fails if not already installed).
 
 ## Customization
 - `.claude/` contains **read-only** files installed by `stx claude update` — do not modify them
@@ -98,33 +138,12 @@ cd manuals/stx_manuals_collection && stx run
 - To add a slash command: create `.claude/commands/my-cmd/run.md` (commands go in `commands/`, not `custom/commands/`)
 - See `.claude/custom/README.md` for full details
 
-## Staging Workflow
-Staging (`https://docs-staging.streamtex.org`) runs on Hetzner/Coolify with `Dockerfile.staging`.
-It installs the streamtex lib from a **git branch** at container startup (not from PyPI).
-
-### Commands (`deploy-staging.sh`)
-```bash
-./deploy-staging.sh --lib-branch fix/foo                    # lib branch only
-./deploy-staging.sh --lib-branch fix/foo --docs-branch fix/bar  # both branches
-./deploy-staging.sh --status                                # show session + staleness
-./deploy-staging.sh --cleanup                               # reset to main/main
-./deploy-staging.sh --conclude                              # merge branches → main
-```
-
-### Rules (MANDATORY)
-- **NEVER push staging infra changes to `streamtex-docs/main`** — triggers prod redeploy of all services
-- For `Dockerfile.staging`, `staging-banner.sh`, `deploy-staging.sh` changes: create a branch, use `--docs-branch`
-- The staging banner shows lib branch, commit, version, docs branch, commit, and deploy time
-- After validation: merge branches → main (use `--conclude` or manual merge + cleanup)
-
-### Technical constraints
-- Container uses `/app/.venv/bin/` binaries directly (not `uv run`) to avoid lockfile re-sync
-- `uv pip install --no-cache` to avoid stale git refs
-- Docs git info passed as Coolify env vars (`.git/` excluded from Docker image by `.dockerignore`)
-
-## Workflows
-1. **New Block** -> Read coding_standards.md, inspect existing blocks (`/stx-designer:update` add block)
-2. **New Slide** -> Read designer skills (`/stx-designer:update` add slide)
-3. **Generate Course** -> Generate book.py from blocks.csv (`/stx-designer:update` generate course)
-4. **Testing** -> `uv run pytest tests/ -v` (`/stx-developer:test-run`)
-5. **Linting** -> `uv run ruff check` (`/stx-developer:lint`)
+## Workflows — stx-designer Commands
+1. **Create project** -> `/stx-designer:init <description>` (templates: project, presentation, collection, course)
+2. **Add content** -> `/stx-designer:update add a new block about X`
+3. **Customize** -> `/stx-designer:update change palette to blue/violet`
+4. **Audit quality** -> `/stx-designer:audit --all` or `/stx-designer:audit --target bck_intro`
+5. **Fix issues** -> `/stx-designer:fix --all`
+6. **Tools** -> `/stx-designer:tool survey-convert`
+7. **Testing** -> `uv run pytest tests/ -v` (`/stx-developer:test-run`)
+8. **Linting** -> `uv run ruff check` (`/stx-developer:lint`)
