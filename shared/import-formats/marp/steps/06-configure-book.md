@@ -28,6 +28,7 @@ st_book(
     [...],
     paginate=True,
     banner=BannerConfig.hidden(),
+    view_modes=[ViewMode.PAGINATED, ViewMode.CONTINUOUS],
     page_width=100,
     zoom=80,
     ...
@@ -43,6 +44,7 @@ st_book(
     [...],
     paginate=False,              # continuous scroll
     banner=BannerConfig.hidden(),
+    view_modes=[ViewMode.PAGINATED, ViewMode.CONTINUOUS],
     page_width=90,               # narrower for readability
     zoom=100,
     ...

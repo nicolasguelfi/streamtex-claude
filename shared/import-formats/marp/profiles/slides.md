@@ -50,6 +50,7 @@ st_book(
     [...],
     paginate=True,
     banner=BannerConfig.hidden(),
+    view_modes=[ViewMode.PAGINATED, ViewMode.CONTINUOUS],
     page_width=100,
     zoom=80,
 )
