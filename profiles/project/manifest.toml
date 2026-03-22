@@ -10,22 +10,26 @@ extends = ""
 stx-designer = ["init.md", "update.md", "audit.md", "fix.md", "tool.md", "slide-new.md", "slide-audit.md", "slide-fix.md", "style-audit.md", "style-refactor.md", "block-new.md", "block-preview.md"]
 stx-developer = ["test-run.md", "lint.md"]
 stx-project = ["collection-new.md", "course-generate.md", "project-customize.md", "project-init.md", "project-upgrade.md"]
+stx-ce = ["collect.md", "assess.md", "plan.md", "produce.md", "review.md", "compound.md", "go.md"]
 
 [skills]
 designer = ["slide-design-rules.md", "visual-design-rules.md", "style-conventions.md", "streamtex-quick-reference.md", "block-blueprints.md"]
 developer = ["testing-patterns.md", "stx-migrate.md", "docs-lookup.md"]
+ce = ["ce-collect.md", "ce-assess.md", "ce-plan.md", "ce-produce.md", "ce-review.md", "ce-compound.md", "ce-go.md"]
 
 [agents]
 designer = ["slide-designer.md", "slide-reviewer.md", "project-architect.md"]
+ce = ["source-scanner.md", "import-assessor.md", "audience-analyst.md", "content-strategist.md", "gap-analyst.md", "format-explorer.md", "angle-generator.md", "structure-architect.md", "domain-researcher.md", "learnings-researcher.md", "audience-advocate.md", "pedagogy-analyst.md", "visual-reviewer.md", "style-consistency-checker.md", "content-editor.md"]
 
 [templates]
 designer = ["project.md", "presentation.md", "collection.md", "course.md"]
+ce = ["collect-report.md", "assess-import.md", "assess-improve.md", "assess-create.md", "plan-import.md", "plan-improve.md", "plan-create.md", "review-report.md", "solution.md"]
 
 [tools]
 designer = ["survey-convert.md"]
 
 [shared]
-references = ["coding_standards.md", "streamtex_cheatsheet_en.md", "presentation_cheatsheet_en.md"]
+references = ["coding_standards.md", "streamtex_cheatsheet_en.md", "presentation_cheatsheet_en.md", "ce_cheatsheet_en.md"]
 commands = ["stx-guide.md", "stx-issue", "stx-import", "stx-export", "stx-deploy"]
 skills = ["import-conventions.md", "hetzner-infrastructure.md"]
 agents = ["import-converter.md", "deploy-operator.md"]

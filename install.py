@@ -85,14 +85,17 @@ CATEGORY_PATHS = {
         "designer": "designer/skills",
         "developer": "developer/skills",
         "presentation": "designer/presentation/skills",
+        "ce": "ce/skills",
     },
     "agents": {
         "designer": "designer/agents",
         "developer": "developer/agents",
         "presentation": "designer/presentation/agents",
+        "ce": "ce/agents",
     },
     "templates": {
         "designer": "designer/templates",
+        "ce": "ce/templates",
     },
     "tools": {
         "designer": "designer/tools",

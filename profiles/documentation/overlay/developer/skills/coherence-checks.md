@@ -1,6 +1,6 @@
 # Coherence Check Rules
 
-Reference file for `/stx-coherence:audit`. Defines 22 check categories.
+Reference file for `/stx-coherence:audit`. Defines 28 check categories.
 
 ---
 
@@ -764,3 +764,86 @@ echo "Render deploy:  $RENDER_STATUS"
 7. Commit + push streamtex-docs
 8. `gh workflow run render-deploy.yml -R nicolasguelfi/streamtex-docs`
 9. Verify deploy success
+
+---
+
+## Check 23: CE Agent Sync
+
+**Scope:** profiles
+**Severity:** ERROR if missing, WARNING if outdated
+
+Verify that all 15 CE agents declared in `manifest.toml` under `[agents] ce = [...]` exist in `.claude/ce/agents/` and match the source files in `streamtex-claude/profiles/project/ce/agents/`.
+
+**Expected agents:** source-scanner, import-assessor, audience-analyst, content-strategist, gap-analyst, format-explorer, angle-generator, structure-architect, domain-researcher, learnings-researcher, audience-advocate, pedagogy-analyst, visual-reviewer, style-consistency-checker, content-editor
+
+---
+
+## Check 24: CE Template Sync
+
+**Scope:** profiles
+**Severity:** ERROR if missing, WARNING if outdated
+
+Verify that all 9 CE templates declared in `manifest.toml` under `[templates] ce = [...]` exist in `.claude/ce/templates/` and match the source files in `streamtex-claude/profiles/project/ce/templates/`.
+
+**Expected templates:** collect-report, assess-import, assess-improve, assess-create, plan-import, plan-improve, plan-create, review-report, solution
+
+---
+
+## Check 25: CE Docs Structure
+
+**Scope:** blocks
+**Severity:** WARNING if missing
+
+For projects with stx-ce installed (detected by presence of `.claude/ce/` or `.claude/commands/stx-ce/`), verify that the `docs/` directory structure exists with the expected subdirectories.
+
+**Expected structure:**
+```
+docs/
+  collect/
+  assess/
+  plans/
+  reviews/
+  solutions/
+    structure/
+    style/
+    content/
+    process/
+    pedagogy/
+    assets/
+    deployment/
+    import/
+```
+
+Note: Empty directories are acceptable (project may not have used all phases yet).
+
+---
+
+## Check 26: CE Cheatsheet Sync
+
+**Scope:** profiles
+**Severity:** WARNING if missing or outdated
+
+Verify that `ce_cheatsheet_en.md` exists in `.claude/references/` and is listed in the manifest's `[shared] references` array. Check that the cheatsheet lists all 7 commands and 15 agents.
+
+---
+
+## Check 27: CE Command Registration
+
+**Scope:** profiles
+**Severity:** ERROR if missing
+
+Verify that all 7 `/stx-ce:*` commands exist in `.claude/commands/stx-ce/` and match the source files.
+
+**Expected commands:** collect, assess, plan, produce, review, compound, go
+
+---
+
+## Check 28: CE Plan-Solution Coherence
+
+**Scope:** blocks
+**Severity:** WARNING if inconsistent
+
+For projects with `docs/plans/` containing completed plans (marked DONE):
+- Verify that referenced blocks exist in `blocks/`
+- Verify that `docs/solutions/` contains at least one entry per completed plan (capitalization was performed)
+- Check that solution frontmatter categories match the 8 expected values
