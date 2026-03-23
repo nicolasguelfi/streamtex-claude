@@ -51,14 +51,20 @@ Process the following flags before starting:
 
 - Run `/stx-ce:review`.
 - **GATE**: The user must validate the review results. Present the review summary and wait for approval.
-- If the user requests fixes: run `/stx-ce:review --fix` to auto-fix automatable issues.
 
-#### Step 6: COMPOUND
+#### Step 6: FIX
+
+- Run `/stx-ce:fix` to correct automatable findings from the review.
+- If `--review-only` is set: skip this step unless the user explicitly requests fixes.
+- **GATE**: The user must validate the fix results. Propose re-review (`/stx-ce:review`) or continue to COMPOUND.
+- If the user requests re-review: loop back to Step 5 (REVIEW → FIX can iterate).
+
+#### Step 7: COMPOUND
 
 - Run `/stx-ce:compound` to capitalize learnings.
-- This step always runs unless `--review-only` was set.
+- This step always runs unless `--review-only` was set and the user declined fixes.
 
-#### Step 7: Final Report
+#### Step 8: Final Report
 
 Produce a comprehensive summary covering:
 
@@ -68,11 +74,25 @@ Produce a comprehensive summary covering:
 4. **Cycle statistics**: total time, phases completed, gates passed.
 5. **Recommendations**: suggested next actions (new cycle, further improvements, deployment).
 
+### Development Governance
+
+At cycle start (before Step 1), record the current git commit hash of each ecosystem repo (streamtex, streamtex-claude, streamtex-docs) if they exist in the workspace. This baseline is used by COMPOUND Axis 3 to compute diffs.
+
+At any point during the cycle, if Claude is asked to modify an ecosystem repo:
+1. Consult the **dev-governance** agent for branch check and convention guidance.
+2. Apply the soft-block pattern: warn if on main, propose branch creation, accept user choice.
+3. This applies to both `/stx-ce:*` commands and direct user requests.
+
+For the user's document project (in `projects/`), if `branch_suggestions: true` in the producer profile:
+- Before PRODUCE: propose creating a branch `ce/<plan-name>`.
+- Before FIX: propose creating a branch `ce/fix/<review-name>`.
+- The user can decline without blocking.
+
 ### Pipeline Mode
 
 When running from `/stx-ce:go`, individual phases operate in pipeline mode:
 
-- Phases do not ask for user input except at designated GATEs (after PLAN and after REVIEW).
+- Phases do not ask for user input except at designated GATEs (after PLAN, after REVIEW, and after FIX).
 - Phases auto-detect context from previous phase outputs rather than prompting.
 - Error handling: if a phase fails, report the error, save progress, and ask the user whether to retry, skip, or abort.
 - Progress is saved so the cycle can be resumed if interrupted.

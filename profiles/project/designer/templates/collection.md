@@ -69,6 +69,11 @@ path = "../project-1"
 cover = "static/images/covers/project1.png"
 ```
 
+## Compound Engineering (optional)
+
+Use `/stx-ce:go "description"` to produce this collection with the full CE cycle.
+See `.claude/references/ce_cheatsheet_en.md`.
+
 ## Reference files
 
 - `streamtex-docs/templates/template_collection/` — canonical template

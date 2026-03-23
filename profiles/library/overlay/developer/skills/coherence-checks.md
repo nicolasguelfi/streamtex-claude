@@ -764,3 +764,101 @@ echo "Render deploy:  $RENDER_STATUS"
 7. Commit + push streamtex-docs
 8. `gh workflow run render-deploy.yml -R nicolasguelfi/streamtex-docs`
 9. Verify deploy success
+
+---
+
+## Check 23: CE Agent Sync (scope: profiles, all)
+
+**Goal**: All 17 CE agents declared in `manifest.toml` exist as files in `ce/agents/`.
+
+**Source files**: `streamtex-claude/profiles/project/manifest.toml` — `[agents] ce` list.
+
+**Target files**: `streamtex-claude/profiles/project/ce/agents/*.md`
+
+**Rules**:
+- ERROR if a manifest entry has no corresponding `.md` file in `ce/agents/`
+- ERROR if a `.md` file exists in `ce/agents/` but is not listed in the manifest
+- INFO: report total agents declared vs found
+
+**Expected agents (17)**: source-scanner, import-assessor, audience-analyst, content-strategist, gap-analyst, format-explorer, angle-generator, structure-architect, domain-researcher, learnings-researcher, audience-advocate, pedagogy-analyst, visual-reviewer, style-consistency-checker, content-editor, feedback-detector, dev-governance.
+
+---
+
+## Check 24: CE Template Sync (scope: profiles, all)
+
+**Goal**: All 12 CE templates declared in `manifest.toml` exist as files in `ce/templates/`.
+
+**Source files**: `streamtex-claude/profiles/project/manifest.toml` — `[templates] ce` list.
+
+**Target files**: `streamtex-claude/profiles/project/ce/templates/*.md`
+
+**Rules**:
+- ERROR if a manifest entry has no corresponding `.md` file in `ce/templates/`
+- ERROR if a `.md` file exists in `ce/templates/` but is not listed in the manifest
+- INFO: report total templates declared vs found
+
+**Expected templates (12)**: collect-report, assess-import, assess-improve, assess-create, plan-import, plan-improve, plan-create, review-report, solution, producer-profile, feedback-summary, dev-report.
+
+---
+
+## Check 25: CE Docs Structure (scope: projects, all)
+
+**Goal**: Projects with CE profile installed have the correct `docs/` directory structure.
+
+**Scope**: All directories in `projects/` with `.claude/.stx-profile` marker.
+
+**Rules**:
+- WARNING if `docs/` directory does not exist (CE artifacts have nowhere to go)
+- WARNING if any of the 5 required subdirectories are missing: `collect/`, `assess/`, `plans/`, `reviews/`, `solutions/`
+- WARNING if `docs/solutions/` is missing any of the 9 category subdirectories: `structure/`, `style/`, `content/`, `process/`, `pedagogy/`, `assets/`, `deployment/`, `import/`, `governance/`
+- INFO: report projects scanned and structure status
+
+---
+
+## Check 26: CE Cheatsheet Sync (scope: profiles, all)
+
+**Goal**: The CE cheatsheet is present, up-to-date, and consistent with the manifest.
+
+**Source files**: `streamtex-claude/shared/references/ce_cheatsheet_en.md`
+
+**Rules**:
+- ERROR if `ce_cheatsheet_en.md` does not exist
+- ERROR if the cheatsheet does not list all 8 commands (`collect`, `assess`, `plan`, `produce`, `review`, `fix`, `compound`, `go`)
+- WARNING if the cheatsheet agent count does not match manifest (expected: 17)
+- WARNING if the cheatsheet template count does not match manifest (expected: 12)
+- WARNING if the cheatsheet does not mention the 7-phase cycle with FIX
+- INFO: report cheatsheet presence and consistency
+
+---
+
+## Check 27: CE Command Registration (scope: profiles, all)
+
+**Goal**: All 8 CE commands declared in `manifest.toml` exist as files in `commands/stx-ce/`.
+
+**Source files**: `streamtex-claude/profiles/project/manifest.toml` — `[commands] stx-ce` list.
+
+**Target files**: `streamtex-claude/profiles/project/commands/stx-ce/*.md`
+
+**Rules**:
+- ERROR if a manifest entry has no corresponding `.md` file in `commands/stx-ce/`
+- ERROR if a `.md` file exists in `commands/stx-ce/` but is not listed in the manifest
+- WARNING if the corresponding skill file in `ce/skills/` does not exist for each command
+- INFO: report total commands declared vs found
+
+**Expected commands (8)**: collect, assess, plan, produce, review, fix, compound, go.
+**Expected skills (8)**: ce-collect, ce-assess, ce-plan, ce-produce, ce-review, ce-fix, ce-compound, ce-go.
+
+---
+
+## Check 28: CE Plan-Solution Coherence (scope: projects, all)
+
+**Goal**: CE artifacts within a project are internally consistent.
+
+**Scope**: All projects in `projects/` that have a `docs/plans/` directory with at least one plan file.
+
+**Rules**:
+- WARNING if a plan references block names (e.g., `bck_xxx`) that do not exist in `blocks/`
+- WARNING if `docs/reviews/` contains a review but `docs/plans/` is empty (review without plan)
+- WARNING if `docs/solutions/` contains solutions but `docs/reviews/` is empty (compound without review)
+- WARNING if `docs/solutions/producer-profile.md` has `projects_count` > 0 but `last_updated` is more than 90 days old (stale profile)
+- INFO: report CE artifact presence and coherence per project

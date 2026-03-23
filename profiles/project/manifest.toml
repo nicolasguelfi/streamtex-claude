@@ -10,20 +10,20 @@ extends = ""
 stx-designer = ["init.md", "update.md", "audit.md", "fix.md", "tool.md", "slide-new.md", "slide-audit.md", "slide-fix.md", "style-audit.md", "style-refactor.md", "block-new.md", "block-preview.md"]
 stx-developer = ["test-run.md", "lint.md"]
 stx-project = ["collection-new.md", "course-generate.md", "project-customize.md", "project-init.md", "project-upgrade.md"]
-stx-ce = ["collect.md", "assess.md", "plan.md", "produce.md", "review.md", "compound.md", "go.md"]
+stx-ce = ["collect.md", "assess.md", "plan.md", "produce.md", "review.md", "fix.md", "compound.md", "go.md"]
 
 [skills]
 designer = ["slide-design-rules.md", "visual-design-rules.md", "style-conventions.md", "streamtex-quick-reference.md", "block-blueprints.md"]
 developer = ["testing-patterns.md", "stx-migrate.md", "docs-lookup.md"]
-ce = ["ce-collect.md", "ce-assess.md", "ce-plan.md", "ce-produce.md", "ce-review.md", "ce-compound.md", "ce-go.md"]
+ce = ["ce-collect.md", "ce-assess.md", "ce-plan.md", "ce-produce.md", "ce-review.md", "ce-fix.md", "ce-compound.md", "ce-go.md"]
 
 [agents]
 designer = ["slide-designer.md", "slide-reviewer.md", "project-architect.md"]
-ce = ["source-scanner.md", "import-assessor.md", "audience-analyst.md", "content-strategist.md", "gap-analyst.md", "format-explorer.md", "angle-generator.md", "structure-architect.md", "domain-researcher.md", "learnings-researcher.md", "audience-advocate.md", "pedagogy-analyst.md", "visual-reviewer.md", "style-consistency-checker.md", "content-editor.md"]
+ce = ["source-scanner.md", "import-assessor.md", "audience-analyst.md", "content-strategist.md", "gap-analyst.md", "format-explorer.md", "angle-generator.md", "structure-architect.md", "domain-researcher.md", "learnings-researcher.md", "audience-advocate.md", "pedagogy-analyst.md", "visual-reviewer.md", "style-consistency-checker.md", "content-editor.md", "feedback-detector.md", "dev-governance.md"]
 
 [templates]
 designer = ["project.md", "presentation.md", "collection.md", "course.md"]
-ce = ["collect-report.md", "assess-import.md", "assess-improve.md", "assess-create.md", "plan-import.md", "plan-improve.md", "plan-create.md", "review-report.md", "solution.md"]
+ce = ["collect-report.md", "assess-import.md", "assess-improve.md", "assess-create.md", "plan-import.md", "plan-improve.md", "plan-create.md", "review-report.md", "solution.md", "producer-profile.md", "feedback-summary.md", "dev-report.md"]
 
 [tools]
 designer = ["survey-convert.md"]

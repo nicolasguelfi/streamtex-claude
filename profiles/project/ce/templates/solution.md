@@ -8,10 +8,11 @@ Compound/capitalization document — captures a reusable solution discovered dur
 ---
 title: <solution title>
 date: <YYYY-MM-DD>
-category: <content / style / structure / import / deployment / tooling>
+category: <content / style / structure / import / deployment / tooling / process / pedagogy / assets>
 document_type: <manual / presentation / course / report / collection>
-problem_type: <design / implementation / conversion / layout / interactivity / performance>
+problem_type: <pattern / antipattern / technique / workaround>
 pathway: <A: IMPORT / B: IMPROVE / C: CREATE / A+B / mixed>
+scope: <specific / generic>
 tags: [<tag1>, <tag2>, <tag3>]
 ---
 

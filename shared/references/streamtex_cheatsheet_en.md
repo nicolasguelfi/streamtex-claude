@@ -2108,6 +2108,27 @@ dark = {
 }
 ```
 
+## Compound Document Engineering (stx-ce)
+
+StreamTeX includes a structured document production methodology. Full reference: `ce_cheatsheet_en.md`.
+
+```
+COLLECT -> ASSESS -> PLAN -> PRODUCE -> REVIEW -> FIX -> COMPOUND
+```
+
+| Command | Description |
+|---------|-------------|
+| `/stx-ce:collect <path>` | Inventory and classify sources |
+| `/stx-ce:assess` | Evaluate material, define objectives |
+| `/stx-ce:plan` | Plan production (auto or `--interactive`) |
+| `/stx-ce:produce` | Execute the plan |
+| `/stx-ce:review` | 5-perspective review |
+| `/stx-ce:fix` | Fix findings with verification |
+| `/stx-ce:compound` | Capitalize (3 axes: production, feedback, governance) |
+| `/stx-ce:go` | Full autonomous cycle with 3 gates |
+
+3 pathways: **A** (import external), **B** (improve existing), **C** (create new).
+
 ## Tips and Best Practices
 
 1. Group common styles in a `BlockStyles` class — one per block

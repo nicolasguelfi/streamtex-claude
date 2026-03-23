@@ -100,6 +100,12 @@ class Styles(StxStyles):
             card = ns("background-color: rgba(255,255,255,0.05); border-radius: 12px; padding: 24px;", "card")
 ```
 
+## Compound Engineering (optional)
+
+Use `/stx-ce:go "description"` to produce this project with the full CE cycle:
+COLLECT -> ASSESS -> PLAN -> PRODUCE -> REVIEW -> FIX -> COMPOUND.
+See `.claude/references/ce_cheatsheet_en.md` for details.
+
 ## Reference files
 
 - `streamtex-docs/templates/template_project/` — rich template with 9 tutorial blocks

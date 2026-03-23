@@ -4,11 +4,12 @@ Skill for the PLAN phase of the Compound Engineering cycle. Create a structured 
 
 ## Workflow
 
-### Phase 0: Load Assessment
+### Phase 0: Load Assessment and Producer Profile
 
 1. Scan `docs/assess/` for the most recent assessment file.
 2. If no assessment is found, inform the user and suggest running `/stx-ce:assess` first. Do not proceed.
 3. Parse the assessment to extract pathway, requirements, audience profile, and gap analysis.
+4. **Producer profile**: If `docs/solutions/producer-profile.md` exists, load it and pass it to the planning agents. The `structure-architect` uses favorite patterns and anti-patterns. The `visual-reviewer` (interactive step 3) uses style preferences to inform design proposals.
 
 ### Phase 1: Research
 

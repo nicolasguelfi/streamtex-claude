@@ -4,13 +4,14 @@ Skill for the ASSESS phase of the Compound Engineering cycle. Evaluate existing 
 
 ## Workflow
 
-### Phase 0: Auto-Detect Pathway
+### Phase 0: Auto-Detect Pathway and Load Producer Profile
 
 1. Check `docs/collect/` for reports containing external sources. If found, enable mode **IMPORT (A)**.
 2. Check if the current directory is a StreamTeX project with a `blocks/` directory. If found, enable mode **IMPROVEMENT (B)**.
 3. If neither condition is met, set mode to **CREATION (C)**.
 4. If both conditions 1 and 2 are met, combine **A+B** (import and improve).
 5. Log the detected pathway for the user.
+6. **Producer profile**: If `docs/solutions/producer-profile.md` exists, load it. Use the producer's style preferences, content preferences, and production priorities to pre-fill form requirements R9-R12 in Phase 2. Inform the user which preferences were pre-filled and allow them to override.
 
 ### Phase 1: Evaluate
 

@@ -4,7 +4,6 @@ Arguments: $ARGUMENTS
 
 ## Options
 
-- `--fix` — Automatically fix automatable findings after review
 - `--perspective <name>` — Run only one perspective (audience|pedagogy|visual|style|editorial)
 - `--help` — Show stx-ce cheatsheet
 
@@ -25,7 +24,6 @@ Findings are classified: CRITICAL / MAJOR / MINOR / SUGGESTION.
 ## Examples
 
 - `/stx-ce:review` — Full 5-perspective review
-- `/stx-ce:review --fix` — Review and auto-fix
 - `/stx-ce:review --perspective visual` — Visual review only
 
 ## Required Readings
@@ -37,4 +35,4 @@ Before executing, read:
 
 ## Workflow
 
-Execute the `ce-review` skill. GATE: Review results presented to user for validation before compound phase.
+Execute the `ce-review` skill. GATE: Review results presented to user for validation. Suggest `/stx-ce:fix` as next step.

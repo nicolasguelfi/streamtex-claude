@@ -56,7 +56,7 @@ Si `$ARGUMENTS` correspond a un **topic** reconnu (voir liste ci-dessous) : repo
 Si `$ARGUMENTS` est une **question libre** en langage naturel : utilise toute la base de connaissances
 pour fournir une reponse contextuelle.
 
-### Topics reconnus (18)
+### Topics reconnus (19)
 
 | Topic | Description |
 |-------|-------------|
@@ -73,6 +73,7 @@ pour fournir une reponse contextuelle.
 | `book` | Orchestration book.py (TOC, markers, banners, zoom) |
 | `ai-images` | Generation d'images IA (OpenAI, Google Imagen, fal.ai) |
 | `presentation` | Mode presentation fullscreen 16/9 |
+| `compound-engineering` | Compound Document Engineering (cycle CE, parcours A/B/C, 8 commandes stx-ce) |
 | `issues` | Creer des issues GitHub avec metadata auto-collectees |
 | `troubleshooting` | Gotchas connus et resolution de problemes |
 | `stx-cli` | Reference complete de toutes les commandes `stx` |
@@ -1166,6 +1167,66 @@ class Styles(StxStyles):
     h1 = Style.create(s.text.sizes.size("40px") + s.bold, "h1")
 # theme["h1"] = "font-size: 48px; ..." pour surcharger globalement
 ```
+
+---
+
+## Section 4e-bis — Compound Document Engineering (topic: `compound-engineering`)
+
+### Qu'est-ce que stx-ce ?
+
+stx-ce est une methodologie structuree pour la production documentaire StreamTeX. Elle couvre le cycle complet : collecte de materiel, evaluation, planification, production, revue, corrections, et capitalisation.
+
+### Le cycle en 7 phases
+
+```
+COLLECT -> ASSESS -> PLAN -> PRODUCE -> REVIEW -> FIX -> COMPOUND
+```
+
+3 **gates** de validation (apres PLAN, REVIEW, et FIX) permettent a l'utilisateur de piloter le processus.
+
+### Les 8 commandes
+
+| Commande | Quand l'utiliser |
+|----------|-----------------|
+| `/stx-ce:collect <chemin>` | Inventorier des sources existantes (HTML, Marp, PDF, Word...) |
+| `/stx-ce:assess` | Definir les objectifs du document (public, contenu, forme, livraison) |
+| `/stx-ce:plan [--interactive]` | Planifier la production (auto ou co-construction en 4 etapes) |
+| `/stx-ce:produce` | Executer le plan (orchestre stx-designer + stx-import) |
+| `/stx-ce:review` | Revue multi-perspective (5 agents : audience, pedagogie, visuel, technique, editorial) |
+| `/stx-ce:fix [--severity LEVEL]` | Corriger les findings de la review avec verification |
+| `/stx-ce:compound` | Capitaliser (3 axes : production, feedback ecosysteme, gouvernance dev) |
+| `/stx-ce:go "description"` | Cycle complet autonome avec 3 gates |
+
+### Les 3 parcours
+
+| Parcours | Depart | Usage typique |
+|----------|--------|--------------|
+| **A (Import)** | Materiel externe | Importer un cours PowerPoint dans StreamTeX |
+| **B (Ameliorer)** | Projet STX existant | Corriger les styles, restructurer, enrichir |
+| **C (Creer)** | Contexte existant | Nouveau document dans un workspace existant |
+
+### Raccourcis
+
+```bash
+# Cycle complet
+/stx-ce:go "une presentation sur les politiques IT"
+
+# Mode rapide (saute COLLECT + ASSESS)
+/stx-ce:go --quick "une intro a Python"
+
+# Importer du materiel
+/stx-ce:go --import ~/cours/info101/ "cours d'introduction"
+
+# Review seule
+/stx-ce:go --review-only
+
+# Mode interactif (co-construction du plan)
+/stx-ce:go --interactive "un manuel de reference"
+```
+
+### Reference complete
+
+Voir `.claude/references/ce_cheatsheet_en.md` pour la reference rapide (17 agents, 12 templates, directory structure, naming conventions).
 
 ---
 

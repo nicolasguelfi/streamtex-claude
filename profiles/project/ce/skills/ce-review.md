@@ -70,13 +70,11 @@ If more than 5 agents would run, switch to serial mode to avoid context saturati
    - Comparison against plan objectives (if available)
 3. **GATE**: Present the review summary to the user and ask for explicit validation.
 
-### Phase 5: Auto-Fix (--fix flag)
+### After Review
 
-Only execute this phase if the `--fix` flag is provided.
+Suggest next steps to the user:
+1. Run `/stx-ce:fix` to correct automatable findings.
+2. Run `/stx-ce:fix --severity MAJOR` to also fix MAJOR findings.
+3. Skip fixes and proceed directly to `/stx-ce:compound` if the review is satisfactory.
 
-1. For each finding that can be automated:
-   - Run `/stx-designer:fix --target <block>` with the specific fix instruction.
-   - Verify the fix resolved the finding.
-2. List remaining findings that require manual intervention, grouped by severity.
-3. If fixes were applied, re-run a quick audit to confirm no regressions.
-4. Suggest next step: run `/stx-ce:compound` to capitalize learnings from this cycle.
+The REVIEW -> FIX cycle can be iterated: after FIX, run `/stx-ce:review` again to validate corrections.

@@ -148,3 +148,8 @@ class Styles(StxStyles):
             question = s.Large + s.italic + s.center_txt
             keyword = s.bold + s.project.colors.accent
 ```
+
+## Compound Engineering (optional)
+
+Use `/stx-ce:go "description"` to produce this presentation with the full CE cycle.
+See `.claude/references/ce_cheatsheet_en.md` for details.

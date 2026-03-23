@@ -4,11 +4,15 @@ Skill for the COLLECT phase of the Compound Engineering cycle. Inventory and cla
 
 ## Workflow
 
-### Phase 0: Resume Check
+### Phase 0: Resume Check and Producer Profile
 
 1. Check if `docs/collect/` exists and contains a previous session file.
 2. If a file matching `YYYY-MM-DD-*-collect.md` exists for today, ask the user whether to resume or start fresh.
 3. If resuming, load the existing report and skip to the phase where it left off.
+4. **Producer profile**: Check if `docs/solutions/producer-profile.md` exists:
+   - If found: load it and inform the user ("Producer profile loaded — your preferences will be used in ASSESS and PLAN phases.").
+   - If not found: remind the user that they can provide a producer profile to personalize the cycle. If they have a profile from another project, offer to copy it into `docs/solutions/producer-profile.md`.
+   - Use the **producer-profile** template from `.claude/ce/templates/` as reference.
 
 ### Phase 1: Scan Sources
 
