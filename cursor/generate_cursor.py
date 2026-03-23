@@ -343,6 +343,7 @@ def convert_skills(source_dir: Path, target_dir: Path,
         ("", source_dir / "designer" / "skills"),
         ("", source_dir / "developer" / "skills"),
         ("pres-", source_dir / "designer" / "presentation" / "skills"),
+        ("ce-", source_dir / "ce" / "skills"),
     ]
 
     for prefix, skill_dir in skill_dirs:
@@ -370,6 +371,7 @@ def convert_agents(source_dir: Path, target_dir: Path,
         ("", source_dir / "designer" / "agents"),
         ("", source_dir / "developer" / "agents"),
         ("pres-", source_dir / "designer" / "presentation" / "agents"),
+        ("ce-", source_dir / "ce" / "agents"),
     ]
 
     warning = (
@@ -409,9 +411,10 @@ def convert_templates(source_dir: Path, target_dir: Path,
                       *, dry_run: bool, verbose: bool,
                       report: ConversionReport) -> None:
     """C7: templates/ -> .cursor/commands/templates/*.md"""
-    tpl_dir = source_dir / "designer" / "templates"
-    if not tpl_dir.exists():
-        return
+    tpl_dirs = [
+        source_dir / "designer" / "templates",
+        source_dir / "ce" / "templates",
+    ]
 
     out_dir = target_dir / "commands" / "templates"
     header = (
@@ -420,20 +423,23 @@ def convert_templates(source_dir: Path, target_dir: Path,
         "> Provide your project description after the slash command.\n\n"
     )
 
-    for md_file in sorted(tpl_dir.glob("*.md")):
-        content = md_file.read_text(encoding="utf-8")
-        # Insert header after H1
-        lines = content.splitlines()
-        insert_idx = 0
-        for i, line in enumerate(lines):
-            if line.startswith("# "):
-                insert_idx = i + 1
-                break
-        lines.insert(insert_idx, "\n" + header)
+    for tpl_dir in tpl_dirs:
+        if not tpl_dir.exists():
+            continue
+        for md_file in sorted(tpl_dir.glob("*.md")):
+            content = md_file.read_text(encoding="utf-8")
+            # Insert header after H1
+            lines = content.splitlines()
+            insert_idx = 0
+            for i, line in enumerate(lines):
+                if line.startswith("# "):
+                    insert_idx = i + 1
+                    break
+            lines.insert(insert_idx, "\n" + header)
 
-        write_file(out_dir / md_file.name, "\n".join(lines),
-                    dry_run=dry_run, verbose=verbose, report=report)
-        report.commands += 1
+            write_file(out_dir / md_file.name, "\n".join(lines),
+                        dry_run=dry_run, verbose=verbose, report=report)
+            report.commands += 1
 
 
 def convert_tools(source_dir: Path, target_dir: Path,

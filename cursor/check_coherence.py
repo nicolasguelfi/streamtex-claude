@@ -258,6 +258,9 @@ def check_new_uncovered_files() -> None:
         "designer/tools/",
         "designer/presentation/skills/",
         "designer/presentation/agents/",
+        "ce/skills/",
+        "ce/agents/",
+        "ce/templates/",
         "references/",
     ]
 
