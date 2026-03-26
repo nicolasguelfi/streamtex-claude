@@ -76,10 +76,10 @@ st_image(uri=img, width="50vh")
 Use `st_grid(cols="1fr 1fr")` for two-column layouts within the content zone.
 
 ```python
-with st_grid(cols="1fr 1fr", gap="2em"):
-    with st_grid_item():
+with st_grid(cols="1fr 1fr", gap="2em") as g:
+    with g.cell():
         st_write(bs.body, "Left column content")
-    with st_grid_item():
+    with g.cell():
         st_image(uri=img, width="100%")
 ```
 

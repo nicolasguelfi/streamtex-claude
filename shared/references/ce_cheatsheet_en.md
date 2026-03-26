@@ -9,7 +9,7 @@ COLLECT -> ASSESS -> PLAN -> PRODUCE -> REVIEW -> FIX -> COMPOUND
    +----------------------------------------------------------+
 ```
 
-## Commands (8)
+## Commands (9)
 
 | Command | Description |
 |---------|-------------|
@@ -21,6 +21,7 @@ COLLECT -> ASSESS -> PLAN -> PRODUCE -> REVIEW -> FIX -> COMPOUND
 | `/stx-ce:fix [--severity LEVEL]` | Fix findings from the latest review with verification |
 | `/stx-ce:compound` | Capitalize learnings (3 axes: production, feedback, governance) |
 | `/stx-ce:go [flags]` | Full autonomous cycle with 3 gates |
+| `/stx-ce:status` | Show CE cycle status for current project |
 
 ## Pathways
 
@@ -87,6 +88,44 @@ COLLECT -> ASSESS -> PLAN -> PRODUCE -> REVIEW -> FIX -> COMPOUND
 |-------|------|
 | `feedback-detector` | Detect ecosystem bugs and missing features from cycle artifacts |
 | `dev-governance` | Verify dev conventions, propose branches and PRs |
+
+## Templates (12)
+
+### COLLECT (1)
+| Template | Purpose |
+|----------|---------|
+| `collect-report` | Source inventory and classification report |
+
+### ASSESS (3)
+| Template | Purpose | Pathway |
+|----------|---------|---------|
+| `assess-import` | Assessment for importing external material | A |
+| `assess-improve` | Assessment for improving existing project | B |
+| `assess-create` | Assessment for creating new document | C |
+
+### PLAN (3)
+| Template | Purpose | Pathway |
+|----------|---------|---------|
+| `plan-import` | Production plan for import pathway | A |
+| `plan-improve` | Production plan for improve pathway | B |
+| `plan-create` | Production plan for create pathway | C |
+
+### REVIEW (1)
+| Template | Purpose |
+|----------|---------|
+| `review-report` | Multi-perspective review report |
+
+### PRODUCE (1)
+| Template | Purpose |
+|----------|---------|
+| `solution` | Capitalized learning / reusable pattern |
+
+### COMPOUND (3)
+| Template | Purpose |
+|----------|---------|
+| `producer-profile` | Persistent producer preferences and learnings |
+| `feedback-summary` | Ecosystem feedback summary (bugs, features) |
+| `dev-report` | Dev governance report (repo changes, PRs) |
 
 ## COMPOUND — 3 Axes of Capitalization
 

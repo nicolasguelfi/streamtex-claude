@@ -388,9 +388,10 @@ def build():
     with st_block(s.center_txt):
         st_write(bs.heading, "Slide Title", toc_lvl="1")
         st_space(size=3)
-        with st_grid(cols="1fr 1fr", gap="32px"):
-            st_image(uri="static/images/illustration.png", width="100%")
-            with st_block():
+        with st_grid(cols="1fr 1fr", gap="32px") as g:
+            with g.cell():
+                st_image(uri="static/images/illustration.png", width="100%")
+            with g.cell():
                 st_write(bs.sub, "Subtitle")
                 st_space(size=2)
                 with st_list(l_style=bs.body, li_style=bs.body) as l:

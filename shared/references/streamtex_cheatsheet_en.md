@@ -116,6 +116,7 @@ st_write(
     toc_lvl=None,                   # TOC level: "1", "+1", "-1"
     label="",                       # Custom TOC entry label
     marker=None,                    # Per-heading marker control (True/False/None=auto)
+    spacing=None,                   # Optional Spacing override (only effective with toc_lvl + auto_marker_on_toc)
 )
 
 # Inline mixed styles — ONE st_write with tuples (multiple calls stack vertically!)
@@ -1827,7 +1828,7 @@ within a block (between `st_slide_break` calls or title markers).
 **5-level override hierarchy**: Built-in → Book (global) → Profile → Block → Call-site.
 
 ```python
-from streamtex import Spacing, SpacingConfig, set_spacing, set_block_spacing
+from streamtex import Spacing, SpacingConfig, set_spacing, get_spacing, set_block_spacing, get_block_spacing
 
 # ── Book-level (book.py) — applies to all blocks and sections ──
 set_spacing(SpacingConfig(
@@ -1854,7 +1855,18 @@ def build():
 # ── Call-site — per slide_break or per st_write title ──
 st_slide_break("Section 2", spacing=Spacing(top="100px", left="15%", right="15%"))
 st_write(bs.heading, "Title", toc_lvl="1", spacing=Spacing(top=0))
+
+# ── Read current config ──
+cfg = get_spacing()              # Returns current global SpacingConfig
+blk = get_block_spacing()        # Returns current block-level Spacing override (or None)
 ```
+
+**Getter functions**:
+
+| Function | Returns | Description |
+|----------|---------|-------------|
+| `get_spacing()` | `SpacingConfig` | Current global spacing config set by `set_spacing()` |
+| `get_block_spacing()` | `Spacing \| None` | Current block-level spacing override set by `set_block_spacing()`, or `None` |
 
 **Spacing fields**:
 

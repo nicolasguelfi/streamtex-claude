@@ -17,11 +17,11 @@ Tu as acces aux CLI suivants et tu PEUX les utiliser pour agir directement :
 | CLI | Version | Usage |
 |-----|---------|-------|
 | `gh` | GitHub CLI | Gerer les repos, PRs, issues, releases (`gh repo`, `gh pr`, `gh api`) |
-| `render` | Render CLI v2 | Gerer les services Render (`render services`, `render deploys`, `render logs`) |
 | `git` | Git | Operations git standard |
 | `uv` | uv | Gestion deps Python, run, build, publish |
 | `stx` | StreamTeX CLI | Commandes StreamTeX (workspace, deploy, publish, etc.) |
 | `docker` | Docker | Build et run de conteneurs |
+| `render` | Render CLI v2 | **(legacy)** Gerer les services Render — remplace par Hetzner/Coolify |
 
 ### Quand executer vs expliquer
 
@@ -35,16 +35,14 @@ Tu as acces aux CLI suivants et tu PEUX les utiliser pour agir directement :
 # GitHub — lister les repos de l'ecosysteme
 gh repo list nicolasguelfi --json name,url -q '.[] | select(.name | contains("streamtex"))'
 
-# Render — lister les services et leur statut
-render services --output json
-render deploys list --service-id <id> --output json
-render logs --service-id <id> --tail 50
+# Hetzner/Coolify — deployer et gerer les services (production)
+/stx-deploy:status                    # Statut de l'infrastructure
+/stx-deploy:deploy                    # Deployer un projet
+/stx-deploy:update                    # Mettre a jour les deploiements
 
-# Render — declencher un redeploy
-render deploys create --service-id <id>
-
-# Render — voir les details d'un service
-render services show --id <id> --output json
+# Render (legacy) — les commandes ci-dessous ne sont plus utilisees en production
+# render services --output json
+# render deploys list --service-id <id> --output json
 ```
 
 ## Routage de $ARGUMENTS
@@ -64,7 +62,7 @@ pour fournir une reponse contextuelle.
 | `workspace` | Mise en place et gestion d'un workspace StreamTeX |
 | `new-project` | Creer un nouveau projet StreamTeX |
 | `validate` | Valider la structure d'un projet |
-| `deploy` | Deployer (Docker, Render, HuggingFace) |
+| `deploy` | Deployer (Docker, Hetzner/Coolify, HuggingFace) |
 | `publish` | Publier sur PyPI |
 | `claude-profiles` | Gestion des profils Claude AI |
 | `testing` | Tests et linting |
@@ -73,7 +71,7 @@ pour fournir une reponse contextuelle.
 | `book` | Orchestration book.py (TOC, markers, banners, zoom) |
 | `ai-images` | Generation d'images IA (OpenAI, Google Imagen, fal.ai) |
 | `presentation` | Mode presentation fullscreen 16/9 |
-| `compound-engineering` | Compound Document Engineering (cycle CE, parcours A/B/C, 8 commandes stx-ce) |
+| `compound-engineering` | Compound Document Engineering (cycle CE, parcours A/B/C, 9 commandes stx-ce) |
 | `issues` | Creer des issues GitHub avec metadata auto-collectees |
 | `troubleshooting` | Gotchas connus et resolution de problemes |
 | `stx-cli` | Reference complete de toutes les commandes `stx` |
@@ -85,7 +83,7 @@ pour fournir une reponse contextuelle.
 - "comment ajouter un block a mon projet ?"
 - "j'ai une erreur avec list() dans mon block"
 - "quelle difference entre ProjectBlockRegistry et LazyBlockRegistry ?"
-- "comment deployer sur Render avec plusieurs manuels ?"
+- "comment deployer sur Hetzner/Coolify avec plusieurs manuels ?"
 - "comment creer des styles personnalises ?"
 - "comment utiliser /stx-designer:init pour generer un cours ?"
 - "quels sont les blueprints disponibles pour les blocks ?"
@@ -123,6 +121,7 @@ streamtex-dev/                  # Workspace root
       stx_manual_intro/
       stx_manual_advanced/
       stx_manual_ai/
+      stx_manual_ce/
       stx_manual_deploy/
       stx_manual_developer/
       stx_manuals_collection/
@@ -151,12 +150,14 @@ streamtex-dev/                  # Workspace root
 | Deploy | 8504 |
 | Developer | 8505 |
 | AI | 8506 |
+| CE | 8507 |
 
 ```bash
-./run-manuals.sh --all        # Lance les 6 manuels
+./run-manuals.sh --all        # Lance les 7 manuels
 ./run-manuals.sh --intro      # Lance seulement l'intro
 ./run-manuals.sh --developer  # Lance seulement le developer
 ./run-manuals.sh --ai         # Lance seulement l'AI
+./run-manuals.sh --ce         # Lance seulement le CE
 ```
 
 ### Flux de dependances
@@ -388,7 +389,7 @@ stx run
 ### 4.2b Assistance Claude — commandes stx-designer
 
 Apres avoir scaffold un projet, Claude peut le personnaliser interactivement
-grace aux 5 commandes `stx-designer` du profil `project` :
+grace aux 12 commandes `stx-designer` du profil `project` :
 
 ```bash
 cd projects/stx-mon-projet/
@@ -426,6 +427,33 @@ claude
 # Outils specialises
 > /stx-designer:tool survey-convert temp/Screenshot_IDE.png
 
+# --- Commandes slides ---
+
+# Creer une nouvelle slide
+> /stx-designer:slide-new slide de conclusion avec resume et call-to-action
+
+# Auditer le design visuel d'une slide
+> /stx-designer:slide-audit --target bck_intro conformite projection amphi
+
+# Corriger les violations de design d'une slide
+> /stx-designer:slide-fix --target bck_intro
+
+# --- Commandes styles ---
+
+# Auditer les styles des blocks
+> /stx-designer:style-audit --all
+
+# Refactorer les styles (deduplication, consolidation)
+> /stx-designer:style-refactor fusionner les doublons dans custom/styles.py
+
+# --- Commandes blocks ---
+
+# Creer un nouveau block
+> /stx-designer:block-new block comparaison Docker vs Podman, 2 colonnes
+
+# Previsualiser et valider un block
+> /stx-designer:block-preview bck_intro
+
 # Aide
 > /stx-designer:init --help    # affiche le cheatsheet complet
 ```
@@ -460,57 +488,48 @@ stx deploy docker . --port 8501
 stx deploy docker . --build-only --tag mon-projet:latest
 ```
 
-### 4.4 Deploiement Render
+### 4.4 Deploiement Hetzner/Coolify (production)
+
+La production StreamTeX est deployee sur Hetzner avec Coolify.
+Voir la section 4g pour les commandes detaillees (`/stx-deploy:*`).
 
 ```bash
-# Single service
-stx deploy render . --name mon-service --branch main
+# Deploiement production
+/stx-deploy:preflight                   # Verifier les prerequis
+/stx-deploy:deploy                      # Deployer un projet
+/stx-deploy:status                      # Voir le statut
 
-# Multi-service (un par manuel dans manuals/)
-stx deploy render . --multi
-
-# Avec variables d'environnement
-stx deploy render . --env STX_PASSWORD=secret --env DEBUG=true
-
-# Ensuite:
-# 1. Verifier render.yaml
-# 2. git add render.yaml Dockerfile && git commit && git push
-# 3. Connecter le repo sur https://dashboard.render.com
+# Auto-deploy via GitHub Actions
+# .github/workflows/hetzner-deploy.yml declenche un deploiement
+# automatique sur Coolify a chaque push sur main
 ```
 
 #### Auto-deploy via GitHub Actions (filtrage intelligent)
 
-Les repos avec un `render.yaml` utilisent un workflow GitHub Actions
-(`.github/workflows/render-deploy.yml`) pour declencher automatiquement
-le deploiement des services Render **affectes** a chaque push sur `main`.
+Les repos utilisent un workflow GitHub Actions
+(`.github/workflows/hetzner-deploy.yml`) pour declencher automatiquement
+le deploiement sur Coolify a chaque push sur `main`.
 
-**Filtrage intelligent** : le workflow ne redéploie que les services dont les fichiers ont changé :
-- Modification dans `manuals/stx_manual_intro/**` → redéploie uniquement `streamtex-intro`
-- Modification dans `manuals/stx_manual_advanced/**` → redéploie uniquement `streamtex-advanced`
-- Modification de fichiers partagés (`Dockerfile`, `pyproject.toml`, `shared-blocks/`, `.github/`, `scripts/`) → redéploie **TOUS** les services
-- Déclenchement manuel (`workflow_dispatch`) → redéploie **TOUS** les services
-
-Le mapping service↔dossier est extrait automatiquement de la variable `FOLDER` dans `render.yaml`.
+**Filtrage intelligent** : le workflow ne redeploie que les services dont les fichiers ont change :
+- Modification dans `manuals/stx_manual_intro/**` → redeploie uniquement `docs-intro`
+- Modification dans `manuals/stx_manual_advanced/**` → redeploie uniquement `docs-advanced`
+- Modification de fichiers partages (`Dockerfile`, `pyproject.toml`, `shared-blocks/`, `.github/`, `scripts/`) → redeploie **TOUS** les services
+- Declenchement manuel (`workflow_dispatch`) → redeploie **TOUS** les services
 
 ```bash
 # Setup (une seule fois par repo) :
-gh secret set RENDER_API_KEY -R nicolasguelfi/<repo> --body "<cle-api-render>"
+gh secret set COOLIFY_API_TOKEN -R nicolasguelfi/<repo> --body "<cle-api-coolify>"
 
 # Declenchement manuel (deploie tous les services) :
-gh workflow run render-deploy.yml -R nicolasguelfi/<repo>
+gh workflow run hetzner-deploy.yml -R nicolasguelfi/<repo>
 ```
 
-> **Note** : le workflow bypasse la GitHub App de Render qui peut silencieusement
-> se desactiver apres des echecs de build consecutifs.
+#### Deploiement Render (legacy)
 
-#### Synchronisation des env vars
-
-```bash
-# Apres modification d'env vars dans render.yaml :
-stx deploy env-sync                     # Synchronise tous les services
-stx deploy env-sync --dry-run           # Affiche le diff sans appliquer
-stx deploy env-sync --service streamtex-intro  # Un seul service
-```
+> **Note** : Render n'est plus la plateforme de production. Les commandes
+> `stx deploy render` et `stx deploy env-sync` existent encore mais sont
+> conservees uniquement pour compatibilite. Utiliser Hetzner/Coolify pour
+> tout nouveau deploiement.
 
 ### 4.5 Deploiement HuggingFace Spaces
 
@@ -787,7 +806,7 @@ stx claude check           # tout doit etre "up to date"
 | Librairie seulement | PyPI (phase 2) | `uv tool install "streamtex[cli]" -U` + `stx update` |
 | Profils Claude seulement | git push (phase 3) | `stx update` |
 | Librairie + profils | Phases 2 + 3 + 4 | `uv tool install "streamtex[cli]" -U` + `stx update` |
-| Docs seulement | git push (phase 3) | `stx update` (Render deploie automatiquement) |
+| Docs seulement | git push (phase 3) | `stx update` (Hetzner/Coolify deploie automatiquement) |
 
 ---
 
@@ -1184,7 +1203,7 @@ COLLECT -> ASSESS -> PLAN -> PRODUCE -> REVIEW -> FIX -> COMPOUND
 
 3 **gates** de validation (apres PLAN, REVIEW, et FIX) permettent a l'utilisateur de piloter le processus.
 
-### Les 8 commandes
+### Les 9 commandes
 
 | Commande | Quand l'utiliser |
 |----------|-----------------|
@@ -1195,6 +1214,7 @@ COLLECT -> ASSESS -> PLAN -> PRODUCE -> REVIEW -> FIX -> COMPOUND
 | `/stx-ce:review` | Revue multi-perspective (5 agents : audience, pedagogie, visuel, technique, editorial) |
 | `/stx-ce:fix [--severity LEVEL]` | Corriger les findings de la review avec verification |
 | `/stx-ce:compound` | Capitaliser (3 axes : production, feedback ecosysteme, gouvernance dev) |
+| `/stx-ce:status` | Afficher l'etat courant du cycle CE (phase active, progression, artefacts) |
 | `/stx-ce:go "description"` | Cycle complet autonome avec 3 gates |
 
 ### Les 3 parcours
@@ -1222,6 +1242,9 @@ COLLECT -> ASSESS -> PLAN -> PRODUCE -> REVIEW -> FIX -> COMPOUND
 
 # Mode interactif (co-construction du plan)
 /stx-ce:go --interactive "un manuel de reference"
+
+# Voir l'etat courant du cycle
+/stx-ce:status
 ```
 
 ### Reference complete
@@ -1491,10 +1514,10 @@ configuration DNS/SSL, securisation et mise a l'echelle.
 | Verifier synchro profils | `stx claude check` |
 | Preflight deploiement | `stx deploy preflight .` |
 | Deploy Docker local | `stx deploy docker . --port 8501` |
-| Generer render.yaml | `stx deploy render .` |
+| Deploy Hetzner/Coolify | `/stx-deploy:deploy` |
+| Statut Hetzner/Coolify | `/stx-deploy:status` |
 | Deploy HuggingFace | `stx deploy huggingface . --space URL` |
-| Sync env vars Render | `stx deploy env-sync --dry-run` |
-| Statut deploiement | `stx deploy status render` |
+| Generer render.yaml (legacy) | `stx deploy render .` |
 | Check publication | `stx publish check .` |
 | Publier sur PyPI (local) | `stx publish pypi .` (lit `.env` auto) |
 | Publier sur PyPI (CI) | `gh release create vX.Y.Z` (OIDC) |
@@ -1597,26 +1620,23 @@ configuration DNS/SSL, securisation et mise a l'echelle.
 | Creer une release | `gh release create v0.x.y -R nicolasguelfi/streamtex` |
 | API directe | `gh api repos/nicolasguelfi/<repo>/contents/<path>` |
 
-### Commandes GitHub Actions (Render auto-deploy)
+### Commandes GitHub Actions (Hetzner auto-deploy)
 
 | Tache | Commande |
 |-------|----------|
-| Ajouter le secret API | `gh secret set RENDER_API_KEY -R nicolasguelfi/<repo> --body "<key>"` |
-| Declencher manuellement | `gh workflow run render-deploy.yml -R nicolasguelfi/<repo>` |
-| Voir le dernier run | `gh run list -R nicolasguelfi/<repo> -w "Deploy to Render" --limit 3` |
+| Ajouter le secret API | `gh secret set COOLIFY_API_TOKEN -R nicolasguelfi/<repo> --body "<key>"` |
+| Declencher manuellement | `gh workflow run hetzner-deploy.yml -R nicolasguelfi/<repo>` |
+| Voir le dernier run | `gh run list -R nicolasguelfi/<repo> -w "Deploy to Hetzner" --limit 3` |
 | Voir les logs d'un run | `gh run view <run-id> -R nicolasguelfi/<repo> --log` |
 
-### Commandes Render CLI
+### Commandes Render CLI (legacy)
+
+> **Note** : Render n'est plus la plateforme de production. Ces commandes sont
+> conservees pour reference. Utiliser Hetzner/Coolify (`/stx-deploy:*`) pour la production.
 
 | Tache | Commande |
 |-------|----------|
-| Se connecter | `render login` |
-| Qui suis-je | `render whoami` |
 | Lister les services | `render services` |
 | Details d'un service | `render services show --id <id>` |
-| Lister les deploys | `render deploys list --service-id <id>` |
 | Declencher un deploy | `render deploys create --service-id <id>` |
 | Voir les logs | `render logs --service-id <id> --tail 50` |
-| Redemarrer un service | `render restart --service-id <id>` |
-
-> **Tip** : ajouter `--output json` ou `--output yaml` a toute commande `render` pour un output structure.

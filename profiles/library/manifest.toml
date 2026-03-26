@@ -12,5 +12,11 @@ extends = "project"
 #   developer/skills/architecture.md   — library architecture overview
 #   developer/skills/coherence-checks.md — coherence check rules
 
+[commands]
+stx-developer = ["deploy.md"]
+
+[skills]
+developer = ["architecture.md", "coherence-checks.md"]
+
 [shared]
 commands = ["stx-coherence"]

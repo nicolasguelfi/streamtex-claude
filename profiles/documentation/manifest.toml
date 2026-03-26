@@ -10,5 +10,11 @@ extends = "project"
 # Overlay adds:
 #   developer/skills/coherence-checks.md — documentation-specific coherence rules
 
+[commands]
+stx-docs = ["release.md"]
+
+[skills]
+developer = ["coherence-checks.md"]
+
 [shared]
 commands = ["stx-coherence"]
