@@ -2134,7 +2134,7 @@ stx deploy configure-domain         # DNS records + SSL (auto with Cloudflare AP
 stx deploy preflight [PATH]        # pre-deploy checks (book.py, Dockerfile, git, tests, lint)
 stx deploy hetzner [PATH]          # deploy project to Hetzner via Coolify API
 stx deploy update [TARGET]         # rebuild service (default) or --quick restart
-stx deploy status render|huggingface [NAME]  # check deployment health
+stx deploy status coolify|render|huggingface [NAME]  # check deployment health
 ```
 
 ### Deployment — Other platforms

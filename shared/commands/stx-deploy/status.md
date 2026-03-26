@@ -41,7 +41,7 @@ Display server information:
 ```
 Infrastructure Status:
   Provider:  Hetzner Cloud
-  Server:    streamtex-prod (cax31, 16 GB RAM)
+  Server:    streamtex-prod (cax21, 8 GB RAM)
   IP:        65.108.xxx.xxx
   Location:  fsn1 (Falkenstein, DE)
   Domain:    mondomaine.com (wildcard, SSL active)

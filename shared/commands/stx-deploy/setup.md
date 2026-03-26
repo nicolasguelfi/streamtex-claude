@@ -190,5 +190,5 @@ Verify `.stx-deploy.env` is in `.gitignore`. If not, add it.
   Credentials saved to: .stx-deploy.env
 
 Next step: /stx-deploy:provision
-  This will create a Hetzner server (~4.5€/month for cax21).
+  This will create a Hetzner server (~8.49€/month for cax21).
 ```

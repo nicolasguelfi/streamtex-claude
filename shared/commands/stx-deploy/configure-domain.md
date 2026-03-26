@@ -33,8 +33,8 @@ Read and adopt `.claude/developer/agents/deploy-operator.md`.
 
 Read `.stx-deploy.json`:
 - Get server IP
-- Verify "install-coolify" phase is completed
-- If "configure-domain" already completed → inform and offer to reconfigure
+- Verify "install_coolify" phase is completed
+- If "configure_domain" already completed → inform and offer to reconfigure
 
 ### Step 3: Display DNS records to configure
 
@@ -141,7 +141,7 @@ Should return HTTP 200 with valid SSL.
 Update `.stx-deploy.json`:
 - Set domain name, registrar, DNS configured, SSL active, wildcard
 - Update `coolify_url` to `https://coolify.$DOMAIN`
-- Add `"configure-domain"` to `phases_completed`
+- Add `"configure_domain"` to `phases_completed` (with timestamp: `{"configure_domain": datetime.now(UTC).isoformat()}`)
 
 ### Step 12: Propose Cloudflare CDN & DDoS Protection
 

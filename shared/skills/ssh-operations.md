@@ -9,8 +9,9 @@ Always read credentials in this order:
 
 1. `.stx-deploy.env` in workspace root (preferred)
 2. `.stx-deploy.env` in parent directory
-3. `.stx-deploy.json` → `infrastructure.server.ipv4` and `infrastructure.server.ssh_key_path`
-4. Prompt the user as last resort
+3. Environment variables (`COOLIFY_URL`, `COOLIFY_API_TOKEN`, `HETZNER_API_TOKEN`, `HETZNER_SSH_KEY_PATH`)
+4. `.stx-deploy.json` → `infrastructure.server.ipv4` and `infrastructure.server.ssh_key_path`
+5. Prompt the user as last resort
 
 The canonical SSH key path is `~/.ssh/hetzner_streamtex` (stored as `HETZNER_SSH_KEY_PATH`
 in `.stx-deploy.env`). The SSH key name in Hetzner is `streamtex-deploy`.
@@ -90,12 +91,12 @@ ssh -i $SSH_KEY_PATH deploy@$SERVER_IP "free -h && echo '---' && df -h / && echo
 
 These values are shared with the Python CLI (`streamtex.cli.coolify`):
 
-| Constant | Value | Description |
-|----------|-------|-------------|
-| SSH key path | `~/.ssh/hetzner_streamtex` | Default key location |
-| SSH key name | `streamtex-deploy` | Name in Hetzner |
-| SSH user | `deploy` | Non-root user |
-| Server type | `cax21` | Default ARM server |
-| Location | `fsn1` | Falkenstein datacenter |
-| Coolify port | `8000` | Dashboard before domain setup |
-| Streamlit port | `8501` | App port inside Docker |
+| Constant | Value | Python constant name | Description |
+|----------|-------|---------------------|-------------|
+| SSH key path | `~/.ssh/hetzner_streamtex` | `DEFAULT_SSH_KEY_PATH` | Default key location |
+| SSH key name | `streamtex-deploy` | `DEFAULT_SSH_KEY_NAME` | Name in Hetzner |
+| SSH user | `deploy` | `DEFAULT_SSH_USER` | Non-root user |
+| Server type | `cax21` | `DEFAULT_SERVER_TYPE` | Default ARM server |
+| Location | `fsn1` | `DEFAULT_LOCATION` | Falkenstein datacenter |
+| Coolify port | `8000` | `DEFAULT_COOLIFY_PORT` | Dashboard before domain setup |
+| Streamlit port | `8501` | `DEFAULT_STREAMLIT_PORT` | App port inside Docker |

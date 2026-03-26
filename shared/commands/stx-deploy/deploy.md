@@ -39,11 +39,11 @@ Read and adopt `.claude/developer/agents/deploy-operator.md`.
 
 ### Step 2: Load state and credentials
 
-Read credentials from `.stx-deploy.env` (search: workspace root, parent dir, `~/.stx-deploy.env`).
+Read credentials from `.stx-deploy.env` (search: workspace root, parent dir).
 Required: `COOLIFY_URL`, `COOLIFY_API_TOKEN`, `DOMAIN`.
 
 Read `.stx-deploy.json`:
-- Verify phases 1-4 are completed (provision, secure, install-coolify, configure-domain)
+- Verify phases 1-4 are completed (provision, secure, install_coolify, configure_domain)
 - Get domain, server info, Coolify URL
 - Check if this project is already deployed (by path or subdomain)
 
@@ -81,16 +81,14 @@ If no Dockerfile in the project:
 
 ```dockerfile
 FROM python:3.13-slim
-ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 \
-    STREAMLIT_SERVER_HEADLESS=true UV_LINK_MODE=copy
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
+ENV STREAMLIT_SERVER_HEADLESS=true PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 UV_LINK_MODE=copy PORT=8501
 WORKDIR /app
-RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
-COPY --from=ghcr.io/astral-sh/uv:latest /uv /bin/
 COPY pyproject.toml uv.lock ./
-RUN uv sync --frozen --no-dev
+RUN uv sync --frozen --no-sources
 COPY . .
-EXPOSE 8501
-HEALTHCHECK CMD curl --fail http://localhost:8501/_stcore/health
+HEALTHCHECK CMD curl --fail http://localhost:$PORT/_stcore/health
 ENTRYPOINT ["uv", "run", "streamlit", "run", "book.py", \
     "--server.port=8501", "--server.address=0.0.0.0", \
     "--server.enableCORS=false", "--server.enableXsrfProtection=false"]
@@ -98,10 +96,8 @@ ENTRYPOINT ["uv", "run", "streamlit", "run", "book.py", \
 
 2. If `--folder` is specified (multi-manual), adjust ENTRYPOINT:
 ```dockerfile
-ENV FOLDER=manuals/stx_manual_intro
-ENTRYPOINT ["sh", "-c", "cd ${FOLDER} && uv run streamlit run book.py \
-    --server.port=8501 --server.address=0.0.0.0 \
-    --server.enableCORS=false --server.enableXsrfProtection=false"]
+ARG FOLDER=manuals/stx_manual_intro
+ENTRYPOINT ["sh", "-c", "uv run streamlit run $FOLDER/book.py --server.port=$PORT --server.address=0.0.0.0"]
 ```
 
 3. Create `.dockerignore` if absent:
@@ -174,7 +170,7 @@ curl -X POST "https://coolify.$DOMAIN/api/v1/applications" \
   -d '{
     "project_uuid": "...",
     "environment_name": "production",
-    "type": "dockerfile",
+    "build_pack": "dockerfile",
     "name": "'$PROJECT_NAME'",
     "git_repository": "'$GITHUB_REPO'",
     "git_branch": "main",

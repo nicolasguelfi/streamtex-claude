@@ -45,7 +45,7 @@ Before any deployment operation, systematically read:
 
 All operations use numbered steps with clear status:
 ```
-[1/7] Creating server streamtex-prod (cax31, fsn1)... done
+[1/7] Creating server streamtex-prod (cax21, fsn1)... done
 [2/7] Configuring firewall... done
 [3/7] Verifying SSH access... done
 ```
@@ -62,7 +62,7 @@ When an error occurs:
 ### 6. Credential management
 
 - Credentials are stored in `.stx-deploy.env` in the **workspace root** (next to `.stx-deploy.json`)
-- Search order: workspace root → parent directory → `~/.stx-deploy.env` (fallback)
+- Search order: workspace root → parent directory
 - This file MUST be in `.gitignore` — never committed
 - The state file `.stx-deploy.json` only references env var names, never values
 - Required credentials:
@@ -132,5 +132,5 @@ Next step: /stx-deploy:deploy [project-path]
 
 Always show costs when creating or modifying infrastructure:
 ```
-Monthly cost impact: +16.49 EUR/month (CAX31)
+Monthly cost impact: +8.49 EUR/month (CAX21)
 ```

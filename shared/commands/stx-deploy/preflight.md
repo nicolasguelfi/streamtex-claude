@@ -50,7 +50,7 @@ Run these checks on the project at PATH:
 | 11 | Docker installed | `docker --version` | Yes |
 | 12 | SSH key exists | Glob `~/.ssh/id_ed25519.pub` or `~/.ssh/id_rsa.pub` | Yes |
 | 13 | hcloud CLI | `hcloud version` | Recommended (show install instructions if absent) |
-| 14 | Credentials file | Check `~/.stx-deploy.env` exists and contains `HETZNER_API_TOKEN` | Recommended |
+| 14 | Credentials file | Check `.stx-deploy.env` exists (workspace root or parent dir) and contains `HETZNER_API_TOKEN` | Recommended |
 
 ### Step 4: Check existing deployment state
 
@@ -82,4 +82,4 @@ For each FAIL or WARN, provide a one-line fix suggestion:
 - Missing Dockerfile → `stx deploy docker . --build-only`
 - Missing SSH key → `ssh-keygen -t ed25519`
 - Missing hcloud → `brew install hcloud` or `pip install hcloud`
-- Missing credentials → `echo "HETZNER_API_TOKEN=your-token" >> ~/.stx-deploy.env`
+- Missing credentials → `echo "HETZNER_API_TOKEN=your-token" >> .stx-deploy.env`

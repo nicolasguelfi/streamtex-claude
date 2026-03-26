@@ -81,8 +81,8 @@ ssh $USER@$IP "sudo docker stats --no-stream --format '{{.Name}} {{.MemUsage}}'"
 Display analysis:
 ```
 Current Infrastructure Analysis:
-  Server:     cax31 (8 vCPU, 16 GB RAM)
-  RAM usage:  12.4 GB / 16 GB (78%)
+  Server:     cax21 (4 vCPU, 8 GB RAM)
+  RAM usage:  6.2 GB / 8 GB (78%)
   CPU usage:  35%
   Disk usage: 45%
   Projects:   22 deployed
@@ -101,10 +101,10 @@ Vertical is simpler. Horizontal provides redundancy.
 
 1. Confirm with user:
 ```
-Scaling streamtex-prod from cax31 → cax41:
-  RAM:  16 GB → 32 GB
-  vCPU: 8 → 16
-  Cost: ~16.49 → ~31.99 EUR/month (+15.50 EUR)
+Scaling streamtex-prod from cax21 → cax41:
+  RAM:  8 GB → 32 GB
+  vCPU: 4 → 16
+  Cost: ~8.49 → ~31.99 EUR/month (+23.50 EUR)
   Downtime: 2-5 minutes
 
 Proceed? (yes/no)
@@ -145,9 +145,9 @@ ssh $USER@$IP "sudo docker ps --format 'table {{.Names}}\t{{.Status}}'"
 
 ```
 Horizontal scaling complete!
-  New worker: streamtex-worker-1 (cax31, 16 GB)
+  New worker: streamtex-worker-1 (cax21, 8 GB)
   Load balancer: streamtex-lb (lb11)
-  Total capacity: 32 GB (2 servers)
+  Total capacity: 16 GB (2 servers)
 
 To move projects to the new worker:
   In Coolify → Application → Settings → Server → select streamtex-worker-1

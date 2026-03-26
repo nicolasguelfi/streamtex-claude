@@ -44,6 +44,7 @@ Read `.stx-deploy.env` and `.stx-deploy.json`. Determine which phases are needed
 | `.stx-deploy.env` exists? | setup |
 | `HETZNER_API_TOKEN` set? | setup |
 | Server in `.stx-deploy.json`? | provision |
+| `phases_completed.provision` set? | provision |
 | `phases_completed.secure` set? | secure |
 | `COOLIFY_API_TOKEN` set? | install-coolify |
 | Domain configured? | configure-domain |
@@ -55,7 +56,7 @@ For each missing phase, execute it in order. Use the exact same logic as the
 individual `/stx-deploy:*` commands but with these simplifications:
 
 1. **Confirmation gates only for costly operations**:
-   - Server creation (~4.5 EUR/month) → ask confirmation
+   - Server creation (~8.49 EUR/month) → ask confirmation
    - Domain DNS changes → ask confirmation
    - All other steps → proceed automatically
 
@@ -86,7 +87,7 @@ individual `/stx-deploy:*` commands but with these simplifications:
 **If setup needed** → Execute `/stx-deploy:setup` workflow (Steps 3-8).
 
 **If provision needed** → Execute `/stx-deploy:provision` workflow.
-Ask: "This will create a Hetzner server (cax21, ~4.5 EUR/month). Continue? [y/N]"
+Ask: "This will create a Hetzner server (cax21, ~8.49 EUR/month). Continue? [y/N]"
 
 **If secure needed** → Execute `/stx-deploy:secure` workflow.
 No confirmation needed (no cost).

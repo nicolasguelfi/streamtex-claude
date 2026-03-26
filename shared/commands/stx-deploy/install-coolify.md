@@ -28,7 +28,7 @@ Read and adopt `.claude/developer/agents/deploy-operator.md`.
 Read `.stx-deploy.json`:
 - Get primary server IP and SSH user
 - Verify "secure" phase is completed
-- If "install-coolify" already completed → inform and skip
+- If "install_coolify" already completed → inform and skip
 
 ### Step 3: Install Coolify
 
@@ -98,7 +98,7 @@ Report status of all Coolify containers:
 Update `.stx-deploy.json`:
 - Set `coolify_installed: true`
 - Set `coolify_url: "http://<IP>:8000"` (temporary, will be updated in domain phase)
-- Add `"install-coolify"` to `phases_completed`
+- Add `"install_coolify"` to `phases_completed` (with timestamp: `{"install_coolify": datetime.now(UTC).isoformat()}`)
 
 ### Step 8: Display next step
 

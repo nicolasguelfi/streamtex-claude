@@ -142,25 +142,23 @@ gatherUsageStats = false
 
 ```dockerfile
 FROM python:3.13-slim
-ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 \
-    STREAMLIT_SERVER_HEADLESS=true UV_LINK_MODE=copy
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
+ENV STREAMLIT_SERVER_HEADLESS=true PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 UV_LINK_MODE=copy PORT=8501
+ARG FOLDER=manuals/stx_manual_intro
 WORKDIR /app
-RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
-COPY --from=ghcr.io/astral-sh/uv:latest /uv /bin/
 COPY pyproject.toml uv.lock ./
-RUN uv sync --frozen --no-dev
+RUN uv sync --frozen --no-sources
 COPY . .
-EXPOSE 8501
-HEALTHCHECK CMD curl --fail http://localhost:8501/_stcore/health
-ENTRYPOINT ["uv", "run", "streamlit", "run", "book.py", \
-    "--server.port=8501", "--server.address=0.0.0.0", \
-    "--server.enableCORS=false", "--server.enableXsrfProtection=false"]
+HEALTHCHECK CMD curl --fail http://localhost:$PORT/_stcore/health
+ENTRYPOINT ["sh", "-c", "uv run streamlit run $FOLDER/book.py --server.port=$PORT --server.address=0.0.0.0"]
 ```
 
 ## 8. State File (.stx-deploy.json)
 
 The state file tracks infrastructure state for idempotent operations. It is stored
-at the workspace root and should NOT be committed to git (add to `.gitignore`).
+at the workspace root. It contains no secrets (only IPs, UUIDs, timestamps) and
+CAN be committed to git. Credentials are in `.stx-deploy.env` (gitignored).
 
 **Key principle**: Credentials (API tokens, passwords) are NEVER stored in this file.
 They are stored in `.stx-deploy.env` (workspace root, gitignored).

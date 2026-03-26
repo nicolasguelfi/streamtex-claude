@@ -41,7 +41,7 @@ If `--help` is passed, display:
 
 ### Step 3: Load credentials
 
-Read credentials from `.stx-deploy.env` (search order: workspace root, parent dir, `~/.stx-deploy.env`).
+Read credentials from `.stx-deploy.env` (search order: workspace root, parent dir).
 Extract `HETZNER_API_TOKEN` and `HETZNER_SSH_KEY_PATH`.
 
 If the file doesn't exist or credentials are missing:
@@ -77,7 +77,7 @@ Server Configuration:
   Type:     cax21 (4 vCPU ARM, 8 GB RAM, 80 GB SSD)
   Location: fsn1 (Falkenstein, Germany)
   Image:    Ubuntu 24.04
-  Cost:     ~16.49 EUR/month
+  Cost:     ~8.49 EUR/month
 
 Proceed? (yes/no)
 ```
@@ -135,7 +135,7 @@ Write or update `.stx-deploy.json` with:
 - Role: "primary"
 - Status: "running"
 - Firewall name and ID
-- `phases_completed: ["provision"]`
+- `phases_completed: {"provision": datetime.now(UTC).isoformat()}`
 
 ### Step 11: Display next step
 
