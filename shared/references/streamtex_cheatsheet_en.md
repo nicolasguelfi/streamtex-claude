@@ -2101,6 +2101,67 @@ with st_span(s.bold + s.text.colors.red):
     st_write("Inline bold red")
 ```
 
+## CLI Commands
+
+### Workspace Management
+
+```bash
+stx install [--preset basic|user|standard|power|developer] [--project NAME]
+stx update  [--skip-sync] [--skip-profiles] [--dry-run] [--repair]
+stx status
+```
+
+### Project Management
+
+```bash
+stx project new NAME [--template project|collection|slides]
+stx run                             # launch Streamlit (shortcut for uv run streamlit run book.py)
+stx test [-v] [EXTRA_ARGS]         # run pytest
+stx lint [EXTRA_ARGS]              # run ruff check
+```
+
+### Deployment — Hetzner/Coolify (recommended for production)
+
+```bash
+# Full setup from zero
+stx deploy setup                    # interactive: install hcloud, SSH key, API tokens, domain
+stx deploy provision                # create Hetzner server (cax21 ARM, ~4.5 EUR/month)
+stx deploy secure                   # harden server (UFW, fail2ban, SSH hardening)
+stx deploy install-coolify          # install Coolify open-source PaaS
+stx deploy configure-domain         # DNS records + SSL (auto with Cloudflare API token)
+
+# Deploy a project
+stx deploy preflight [PATH]        # pre-deploy checks (book.py, Dockerfile, git, tests, lint)
+stx deploy hetzner [PATH]          # deploy project to Hetzner via Coolify API
+stx deploy update [TARGET]         # rebuild service (default) or --quick restart
+stx deploy status render|huggingface [NAME]  # check deployment health
+```
+
+### Deployment — Other platforms
+
+```bash
+stx deploy docker [PATH]           # build and run locally with Docker
+stx deploy render [PATH]           # generate render.yaml (legacy, Hetzner preferred)
+stx deploy huggingface [PATH]      # deploy to HuggingFace Spaces
+stx deploy env-sync                # sync env vars from render.yaml to Render services
+```
+
+### Claude / AI Profiles
+
+```bash
+stx claude install [PROFILE]       # install Claude profiles into project
+stx claude update --all            # sync profiles from streamtex-claude repo
+stx claude check                   # verify profile installation
+stx claude diff .                  # show differences between installed and source
+stx claude list                    # list available profiles
+```
+
+### Bibliography
+
+```bash
+stx bib stubs SOURCES              # generate Python stubs from .bib/.ris/.json files
+```
+
 ## Project Structure
 
 ```
