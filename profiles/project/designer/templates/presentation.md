@@ -69,6 +69,7 @@ from streamtex import (
     set_presentation_config, PresentationConfig,
     set_slide_break_config, SlideBreakConfig, SlideBreakMode,
     PdfConfig, ExportConfig, ExportMode, PresentationProfile,
+    Spacing, SpacingConfig, set_spacing,
 )
 
 # Presentation configuration (fullscreen 16:9)
@@ -85,6 +86,9 @@ set_slide_break_config(SlideBreakConfig(
     fullscreen=True,
     marker=True,
 ))
+
+# Section spacing (optional — configurable margins around slides)
+# set_spacing(SpacingConfig(block=Spacing(top=2)))
 
 st_book(
     module_list,

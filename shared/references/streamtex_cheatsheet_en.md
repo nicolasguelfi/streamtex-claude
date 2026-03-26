@@ -646,10 +646,12 @@ st_book([...], presentation_profiles=PresentationProfile.presentation_preset())
 
 | Type | Fields | Description |
 |------|--------|-------------|
-| `PresentationProfile` | name, mode, layout, wrap, breaks | Top-level profile |
+| `PresentationProfile` | name, mode, layout, wrap, breaks, spacing | Top-level profile |
 | `PageLayout` | width, zoom | Page dimensions (no range limits) |
 | `ViewMode` | PAGINATED, CONTINUOUS | View mode enum |
 | `SlideBreakDisplayConfig` | enabled, mode, space | Slide break settings |
+| `SpacingConfig` | block, section | Spacing configuration (block + section) |
+| `Spacing` | top, bottom, left, right, width | Margin box (value object) |
 
 **JSON save/load** (`ProfileConfig`):
 
@@ -1815,12 +1817,69 @@ st_br()                     # Line break
 st_br(count=3)              # 3 line breaks
 ```
 
+### Section Spacing — Configurable Margins
+
+Section spacing controls margins around blocks (in `st_book`) and between sections
+within a block (between `st_slide_break` calls or title markers).
+
+**Two types**: `Spacing` (value object) + `SpacingConfig` (bundles block + section).
+
+**5-level override hierarchy**: Built-in → Book (global) → Profile → Block → Call-site.
+
+```python
+from streamtex import Spacing, SpacingConfig, set_spacing, set_block_spacing
+
+# ── Book-level (book.py) — applies to all blocks and sections ──
+set_spacing(SpacingConfig(
+    block=Spacing(top=2, bottom=0),       # margins between blocks
+    section=Spacing(top=2),               # margins between sections within blocks
+))
+
+# ── Profile-level — mode-specific spacing ──
+PresentationProfile(
+    name="Handout",
+    mode=ViewMode.CONTINUOUS,
+    spacing=SpacingConfig(
+        block=Spacing(top="70px"),
+        section=Spacing(top=1, left="5%", right="5%"),
+    ),
+)
+
+# ── Block-level (inside build()) — overrides section spacing for this block ──
+def build():
+    set_block_spacing(Spacing(top=0, left="10%", right="10%"))
+    # ... all sections in this block use these margins
+    # reset automatically by st_book after build()
+
+# ── Call-site — per slide_break or per st_write title ──
+st_slide_break("Section 2", spacing=Spacing(top="100px", left="15%", right="15%"))
+st_write(bs.heading, "Title", toc_lvl="1", spacing=Spacing(top=0))
+```
+
+**Spacing fields**:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `top` | `int \| str \| None` | Vertical space before. `int` = st_space units, `str` = CSS (`"70px"`, `"5vh"`) |
+| `bottom` | `int \| str \| None` | Vertical space after. Same conventions as `top` |
+| `left` | `str \| None` | Left margin, CSS value (`"5%"`, `"2em"`, `"40px"`) |
+| `right` | `str \| None` | Right margin, CSS value |
+| `width` | `int \| None` | Content width as % (block-level only, overrides `PageLayout.width`) |
+
+> **Default**: Without any `SpacingConfig`, the built-in `block.bottom="70px"` preserves the
+> existing inter-block gap. Section spacing defaults to no spacing (current behavior).
+
+> **Double-spacing prevention**: `block.top` and `section.top` never stack at the start of a
+> block. The first break point in each block is covered by `block.top`; subsequent breaks use
+> `section.top`.
+
 ### st_slide_break — Full Signature
 
 ```python
 st_slide_break(
     marker_label="",           # Custom label for the hidden marker (default: auto)
     config=None,               # Optional SlideBreakConfig override
+    spacing=None,              # Optional Spacing override for this break
 )
 ```
 

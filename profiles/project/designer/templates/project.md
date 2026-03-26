@@ -40,6 +40,7 @@ Standard StreamTeX project for screen viewing.
 from streamtex import (
     st_book, TOCConfig, NumberingMode, MarkerConfig, BannerConfig,
     PdfConfig, ExportConfig, ExportMode, PresentationProfile, ViewMode,
+    Spacing, SpacingConfig, set_spacing,
 )
 
 toc = TOCConfig(
@@ -48,6 +49,12 @@ toc = TOCConfig(
     search=True,
 )
 marker = MarkerConfig(auto_marker_on_toc=1, show_nav_ui=True)
+
+# Section spacing (optional — configurable margins around blocks and sections)
+# set_spacing(SpacingConfig(
+#     block=Spacing(top=2),
+#     section=Spacing(top=2),
+# ))
 
 st_book(
     module_list,
