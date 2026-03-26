@@ -54,6 +54,78 @@ Import production plan — detailed execution plan for importing external source
 | Asset types | <diagrams / screenshots / icons / code snippets / tables> |
 | Conventions | <naming, styling, or structural conventions> |
 
+### Presentation Profiles
+
+| Aspect | Value |
+|--------|-------|
+| Preset | <responsive_preset() / presentation_preset() / desktop_mobile_preset() / custom> |
+
+| Profile Name | ViewMode | Width% | Zoom% | SlideBreak Enabled | SlideBreak Mode |
+|-------------|----------|--------|-------|-------------------|-----------------|
+| <profile name> | <PAGINATED / CONTINUOUS> | <width%> | <zoom%> | <yes / no> | <PAGINATED / CONTINUOUS / HIDDEN> |
+| <...> | <...> | <...> | <...> | <...> | <...> |
+
+**book.py config**: `ProfileConfig` setup with `save()`/`load()` and selected profiles.
+
+### Section Spacing
+
+| Level | Config | Value |
+|-------|--------|-------|
+| Global | `set_spacing(SpacingConfig(...))` | `Spacing(top=<>, bottom=<>, left=<>, right=<>)` |
+| Per-profile | `PresentationProfile.spacing` | <override or "inherit global"> |
+| Per-block overrides | `set_block_spacing()` on specific blocks | <block name: Spacing values, with justification> |
+
+**Override hierarchy**: built-in < book < profile < block < call-site
+
+### Bibliography Setup
+
+| Aspect | Value |
+|--------|-------|
+| Source | <path to .bib / .ris / .json file, URL, or `none`> |
+| Format | <BibFormat: HARVARD / APA / CHICAGO / IEEE / CUSTOM> |
+| Citation style | <CitationStyle: NUMBERED / AUTHOR_YEAR> |
+| Placement | <block name where `st_bibliography()` will be rendered> |
+
+**book.py config**: `set_bib_config(BibConfig(format=BibFormat.APA, style=CitationStyle.AUTHOR_YEAR))`
+
+<If no bibliography: "No bibliography — `none`.">
+
+### AI Image Configuration
+
+| Aspect | Value |
+|--------|-------|
+| Provider | <openai / google / fal or `none`> |
+| Model | <provider-specific model name> |
+| Default size | <size preset (e.g., 1024x1024)> |
+| Default quality | <quality preset (e.g., standard / hd)> |
+| Generation mode | <manual / auto> |
+| Seed strategy | <fixed seed value / random> |
+| Estimated image count | <number> |
+
+#### Prompt Guidelines
+
+- Visual style: <realistic / illustration / diagram / abstract>
+- Color temperature: <warm / cool / neutral — aligned with document palette>
+- Consistency rules: <shared style terms to use across all prompts>
+
+**book.py config**: `set_ai_image_config(AIImageConfig(provider="openai", model="gpt-image-1", size="1024x1024", quality="standard"))`
+
+<If no AI images: "No AI images — `none`.">
+
+### Export Configuration
+
+| Aspect | Value |
+|--------|-------|
+| Asset mode | <AssetMode: EMBEDDED / EXTERNAL (default)> |
+| Asset mode rationale | <why this mode — e.g., single-file delivery vs media-rich with deduplication> |
+| Export mode | <ExportMode: ALWAYS / MANUAL / NEVER> |
+| PDF export | <yes / no> |
+| PDF config | <PdfConfig(margins=..., scale=..., page_format=...) or `none`> |
+
+**book.py config**: `ExportConfig(asset_mode=AssetMode.EXTERNAL, mode=ExportMode.MANUAL)`
+
+<If no export needed: "Default export configuration — EXTERNAL asset mode, MANUAL export.">
+
 ## Execution Order
 
 | Step | Action | Blocks Affected | Dependencies |
@@ -71,6 +143,7 @@ Import production plan — detailed execution plan for importing external source
 - [ ] book.py skeleton matches planned structure
 - [ ] Assets directory prepared
 - [ ] Dependencies resolved (images, bibliographies)
+- [ ] AI image provider API key available (if AI images configured)
 
 ## Next Step
 

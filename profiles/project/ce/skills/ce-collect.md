@@ -32,7 +32,7 @@ Use the **source-scanner** agent to inventory all available material.
 
 ### Phase 2: Classify
 
-Use the **content-strategist** agent to organize the inventory.
+Use the **source-scanner** agent's classification capabilities to organize the inventory.
 
 1. Group sources by theme or topic based on content analysis.
 2. Detect duplicates or near-duplicates across sources.

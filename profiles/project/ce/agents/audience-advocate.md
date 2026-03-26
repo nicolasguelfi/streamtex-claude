@@ -49,7 +49,7 @@ Read these files:
 **Date**: YYYY-MM-DD
 **Audience**: <summary from profile>
 **Blocks reviewed**: N
-**Issues found**: N (critical: N, major: N, minor: N, suggestions: N)
+**Issues found**: N (CRITICAL: N, MAJOR: N, MINOR: N, SUGGESTION: N)
 
 ## Findings
 

@@ -56,7 +56,7 @@ Read these files:
 **Project**: <project name>
 **Date**: YYYY-MM-DD
 **Blocks checked**: N
-**Issues found**: N (critical: N, major: N, minor: N, suggestions: N)
+**Issues found**: N (CRITICAL: N, MAJOR: N, MINOR: N, SUGGESTION: N)
 
 ## Block Structure Audit
 

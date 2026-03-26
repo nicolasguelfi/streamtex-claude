@@ -32,6 +32,9 @@ Run 5 analysis perspectives sequentially to extract knowledge from the cycle.
    - Which StreamTeX features were key to success?
    - What reusable code snippets or block patterns emerged?
    - What content structures proved effective?
+   - What AI image prompts produced effective results? Save effective prompts as patterns in `docs/solutions/assets/`
+   - What provider/model/seed combinations produced good results? Record for reuse
+   - What prompt anti-patterns were discovered (vague descriptions, inconsistent style terms, poor reproducibility)?
 
 3. **Related Finder**:
    - What other documents in the workspace are related to this one?
@@ -52,6 +55,7 @@ Run 5 analysis perspectives sequentially to extract knowledge from the cycle.
      - `process`: workflow, tooling, automation, efficiency
      - `pedagogy`: learning design, assessment, progression
      - `assets`: images, diagrams, code samples, media
+     - `ai-images`: AI image generation prompts, provider configs, seed strategies, style patterns
      - `deployment`: hosting, CI/CD, export, delivery
      - `import`: conversion, migration, format handling
    - Classify each learning by **scope**:

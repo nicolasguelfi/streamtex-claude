@@ -14,7 +14,7 @@ Read these files:
 ## Methodology
 
 1. **For each source from the scanner output**, assess conversion complexity:
-   - **Low**: direct copy or minimal formatting (plain Markdown, clean HTML, existing StreamTeX blocks)
+   - **Low**: direct copy or minimal formatting (plain Markdown, clean HTML, existing StreamTeX blocks, Google Sheets via `load_gsheet()`/`load_gsheet_df()` — direct API with predictable tabular structure)
    - **Medium**: format conversion with predictable mapping (PPTX slides, structured DOCX, LaTeX)
    - **High**: manual recreation required (scanned PDFs, complex layouts, interactive content, heavily styled documents)
 2. **Identify the best import command** for each source:
@@ -22,6 +22,7 @@ Read these files:
    - `/stx-import:marp` for Marp/Markdown presentations
    - `/stx-import:latex` for LaTeX documents
    - Manual block creation for complex or non-standard sources
+   - `load_gsheet()` or `load_gsheet_df()` for Google Sheets data (tabular data as list-of-dicts or pandas DataFrame)
    - Direct copy for existing StreamTeX blocks
 3. **Estimate effort** per source:
    - Time estimate (minutes/hours)
@@ -36,6 +37,7 @@ Read these files:
    - Fonts to install or substitute
    - External resources to download or reference
    - Code dependencies to verify
+   - Google Sheets access: `GSheetConfig` with service account JSON must be configured in book.py via `set_gsheet_config()`
 6. **Identify import order** considering dependencies between sources
 
 ## Output Format

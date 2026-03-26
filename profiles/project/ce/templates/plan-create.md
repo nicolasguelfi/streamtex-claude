@@ -50,6 +50,77 @@ Creation production plan — detailed execution plan for building a new StreamTe
 | Asset types | <diagrams / screenshots / icons / code snippets / tables> | <why these assets> |
 | Conventions | <naming, styling, or structural conventions> | <source of conventions> |
 
+### Presentation Profiles
+
+| Aspect | Choice | Rationale |
+|--------|--------|-----------|
+| Preset | <responsive_preset() / presentation_preset() / desktop_mobile_preset() / custom> | <why this preset> |
+
+| Profile Name | ViewMode | Width% | Zoom% | SlideBreak Enabled | SlideBreak Mode |
+|-------------|----------|--------|-------|-------------------|-----------------|
+| <profile name> | <PAGINATED / CONTINUOUS> | <width%> | <zoom%> | <yes / no> | <PAGINATED / CONTINUOUS / HIDDEN> |
+| <...> | <...> | <...> | <...> | <...> | <...> |
+
+**book.py config**: `ProfileConfig` setup with `save()`/`load()` and selected profiles.
+
+### Section Spacing
+
+| Level | Config | Value | Rationale |
+|-------|--------|-------|-----------|
+| Global | `set_spacing(SpacingConfig(...))` | `Spacing(top=<>, bottom=<>, left=<>, right=<>)` | <why these values> |
+| Per-profile | `PresentationProfile.spacing` | <override or "inherit global"> | <why> |
+| Per-block overrides | `set_block_spacing()` on specific blocks | <block name: Spacing values> | <justification for each override> |
+
+**Override hierarchy**: built-in < book < profile < block < call-site
+
+### Bibliography Setup
+
+| Aspect | Choice | Rationale |
+|--------|--------|-----------|
+| Source | <path to .bib / .ris / .json file, URL, or `none`> | <why this source> |
+| Format | <BibFormat: HARVARD / APA / CHICAGO / IEEE / CUSTOM> | <why this format> |
+| Citation style | <CitationStyle: NUMBERED / AUTHOR_YEAR> | <why this style> |
+| Placement | <block name where `st_bibliography()` will be rendered> | <why this location> |
+
+**book.py config**: `set_bib_config(BibConfig(format=BibFormat.APA, style=CitationStyle.AUTHOR_YEAR))`
+
+<If no bibliography: "No bibliography — `none`.">
+
+### AI Image Configuration
+
+| Aspect | Choice | Rationale |
+|--------|--------|-----------|
+| Provider | <openai / google / fal or `none`> | <why this provider> |
+| Model | <provider-specific model name> | <why this model> |
+| Default size | <size preset (e.g., 1024x1024)> | <why this size> |
+| Default quality | <quality preset (e.g., standard / hd)> | <why this quality> |
+| Generation mode | <manual / auto> | <why this mode> |
+| Seed strategy | <fixed seed value / random> | <why this strategy> |
+| Estimated image count | <number> | <based on content plan> |
+
+#### Prompt Guidelines
+
+- Visual style: <realistic / illustration / diagram / abstract>
+- Color temperature: <warm / cool / neutral — aligned with document palette>
+- Consistency rules: <shared style terms to use across all prompts>
+
+**book.py config**: `set_ai_image_config(AIImageConfig(provider="openai", model="gpt-image-1", size="1024x1024", quality="standard"))`
+
+<If no AI images: "No AI images — `none`.">
+
+### Export Configuration
+
+| Aspect | Choice | Rationale |
+|--------|--------|-----------|
+| Asset mode | <AssetMode: EMBEDDED / EXTERNAL (default)> | <why this mode — e.g., single-file delivery vs media-rich with deduplication> |
+| Export mode | <ExportMode: ALWAYS / MANUAL / NEVER> | <why this mode> |
+| PDF export | <yes / no> | <why> |
+| PDF config | <PdfConfig(margins=..., scale=..., page_format=...) or `none`> | <why these settings> |
+
+**book.py config**: `ExportConfig(asset_mode=AssetMode.EXTERNAL, mode=ExportMode.MANUAL)`
+
+<If no export needed: "Default export configuration — EXTERNAL asset mode, MANUAL export.">
+
 ## Dependencies
 
 ### Assets
@@ -91,6 +162,7 @@ Creation production plan — detailed execution plan for building a new StreamTe
 - [ ] Assets directory prepared
 - [ ] Reference materials accessible
 - [ ] Conventions documented or profile applied
+- [ ] AI image provider API key available (if AI images configured)
 
 ## Next Step
 

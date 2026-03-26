@@ -53,6 +53,76 @@ Improvement production plan — detailed execution plan for enhancing an existin
 | Typography | <current> | <revised or "unchanged"> | <why> |
 | Asset types | <current> | <revised or "unchanged"> | <why> |
 
+### Presentation Profiles
+
+| Aspect | Current | Revised | Rationale |
+|--------|---------|---------|-----------|
+| Preset | <current preset or "none"> | <revised or "unchanged"> | <why> |
+
+| Profile Name | ViewMode | Width% | Zoom% | SlideBreak Enabled | SlideBreak Mode | Change |
+|-------------|----------|--------|-------|-------------------|-----------------|--------|
+| <profile name> | <PAGINATED / CONTINUOUS> | <width%> | <zoom%> | <yes / no> | <PAGINATED / CONTINUOUS / HIDDEN> | <new / revised / unchanged> |
+| <...> | <...> | <...> | <...> | <...> | <...> | <...> |
+
+**book.py config**: `ProfileConfig` setup with `save()`/`load()` and selected profiles.
+
+### Section Spacing
+
+| Level | Current | Revised | Rationale |
+|-------|---------|---------|-----------|
+| Global (`set_spacing()`) | <current Spacing values> | <revised or "unchanged"> | <why> |
+| Per-profile overrides | <current overrides> | <revised or "unchanged"> | <why> |
+| Per-block overrides | <blocks with `set_block_spacing()`> | <revised or "unchanged"> | <why> |
+
+**Override hierarchy**: built-in < book < profile < block < call-site
+
+### Bibliography Setup
+
+| Aspect | Current | Revised | Rationale |
+|--------|---------|---------|-----------|
+| Source | <current path or `none`> | <revised or "unchanged"> | <why> |
+| Format | <current BibFormat or `none`> | <revised or "unchanged"> | <why> |
+| Citation style | <current CitationStyle or `none`> | <revised or "unchanged"> | <why> |
+| Placement | <current block or `none`> | <revised or "unchanged"> | <why> |
+
+**book.py config**: `set_bib_config(BibConfig(format=BibFormat.APA, style=CitationStyle.AUTHOR_YEAR))`
+
+<If no bibliography: "No bibliography — `none`.">
+
+### AI Image Configuration
+
+| Aspect | Current | Revised | Rationale |
+|--------|---------|---------|-----------|
+| Provider | <current provider or `none`> | <revised or "unchanged"> | <why> |
+| Model | <current model or `none`> | <revised or "unchanged"> | <why> |
+| Default size | <current size> | <revised or "unchanged"> | <why> |
+| Default quality | <current quality> | <revised or "unchanged"> | <why> |
+| Generation mode | <manual / auto> | <revised or "unchanged"> | <why> |
+| Seed strategy | <current strategy> | <revised or "unchanged"> | <why> |
+
+#### Prompt Guidelines
+
+- Visual style: <realistic / illustration / diagram / abstract>
+- Color temperature: <warm / cool / neutral — aligned with document palette>
+- Consistency rules: <shared style terms to use across all prompts>
+
+**book.py config**: `set_ai_image_config(AIImageConfig(provider="openai", model="gpt-image-1", size="1024x1024", quality="standard"))`
+
+<If no AI images: "No AI images — `none`.">
+
+### Export Configuration
+
+| Aspect | Current | Revised | Rationale |
+|--------|---------|---------|-----------|
+| Asset mode | <current AssetMode or "default (EXTERNAL)"> | <revised or "unchanged"> | <why> |
+| Export mode | <current ExportMode or "default (MANUAL)"> | <revised or "unchanged"> | <why> |
+| PDF export | <yes / no> | <revised or "unchanged"> | <why> |
+| PDF config | <current PdfConfig or `none`> | <revised or "unchanged"> | <why> |
+
+**book.py config**: `ExportConfig(asset_mode=AssetMode.EXTERNAL, mode=ExportMode.MANUAL)`
+
+<If no export changes: "Export configuration unchanged.">
+
 ## External Sources to Integrate
 
 <If pathway A+B:>
@@ -80,6 +150,7 @@ Improvement production plan — detailed execution plan for enhancing an existin
 - [ ] New assets prepared (if any)
 - [ ] External sources accessible (if pathway A+B)
 - [ ] No conflicting edits in progress
+- [ ] AI image provider API key available (if AI images configured)
 
 ## Next Step
 

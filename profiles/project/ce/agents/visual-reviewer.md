@@ -38,13 +38,33 @@ Read these files:
    - Diagram clarity: labels readable, lines distinguishable
    - Image sizing: appropriate size relative to content
    - File format: appropriate format for content type (SVG for diagrams, WebP/PNG for photos)
-5. **Presentation mode checks** (if applicable):
+5. **Check section spacing**:
+   - Consistent spacing between sections: no abrupt changes without justification
+   - No double-spacing: adjacent bottom+top margins collapsing correctly (avoid cumulative gaps)
+   - Horizontal margins appropriate for the target profile/device (desktop vs mobile)
+   - Block-level overrides (`set_block_spacing()`) used sparingly and documented with rationale
+   - Global spacing (`set_spacing()` / `SpacingConfig`) matches the document's visual density goals
+   - Override hierarchy respected: built-in < book < profile < block < call-site
+6. **Presentation profile coherence**:
+   - Content readable in all configured ViewModes (PAGINATED and CONTINUOUS)
+   - Responsive breakpoints work correctly across profiles (desktop, tablet, mobile)
+   - Slide breaks display correctly in each profile's mode (enabled/disabled, PAGINATED/CONTINUOUS/HIDDEN)
+   - PageLayout (width%, zoom%) appropriate for target device in each profile
+7. **Presentation mode checks** (if applicable):
    - Projection readability: text readable at 10-20 meters
    - Minimum font size: 24px for body, 32px+ for titles
    - Maximum content per slide: 6-8 lines of text, one main idea
    - Visual impact: key messages visually prominent
    - Animation/transition appropriateness
-6. **Advisory mode** (during PLAN phase):
+8. **Review AI-generated images** (if AI images are used):
+   - Visual coherence: consistent style across all AI-generated images (same artistic style, color temperature, level of detail)
+   - Content relevance: each generated image supports and illustrates the surrounding text content
+   - Quality and resolution: appropriate for the target output (screen display vs print/PDF export)
+   - Prompt quality: prompts are specific, detailed, and use consistent terminology across blocks
+   - Provider consistency: same provider/model used throughout unless intentional variation is documented
+   - Seed reproducibility: fixed seeds used where plan requires deterministic output
+   - Cache efficiency: no duplicate prompts generating redundant images
+9. **Advisory mode** (during PLAN phase):
    - Propose color palette options based on content type and audience
    - Suggest layout patterns for each section type
    - Recommend visual hierarchy approach
@@ -60,7 +80,7 @@ Read these files:
 **Mode**: <audit / advisory>
 **Document type**: <interactive / presentation / hybrid>
 **Blocks reviewed**: N
-**Issues found**: N (critical: N, major: N, minor: N, suggestions: N)
+**Issues found**: N (CRITICAL: N, MAJOR: N, MINOR: N, SUGGESTION: N)
 
 ## Findings
 
@@ -97,6 +117,13 @@ Read these files:
 |-------|-------|-------|------------|
 | diagram.png | bck_2_1 | Low resolution (72dpi) | Re-export at 150dpi |
 | logo.svg | bck_1_1 | Missing alt text | Add alt="Company logo" |
+
+## AI Image Review (if applicable)
+
+| # | Block | Prompt Summary | Provider | Issue | Recommendation |
+|---|-------|---------------|----------|-------|----------------|
+| 1 | bck_2_1 | "realistic photo of..." | openai | Style inconsistent with bck_1_3 (illustration vs photo) | Align to illustration style |
+| 2 | bck_3_1 | "abstract background" | openai | Prompt too vague, low relevance | Add subject-specific details to prompt |
 
 ## Top 3 Priorities
 

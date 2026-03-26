@@ -33,13 +33,12 @@ Evaluation strategy depends on the detected pathway.
 
 1. Use the **audience-analyst** agent to help define the target audience.
 2. Use the **content-strategist** agent to explore content scope and structure.
-3. Use the **domain-researcher** agent to gather domain knowledge and best practices.
-4. Use the **format-explorer** agent to suggest document formats and presentation styles.
-5. Use the **angle-generator** agent to propose original angles and approaches.
+3. Use the **format-explorer** agent to suggest document formats and presentation styles.
+4. Use the **angle-generator** agent to propose original angles and approaches.
 
 ### Phase 2: Dialogue with User
 
-Ask focused questions to capture requirements R1 through R18. Use AskUserQuestion for each group.
+Ask focused questions to capture requirements R1 through R26. Use AskUserQuestion for each group.
 
 1. **Identity** (R1-R3):
    - R1: Document title
@@ -53,6 +52,9 @@ Ask focused questions to capture requirements R1 through R18. Use AskUserQuestio
    - R8: Learning objectives or document goals
 3. **Form** (R9-R12):
    - R9: Visual style preferences
+     - Target display profiles: responsive (desktop/tablet/mobile), presentation (presenter/audience/handout), or custom
+     - Preferred ViewMode per profile: PAGINATED or CONTINUOUS
+     - Factory presets available: `responsive_preset()`, `presentation_preset()`, `desktop_mobile_preset()`
    - R10: Branding constraints (colors, logos, fonts)
    - R11: Navigation style (linear, tabbed, sidebar)
    - R12: Estimated length (number of sections/slides)
@@ -64,6 +66,17 @@ Ask focused questions to capture requirements R1 through R18. Use AskUserQuestio
    - R16: Priority ranking of collected sources
    - R17: Content to exclude or skip
    - R18: Adaptation instructions (update, simplify, restructure)
+6. **Bibliography** (R19-R21):
+   - R19: Bibliography sources — bibliographic source files (.bib, .ris, .json, CSL-JSON) or URLs. `none` if not applicable
+   - R20: Citation format — preferred `BibFormat` (HARVARD | APA | CHICAGO | IEEE | CUSTOM). Default: APA
+   - R21: Citation style — preferred `CitationStyle` (NUMBERED | AUTHOR_YEAR). Default: AUTHOR_YEAR
+7. **Data Sources** (R25-R26):
+   - R25: Google Sheets sources — spreadsheet IDs or URLs (`docs.google.com/spreadsheets/d/{id}`), sheet names, header/skip row configuration. `none` if not applicable
+   - R26: Google Sheets access — path to service account JSON file for `GSheetConfig`, cache TTL preference. Required for `load_gsheet()` / `load_gsheet_df()` in book.py via `set_gsheet_config()`
+7. **AI Images** (R22-R24):
+   - R22: AI image needs — estimated quantity, visual style (realistic, illustration, diagram, abstract), thematic coherence requirements. `none` if not applicable
+   - R23: AI image provider — preferred provider (openai | google | fal) and model, or `auto` for default. API key availability
+   - R24: AI image mode — generation mode (manual | auto), seed strategy for reproducibility (fixed seed | random)
 
 ### Phase 3: Generate Assessment Document
 
@@ -71,7 +84,7 @@ Ask focused questions to capture requirements R1 through R18. Use AskUserQuestio
 2. The document must include:
    - Detected pathway with justification
    - Audience profile
-   - Requirements R1-R18 (as captured)
+   - Requirements R1-R26 (as captured)
    - Content evaluation results
    - Gap analysis findings
    - Recommended approach for the PLAN phase

@@ -34,17 +34,23 @@ Read these files:
    - External URLs: are they valid and accessible?
    - Cross-references: "as seen in Section X" -- does Section X exist and cover this?
    - Bibliography/sources: properly attributed?
-5. **Check spelling and grammar**:
+5. **Verify bibliography and citations** (if bibliography is configured):
+   - All `cite()` keys exist in the loaded bibliography file
+   - Citation formatting is consistent (same `BibFormat` throughout)
+   - `st_bibliography()` is present if any `cite()` calls exist
+   - Uncited bibliography entries (optional warning — may be intentional)
+   - `load_bib()` call is present in book.py or the appropriate initialization block
+6. **Check spelling and grammar**:
    - Spelling errors in all text content
    - Grammar issues (subject-verb agreement, tense consistency)
    - Punctuation (consistent use of serial comma, colon usage, quote style)
    - Capitalization (consistent title case or sentence case for headings)
-6. **Verify code examples**:
+7. **Verify code examples**:
    - Code is syntactically correct
    - Variable names are meaningful and consistent
    - Output comments match actual expected output
    - Code style follows the project's conventions
-7. **Check show_explanation/show_details/show_code content**:
+8. **Check show_explanation/show_details/show_code content**:
    - Well-written, clear, and adds value
    - Appropriate length (not too brief to be useful, not too long to overwhelm)
    - Consistent style with the main block content
@@ -58,7 +64,7 @@ Read these files:
 **Date**: YYYY-MM-DD
 **Language**: <document language>
 **Blocks reviewed**: N
-**Issues found**: N (critical: N, major: N, minor: N, suggestions: N)
+**Issues found**: N (CRITICAL: N, MAJOR: N, MINOR: N, SUGGESTION: N)
 
 ## Tone Profile
 
@@ -101,6 +107,19 @@ Read these files:
 |-------|-------|---------|
 | bck_2_2 | Syntax error | Missing closing parenthesis line 5 |
 | bck_3_1 | Outdated API | Uses deprecated `st.cache` instead of `st.cache_data` |
+
+## Bibliography Check
+
+<If bibliography is configured:>
+
+| # | Issue Type | Block | Details | Severity |
+|---|-----------|-------|---------|----------|
+| 1 | Missing key | bck_2_1 | `cite("smith2024")` — key not found in bibliography | CRITICAL |
+| 2 | Uncited entry | — | "jones2023" in bibliography but never cited | SUGGESTION |
+| 3 | Missing renderer | — | `cite()` calls found but no `st_bibliography()` block | MAJOR |
+| 4 | Format mismatch | bck_3_1 | Block uses HARVARD but book.py sets APA | MAJOR |
+
+<If no bibliography: "No bibliography configured — skipped.">
 
 ## Top 3 Priorities
 

@@ -10,12 +10,12 @@ extends = ""
 stx-designer = ["init.md", "update.md", "audit.md", "fix.md", "tool.md", "slide-new.md", "slide-audit.md", "slide-fix.md", "style-audit.md", "style-refactor.md", "block-new.md", "block-preview.md"]
 stx-developer = ["test-run.md", "lint.md"]
 stx-project = ["collection-new.md", "course-generate.md", "project-customize.md", "project-init.md", "project-upgrade.md"]
-stx-ce = ["collect.md", "assess.md", "plan.md", "produce.md", "review.md", "fix.md", "compound.md", "go.md"]
+stx-ce = ["collect.md", "assess.md", "plan.md", "produce.md", "review.md", "fix.md", "compound.md", "go.md", "status.md"]
 
 [skills]
 designer = ["slide-design-rules.md", "visual-design-rules.md", "style-conventions.md", "streamtex-quick-reference.md", "block-blueprints.md"]
 developer = ["testing-patterns.md", "stx-migrate.md", "docs-lookup.md"]
-ce = ["ce-collect.md", "ce-assess.md", "ce-plan.md", "ce-produce.md", "ce-review.md", "ce-fix.md", "ce-compound.md", "ce-go.md"]
+ce = ["ce-collect.md", "ce-assess.md", "ce-plan.md", "ce-produce.md", "ce-review.md", "ce-fix.md", "ce-compound.md", "ce-go.md", "ce-status.md"]
 
 [agents]
 designer = ["slide-designer.md", "slide-reviewer.md", "project-architect.md"]
@@ -33,4 +33,4 @@ references = ["coding_standards.md", "streamtex_cheatsheet_en.md", "presentation
 commands = ["stx-guide.md", "stx-issue", "stx-import", "stx-export", "stx-deploy"]
 skills = ["import-conventions.md", "hetzner-infrastructure.md"]
 agents = ["import-converter.md", "deploy-operator.md"]
-import-formats = ["marp", "html"]
+import-formats = ["marp", "html", "latex"]

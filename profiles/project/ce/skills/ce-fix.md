@@ -12,7 +12,7 @@ Skill for the FIX phase of the Compound Engineering cycle. Load the latest revie
 4. Filter findings by the `--severity` threshold (default: CRITICAL). Include all findings at or above the threshold.
 5. If `--target <block>` is set, further filter to only that block.
 6. Classify each finding as **automatable** or **manual**:
-   - Automatable: style issues, convention violations, spacing, CSS problems, missing attributes
+   - Automatable: style issues, convention violations, spacing, CSS problems, missing attributes, section spacing inconsistencies
    - Manual: content rewrites, structural reorganization, pedagogical changes, factual corrections
 
 ### Phase 2: Apply Fixes
@@ -23,7 +23,12 @@ For each automatable finding:
 
 1. Run `/stx-designer:fix --target <block>` with the specific fix instruction from the finding.
 2. For presentation projects, use `/stx-designer:slide-fix` when appropriate.
-3. Run `/stx-designer:audit --target <block>` to verify the fix resolved the finding.
+3. For spacing findings, apply these specific fixes:
+   - **Inconsistent spacing**: apply a uniform `SpacingConfig` via `set_spacing()` at book or profile level
+   - **Unnecessary block-level overrides**: remove `set_block_spacing()` calls that duplicate the global/profile spacing; use `reset_block_spacing()` to clear them
+   - **Double-spacing**: fix adjacent bottom+top margins by adjusting one side (prefer setting `bottom=0` on the preceding block or `top=0` on the following block)
+   - **Horizontal margin mismatch**: adjust `set_section_horizontal()` or per-block left/right values to match the target profile
+4. Run `/stx-designer:audit --target <block>` to verify the fix resolved the finding.
 4. Record the result:
    - **FIXED**: the finding is fully resolved (audit confirms)
    - **PARTIAL**: the finding is improved but not fully resolved
