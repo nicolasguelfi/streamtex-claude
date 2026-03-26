@@ -15,6 +15,7 @@ No arguments required. Reads server info from `.stx-deploy.json`.
 ## Required readings BEFORE execution
 
 1. `.claude/developer/agents/deploy-operator.md` — deployment protocol
+2. `.claude/developer/skills/ssh-operations.md` — SSH patterns and credential resolution
 
 ## Workflow
 

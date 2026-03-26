@@ -163,12 +163,41 @@ The state file tracks infrastructure state for idempotent operations. It is stor
 at the workspace root and should NOT be committed to git (add to `.gitignore`).
 
 **Key principle**: Credentials (API tokens, passwords) are NEVER stored in this file.
-They are referenced via environment variable names pointing to `~/.stx-deploy.env`.
+They are stored in `.stx-deploy.env` (workspace root, gitignored).
 
-**Phases tracked**: provision, secure, install-coolify, configure-domain.
+**Phases tracked**: provision, secure, install_coolify, configure_domain.
 Each command checks which phases are completed before executing.
 
-## 9. Security Checklist
+## 9. Coolify API Endpoints Reference
+
+| Operation | Method | Endpoint | Used by |
+|-----------|--------|----------|---------|
+| List applications | GET | `/api/v1/applications` | `stx deploy status coolify` |
+| Get application | GET | `/api/v1/applications/{uuid}` | Health polling |
+| Create application | POST | `/api/v1/applications` | `stx deploy hetzner` |
+| Update application | PATCH | `/api/v1/applications/{uuid}` | Set FQDN |
+| Delete application | DELETE | `/api/v1/applications/{uuid}` | Cleanup |
+| Rebuild (full) | POST | `/api/v1/applications/{uuid}/start` | `stx deploy update` (default) |
+| Restart (quick) | POST | `/api/v1/applications/{uuid}/restart` | `stx deploy update --quick` |
+| Stop | POST | `/api/v1/applications/{uuid}/stop` | Manual |
+| Get env vars | GET | `/api/v1/applications/{uuid}/envs` | |
+| Set env var | POST | `/api/v1/applications/{uuid}/envs` | Set FOLDER |
+| Deploy (webhook) | GET | `/api/v1/deploy?uuid={uuid}` | GitHub Actions |
+
+**CRITICAL**: `/start` = full rebuild (pull git, rebuild Docker, install PyPI).
+`/restart` = reuse existing container (no code update). Always use `/start` for updates.
+
+## 10. GitHub Actions Integration
+
+The `hetzner-deploy.yml` workflow in `streamtex-docs` automates deployment:
+
+1. **Triggers**: push to main + manual dispatch
+2. **PyPI guard**: polls PyPI to confirm the locked streamtex version is published
+3. **Change detection**: only redeploys services whose files changed
+4. **Deploy**: calls Coolify API `GET /api/v1/deploy?uuid=...` per service
+5. **Secret required**: `COOLIFY_API_TOKEN` in GitHub repo settings
+
+## 11. Security Checklist
 
 - [ ] Non-root user with SSH key
 - [ ] Root login disabled

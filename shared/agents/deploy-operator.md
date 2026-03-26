@@ -61,11 +61,17 @@ When an error occurs:
 
 ### 6. Credential management
 
-- Credentials are stored in `~/.stx-deploy.env` (chmod 600)
+- Credentials are stored in `.stx-deploy.env` in the **workspace root** (next to `.stx-deploy.json`)
+- Search order: workspace root → parent directory → `~/.stx-deploy.env` (fallback)
+- This file MUST be in `.gitignore` — never committed
 - The state file `.stx-deploy.json` only references env var names, never values
 - Required credentials:
   - `HETZNER_API_TOKEN` — Hetzner Cloud API token
+  - `HETZNER_SSH_KEY_PATH` — SSH key path (default: `~/.ssh/hetzner_streamtex`)
+  - `COOLIFY_URL` — Coolify dashboard URL
   - `COOLIFY_API_TOKEN` — Coolify API token (obtained after Coolify setup)
+  - `DOMAIN` — Base domain name
+  - `CLOUDFLARE_API_TOKEN` — (optional) For automatic DNS management
 
 ### 7. SSH operations
 

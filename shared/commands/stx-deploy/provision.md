@@ -7,7 +7,7 @@ Arguments: $ARGUMENTS
 Parse `$ARGUMENTS` as: `[OPTIONS]`
 
 **Options**:
-- `--type TYPE` — Server type (default: `cax31`). See help for all types.
+- `--type TYPE` — Server type (default: `cax21`). See help for all types.
 - `--location LOC` — Datacenter location (default: `fsn1`)
 - `--name NAME` — Server name (default: `streamtex-prod`)
 - `--help` — Show server comparison tables and help choose
@@ -74,7 +74,7 @@ Display a summary before creating:
 ```
 Server Configuration:
   Name:     streamtex-prod
-  Type:     cax31 (8 vCPU ARM, 16 GB RAM, 160 GB SSD)
+  Type:     cax21 (4 vCPU ARM, 8 GB RAM, 80 GB SSD)
   Location: fsn1 (Falkenstein, Germany)
   Image:    Ubuntu 24.04
   Cost:     ~16.49 EUR/month
@@ -143,7 +143,7 @@ Write or update `.stx-deploy.json` with:
 Server provisioned successfully!
   Name: streamtex-prod
   IP:   65.108.xxx.xxx
-  Type: cax31 (16 GB RAM)
+  Type: cax21 (8 GB RAM)
 
 Next step: /stx-deploy:secure
 ```
