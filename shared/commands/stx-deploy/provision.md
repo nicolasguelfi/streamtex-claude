@@ -41,17 +41,26 @@ If `--help` is passed, display:
 
 ### Step 3: Load credentials
 
-Read `~/.stx-deploy.env` and extract `HETZNER_API_TOKEN`.
+Read credentials from `.stx-deploy.env` (search order: workspace root, parent dir, `~/.stx-deploy.env`).
+Extract `HETZNER_API_TOKEN` and `HETZNER_SSH_KEY_PATH`.
 
-If the file doesn't exist or the token is missing:
-1. Explain how to create a Hetzner account (https://console.hetzner.cloud/)
-2. Explain how to generate an API token (Security → API Tokens → Read & Write)
-3. Guide the user to save it:
-   ```bash
-   echo "HETZNER_API_TOKEN=your-token" >> ~/.stx-deploy.env
-   chmod 600 ~/.stx-deploy.env
-   ```
-4. Wait for the user to confirm, then re-read the file.
+If the file doesn't exist or credentials are missing:
+1. Suggest running `/stx-deploy:setup` first (preferred — sets up everything)
+2. Or guide manual setup:
+   - Create Hetzner account at https://console.hetzner.cloud/
+   - Generate API token (Security → API Tokens → Read & Write)
+   - Save to `.stx-deploy.env`:
+     ```bash
+     echo "HETZNER_API_TOKEN=your-token" >> .stx-deploy.env
+     chmod 600 .stx-deploy.env
+     ```
+3. Wait for the user to confirm, then re-read the file.
+
+Verify hcloud CLI is configured:
+```bash
+hcloud context list
+```
+If no context, create one: `hcloud context create streamtex --token $TOKEN`
 
 ### Step 4: Check existing state
 

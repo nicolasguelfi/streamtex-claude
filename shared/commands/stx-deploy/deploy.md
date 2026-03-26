@@ -37,20 +37,31 @@ Parse `$ARGUMENTS` as: `[PATH] [OPTIONS]`
 
 Read and adopt `.claude/developer/agents/deploy-operator.md`.
 
-### Step 2: Load state
+### Step 2: Load state and credentials
+
+Read credentials from `.stx-deploy.env` (search: workspace root, parent dir, `~/.stx-deploy.env`).
+Required: `COOLIFY_URL`, `COOLIFY_API_TOKEN`, `DOMAIN`.
 
 Read `.stx-deploy.json`:
 - Verify phases 1-4 are completed (provision, secure, install-coolify, configure-domain)
 - Get domain, server info, Coolify URL
 - Check if this project is already deployed (by path or subdomain)
 
+If credentials missing:
+```
+Deployment credentials not found.
+Run /stx-deploy:setup to configure your local environment first.
+Or run /stx-deploy:go to set up everything automatically.
+```
+
 If phases 1-4 are not completed:
 ```
-Infrastructure not ready. Complete these phases first:
+Infrastructure not ready. Run /stx-deploy:go to set up everything,
+or complete these phases individually:
   /stx-deploy:provision
   /stx-deploy:secure
   /stx-deploy:install-coolify
-  /stx-deploy:configure-domain <domain>
+  /stx-deploy:configure-domain
 ```
 
 ### Step 3: Run preflight checks

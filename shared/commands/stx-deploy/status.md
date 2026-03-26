@@ -25,11 +25,14 @@ Parse `$ARGUMENTS` as: `[OPTIONS]`
 
 ## Workflow
 
-### Step 1: Load state
+### Step 1: Load state and credentials
 
-Read `.stx-deploy.json`. If it doesn't exist:
+Read `.stx-deploy.env` for credentials (COOLIFY_URL, COOLIFY_API_TOKEN).
+Read `.stx-deploy.json` for infrastructure state.
+
+If neither exists:
 ```
-No deployment state found. Start with: /stx-deploy:preflight
+No deployment state found. Start with: /stx-deploy:setup
 ```
 
 ### Step 2: Infrastructure status
@@ -98,7 +101,38 @@ If `--verbose`, additionally:
    echo | openssl s_client -servername $SUBDOMAIN -connect $IP:443 2>/dev/null | openssl x509 -noout -dates
    ```
 
-### Step 6: Recommendations
+### Step 6: Version verification
+
+Check the latest PyPI version of streamtex:
+```bash
+curl -s https://pypi.org/pypi/streamtex/json | python3 -c "import json,sys; print(json.load(sys.stdin)['info']['version'])"
+```
+
+If Coolify API is available, check each service status via API:
+```bash
+curl -s "$COOLIFY_URL/api/v1/applications/$APP_UUID" \
+  -H "Authorization: Bearer $COOLIFY_TOKEN" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d.get('status','?'))"
+```
+
+Display version comparison:
+```
+Version Status:
+  PyPI latest:    0.5.11
+  Local:          0.5.11 (from streamtex.__version__)
+
+  Service         Coolify Status     PyPI Match
+  docs            running:healthy    (rebuild needed to verify)
+  docs-intro      running:healthy    (rebuild needed to verify)
+```
+
+If a service was last deployed before the current PyPI version, flag it:
+```
+⚠ docs-intro may be running an older streamtex version.
+  Last rebuild: 2026-03-20. Current PyPI: 0.5.11 (2026-03-25).
+  Run: /stx-deploy:update --project docs-intro
+```
+
+### Step 7: Recommendations
 
 Based on the data collected, provide recommendations:
 - If any project is `down` → suggest checking logs
