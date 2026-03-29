@@ -224,11 +224,41 @@ STX_FAL_KEY=fal-...
 
 ```python
 from streamtex import get_available_models
+from streamtex.ai.providers.registry import get_model_capabilities
 
 # List available models for a provider
-models = get_available_models("openai")   # e.g. ["gpt-image-1"]
-models = get_available_models("google")   # e.g. ["imagen-3.0-generate-002"]
-models = get_available_models("fal")      # e.g. ["sd-v3.5"]
+models = get_available_models("openai")   # e.g. ["gpt-image-1", "dall-e-3"]
+models = get_available_models("google")   # e.g. ["imagen-4.0-generate-001"]
+models = get_available_models("fal")      # e.g. ["fal-ai/stable-diffusion-v35-large"]
+
+# Query model capabilities (sizes, qualities, defaults)
+caps = get_model_capabilities("openai", "gpt-image-1")
+caps.sizes          # ["1024x1024", "1024x1536", "1536x1024"]
+caps.qualities      # ["auto", "low", "medium", "high"]
+caps.default_size   # "1536x1024"
+caps.default_quality  # "auto"
+
+# The image editor uses this automatically to populate size/quality dropdowns
+```
+
+### AI Image — Editable Image Editor
+
+```python
+# st_image with editable=True opens a 4-tab editor panel:
+st_image(s.none, width="80%",
+         editable=True,        # Enable editor panel
+         name="hero_intro",    # Semantic name (required for editing)
+         prompt="...",         # AI generation prompt
+         provider="openai",
+         ai_size="1536x1024")
+
+# Editor tabs:
+# - Source:      Rename image, replace from local path or URL
+# - AI Generate: Provider/model selection, size/quality (dynamic from ModelCapabilities), prompt editing, img2img
+# - History:     Version tracking, rollback to previous versions
+# - Display:     Zoom slider (10-200%), manual width/height (CSS units), keep-ratio toggle
+#
+# Display settings are persisted in the image metadata JSON and applied automatically on render.
 ```
 
 ### AI Image — History & Versioning
@@ -280,6 +310,10 @@ new_path = rename_image("hero_intro", "hero_welcome")
 | `quality` | `str \| None` | AI generation quality |
 | `base_image` | `str \| None` | Base image path for img2img |
 | `revised_prompt` | `str \| None` | Provider-revised prompt |
+| `display_zoom` | `int \| None` | Proportional zoom percentage (10-200) |
+| `display_width` | `str \| None` | Manual width override (CSS value, e.g. `"80%"`, `"400px"`) |
+| `display_height` | `str \| None` | Manual height override (CSS value) |
+| `display_keep_ratio` | `bool` | Keep aspect ratio when resizing (default `True`) |
 
 ### st_grid — Full Signature
 
@@ -454,6 +488,17 @@ s.big       # 24pt     s.medium    # 16pt     s.little    # 12pt
 s.small     # 8pt      s.tiny      # 4pt
 # Dynamic sizes
 s.text.sizes.size(20, "custom_20pt")   # Factory method
+```
+
+### Text Wrapping
+
+```python
+s.text.wrap.wrap       # text-wrap: wrap (default browser behavior)
+s.text.wrap.nowrap     # text-wrap: nowrap (prevent line breaks)
+s.text.wrap.preline    # white-space: pre-line (preserves \n as line breaks)
+s.text.wrap.hyphens    # hyphens: auto; overflow-wrap: break-word
+                       # Enables automatic hyphenation at line breaks
+                       # Useful for large fonts in narrow containers (e.g. grid cells)
 ```
 
 ### Alignment and Layout
@@ -2166,6 +2211,25 @@ stx claude update --all            # sync profiles from streamtex-claude repo
 stx claude check                   # verify profile installation
 stx claude diff .                  # show differences between installed and source
 stx claude list                    # list available profiles
+```
+
+### Development Links
+
+```bash
+# Register source repos on this machine (once)
+stx dev register streamtex /path/to/streamtex
+stx dev register streamtex-claude /path/to/streamtex-claude
+stx dev register streamtex-docs /path/to/streamtex-docs
+stx dev unregister streamtex       # remove registration
+
+# Link/unlink current project to dev repos
+stx dev link streamtex             # editable install from source
+stx dev link all                   # link all registered repos
+stx dev unlink streamtex           # revert to PyPI version
+stx dev unlink all                 # unlink all
+
+# Check status
+stx dev status                     # show registrations + project links
 ```
 
 ### Bibliography

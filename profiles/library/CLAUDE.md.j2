@@ -86,6 +86,18 @@ uv run ruff check streamtex/ --fix  # Auto-fix lint issues
 - To add a slash command: create `.claude/commands/my-cmd/run.md` (commands go in `commands/`, not `custom/commands/`)
 - See `.claude/custom/README.md` for full details
 
+## Development Links (`stx dev`)
+
+Use `stx dev` to test library changes in real projects without modifying `.venv` files:
+```bash
+stx dev register streamtex /path/to/streamtex     # once per machine
+stx dev link streamtex                              # per project (editable install)
+stx dev status                                      # verify
+stx dev unlink streamtex                            # revert to PyPI
+```
+
+**NEVER modify files inside `.venv/site-packages/streamtex/`** — they are overwritten by `uv sync`. Always modify the source repo.
+
 ## CHANGELOG (MANDATORY)
 **ALWAYS update `CHANGELOG.md`** when making changes to the library:
 - **Before any version bump**, add an entry under the new version heading

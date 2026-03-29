@@ -223,6 +223,20 @@ stx install --preset PRESET       # Upgrade le workspace vers un preset superieu
 > **Commandes deprecees** : `clone`, `sync`, `link`, `hooks` fonctionnent encore
 > mais affichent un avertissement et redirigent vers `stx update`.
 
+### Development links
+
+```bash
+stx dev register REPO PATH        # Register a source repo path on this machine
+                                   # REPO: streamtex | streamtex-claude | streamtex-docs
+stx dev unregister REPO            # Remove a registration
+
+stx dev link REPO|all              # Link current project to registered dev repos
+                                   # streamtex: editable install via [tool.uv.sources]
+stx dev unlink REPO|all            # Revert to PyPI version
+
+stx dev status                     # Show registrations + project links
+```
+
 ### Claude profiles
 
 ```bash

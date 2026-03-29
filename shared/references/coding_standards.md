@@ -337,6 +337,27 @@ These rules are suppressed because they conflict with standard StreamTeX pattern
 - **E701** — `with l.item(): st_write("text")` one-liner list items
 - **E741** — `as l` variable name in `with st_list(...) as l:`
 
+### Development workflow — `stx dev` (for library contributors)
+
+**NEVER modify streamtex files inside a `.venv`.** Changes in `.venv` are lost on the next `uv sync` or `stx update`. Always work on the source repo and use `stx dev link` to connect your project:
+
+```bash
+# One-time setup: register source repos on this machine
+stx dev register streamtex /path/to/streamtex-dev/streamtex
+stx dev register streamtex-claude /path/to/streamtex-dev/streamtex-claude
+stx dev register streamtex-docs /path/to/streamtex-dev/streamtex-docs
+
+# Per project: link to dev source (editable install)
+cd my-project
+stx dev link streamtex       # or: stx dev link all
+stx dev status               # verify links
+
+# When done developing: revert to PyPI
+stx dev unlink streamtex
+```
+
+`stx dev link streamtex` adds `[tool.uv.sources]` to `pyproject.toml` and runs `uv sync`. All changes in the source repo are immediately reflected in the project.
+
 ### CI configuration (MANDATORY for projects with `[tool.uv.sources]`)
 
 Projects with editable local sources MUST use `UV_NO_SOURCES=1` in CI:
