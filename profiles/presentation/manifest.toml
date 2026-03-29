@@ -17,5 +17,8 @@ stx-presentation = ["presentation-audit.md", "presentation-fix.md", "survey-conv
 [skills]
 presentation = ["presentation-design-rules.md", "fullscreen-presentation-rules.md", "survey-chart-conversion.md"]
 
+[guidelines]
+presentation = ["auditorium-projection.md", "workshop-interactive.md"]
+
 [agents]
 presentation = ["presentation-designer.md"]

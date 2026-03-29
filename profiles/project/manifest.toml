@@ -25,6 +25,9 @@ ce = ["source-scanner.md", "import-assessor.md", "audience-analyst.md", "content
 designer = ["project.md", "presentation.md", "collection.md", "course.md"]
 ce = ["collect-report.md", "assess-import.md", "assess-improve.md", "assess-create.md", "plan-import.md", "plan-improve.md", "plan-create.md", "review-report.md", "solution.md", "producer-profile.md", "feedback-summary.md", "dev-report.md"]
 
+[guidelines]
+designer = ["_index.md", "maximize-viewport.md", "minimalist-visual.md", "academic-structured.md", "dense-informative.md"]
+
 [tools]
 designer = ["survey-convert.md"]
 

@@ -50,6 +50,11 @@ Creation production plan — detailed execution plan for building a new StreamTe
 | Asset types | <diagrams / screenshots / icons / code snippets / tables> | <why these assets> |
 | Conventions | <naming, styling, or structural conventions> | <source of conventions> |
 
+### Design Guideline Integration
+- **Guideline**: <name>
+- **Archetype mapping**: Map each planned block to its expected content archetype
+- **PresentationProfile**: Recommended values from guideline
+
 ### Presentation Profiles
 
 | Aspect | Choice | Rationale |

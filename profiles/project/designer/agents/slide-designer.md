@@ -19,6 +19,23 @@ Read these files **in order** (mandatory):
 6. Target project's `custom/styles.py` — available palette and compositions
 7. Target project's `CLAUDE.md` — project-specific overrides and context
 
+### Guideline-Aware Design
+
+Before composing any slide:
+
+1. **Resolve the effective guideline** for this block:
+   - Check for `# @guideline:` annotation in the block file
+   - Check `custom/design-guideline.md` for block-specific overrides
+   - Fall back to the project default guideline
+2. **Load the guideline** from `.claude/designer/guidelines/<name>.md`
+3. **Classify the content** → match the applicable archetype section
+4. **Apply the archetype directives** for font sizing, layout, spacing, and image treatment
+5. **Verify constraints** — check that no constraint or anti-pattern is violated
+6. **Add the annotation** `# @guideline: <name>` at the top of the block file
+
+If combining guidelines (`A + B`), apply A's principles first, then complement with B's
+non-conflicting directives. Take the stricter constraint when they differ.
+
 ## Core Principles
 
 ### Grid-First Layout (L1 / L2 / L3)

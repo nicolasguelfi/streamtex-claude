@@ -18,6 +18,15 @@ StreamTeX pedagogical course with structured chapters.
 | Title font | `s.huge` (80pt) |
 | Max blocks | 15 (otherwise suggest splitting into collection) |
 
+### Design Guideline (Optional)
+
+Projects can adopt a design guideline for consistent visual design across all slides.
+Recommended for courses: `academic-structured` or `maximize-viewport`.
+
+- Available guidelines: `.claude/designer/guidelines/_index.md`
+- Project config: Create `custom/design-guideline.md` referencing the chosen guideline
+- Per-block override: Add `# @guideline: <name>` at top of block files
+
 ## Pedagogical structure
 
 A course follows a strict pedagogical progression:

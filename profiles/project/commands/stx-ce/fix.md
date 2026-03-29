@@ -26,7 +26,13 @@ The REVIEW -> FIX cycle can be iterated: after FIX, run `/stx-ce:review` again t
 Before executing, read:
 1. `.claude/ce/skills/ce-fix.md` — Full workflow
 2. `docs/reviews/` — Latest review report
+- If project has an active guideline, load it to inform guideline-specific fixes
+- Guideline violations from the review report are included in the fix queue
 
 ## Workflow
 
 Execute the `ce-fix` skill. GATE: Fix results presented to user — propose re-review or continue to compound.
+
+The traceability report must include:
+
+| Guideline violations | <N> | FIXED / PARTIAL / MANUAL |

@@ -11,6 +11,7 @@ Read these files:
 2. .claude/designer/skills/block-blueprints.md
 3. The audience profile (from audience-analyst agent)
 4. The content strategy report (from content-strategist agent)
+5. `custom/design-guideline.md` + referenced guideline (if project has active guideline)
 
 ## Methodology
 

@@ -100,6 +100,10 @@ CATEGORY_PATHS = {
     "tools": {
         "designer": "designer/tools",
     },
+    "guidelines": {
+        "designer": "designer/guidelines",
+        "presentation": "designer/presentation/guidelines",
+    },
     "import-formats": "import-formats",
 }
 
@@ -196,7 +200,7 @@ def install_profile(profile_name: str, target_dir: Path,
     else:
         # Copy files from manifest categories
         for category in ["commands", "skills", "agents", "templates", "tools",
-                         "import-formats"]:
+                         "guidelines", "import-formats"]:
             if category not in manifest:
                 continue
             for subdir, files in manifest[category].items():

@@ -36,6 +36,7 @@ ask the user what they want to audit.
 Always read before auditing:
 1. `.claude/references/coding_standards.md` — coding rules
 2. `.claude/designer/skills/style-conventions.md` — style naming rules
+3. `custom/design-guideline.md` (if present) — project design guideline configuration
 
 ### Documentation reference (recommended)
 
@@ -59,6 +60,7 @@ The audit applies different rule sets based on context:
 | **Slide design** (blocks) | L1/L2/L3 grid, telegraphic text | `slide-design-rules.md` |
 | **Presentation** (desc contains "presentation"/"projection") | 48pt min, keywords only, no helpers | `presentation-design-rules.md` |
 | **Migration** (desc contains "migration") | Color fidelity, HTML structure | Migration rules |
+| **Guideline** (if active) | Project-specific design rules | Active guideline from `.claude/designer/guidelines/<name>.md` |
 | **Styles** (target = "styles") | Naming, reuse, dark mode compat | `style-conventions.md` |
 
 ### Auto-detection of presentation profile
@@ -111,6 +113,28 @@ For each block file, check:
 #### Marker visibility (ERROR)
 - [ ] Block contains at least one `st_write(...)` with `toc_lvl="1"` — required for sidebar and floating bar navigation (via `auto_marker_on_toc`). A block without any `toc_lvl` heading is invisible in all navigation panels.
 - [ ] If using `st_ai_image_widget()`, confirm no invalid kwargs are passed (`editable` is NOT a valid parameter — the widget is inherently interactive)
+
+#### Pattern Compliance (if patterns defined)
+- [ ] If block uses `@pattern:` annotation, verify it follows the named pattern's recipe
+
+#### Guideline Compliance (if active guideline exists)
+
+For each block:
+1. Resolve the effective guideline (inline @guideline > block @guideline > project override > project default)
+2. Load the guideline and find the applicable archetype for the block's content
+3. Verify each principle is respected
+4. Check no anti-pattern is present
+5. Check all constraints are met
+
+Report format:
+```
+bck_name.py:
+  Guideline: <name> (source: project default / block override / inline)
+  Archetype: <matched archetype>
+  ✓ P1 — Content fills viewport
+  ✗ P3 — Image at 35% of zone (minimum: 50%)
+  ✗ Anti-pattern: thumbnail image detected
+```
 
 ### Style audit (`--target styles`)
 

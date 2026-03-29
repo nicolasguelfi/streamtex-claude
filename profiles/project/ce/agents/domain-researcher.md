@@ -10,6 +10,7 @@ Read these files:
 1. .claude/ce/skills/ (check for existing domain knowledge first)
 2. The document structure plan (from structure-architect agent)
 3. The content strategy report (from content-strategist agent)
+4. `custom/design-guideline.md` + referenced guideline (if project has active guideline)
 
 ## Methodology
 

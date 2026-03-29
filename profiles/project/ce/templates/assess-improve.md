@@ -84,6 +84,11 @@ Improvement assessment report (pathway B) — evaluates current document state a
 |---|----------------|--------------|----------|
 | 1 | <wrong order, missing part, unbalanced sections> | <area> | <CRITICAL / MAJOR / MINOR> |
 
+### Design Guideline
+- **Selected**: <guideline name or "none">
+- **Rationale**: <why this guideline fits the audience and context>
+- **Overrides**: <any block-specific guideline overrides>
+
 ## Improvements Prioritized
 
 | # | Area | Type | Priority | Description |

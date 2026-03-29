@@ -9,6 +9,7 @@ Scans directories and files to detect types, extract metadata (title, pages, lan
 Read these files:
 1. The user-provided source directory path(s)
 2. Any existing project structure (book.py, blocks/) if migrating an existing project
+3. `custom/design-guideline.md` + referenced guideline (if project has active guideline)
 
 ## Methodology
 

@@ -18,6 +18,8 @@ Executes the production plan item by item. For each item, the appropriate Stream
 
 Each item is audited after production (`/stx-designer:audit --target`) and fixed if needed. A global audit runs at the end.
 
+For each block: classify content, match guideline archetype, and apply directives. Add `# @guideline: <name>` annotation at the top of each produced block file. Validate each block against guideline constraints before moving to the next.
+
 ## Examples
 
 - `/stx-ce:produce` — Execute latest plan
@@ -30,6 +32,13 @@ Before executing, read:
 1. `.claude/ce/skills/ce-produce.md` — Full workflow
 2. `docs/plans/` — The plan to execute
 3. `.claude/references/streamtex_cheatsheet_en.md` — StreamTeX API reference
+- **Load design guideline**: If the plan references a guideline, verify the file exists
+  in `.claude/designer/guidelines/` and load it. Pass guideline context to all
+  designer commands invoked during production.
+- **Load design patterns**: Check `custom/design-guideline.md` for `## Patterns` section.
+  When producing a block that matches an existing pattern (e.g., a table, a card grid),
+  apply the named pattern's recipe instead of designing from scratch.
+  Add `# @pattern: <name>` annotation to blocks that use a pattern.
 
 ## Workflow
 

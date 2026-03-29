@@ -18,6 +18,15 @@ Standard StreamTeX project for screen viewing.
 | Title font | `s.huge` (80pt) |
 | Max blocks | 15 |
 
+### Design Guideline (Optional)
+
+Projects can adopt a design guideline for consistent visual design across all blocks.
+Recommended for projects: `maximize-viewport` or `academic-structured`.
+
+- Available guidelines: `.claude/designer/guidelines/_index.md`
+- Project config: Create `custom/design-guideline.md` referencing the chosen guideline
+- Per-block override: Add `# @guideline: <name>` at top of block files
+
 ## Default structure
 
 | Position | Blueprint | Description |

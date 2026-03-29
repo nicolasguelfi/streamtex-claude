@@ -27,6 +27,17 @@ Before executing, read:
 1. `.claude/ce/skills/ce-assess.md` — Full workflow
 2. `docs/collect/` — Latest collect report (if exists)
 
+### R27b — Design Guideline Selection
+
+- Present available guidelines from `.claude/designer/guidelines/_index.md`
+- Ask user which guideline to adopt: builtin name / custom / none
+- If selected, record in the assess report:
+  - Guideline name and rationale
+  - Any project-specific overrides
+- The guideline reference carries forward to PLAN and PRODUCE phases
+- **Existing patterns**: Check `custom/design-guideline.md` for existing `## Patterns`.
+  Note which patterns from previous cycles could apply to this new production.
+
 ## Workflow
 
 Execute the `ce-assess` skill. Auto-detect pathway or use forced flag. Generate assessment in `docs/assess/`.

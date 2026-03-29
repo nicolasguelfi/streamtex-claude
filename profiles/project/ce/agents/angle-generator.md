@@ -10,6 +10,7 @@ Read these files:
 1. The audience profile (from audience-analyst agent)
 2. The content strategy report (from content-strategist agent)
 3. The format exploration report (from format-explorer agent, if available)
+4. `custom/design-guideline.md` + referenced guideline (if project has active guideline)
 
 ## Methodology
 

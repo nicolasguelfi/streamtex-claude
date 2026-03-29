@@ -157,3 +157,21 @@ def build():
 - `st_space("v", 1)` between elements within a section.
 - `st_br()` for minimal breaks (e.g., between text lines).
 - Separators between blocks handled by `st_book(separator=...)`.
+
+---
+
+## 10. Interaction with Design Guidelines
+
+If the project has an active design guideline (`custom/design-guideline.md`),
+the guideline's directives take precedence over the defaults in this document.
+
+- **Font sizes**: A guideline may raise the minimum font sizes (e.g., minimalist requires 48pt body)
+- **Spacing**: A guideline may override the spacing philosophy (generous vs. compact vs. rhythm-based)
+- **Content density**: A guideline may set different limits on bullets, words, or lines per slide
+- **Layout**: A guideline may prefer certain archetypes (e.g., image-dominant over text-dominant)
+
+Always check the active guideline AFTER reading this file. The guideline provides
+the "what to aim for" while this file provides the "minimum acceptable baseline".
+
+See `.claude/designer/guidelines/_index.md` for the available guidelines and
+the scoping/annotation system (`@guideline` comments).

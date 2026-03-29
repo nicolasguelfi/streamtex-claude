@@ -53,6 +53,11 @@ Improvement production plan — detailed execution plan for enhancing an existin
 | Typography | <current> | <revised or "unchanged"> | <why> |
 | Asset types | <current> | <revised or "unchanged"> | <why> |
 
+### Design Guideline Integration
+- **Guideline**: <name>
+- **Archetype mapping**: Map each planned block to its expected content archetype
+- **PresentationProfile**: Recommended values from guideline
+
 ### Presentation Profiles
 
 | Aspect | Current | Revised | Rationale |

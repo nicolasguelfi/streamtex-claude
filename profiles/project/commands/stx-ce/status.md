@@ -26,3 +26,7 @@ Before executing, read:
 ## Workflow
 
 Execute the `ce-status` skill. Display the dashboard to the user.
+
+The dashboard must include:
+
+| Design Guideline | <name or "none"> | `custom/design-guideline.md` |

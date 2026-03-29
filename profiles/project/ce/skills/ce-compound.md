@@ -58,6 +58,7 @@ Run 5 analysis perspectives sequentially to extract knowledge from the cycle.
      - `ai-images`: AI image generation prompts, provider configs, seed strategies, style patterns
      - `deployment`: hosting, CI/CD, export, delivery
      - `import`: conversion, migration, format handling
+     - `style/patterns`: Named design patterns extracted from produced blocks — reusable component recipes
    - Classify each learning by **scope**:
      - `specific`: applicable only to this document
      - `generic`: applicable to all documents of this type (course, presentation, etc.)

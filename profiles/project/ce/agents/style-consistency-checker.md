@@ -11,6 +11,7 @@ Read these files:
 2. .claude/references/streamtex_cheatsheet_en.md
 3. The project's book.py
 4. The project's blocks/ directory listing
+5. `.claude/designer/guidelines/<active>.md` (if project has active guideline)
 
 ## Methodology
 
@@ -41,7 +42,16 @@ Read these files:
    - If blocks.csv exists: all entries match actual files
    - __init__.py exports match actual block modules
    - No missing or extra entries
-6. **Detect anti-patterns**:
+6. **Guideline style compliance** (if active guideline exists):
+   - Check color palette matches guideline recommendation (if specified)
+   - Check style naming follows guideline patterns (if specified)
+   - Check container patterns align with guideline directives
+   - Check font size ranges respect guideline calibration
+7. **Pattern consistency check** (if project has named patterns):
+   - Blocks with `@pattern:` annotations must follow the referenced pattern's recipe
+   - Similar-looking components across blocks should reference the same pattern
+   - Flag inconsistencies: blocks that look like a pattern but don't reference it
+8. **Detect anti-patterns**:
    - Inline styles that should be in BlockStyles
    - Duplicated style definitions across blocks (should be shared)
    - Hard-coded colors/sizes that should use variables

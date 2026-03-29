@@ -62,6 +62,11 @@ Import assessment report (pathway A) — defines requirements and import strateg
 | R17 | Source languages | <natural languages present in sources> |
 | R18 | Licensing / attribution | <license constraints, attribution requirements> |
 
+### Design Guideline
+- **Selected**: <guideline name or "none">
+- **Rationale**: <why this guideline fits the audience and context>
+- **Overrides**: <any block-specific guideline overrides>
+
 ## Sources Selected for Import
 
 | Priority | Source | Format | Import Method | Target Section |

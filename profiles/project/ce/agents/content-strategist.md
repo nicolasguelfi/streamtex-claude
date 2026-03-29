@@ -11,6 +11,7 @@ Read these files:
 2. The source scan report (from source-scanner agent)
 3. The audience profile (from audience-analyst agent)
 4. Any existing project blocks (blocks/ directory)
+5. `custom/design-guideline.md` + referenced guideline (if project has active guideline)
 
 ## Methodology
 

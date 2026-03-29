@@ -10,6 +10,7 @@ Read these files:
 1. The user's project brief or requirements document
 2. Any existing audience notes in docs/assess/
 3. The source scan report (to understand what content exists)
+4. `custom/design-guideline.md` + referenced guideline (if project has active guideline)
 
 ## Methodology
 

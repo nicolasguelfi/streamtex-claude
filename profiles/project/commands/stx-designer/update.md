@@ -50,6 +50,8 @@ If `$ARGUMENTS` is empty, ask the user what they want to modify.
 | Migrate HTML | Migration rules (see Migrate mode below) |
 | Export HTML | `streamtex_cheatsheet_en.md` Section "Export" |
 | Generate course | `block-blueprints.md`, `project-architect.md` |
+| All modes | `custom/design-guideline.md` (if present) + referenced guideline from `.claude/designer/guidelines/` |
+| All modes | `custom/design-guideline.md` `## Patterns` section (if present) — named design patterns |
 
 ### Documentation lookup (recommended for Add, Migrate, Course modes)
 
@@ -94,18 +96,23 @@ If the mode is ambiguous, state what you detected and ask for confirmation.
    - "conclusion" → Blueprint 10
    - (See full mapping in `block-blueprints.md`)
 3. **Determine naming**: Assign `bck_<name>.py` using a semantic name (no numbered prefix)
-4. **Create the block file** in `blocks/` with:
+4. **Load guideline context**:
+   - Load the active guideline (resolve from project default → block override)
+   - Classify the new content → find applicable archetype section in the guideline
+   - Apply guideline principles when composing BlockStyles and build()
+   - Add `# @guideline: <name>` at top of new block file
+5. **Create the block file** in `blocks/` with:
    - Standard imports, `BlockStyles` class, `bs` alias, `build()` function
    - Content adapted to the user's description using the blueprint structure
    - **MANDATORY: At least one `st_write(...)` with `toc_lvl="1"` as the first significant heading.** Without this, the block will be invisible in the sidebar and floating navigation bar (markers are auto-generated from TOC level-1 entries via `auto_marker_on_toc`). Even if the user does not explicitly ask for a title, always include one.
    - **MANDATORY: Use the most specific `stx.*` component for each content type.** In particular, any enumeration of 2+ items MUST use `st_list()` with `l.item()` — never simulate lists with successive `st_write()` calls, markdown dashes (`"- item"`), or unicode bullets (`"• item"`). See `coding_standards.md` section 6 for BAD/GOOD patterns.
    - When the user requests an **interactive AI image** (or "image AI editable/modifiable"), use `st_ai_image_widget(...)`. The widget is inherently interactive — the user can modify the prompt and regenerate the image without any additional parameter.
-5. **Show wiring instructions**: Tell the user how to add the block to `book.py`:
+6. **Show wiring instructions**: Tell the user how to add the block to `book.py`:
    ```python
    import blocks
    st_book([..., blocks.bck_new_block_name], toc_config=toc)
    ```
-6. **Validate**: Check that all referenced styles exist and all image URIs point to existing files
+7. **Validate**: Check that all referenced styles exist and all image URIs point to existing files
 
 ### Presentation-aware generation
 
@@ -135,6 +142,7 @@ If the project has presentation skills (`.claude/designer/presentation/` exists 
 ### Rules
 - NEVER delete existing content in blocks
 - Only modify blocks for font sizes (target audience change)
+- If modifying styles, verify changes don't violate the active guideline's constraints
 - Always propose a diff before applying
 
 ---

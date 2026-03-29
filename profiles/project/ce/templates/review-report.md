@@ -65,6 +65,13 @@ Multi-perspective review report — consolidates findings from all review agents
 | 1 | <CRITICAL / MAJOR / MINOR / SUGGESTION> | <finding description> | <block_name(s)> | <fix command or manual action> |
 | 2 | <...> | <...> | <...> | <...> |
 
+### Guideline Compliance
+
+| Block | Effective Guideline | Archetype | Compliant | Issues |
+|-------|-------------------|-----------|-----------|--------|
+| `bck_example` | maximize-viewport | text-dominant | ✓ | — |
+| `bck_arch` | maximize-viewport | balanced | ✗ | P3: image at 35% |
+
 ## Cross-Perspective Synthesis
 
 ### Contradictions

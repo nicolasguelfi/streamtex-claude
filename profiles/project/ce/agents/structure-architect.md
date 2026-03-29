@@ -13,6 +13,7 @@ Read these files:
 4. The content strategy report (from content-strategist agent)
 5. The gap analysis report (from gap-analyst agent)
 6. The format and angle reports (from format-explorer and angle-generator, if pathway C)
+7. `.claude/designer/guidelines/<active>.md` (if present) — to align structure proposals with design philosophy
 
 ## Methodology
 
@@ -26,6 +27,8 @@ Read these files:
    - Break each part into sections (logical groupings)
    - Assign clear titles and objectives to each level
    - Respect the chosen narrative angle's flow
+   - When proposing block structure, consider the active guideline's preferred archetypes
+     and map planned blocks to their expected archetype
 3. **Map content to blocks using blueprints catalog**:
    - For each section, select appropriate block blueprints
    - Match source materials to blocks (which source feeds which block)

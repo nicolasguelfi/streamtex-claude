@@ -13,6 +13,8 @@ Arguments: $ARGUMENTS (block file path, e.g. "documentation/manuals/stx_manual_i
    - [ ] No raw HTML strings (`<div`, `<span`, `<style`, `unsafe_allow_html`)
    - [ ] No raw CSS strings (inline `"color:"`, `"font-size:"`, etc. outside of `Style()` or `ns()`)
    - [ ] Uses `stx.*` functions, not raw `st.*` for content
+   - [ ] **Guideline compliance**: Block follows active design guideline (if present)
+   - [ ] **@guideline annotation**: Present and correct (if project has active guideline)
 
 3. **Asset validation**:
    - Extract all `uri=` values from `st_image()` calls

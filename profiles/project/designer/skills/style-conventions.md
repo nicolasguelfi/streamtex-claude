@@ -41,3 +41,21 @@ s.project.containers.*   # Container styles (good_callout, bad_callout, code_box
 | `show_code_inline(text)` | Code without box wrapper | Inside callout containers |
 | `show_explanation(text)` | Blue "Purpose" box | Before each example |
 | `show_details(text)` | Amber "Details" box | Defaults, tips, after examples |
+
+---
+
+## Guidelines and Style Constraints
+
+If the project follows a design guideline (`custom/design-guideline.md`), check whether
+the guideline prescribes:
+
+- **Color palette**: Mandatory colors to use in `custom/styles.py` project styles
+- **Naming patterns**: Specific naming conventions for BlockStyles attributes
+- **Container patterns**: Preferred CSS layout strategy (flex-viewport, natural, grid)
+- **Font size ranges**: Minimum/maximum sizes that override the base defaults
+
+Guideline-prescribed constraints override the defaults in this file.
+When refactoring or creating styles, verify compliance with the active guideline.
+
+The `@guideline` annotation system allows different guidelines per block or fragment.
+See `.claude/designer/guidelines/_index.md` for details.

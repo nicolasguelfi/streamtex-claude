@@ -25,6 +25,15 @@ StreamTeX presentation optimized for live projection at 10-20m distance.
 If `.claude/designer/presentation/skills/presentation-design-rules.md` exists,
 also read it — it overrides base rules for live projection.
 
+### Design Guideline (Optional)
+
+Projects can adopt a design guideline for consistent visual design across all slides.
+Recommended for presentations: `maximize-viewport` or `minimalist-visual`.
+
+- Available guidelines: `.claude/designer/guidelines/_index.md`
+- Project config: Create `custom/design-guideline.md` referencing the chosen guideline
+- Per-block override: Add `# @guideline: <name>` at top of block files
+
 ## Presentation-specific constraints
 
 - **Body text**: `s.Large` (48pt) minimum — `s.large` (32pt) is too small for projection

@@ -43,6 +43,26 @@ for visual design compliance and pedagogical completeness.
 - [ ] No raw HTML/CSS strings
 - [ ] Custom styles defined in `custom/styles.py`, not inline
 
+### Guideline Compliance Review
+
+When reviewing a slide in a project with an active guideline:
+
+1. **Identify the effective guideline** (resolve from annotations → overrides → default)
+2. **Match the content archetype** in the guideline
+3. **Check each principle** — is it respected?
+4. **Check constraints** — are all absolute constraints met?
+5. **Check anti-patterns** — are any forbidden patterns present?
+
+Include in review output:
+```
+Guideline: <name> (source: inline / block / project default)
+Archetype: <matched archetype>
+Compliance: COMPLIANT / PARTIAL / NON-COMPLIANT
+Issues:
+  - [P3] Image at 35% of zone (guideline minimum: 50%)
+  - [Anti-pattern] Thumbnail image in fill zone
+```
+
 ## Output Format
 
 For each file reviewed, produce:

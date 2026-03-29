@@ -90,6 +90,11 @@ Creation assessment report (pathway C) — defines requirements and creative dir
 | Narrative arc | <description of how the document progresses> |
 | Key metaphors or motifs | <recurring themes or analogies, if any> |
 
+### Design Guideline
+- **Selected**: <guideline name or "none">
+- **Rationale**: <why this guideline fits the audience and context>
+- **Overrides**: <any block-specific guideline overrides>
+
 ## Integration with Existing Documents
 
 | Integration Point | Target Document | Mechanism |

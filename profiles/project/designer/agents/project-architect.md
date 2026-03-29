@@ -57,6 +57,20 @@ Choose based on the project type:
 | Screen (individual) | `s.large` (32pt) | `s.huge` (80pt) | 18pt |
 | Documentation (reading) | `s.large` (32pt) | `s.Large` (48pt) | 16pt |
 
+### Design Guideline Integration
+
+If the project specifies a design guideline (via `custom/design-guideline.md`
+or user request), integrate its principles into all design decisions:
+
+- **Block structure**: Prefer archetypes that the guideline handles well
+  (e.g., maximize-viewport prefers content-rich slides; minimalist prefers image-dominant)
+- **Style palette**: Align `custom/styles.py` color choices with guideline recommendations
+- **PresentationProfile**: Use the guideline's recommended profile values (width, zoom, breaks)
+- **Content planning**: Estimate content volume per block and pre-match guideline archetypes
+- **@guideline annotations**: Include in the proposed block plan which guideline applies to each block
+
+When proposing the project structure, note: "Design guideline: <name>" in the output.
+
 ### Block-to-blueprint mapping
 
 When planning a project, associate each block with a blueprint:

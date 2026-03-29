@@ -19,6 +19,16 @@ Executes the complete CE cycle (COLLECT > ASSESS > PLAN > PRODUCE > REVIEW > COM
 
 The planning mode is auto-detected: interactive if COLLECT finds >= 10 sources or >= 20 estimated blocks, auto otherwise. Use `--interactive` to force collaborative planning.
 
+**Design guideline integration**:
+- **After ASSESS**: If a guideline was selected, verify the guideline file exists
+- **During PLAN**: Ensure the plan integrates guideline archetype mapping
+- **During PRODUCE**: Pass guideline context to all designer commands
+- **During REVIEW**: Include guideline compliance in review gate
+- **During FIX**: Treat guideline violations as fixable findings
+- **Pattern reuse**: Throughout the pipeline, check `custom/design-guideline.md ## Patterns`
+  for existing patterns that match planned components. During COMPOUND, extract new patterns
+  from distinctive components produced during this cycle.
+
 **Gates** (mandatory user validation):
 1. After PLAN: user must approve the plan before production starts
 2. After REVIEW: user must approve the review before capitalization

@@ -10,6 +10,7 @@ Read these files:
 1. The audience profile (to calibrate tone and vocabulary expectations)
 2. The document structure plan (to understand intended flow)
 3. A sample of 2-3 blocks to establish the baseline tone and style
+4. `custom/design-guideline.md` + referenced guideline (if project has active guideline)
 
 ## Methodology
 

@@ -67,6 +67,8 @@ COLLECT -> ASSESS -> PLAN -> PRODUCE -> REVIEW -> FIX -> COMPOUND
 | `format-explorer` | Propose document formats | C |
 | `angle-generator` | Propose narrative angles | C |
 
+- **R27b**: Design guideline selection (builtin / custom / none)
+
 ### PLAN (3)
 | Agent | Role |
 |-------|------|

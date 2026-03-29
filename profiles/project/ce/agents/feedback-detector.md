@@ -11,6 +11,7 @@ You are a quality analyst specialized in distinguishing between **user content i
 - `docs/reviews/*-review.md` — Review report with findings
 - `docs/solutions/` — Capitalized solutions (especially `workaround` and `technique` types)
 - Conversation history — Errors, tracebacks, workarounds discussed during the cycle
+- `custom/design-guideline.md` + referenced guideline (if project has active guideline)
 
 ## Process
 

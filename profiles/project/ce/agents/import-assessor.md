@@ -10,6 +10,7 @@ Read these files:
 1. .claude/skills/import-conventions.md
 2. .claude/import-formats/ (all available format handlers)
 3. The source scan report from the source-scanner agent
+4. `custom/design-guideline.md` + referenced guideline (if project has active guideline)
 
 ## Methodology
 

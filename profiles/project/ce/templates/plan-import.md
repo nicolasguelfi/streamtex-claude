@@ -54,6 +54,11 @@ Import production plan — detailed execution plan for importing external source
 | Asset types | <diagrams / screenshots / icons / code snippets / tables> |
 | Conventions | <naming, styling, or structural conventions> |
 
+### Design Guideline Integration
+- **Guideline**: <name>
+- **Archetype mapping**: Map each planned block to its expected content archetype
+- **PresentationProfile**: Recommended values from guideline
+
 ### Presentation Profiles
 
 | Aspect | Value |

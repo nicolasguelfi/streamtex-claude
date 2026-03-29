@@ -224,21 +224,52 @@ STX_FAL_KEY=fal-...
 
 ```python
 from streamtex import get_available_models
-from streamtex.ai.providers.registry import get_model_capabilities
 
 # List available models for a provider
-models = get_available_models("openai")   # e.g. ["gpt-image-1", "dall-e-3"]
-models = get_available_models("google")   # e.g. ["imagen-4.0-generate-001"]
-models = get_available_models("fal")      # e.g. ["fal-ai/stable-diffusion-v35-large"]
+models = get_available_models("openai")   # e.g. ["gpt-image-1"]
+models = get_available_models("google")   # e.g. ["imagen-3.0-generate-002"]
+models = get_available_models("fal")      # e.g. ["sd-v3.5"]
+```
 
-# Query model capabilities (sizes, qualities, defaults)
+### Model Capabilities (Dynamic Validation)
+
+StreamTeX validates image parameters against model capabilities before API calls.
+Invalid sizes or quality levels are auto-corrected with a warning.
+
+**Query capabilities programmatically:**
+```python
+from streamtex.ai.providers.registry import get_model_capabilities
+
+caps = get_model_capabilities("openai", "gpt-image-1")
+print(caps.sizes)       # ['1024x1024', '1536x1024', '1024x1536', 'auto']
+print(caps.qualities)   # ['low', 'medium', 'high', 'auto']
+print(caps.default_size)  # '1024x1024'
+```
+
+**Available models and sizes:**
+
+| Provider | Model | Sizes | Qualities |
+|----------|-------|-------|-----------|
+| openai | gpt-image-1 | 1024x1024, 1536x1024, 1024x1536, auto | low, medium, high, auto |
+| openai | dall-e-3 | 1024x1024, 1792x1024, 1024x1792 | standard, hd |
+| google | imagen-4.0 | auto (API-determined) | standard |
+| fal | sd-v3.5-large | 512x512 to 1536x1024 | standard |
+
+**Auto-correction:** If you pass an invalid size (e.g., `1792x1024` to `gpt-image-1`),
+StreamTeX auto-corrects to the closest valid size (`1536x1024`) with a warning.
+
+**Image editor UI:** The "Edit Image" panel dynamically shows only valid sizes
+and qualities for the selected provider and model.
+
+**Programmatic access:**
+```python
+from streamtex.ai.providers.registry import get_model_capabilities
+
 caps = get_model_capabilities("openai", "gpt-image-1")
 caps.sizes          # ["1024x1024", "1024x1536", "1536x1024"]
 caps.qualities      # ["auto", "low", "medium", "high"]
 caps.default_size   # "1536x1024"
 caps.default_quality  # "auto"
-
-# The image editor uses this automatically to populate size/quality dropdowns
 ```
 
 ### AI Image — Editable Image Editor

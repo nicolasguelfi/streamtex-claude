@@ -44,6 +44,8 @@ Before fixing, run an implicit audit (following `/stx-designer:audit` logic)
 to identify all issues. DO NOT show the full audit report — just summarize
 the findings.
 
+- If project has an active guideline (`custom/design-guideline.md`), load the referenced guideline
+
 ### Step 2: Propose fixes
 
 Present a summary of what will be changed:
@@ -130,6 +132,16 @@ After applying:
 | Non-English style names | Rename to English equivalents |
 | Hardcoded black/white | Remove or use theme-aware alternatives |
 | Unused styles in `BlockStyles` | Remove unused entries |
+
+### Guideline Compliance Fixes (`--target guidelines`)
+
+| Found | Fix |
+|-------|-----|
+| Void > guideline max (e.g., 15% for maximize-viewport) | Increase font size or redistribute content vertically |
+| Font below guideline minimum | Increase to guideline-specified minimum |
+| Image thumbnail in fill zone | Resize to fill allocated area (object-fit:cover) |
+| Anti-pattern detected | Apply guideline-recommended alternative |
+| Missing @guideline annotation | Add annotation matching project default |
 
 ### Book fixes (`--target book`)
 

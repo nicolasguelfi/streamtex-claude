@@ -11,6 +11,7 @@ Read these files:
 2. The user's requirements or assessment documents (target state)
 3. The audience profile (from audience-analyst agent)
 4. The content strategy report (from content-strategist agent)
+5. `custom/design-guideline.md` + referenced guideline (if project has active guideline)
 
 ## Methodology
 

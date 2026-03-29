@@ -17,6 +17,15 @@ StreamTeX collection hub — a multi-project aggregator.
 | Body font | `s.large` (32pt) |
 | Title font | `s.huge` (80pt) |
 
+### Design Guideline (Optional)
+
+Projects can adopt a design guideline for consistent visual design across all blocks.
+Recommended for collections: `minimalist-visual` or `maximize-viewport`.
+
+- Available guidelines: `.claude/designer/guidelines/_index.md`
+- Project config: Create `custom/design-guideline.md` referencing the chosen guideline
+- Per-block override: Add `# @guideline: <name>` at top of block files
+
 ## Structure
 
 A collection is different from a standard project:

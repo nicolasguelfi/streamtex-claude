@@ -234,6 +234,24 @@ class DarkTheme:
 
 ## Rule 7 — Image Handling & Placeholders
 
+### Image centering (MANDATORY)
+
+To center an image horizontally, wrap `st_image()` in `st_block(s.center_txt)`:
+
+```python
+# CORRECT — center via container
+with st_block(s.center_txt):
+    st_image(s.none, width="80%", editable=True, name="hero", prompt="...")
+
+# WRONG — style on st_image applies to <img> tag, not its container
+st_image(s.center_txt, width="80%", ...)  # text-align has no effect on <img>
+```
+
+**Why**: `st_image()` renders an `<img>` tag. CSS `text-align: center` only works
+on a **container**, not on the element itself. The `style` parameter of `st_image()`
+applies to the `<img>` tag directly, so centering styles are ignored.
+Always use the **parent container** (`st_block`) for positioning.
+
 ### When user provides images
 
 Place them in `static/images/` with a clear naming convention:
@@ -499,3 +517,102 @@ def build():
         # === L3 — Transition question ===
         st_write(bs.question, "What implications for...?", tag=t.div)
 ```
+
+---
+
+## Rule 12 — Grid Design Checklist (MANDATORY before writing any st_grid)
+
+Before writing ANY `st_grid` code, follow this checklist IN ORDER:
+
+### Step 1 — Find a working example first
+Search the StreamTeX manuals (`stx_manual_intro/blocks/_atomic/bck_grid_*.py`) for a
+pattern that matches your use case. Copy the working pattern, then adapt it.
+**Never invent a grid layout from scratch when an example exists.**
+
+### Step 2 — Use the correct cell styling pattern
+The ONLY reliable way to style grid cells (background, border, centering) is:
+```python
+cell = (
+    my_background_style
+    + s.container.layouts.vertical_center_layout  # vertical centering
+    + s.center_txt                                 # horizontal centering
+    + s.container.paddings.small_padding           # padding
+)
+
+with st_grid(cols=3, cell_styles=cell, gap="12px") as g:
+    with g.cell():
+        st_write(style, "content")
+```
+
+**Rules:**
+- Pass ALL cell styling via `cell_styles=` parameter — NOT via `st_block()` inside cells
+- Use `g.cell()` context manager — NOT `st_block()` as a cell wrapper
+- Use `s.container.layouts.vertical_center_layout` for vertical centering — NOT manual flex CSS
+- Use `s.center_txt` for horizontal centering — it works because it sets `text-align`
+- Use `gap="12px"` parameter for spacing — NOT gap in `grid_style`
+- Do NOT nest `st_block()` inside `g.cell()` for styling — it creates extra Streamlit wrappers
+  that break flex centering
+
+### Step 3 — Verify column width vs content
+See Rule 13 below for the calibration formula.
+
+### Anti-patterns (NEVER do these)
+- `st_block(cell_style)` inside a grid cell → extra wrapper breaks centering
+- `display:flex; align-items:center;` in `grid_style` → targets wrong element
+- `st_block(s.container.flex.center_flex)` inside `g.cell()` → doesn't propagate
+- Fixed column width without checking font size fit → overflow
+
+---
+
+## Rule 13 — Column Width vs Font Size Calibration
+
+When using fixed-width columns in a grid, ALWAYS verify that the column is wide enough
+for the text it contains at the chosen font size. **Never guess — calculate.**
+
+### Calibration formula
+
+```
+minimum_column_width = longest_text_chars × 0.6 × font_size_px + (2 × padding_px)
+```
+
+Where `font_size_px ≈ font_size_pt × 1.33` and `0.6` is the average width/height ratio
+for sans-serif fonts.
+
+### Reference table
+
+| Font | 5 chars (e.g., "Day 1") | 8 chars (e.g., "Mastering") | 12 chars (e.g., "Requirements") |
+|------|------------------------|----------------------------|-------------------------------|
+| `s.large` (32pt ≈ 43px) | ~160px | ~240px | ~340px |
+| `s.Large` (48pt ≈ 64px) | ~220px | ~340px | ~490px |
+| `s.huge` (64pt ≈ 85px) | ~290px | ~440px | ~640px |
+| `s.Huge` (80pt ≈ 107px) | ~350px | ~550px | ~800px |
+
+*Values include ~30px padding. Actual results vary by font and character mix.*
+
+### Rules
+
+1. **Before setting a fixed column width**: count the characters of the longest content
+   in that column, look up the reference table, and set the width accordingly.
+2. **If the text doesn't fit**: either widen the column OR reduce the font size.
+   Never let text overflow or wrap unintentionally.
+3. **For variable-length content**: prefer responsive columns (`minmax()`) over fixed widths.
+   Fixed widths are only for short, predictable content (e.g., "Day 1" to "Day 6").
+4. **Use `s.text.wrap.hyphens`** as a safety net on text in grid cells — it enables
+   automatic hyphenation so long words break cleanly with a hyphen instead of overflowing.
+
+---
+
+## Rule 13 — Interaction with Design Guidelines
+
+The rules in this file define the **structural and technical baseline** for all slides.
+Design guidelines (`.claude/designer/guidelines/`) define the **visual philosophy**.
+
+When a project has an active guideline:
+- The L1/L2/L3 grid structure (Rule 2) remains mandatory — guidelines don't change the skeleton
+- Font size minimums (Rule 5) may be RAISED by the guideline (never lowered)
+- Text constraints (Rule 4) may be tightened by the guideline (fewer words, fewer bullets)
+- The guideline determines HOW each zone is filled (generously, densely, minimally)
+
+The `@guideline` annotation in block files indicates which guideline applies.
+Resolution: inline annotation > block annotation > project override > project default.
+See `.claude/designer/guidelines/_index.md` for the complete scoping system.

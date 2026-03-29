@@ -32,7 +32,20 @@ Before executing, read:
 1. `.claude/ce/skills/ce-review.md` — Full workflow
 2. `.claude/designer/skills/visual-design-rules.md` — Visual rules
 3. `.claude/designer/skills/style-conventions.md` — Style rules
+- Load project design guideline (`custom/design-guideline.md`) if present
+- Pass guideline context to visual-reviewer and style-consistency-checker agents
 
 ## Workflow
 
 Execute the `ce-review` skill. GATE: Review results presented to user for validation. Suggest `/stx-ce:fix` as next step.
+
+The review report must include a **Guideline Compliance** section:
+
+### Guideline Compliance
+- Status: COMPLIANT / PARTIAL / NON-COMPLIANT
+- Guideline: <name>
+- Violations: [list of violations with block references]
+
+### Pattern Opportunities
+- Identify recurring visual components across blocks that could be extracted as named patterns
+- Propose pattern names and descriptions for `custom/design-guideline.md ## Patterns`

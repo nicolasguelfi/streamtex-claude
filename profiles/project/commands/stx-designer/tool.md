@@ -35,6 +35,10 @@ the complete instructions for that tool.
 3. **If tool file exists**: Read `.claude/designer/tools/<tool-name>.md` and execute its instructions, passing the remaining description as context
 4. **If tool file does not exist**: Report the error and list available tools
 
+> **Note**: If a tool generates or modifies content (blocks, styles), it should
+> check and respect `custom/design-guideline.md` if present. Load the active
+> guideline and apply its constraints to any generated output.
+
 ### Listing tools
 
 When listing tools, show:

@@ -11,6 +11,7 @@ Read these files:
 2. .claude/designer/skills/slide-design-rules.md (if presentation mode)
 3. The project's BlockStyles classes (in blocks/*.py files)
 4. The audience profile (for device and context constraints)
+5. `.claude/designer/guidelines/<active>.md` (if project has active guideline via `custom/design-guideline.md`)
 
 ## Methodology
 
@@ -64,7 +65,17 @@ Read these files:
    - Provider consistency: same provider/model used throughout unless intentional variation is documented
    - Seed reproducibility: fixed seeds used where plan requires deterministic output
    - Cache efficiency: no duplicate prompts generating redundant images
-9. **Advisory mode** (during PLAN phase):
+9. **Guideline compliance check** (if active guideline exists):
+   - Resolve the effective guideline for each block (annotations → overrides → default)
+   - Match content to guideline archetype
+   - Verify each principle is respected
+   - Check no anti-pattern from the guideline is present
+   - Check absolute constraints (font minimums, void limits, etc.)
+10. **Pattern detection**:
+   - Identify visual components that recur across blocks (tables, grids, cards)
+   - If they share similar styling but aren't using a named pattern, flag as
+     "Pattern opportunity: consider extracting as a named pattern"
+11. **Advisory mode** (during PLAN phase):
    - Propose color palette options based on content type and audience
    - Suggest layout patterns for each section type
    - Recommend visual hierarchy approach
@@ -91,6 +102,7 @@ Read these files:
 | 3 | MAJOR | bck_3_2 | Inconsistent heading color (blue vs green) | Color consistency | Standardize to primary heading color |
 | 4 | MINOR | bck_1_1 | Image slightly pixelated at current size | Asset quality | Replace with higher resolution version |
 | 5 | SUGGESTION | bck_2_3 | Could use visual separator between sections | Layout quality | Add horizontal rule or spacing |
+| 6 | Guideline | [principle/constraint violated] | [description] | [severity] |
 | ... | ... | ... | ... | ... | ... |
 
 ## Consistency Audit

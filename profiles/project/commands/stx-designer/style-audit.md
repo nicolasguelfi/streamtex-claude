@@ -6,7 +6,9 @@ Arguments: $ARGUMENTS (path to the block file to audit, or "all" to audit the en
 
 1. **Read the target**: Read the specified block file(s). If "all", scan all `bck_*.py` files in the project's `blocks/` directory.
 2. **Load references**: Read `documentation/streamtex_cheatsheet_en.md` and `custom/styles.py` for the project.
-3. **Check for violations** — report each with file path and line number:
+3. **Load guideline**: Read `custom/design-guideline.md` if present.
+   Load the referenced guideline to check for palette and naming constraints.
+4. **Check for violations** — report each with file path and line number:
 
 ### Critical Issues
 - [ ] **Raw HTML/CSS strings**: Any inline `"color: red"` or `st.markdown(..., unsafe_allow_html=True)` usage
@@ -21,6 +23,10 @@ Arguments: $ARGUMENTS (path to the block file to audit, or "all" to audit the en
 - [ ] **Missing BlockStyles class**: Block file without a `BlockStyles` or `BStyles` class
 - [ ] **Missing build() function**: Block file without a `build()` function
 - [ ] **Raw st.* for content**: Using `st.write`, `st.markdown`, `st.image`, `st.columns` for content rendering
+
+### Guideline Compliance
+- [ ] **Guideline palette compliance**: Colors used match guideline-specified palette (if any)
+- [ ] **Guideline naming patterns**: Style names follow guideline conventions (if specified)
 
 ### Recommendations
 - [ ] **Dark mode compatibility**: Styles that may break in dark mode

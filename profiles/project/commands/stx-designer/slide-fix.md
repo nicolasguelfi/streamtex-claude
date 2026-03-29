@@ -6,6 +6,8 @@ Arguments: $ARGUMENTS (file path or block name)
 
 1. **Run audit first**: Follow the audit process from `/stx-designer:audit` to identify all violations.
 2. **Load rules**: Read `.claude/designer/skills/visual-design-rules.md`.
+2a. **Load guideline**: Read `custom/design-guideline.md` if present, load referenced guideline,
+    and check for `@guideline` annotations in the target block file.
 3. **Apply fixes** for each violation found:
    - **Long lines**: Break into `st_write()` + `st_br()` pattern
    - **Missing show_code()**: Add `show_code("""\...""")` before live rendering
@@ -15,6 +17,8 @@ Arguments: $ARGUMENTS (file path or block name)
    - **Wrong font size**: Replace `s.big` with `s.large` for body text
    - **Missing WRONG explanation**: Add `st_write()` + `st_br()` lines explaining WHY
    - **Old varargs pattern**: Convert to `"""\..."""` (auto-dedented)
+   - Include guideline-specific fixes: font sizing per archetype, spacing adjustments,
+     image sizing corrections, anti-pattern removal
 4. **Verify**: Import the module to confirm no syntax errors.
 5. **Report**: List all changes made.
 

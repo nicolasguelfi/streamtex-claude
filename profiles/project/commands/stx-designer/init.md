@@ -33,6 +33,7 @@ If `$ARGUMENTS` is empty or only `--help`, show the Help section.
 5. `.claude/designer/skills/style-conventions.md` — style naming rules
 6. The **template file** matching the chosen template (see Template resolution below)
 7. Existing `book.py` (if the project has already been scaffolded)
+8. `.claude/designer/guidelines/_index.md` — available design guidelines catalog
 
 ### Documentation lookup (recommended)
 
@@ -101,6 +102,14 @@ and propose to the user:
 
 Use the output format defined in `project-architect.md`.
 
+### Design Guideline Selection
+- Present the available guidelines from `.claude/designer/guidelines/_index.md`
+- Ask which guideline to adopt (or none)
+- If chosen: create `custom/design-guideline.md` referencing the selected guideline
+- Load the guideline and apply its principles throughout block generation
+- If the project already has blocks with distinctive component styles,
+  propose extracting them as named patterns in `custom/design-guideline.md ## Patterns`
+
 **Ask for confirmation before generating.** Never generate without explicit approval.
 
 ### Step 3: Generate files
@@ -124,6 +133,10 @@ For each block:
      - Bullet points with `"[TODO: description of expected content]"`
      - Image placeholders with comments `# TODO: add image`
    - `toc_lvl` on the main title for the table of contents
+   - For each block, classify its content type and apply the active guideline's
+     matching archetype directives (font sizing, spacing, layout choices)
+   - Add `# @guideline: <name>` comment at top of each generated block file
+   - Include recommended PresentationProfile from guideline in book.py if applicable
 
 2. Update `book.py`:
    - Import `blocks` (registry)

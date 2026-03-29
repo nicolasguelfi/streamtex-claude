@@ -5,8 +5,10 @@ Arguments: $ARGUMENTS (file path or block name, e.g. "bck_text_styles" or path t
 ## Steps
 
 1. **Load rules**: Read `.claude/designer/skills/visual-design-rules.md`.
-2. **Read the block file** specified in arguments.
-3. **Check each rule** and report violations:
+2. **Load guideline**: Read `custom/design-guideline.md` if present. Load the referenced guideline.
+   Check for `@guideline` annotations in the block file being audited.
+3. **Read the block file** specified in arguments.
+4. **Check each rule** and report violations:
 
 ### Checklist
 
@@ -23,9 +25,13 @@ Arguments: $ARGUMENTS (file path or block name, e.g. "bck_text_styles" or path t
 - [ ] **Default values**: Details sections document parameter defaults
 - [ ] **Spacing**: `st_space("v", 2)` between sections, `st_space("v", 1)` within
 - [ ] **Section structure**: subtitle -> explanation -> code -> rendering -> details
+- [ ] **Pattern compliance**: If `@pattern:` annotation present, block follows the named pattern
+- [ ] **Guideline compliance**: Follows project design guideline principles (if active)
+- [ ] **Guideline archetype**: Content correctly handled per the matched archetype
+- [ ] **No guideline anti-patterns**: None of the guideline's forbidden patterns present
 
-4. **Report findings**: List all violations with line numbers and suggested fixes.
-5. **Severity**: Mark each as ERROR (must fix) or WARNING (should fix).
+5. **Report findings**: List all violations with line numbers and suggested fixes.
+6. **Severity**: Mark each as ERROR (must fix) or WARNING (should fix).
 
 ## Output Format
 

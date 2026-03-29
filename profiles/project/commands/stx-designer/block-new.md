@@ -12,6 +12,11 @@ Arguments: $ARGUMENTS (block name and optional description, e.g. "bck_intro_welc
    - "code demo" → Blueprint 6 (bck_code_demo)
    - "steps / process" → Blueprint 7 (bck_timeline)
    - "summary / conclusion" → Blueprint 10 (bck_conclusion)
+3a. **Load guideline**: If `custom/design-guideline.md` exists in the target project,
+    read it and load the referenced guideline from `.claude/designer/guidelines/`.
+3b. **Load patterns**: Check `custom/design-guideline.md` for a `## Patterns` section.
+    If the user's request matches a named pattern (e.g., "create a table like table-roadmap"),
+    load the pattern and use it as the blueprint for the component.
 4. **Parse arguments**: Extract the block name (must follow `bck_[description]_[suffix]` format). If only a description is given, generate an appropriate name.
 5. **Determine target project**: Look at the current working directory or ask the user which project to use.
 6. **Create the block file** in `[project]/blocks/` with:
@@ -20,6 +25,9 @@ Arguments: $ARGUMENTS (block name and optional description, e.g. "bck_intro_welc
    - A `BlockStyles` class with relevant styles for the described content
    - A `build()` function implementing the described content using `stx.*` functions
    - Proper TOC entries if the block has headings
+   - If a guideline is active, classify the block's content → match archetype
+   - Apply archetype directives to BlockStyles composition and build() layout
+   - Add `# @guideline: <name>` annotation at top of the new block file
 7. **Update `blocks/__init__.py`**: Add the new module to the dynamic import list if it uses explicit imports (not needed with `ProjectBlockRegistry` lazy loader).
 8. **Show wiring instructions**: Tell the user how to add the block to `book.py`:
    ```python
@@ -28,6 +36,7 @@ Arguments: $ARGUMENTS (block name and optional description, e.g. "bck_intro_welc
    st_book([..., blocks.bck_new_block_name], toc_config=toc)
    ```
 9. **Validate**: Check that all referenced styles exist and all image URIs point to existing files.
+   - Follows active design guideline (if present)
 
 ## Constraints
 - Follow ALL rules from CLAUDE.md

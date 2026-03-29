@@ -10,6 +10,7 @@ Read these files:
 1. The audience profile from docs/assess/ (if available)
 2. .claude/designer/skills/block-blueprints.md (to understand expected block patterns)
 3. The document structure plan (to understand intended progression)
+4. `custom/design-guideline.md` + referenced guideline (if project has active guideline)
 
 ## Methodology
 

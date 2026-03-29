@@ -431,3 +431,20 @@ ends with `st_slide_break()` for keyboard navigation (PageDown/PageUp).
 | "AI image", "generate image", "image from prompt" | 11 — AI Image + Text |
 | "image lab", "interactive generation", "prompt editor" | 12 — Interactive Image Lab |
 | "fullscreen slide", "fullscreen presentation slide" | 13 — Fullscreen Slide |
+
+---
+
+## Interaction with Design Guidelines
+
+These blueprints define **structural patterns** (which rows, which columns, which elements).
+Design guidelines define **how to fill those structures** (font sizing, spacing, image treatment).
+
+When both a blueprint and a guideline apply:
+1. Use the blueprint for the structural skeleton (L1/L2/L3, grid layout, element types)
+2. Use the guideline for calibration (font sizes, spacing philosophy, content density)
+3. The guideline's archetype directives refine the blueprint's generic structure
+
+Example: The "content slide" blueprint defines L1 + L2 (headline + 2-column grid).
+The `maximize-viewport` guideline then specifies: fonts expand to fill, no void > 15%,
+images fill their zone. The `minimalist-visual` guideline instead specifies: generous
+white space, image-dominant, telegraphic text.

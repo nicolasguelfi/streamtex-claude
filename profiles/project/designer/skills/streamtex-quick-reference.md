@@ -127,6 +127,11 @@ path = generate_image("Illustration of AI", provider="openai")
 st_image(uri=path, width="100%")
 ```
 
+### AI Image Capabilities
+- Query valid sizes: `get_model_capabilities("openai", "gpt-image-1").sizes`
+- Auto-correction: invalid sizes are corrected to closest valid with warning
+- UI dynamically shows valid options per provider/model
+
 ## Code Blocks — `st_code()`
 
 ```python
@@ -253,3 +258,16 @@ st_collection(config=config, home_styles=s)
 shared = stx.LazyBlockRegistry([Path("../shared-blocks/blocks")])
 st_book([blocks.bck_01, shared.bck_footer], ...)
 ```
+
+---
+
+## Design Guidelines
+
+Design guidelines are AI skills that define a visual philosophy for the project.
+
+- **Catalog**: `.claude/designer/guidelines/_index.md`
+- **Project config**: `custom/design-guideline.md`
+- **Annotation**: `# @guideline: <name>` in block files
+- **Built-in**: `maximize-viewport`, `minimalist-visual`, `academic-structured`, `dense-informative`
+- **Scoping**: project default → block override → inline override (most specific wins)
+- **Combination**: `# @guideline: A + B` (A has priority)
