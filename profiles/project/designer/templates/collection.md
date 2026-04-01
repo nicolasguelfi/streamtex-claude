@@ -54,6 +54,18 @@ A collection is different from a standard project:
     config.toml            # Streamlit config
 ```
 
+## Solutions convention
+
+Collections use a two-level solutions hierarchy:
+
+- **`<root>/docs/solutions/`** — Cross-module solutions applicable to all projects in the collection
+- **`modules/<name>/docs/solutions/`** — Module-specific solutions
+
+When `/stx-ce:compound` writes a solution, it should:
+1. Check if the learning applies to a single module or the whole collection
+2. Place it at the appropriate level
+3. Check both levels for duplicates before writing
+
 ## book.py pattern
 
 ```python

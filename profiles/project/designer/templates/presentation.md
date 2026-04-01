@@ -155,6 +155,13 @@ class Styles(StxStyles):
             card = ns("background-color: rgba(255,255,255,0.05); border-radius: 12px; padding: 24px;", "pres_card")
             callout_highlight = ns("border-left: 4px solid #FFB547; background-color: rgba(255,183,71,0.1); padding: 16px;", "callout_hl")
 
+        class cells:
+            primary_bg = ns("background-color: rgba(108,154,239,0.15); border-radius: 8px; padding: 12px;", "cell_primary")
+            active_bg = ns("background-color: rgba(0,212,255,0.15); border-radius: 8px; padding: 12px;", "cell_active")
+            accent_bg = ns("background-color: rgba(255,181,71,0.15); border-radius: 8px; padding: 12px;", "cell_accent")
+            pad_sm = ns("padding: 8px;", "cell_sm")
+            pad_md = ns("padding: 16px;", "cell_md")
+
         class slide:
             headline = s.huge + s.bold + s.center_txt
             body = s.Large
@@ -166,3 +173,40 @@ class Styles(StxStyles):
 
 Use `/stx-ce:go "description"` to produce this presentation with the full CE cycle.
 See `.claude/references/ce_cheatsheet_en.md` for details.
+
+## AI Image Graphic Line (optional)
+
+When a project uses AI-generated images with a consistent visual style, centralize the prompt configuration in `custom/prompts.py` to avoid duplication across block files.
+
+### custom/prompts.py pattern
+
+```python
+"""Centralized AI image prompt configuration for consistent graphic line."""
+
+# Shared prefix — describes the visual style applied to ALL AI images
+AI_PREFIX = (
+    "Flat minimalist digital illustration, clean vector style, "
+    "dark navy background (#1a1a2e), "
+)
+
+# Orientation-specific suffixes
+AI_SUFFIX_LANDSCAPE = "16:9 aspect ratio, horizontal composition, wide scene"
+AI_SUFFIX_PORTRAIT = "9:16 aspect ratio, vertical composition, centered subject"
+
+def landscape(subject: str) -> str:
+    """Build a full prompt for a landscape AI image."""
+    return f"{AI_PREFIX}{subject}, {AI_SUFFIX_LANDSCAPE}"
+
+def portrait(subject: str) -> str:
+    """Build a full prompt for a portrait AI image."""
+    return f"{AI_PREFIX}{subject}, {AI_SUFFIX_PORTRAIT}"
+```
+
+### Usage in block files
+
+```python
+from custom.prompts import landscape
+st_image(bs.hero, prompt=landscape("a robot learning from books"))
+```
+
+This ensures all AI images share the same palette, style, and background — changing `AI_PREFIX` updates every image on regeneration.

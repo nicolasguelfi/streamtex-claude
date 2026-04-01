@@ -1,6 +1,6 @@
 # Block Blueprints — Template Catalog
 
-This file documents 13 common block templates that Claude uses as reference
+This file documents 14 common block templates that Claude uses as reference
 when generating code via `/stx-designer:update` (add block) or `/stx-designer:init`.
 
 ## How to use
@@ -414,6 +414,46 @@ ends with `st_slide_break()` for keyboard navigation (PageDown/PageUp).
 
 ---
 
+### Blueprint 14 — Glossary (bck_glossary)
+
+**When to use**: Term reference, abbreviation index, vocabulary page.
+
+**Structure**:
+- **L1**: Section title (toc_lvl="1" or "2")
+- **L2**: Glossary entries as a styled list or grid
+
+**Typical patterns**:
+- 2-column grid: term (bold, accent color) | definition (body text)
+- Sorted alphabetically or by order of appearance
+- Use `st_list()` for simple glossaries, `st_grid(2)` for term/definition pairs
+
+**Styles**: `bs.term = s.bold + s.project.colors.accent`, `bs.definition = s.body`, `bs.separator = ns("border-bottom: 1px solid rgba(128,128,128,0.2); padding: 8px 0;", "gloss_sep")`
+
+**Typical code pattern**:
+```python
+_ENTRIES = [
+    ("LLM", "Large Language Model — neural network trained on massive text corpora"),
+    ("RLHF", "Reinforcement Learning from Human Feedback"),
+    ("GenAI", "Generative Artificial Intelligence"),
+]
+
+class BlockStyles:
+    term = s.bold + s.Large + s.project.colors.accent
+    definition = s.Large
+    separator = ns("border-bottom: 1px solid rgba(128,128,128,0.2); padding: 8px 0;", "gloss_sep")
+
+def build():
+    st_write(s.titles.section_title, "Glossary", toc_lvl="1")
+    for term, definition in sorted(_ENTRIES):
+        with st_block(bs.separator):
+            st_write(bs.term, term)
+            st_write(bs.definition, definition)
+```
+
+**Future**: When `st_glossary()` is implemented (streamtex#12), this blueprint will evolve to use the library-level API with hover tooltips.
+
+---
+
 ## Quick reference
 
 | User requests... | Blueprint |
@@ -431,6 +471,7 @@ ends with `st_slide_break()` for keyboard navigation (PageDown/PageUp).
 | "AI image", "generate image", "image from prompt" | 11 — AI Image + Text |
 | "image lab", "interactive generation", "prompt editor" | 12 — Interactive Image Lab |
 | "fullscreen slide", "fullscreen presentation slide" | 13 — Fullscreen Slide |
+| "glossary", "abbreviations", "terms", "vocabulary" | 14 — Glossary |
 
 ---
 

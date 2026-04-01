@@ -6,6 +6,8 @@ Arguments: $ARGUMENTS
 
 - `--from-plan <path>` — Use a specific plan file (default: latest in docs/plans/)
 - `--no-deploy` — Skip deployment step
+- `--interactive` — Pause after each block/sequence for user validation
+- `--granularity <level>` — Validation granularity: block (each block), sequence (group of related blocks), batch (current, with checkpoints)
 - `--help` — Show stx-ce cheatsheet
 
 ## Description
@@ -19,6 +21,22 @@ Executes the production plan item by item. For each item, the appropriate Stream
 Each item is audited after production (`/stx-designer:audit --target`) and fixed if needed. A global audit runs at the end.
 
 For each block: classify content, match guideline archetype, and apply directives. Add `# @guideline: <name>` annotation at the top of each produced block file. Validate each block against guideline constraints before moving to the next.
+
+### Interactive Mode (`--interactive`)
+
+When enabled, production pauses at validation points for user review:
+
+- **Per block** (`--granularity block`): Validate each produced block individually. Best for <10 blocks.
+- **Per sequence** (`--granularity sequence`): Produce related blocks together, validate the group. Best for 10-25 blocks.
+- **Batch with checkpoints** (`--granularity batch`, default): Current behavior with periodic checkpoints. Best for 25+ blocks.
+
+If `--interactive` is used without `--granularity`, the granularity is auto-selected based on plan size.
+
+At each validation point:
+1. Show the produced block(s) with guideline archetype and pattern annotations
+2. Run targeted audit (`/stx-designer:audit --target`)
+3. Present results: Accept / Revise / Skip
+4. If Revise: user provides feedback, block is regenerated
 
 ## Examples
 

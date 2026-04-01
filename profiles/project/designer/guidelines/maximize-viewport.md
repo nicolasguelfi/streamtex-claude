@@ -193,6 +193,77 @@ Small icons and logos (institution logos, social icons, tech badges) must use
 
 ---
 
+## Named Patterns
+
+Reusable visual recipes that follow maximize-viewport principles. Reference these by name in block annotations: `# @pattern: spectrum-bar`.
+
+### Pattern: spectrum-bar
+
+Horizontal gradient bar visualizing a continuum (0%↔100%, Never↔Always, Low↔High).
+
+**Layout**: Full-width block with a gradient `<div>`, labels at extremes.
+
+**Implementation**:
+```python
+_gradient = ns(
+    "background: linear-gradient(90deg, rgba(108,154,239,0.8) 0%, rgba(255,181,71,0.8) 100%);"
+    "border-radius: 12px; padding: 16px 24px; display: flex; justify-content: space-between;",
+    "spectrum_bar"
+)
+with st_block(_gradient):
+    st_write(s.bold + s.Large, "Never")
+    st_write(s.bold + s.Large, "Always")
+```
+
+**Rules**: Gradient colors derived from project palette. Labels in bold contrasting color. Minimum height 48px. Border-radius 12px.
+
+### Pattern: exercise-flow
+
+3-phase structure for training exercises: briefing → timer → debrief.
+
+**Layout**: 3 consecutive sections separated by `st_slide_break()`.
+
+**Implementation**:
+```python
+# Phase 1 — Briefing
+st_write(bs.headline, "Exercise: Design a Pipeline", toc_lvl="1")
+st_write(bs.body, "Instructions...")
+with st_list("ol") as l:
+    with l.item(): st_write(bs.body, "Step 1...")
+    with l.item(): st_write(bs.body, "Step 2...")
+
+st_slide_break()
+
+# Phase 2 — Timer
+st_write(s.Giant + s.bold + s.center_txt, "15:00")
+st_write(s.Large + s.center_txt, "Time remaining")
+
+st_slide_break()
+
+# Phase 3 — Debrief
+st_write(bs.headline, "Debrief", toc_lvl="2")
+st_write(bs.body, "Discussion questions...")
+```
+
+**Rules**: Briefing phase uses structured list. Timer phase uses Giant font centered. Debrief phase uses open questions. Each phase fills the viewport independently.
+
+### Pattern: stat-hero
+
+Giant statistic with supporting context — classic keynote pattern for memorable data points.
+
+**Layout**: Centered number (Giant/GIANT) + subtitle below.
+
+**Implementation**:
+```python
+st_write(s.GIANT + s.bold + s.center_txt + s.project.colors.highlight, "73%")
+st_write(s.Large + s.center_txt, "of developers use AI coding assistants daily")
+st_write(s.large + s.center_txt + s.project.colors.muted, "Source: Stack Overflow Survey 2025")
+```
+
+**Rules**: Statistic in GIANT or Giant (96-196pt). Highlight color from palette. Supporting text max 2 lines. Source in muted color. The number must be the dominant visual element (>50% of viewport attention).
+
+---
+
 ## Anti-patterns (this guideline forbids)
 
 - Small text centered in large void

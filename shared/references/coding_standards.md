@@ -25,6 +25,7 @@ project_name/
   custom/
     styles.py              # Project-specific styles (inherits StxStyles)
     themes.py              # Theme overrides (dict)
+    prompts.py             # AI image prompt config (optional)
   static/images/           # Image assets
   .streamlit/config.toml   # MUST have enableStaticServing = true
   .claude/                 # Claude Code configuration
@@ -853,3 +854,15 @@ follows the same pattern as `BannerConfig` and `SlideBreakConfig`.
 - `book.py` — Profile selectbox in sidebar Settings, profile switch detection,
   hidden stx_prof_ buttons for floating bar JS interaction
 - `marker.py` — Phone icon popup in floating bar, profile_names/active_profile params
+
+## AI Image Prompt Centralization
+
+When a project uses 5+ AI-generated images with a consistent graphic line, create `custom/prompts.py`:
+
+- **`AI_PREFIX`**: Visual style description shared by all images (palette, background, style)
+- **`AI_SUFFIX_LANDSCAPE`** / **`AI_SUFFIX_PORTRAIT`**: Orientation-specific composition hints
+- **Helper functions**: `landscape(subject)`, `portrait(subject)` build full prompts
+
+Import in block files: `from custom.prompts import landscape, portrait`
+
+This avoids duplicating 3-4 lines of style description across 30+ block files.

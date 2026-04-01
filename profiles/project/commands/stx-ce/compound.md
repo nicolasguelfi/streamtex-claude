@@ -43,6 +43,10 @@ During **Phase 1.3: Assemble and Write**, also:
 Before executing, read:
 1. `.claude/ce/skills/ce-compound.md` — Full workflow
 2. `docs/solutions/` — Existing solutions to check for duplicates
+3. If inside a collection (check for `collection.toml` in parent directories):
+   - Also read `<root>/docs/solutions/` for cross-module duplicates
+   - Determine scope: is the learning module-specific or collection-wide?
+   - Write to the appropriate level: `docs/solutions/` (module) or `<root>/docs/solutions/` (collection)
 
 ## Workflow
 
