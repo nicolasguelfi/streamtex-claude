@@ -185,6 +185,21 @@ Each command checks which phases are completed before executing.
 
 **CRITICAL**: `/start` = full rebuild (pull git, rebuild Docker, install PyPI).
 `/restart` = reuse existing container (no code update). Always use `/start` for updates.
+To force a rebuild even for the same commit: `GET /api/v1/deploy?uuid={uuid}&force=true`.
+
+### Docker cache-bust (MANDATORY in all Dockerfiles)
+
+Both `streamtex-docs/Dockerfile` and `ai4se6d/Dockerfile` MUST include this **before** `COPY .stx-version pyproject.toml uv.lock ./`:
+
+```dockerfile
+ARG SOURCE_COMMIT=unknown
+```
+
+**Why**: Coolify passes `SOURCE_COMMIT` automatically with the git commit hash. Without this ARG, Docker caches the `COPY + RUN uv sync` layer — if `.stx-version` and `pyproject.toml` haven't changed, Docker skips `uv sync` entirely and the container keeps the old PyPI version of streamtex. With `ARG SOURCE_COMMIT`, each commit produces a different layer hash, forcing a fresh `uv sync`.
+
+**Symptoms if missing**: deployed app shows old version numbers, new features don't appear, `importlib.metadata.version("streamtex")` returns the correct version inside the container but the UI displays stale cached content.
+
+**Rule**: NEVER deploy without `ARG SOURCE_COMMIT` in the Dockerfile. If a new project Dockerfile is created, always include this ARG.
 
 ### Scaling operations (CoolifyClient methods)
 

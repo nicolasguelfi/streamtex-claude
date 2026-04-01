@@ -110,6 +110,9 @@ Each phase depends on the previous ones. The state file tracks completion.
 - **NEVER** disable the firewall to "fix" connectivity issues
 - **NEVER** run `docker system prune -a` without warning the user first
 - **NEVER** force-push or amend commits to trigger redeployment
+- **NEVER** create a Dockerfile without `ARG SOURCE_COMMIT=unknown` before `uv sync` — without it, Docker cache prevents PyPI updates
+- **NEVER** use `/restart` to deploy code changes — use `/start` (full rebuild) or `/deploy?uuid=...&force=true`
+- **ALWAYS** purge Docker build cache (`docker builder prune -af`) if builds produce stale versions
 
 ## Output format
 
