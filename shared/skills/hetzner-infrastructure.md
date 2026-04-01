@@ -181,19 +181,41 @@ Each command checks which phases are completed before executing.
 | Get env vars | GET | `/api/v1/applications/{uuid}/envs` | |
 | Set env var | POST | `/api/v1/applications/{uuid}/envs` | Set FOLDER |
 | Deploy (webhook) | GET | `/api/v1/deploy?uuid={uuid}` | GitHub Actions |
+| Create public app | POST | `/api/v1/applications/public` | `stx deploy scale` (create replicas) |
 
 **CRITICAL**: `/start` = full rebuild (pull git, rebuild Docker, install PyPI).
 `/restart` = reuse existing container (no code update). Always use `/start` for updates.
 
+### Scaling operations (CoolifyClient methods)
+
+| Method | What it does |
+|--------|-------------|
+| `scale_app(app, N, project_uuid, server_uuid)` | Create/delete replicas to reach N total containers. All replicas share the same FQDN — Traefik load-balances automatically. |
+| `rebuild_all_replicas(app)` | Rebuild primary + all replicas. |
+| `restart_all_replicas(app)` | Restart primary + all replicas. |
+
+Replicas are separate Coolify applications with the same FQDN. `AppEntry.replica_uuids` tracks them in `.stx-deploy.json`.
+
+### Serve modes
+
+| Mode | Port | Components | Use case |
+|------|------|------------|----------|
+| `streamlit-only` (default) | 8501 | Streamlit | Legacy, interactive docs |
+| `dual` | 80 | Nginx + Streamlit | Static fallback + interactive |
+| `static-only` | 80 | Nginx | Max performance, no interactivity |
+
+Set via `STX_SERVE_MODE` env var. The Dockerfile pre-exports HTML at build time; `entrypoint.sh` starts Nginx and/or Streamlit based on the mode.
+
 ## 10. GitHub Actions Integration
 
-The `hetzner-deploy.yml` workflow in `streamtex-docs` automates deployment:
+The `hetzner-deploy.yml` workflow in `streamtex-docs` and `ai4se6d` automates deployment:
 
 1. **Triggers**: push to main + manual dispatch
 2. **PyPI guard**: polls PyPI to confirm the locked streamtex version is published
 3. **Change detection**: only redeploys services whose files changed
-4. **Deploy**: calls Coolify API `GET /api/v1/deploy?uuid=...` per service
-5. **Secret required**: `COOLIFY_API_TOKEN` in GitHub repo settings
+4. **Replica-aware**: `services.json` has a `"replicas": []` array per service — when a service changes, both the primary UUID and all replica UUIDs are deployed
+5. **Deploy**: calls Coolify API `GET /api/v1/deploy?uuid=...` per service
+6. **Secret required**: `COOLIFY_API_TOKEN` in GitHub repo settings
 
 ## 11. Security Checklist
 

@@ -72,6 +72,9 @@ Deployment Plan:
   Estimated RAM: 3.3 GB (idle) + overhead = 4.5 GB
   Server capacity: 14.8 GB available → OK
 
+Note: RAM estimate is per-instance. If a service has N replicas, multiply by N.
+Example: 3 projects × 1 GB each × 3 replicas = 9 GB total.
+
 Proceed? (yes/no)
 ```
 

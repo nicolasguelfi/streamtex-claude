@@ -2221,8 +2221,14 @@ stx deploy configure-domain         # DNS records + SSL (auto with Cloudflare AP
 # Deploy a project
 stx deploy preflight [PATH]        # pre-deploy checks (book.py, Dockerfile, git, tests, lint)
 stx deploy hetzner [PATH]          # deploy project to Hetzner via Coolify API
-stx deploy update [TARGET]         # rebuild service (default) or --quick restart
-stx deploy status coolify|render|huggingface [NAME]  # check deployment health
+stx deploy hetzner [PATH] --serve-mode dual  # deploy with Nginx + Streamlit (static fallback)
+stx deploy update [TARGET]         # rebuild service + all replicas (default) or --quick restart
+stx deploy update [TARGET] --serve-mode static-only  # switch to static HTML only
+stx deploy scale TARGET --replicas N  # scale service to N containers (load-balanced)
+stx deploy status coolify|render|huggingface [NAME]  # check health, replicas, serve mode
+
+# Export
+stx export html [PATH]             # export project to static HTML (for dual/static-only mode)
 ```
 
 ### Deployment — Other platforms

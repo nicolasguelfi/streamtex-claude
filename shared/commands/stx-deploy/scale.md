@@ -4,9 +4,13 @@ Arguments: $ARGUMENTS
 
 ## Argument parsing
 
-Parse `$ARGUMENTS` as: `[OPTIONS]`
+Parse `$ARGUMENTS` as: `[TARGET] [OPTIONS]`
+
+**Positional**:
+- `TARGET` — Service name, subdomain, or Coolify UUID to scale (required for `--replicas`)
 
 **Options**:
+- `--replicas N` — Scale a specific service to N containers (same FQDN, load-balanced by Traefik)
 - `--analyze` — Analyze current metrics and recommend a scaling strategy (no action)
 - `--vertical TYPE` — Upgrade the primary server to TYPE (e.g. `cax41`)
 - `--horizontal` — Add a worker server + load balancer
@@ -15,6 +19,8 @@ Parse `$ARGUMENTS` as: `[OPTIONS]`
 ### Examples
 
 ```
+/stx-deploy:scale ai4se6d-genai-intro --replicas 5   # scale for a course session
+/stx-deploy:scale ai4se6d-genai-intro --replicas 1   # scale back after the session
 /stx-deploy:scale --analyze
 /stx-deploy:scale --vertical cax41
 /stx-deploy:scale --horizontal
@@ -95,7 +101,40 @@ Recommendation: RAM is approaching 80%. Consider:
 Vertical is simpler. Horizontal provides redundancy.
 ```
 
-### Step 5: Vertical scaling (--vertical)
+### Step 5: Replica scaling (--replicas N)
+
+Use the CLI to scale a single service to N containers:
+
+```bash
+stx deploy scale $TARGET --replicas $N
+```
+
+This calls `CoolifyClient.scale_app()` which:
+- **Scale up**: Creates additional Coolify applications with the **same FQDN** — Traefik load-balances automatically via round-robin. Copies env vars (FOLDER, STX_SERVE_MODE, STX_PASSWORD) from the primary. Triggers a build for each new replica.
+- **Scale down**: Stops and deletes excess replicas from the end.
+
+Each Streamlit container handles ~10-15 concurrent users (limited by Python GIL). With N replicas, a service supports ~N×15 concurrent users.
+
+**Capacity reference** (cax21, 16 GB RAM):
+| Replicas | Concurrent users | Extra RAM |
+|----------|-----------------|-----------|
+| 1        | ~15             | 0         |
+| 3        | ~45             | ~120 MB   |
+| 5        | ~75             | ~240 MB   |
+| 7        | ~100            | ~360 MB   |
+
+After scaling, update `.stx-deploy.json` (done automatically by the CLI) and the CI workflow `services.json` if the project uses GitHub Actions auto-deploy (add replica UUIDs to the `"replicas"` array so CI rebuilds them too).
+
+Display result:
+```
+ai4se6d-genai-intro scaled to 5 replica(s)
+  Primary: x45el0zeq6eqhhv1vo99mz20
+  Replica 2: aaa...
+  Replica 3: bbb...
+  ...
+```
+
+### Step 6: Vertical scaling (--vertical)
 
 **IMPORTANT**: Vertical scaling requires a brief server shutdown (2-5 minutes of downtime).
 
@@ -136,7 +175,7 @@ ssh $USER@$IP "sudo docker ps --format 'table {{.Names}}\t{{.Status}}'"
 
 6. Update `.stx-deploy.json` with new server type.
 
-### Step 6: Horizontal scaling (--horizontal)
+### Step 7: Horizontal scaling (--horizontal)
 
 1. Provision and secure a new worker (reuse provision + secure logic)
 2. If no load balancer exists, create one (reuse setup-loadbalancer logic)
@@ -153,6 +192,6 @@ To move projects to the new worker:
   In Coolify → Application → Settings → Server → select streamtex-worker-1
 ```
 
-### Step 7: Update state and display result
+### Step 8: Update state and display result
 
 Update `.stx-deploy.json` with all changes and display final status.

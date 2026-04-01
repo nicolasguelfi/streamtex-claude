@@ -11,9 +11,14 @@ Parse `$ARGUMENTS` as: `[OPTIONS]`
 - `--all` — Update all deployed projects
 - `--quick` — Quick restart (reuse existing Docker image, no rebuild)
 - `--force` — Force rebuild even if no changes detected
+- `--serve-mode MODE` — Change serve mode: `dual`, `static-only`, or `streamlit-only`
 
 By default (without `--quick`), update triggers a **full rebuild** from git + PyPI.
 Use `--quick` only for env var or config changes that don't require a new Docker image.
+
+**Replica handling**: When a service has replicas, the update rebuilds/restarts the primary AND all replicas automatically. The CLI reads `replica_uuids` from `.stx-deploy.json`.
+
+**Serve mode**: `--serve-mode` sets the `STX_SERVE_MODE` env var and adjusts the exposed port (80 for dual/static-only, 8501 for streamlit-only). Requires a rebuild (not `--quick`).
 
 ### Examples
 

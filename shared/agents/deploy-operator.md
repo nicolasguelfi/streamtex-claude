@@ -90,11 +90,12 @@ Phase 1: provision     — Create server, firewall, verify SSH (as root)
 Phase 2: secure        — Create user, harden SSH, UFW, fail2ban (transition root → user)
 Phase 3: install-coolify — Install Coolify, verify Docker/Traefik
 Phase 4: configure-domain — DNS, SSL, Coolify dashboard domain
-Phase 5: deploy        — Deploy individual project
+Phase 5: deploy        — Deploy individual project (--serve-mode: dual, static-only, streamlit-only)
 Phase 6: deploy-batch  — Deploy multiple projects
-Phase 7: setup-lb      — Multi-server load balancing (optional)
+Phase 7: scale         — Replica scaling per service (--replicas N) or vertical/horizontal
+Phase 8: setup-lb      — Multi-server load balancing (optional)
 
-Operations: update, status, scale — Ongoing maintenance
+Operations: update (rebuilds primary + replicas), status (shows replica count + serve mode), scale
 ```
 
 Each phase depends on the previous ones. The state file tracks completion.

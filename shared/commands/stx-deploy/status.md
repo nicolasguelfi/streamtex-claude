@@ -71,11 +71,17 @@ Determine status:
 
 ```
 Projects (N deployed):
-  #  Project          Status   URL                              Response  Memory
-  1  cours-python     running  https://cours-python.domain.com  0.4s      512/1024 MB
-  2  cours-docker     running  https://cours-docker.domain.com  0.3s      480/1024 MB
-  3  dashboard-ml     slow     https://dashboard-ml.domain.com  4.2s      1800/2048 MB
+  #  Project          Status   Replicas  Mode       URL                              Response  Memory
+  1  cours-python     running  3/3       dual       https://cours-python.domain.com  0.4s      512 MB
+  2  cours-docker     running  1         streamlit  https://cours-docker.domain.com  0.3s      480 MB
+  3  dashboard-ml     slow     1         static     https://dashboard-ml.domain.com  4.2s      1800 MB
 ```
+
+The **Replicas** column shows `healthy/total` when replicas > 1, or just `1` for single instances.
+Replica containers are hidden from the table — only the primary is shown with aggregate info.
+The **Mode** column shows the serve mode: `dual` (Nginx + Streamlit), `static` (Nginx only), or `streamlit` (legacy).
+
+Use `stx deploy status coolify` for the CLI equivalent.
 
 ### Step 5: Verbose mode
 

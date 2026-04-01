@@ -15,14 +15,22 @@ Parse `$ARGUMENTS` as: `[PATH] [OPTIONS]`
 - `--env KEY=VALUE` — Environment variable (repeatable)
 - `--server NAME` — Target server if multi-server setup (default: primary)
 - `--folder PATH` — For multi-manual deploys, the FOLDER env var
+- `--serve-mode MODE` — Serve mode: `dual` (Nginx + Streamlit), `static-only` (Nginx), or `streamlit-only` (default)
 - `--help` — Show deployment guide
+
+**Serve modes**:
+- `streamlit-only` (default): Streamlit on port 8501, legacy behavior
+- `dual`: Nginx on port 80 proxies Streamlit + serves pre-exported static HTML at `/html/`. Auto-fallback to static if Streamlit is down.
+- `static-only`: Nginx serves static HTML only. Lowest resource usage, no interactivity.
+
+After deployment, scale with `stx deploy scale TARGET --replicas N` if needed.
 
 ### Examples
 
 ```
 /stx-deploy:deploy
 /stx-deploy:deploy ./projects/cours-python --domain cours-python.mysite.com
-/stx-deploy:deploy ./streamtex-docs --folder manuals/stx_manual_intro --domain docs-intro.mysite.com
+/stx-deploy:deploy ./streamtex-docs --folder manuals/stx_manual_intro --domain docs-intro.mysite.com --serve-mode dual
 /stx-deploy:deploy . --memory 2g --env STX_PASSWORD=secret
 ```
 
