@@ -2229,6 +2229,9 @@ stx deploy status coolify|render|huggingface [NAME]  # check health, replicas, s
 
 # Export
 stx export html [PATH]             # export project to static HTML (for dual/static-only mode)
+stx export html -o /app/static-html/ .  # custom output directory
+stx export html --asset-mode embedded .  # inline base64 assets (single file)
+stx export html --title "My Doc" .      # custom HTML title
 ```
 
 ### Deployment — Other platforms
