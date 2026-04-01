@@ -46,11 +46,18 @@ Recommended for projects: `maximize-viewport` or `academic-structured`.
 
 ```python
 # book.py configuration
+import tomllib
+from pathlib import Path
 from streamtex import (
     st_book, TOCConfig, NumberingMode, MarkerConfig, BannerConfig,
     PdfConfig, ExportConfig, ExportMode, PresentationProfile, ViewMode,
     Spacing, SpacingConfig, set_spacing,
 )
+
+# Version display in sidebar and HTML export (MANDATORY)
+_doc_version = tomllib.loads(
+    (Path(__file__).parent.parent / "pyproject.toml").read_text()
+).get("project", {}).get("version", "?")
 
 toc = TOCConfig(
     numbering=NumberingMode.SIDEBAR_ONLY,
@@ -72,6 +79,7 @@ st_book(
     paginate=True,
     banner=BannerConfig.full(),
     view_modes=[ViewMode.PAGINATED, ViewMode.CONTINUOUS],
+    doc_version=_doc_version,
     # Auto-export to disk (disabled by default — change NEVER to ALWAYS to enable)
     exports=[
         ExportConfig(

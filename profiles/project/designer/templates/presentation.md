@@ -73,6 +73,8 @@ class BlockStyles:
 ## book.py — Presentation Config Pattern
 
 ```python
+import tomllib
+from pathlib import Path
 from streamtex import (
     st_book, TOCConfig, MarkerConfig, ViewMode,
     set_presentation_config, PresentationConfig,
@@ -80,6 +82,10 @@ from streamtex import (
     PdfConfig, ExportConfig, ExportMode, PresentationProfile,
     Spacing, SpacingConfig, set_spacing,
 )
+
+_doc_version = tomllib.loads(
+    (Path(__file__).parent.parent / "pyproject.toml").read_text()
+).get("project", {}).get("version", "?")
 
 # Presentation configuration (fullscreen 16:9)
 set_presentation_config(PresentationConfig(
@@ -106,6 +112,7 @@ st_book(
     paginate=True,
     banner=BannerConfig.full(),
     view_modes=[ViewMode.PAGINATED, ViewMode.CONTINUOUS],
+    doc_version=_doc_version,
     # Auto-export to disk (disabled by default — change NEVER to ALWAYS to enable)
     exports=[
         ExportConfig(

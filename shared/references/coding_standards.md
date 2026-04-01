@@ -62,9 +62,26 @@ from custom.styles import Styles as s
 
 ### Entry Point (`book.py`)
 ```python
+import tomllib
 import streamlit as st
+from pathlib import Path
 import setup
 import blocks
+
+_doc_version = tomllib.loads(
+    (Path(__file__).parent.parent / "pyproject.toml").read_text()
+).get("project", {}).get("version", "?")
+```
+
+**MANDATORY**: Always pass `doc_version=_doc_version` to `st_book()`. This enables:
+- Version display in the Streamlit sidebar (`docs X.Y.Z · lib X.Y.Z`)
+- Version footer in HTML export sidebar
+- Version tracking in the page cache
+
+The `_doc_version` is read from the project's `pyproject.toml` (not the library). Adjust the relative path (`parent.parent`) based on the module depth.
+
+```python
+st_book([...], doc_version=_doc_version)
 ```
 
 ## 5. sx vs st — When to Use What

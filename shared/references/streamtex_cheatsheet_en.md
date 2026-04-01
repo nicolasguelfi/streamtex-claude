@@ -684,6 +684,19 @@ st_book(blocks, view_modes=[ViewMode.CONTINUOUS])
 When a single mode is given, the View radio is hidden and the document is locked to that mode.
 Useful for deployed documents where switching modes should be disabled.
 
+#### Version display (MANDATORY)
+
+```python
+import tomllib
+from pathlib import Path
+
+_doc_version = tomllib.loads(
+    (Path(__file__).parent.parent / "pyproject.toml").read_text()
+).get("project", {}).get("version", "?")
+
+st_book(blocks, doc_version=_doc_version)  # shows "docs X.Y.Z · lib X.Y.Z" in sidebar + HTML export
+```
+
 ```python
 from streamtex import (
     PresentationProfile, PageLayout, ViewMode,
