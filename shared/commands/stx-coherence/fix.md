@@ -30,10 +30,10 @@ Parse `$ARGUMENTS` as: `[OPTIONS]`
 
 ### Phase 1: Discovery
 
-1. **Run implicit audit**: Execute the `/stx-coherence:audit all` logic silently (do NOT display the full audit report).
+1. **Run implicit audit**: Execute the `/stx-coherence:audit all` logic silently (do NOT display the full audit report). This includes all 45 checks: standard (1-28), AI quality (29-41), and CLI (42-45).
 2. **Collect all findings**: Gather all ERRORs and WARNINGs with their metadata:
    - Severity (ERROR / WARNING)
-   - Check category (which of the 22 checks)
+   - Check category (which of the 45 checks)
    - File path and line number
    - Description of the issue
    - Source of truth (if applicable)
@@ -46,8 +46,10 @@ Parse `$ARGUMENTS` as: `[OPTIONS]`
    - **Priority 3**: Code fixes in documentation blocks (Checks 13-15) — parameter names, enum values
    - **Priority 4**: Badge/counter fixes (Check 8) — requires counting first
    - **Priority 5**: Structural improvements (Checks 6-7) — templates, block structure
-   - **Priority 6**: Exception list updates — adding known exceptions to coherence-checks.md
-   - **Priority 7**: WARNINGs that require a decision (multiple options)
+   - **Priority 6**: AI quality fixes (Checks 29-41) — ghost API calls, dead code, explanation drift, test quality
+   - **Priority 7**: CLI coherence fixes (Checks 42-45) — help text, stx-guide, deploy scripts, optional deps
+   - **Priority 8**: Exception list updates — adding known exceptions to coherence-checks.md
+   - **Priority 9**: WARNINGs that require a decision (multiple options)
 
 2. **Dependency ordering**: If fix B depends on fix A (e.g., fix the source before syncing copies), ensure A comes before B.
 

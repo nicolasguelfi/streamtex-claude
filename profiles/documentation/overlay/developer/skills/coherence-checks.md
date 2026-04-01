@@ -1,6 +1,6 @@
 # Coherence Check Rules
 
-Reference file for `/stx-coherence:audit`. Defines 28 check categories.
+Reference file for `/stx-coherence:audit`. Defines 45 check categories (28 standard + 13 AI quality + 4 CLI).
 
 ---
 
@@ -767,83 +767,656 @@ echo "Render deploy:  $RENDER_STATUS"
 
 ---
 
-## Check 23: CE Agent Sync
+## Check 23: CE Agent Sync (scope: profiles, all)
 
-**Scope:** profiles
-**Severity:** ERROR if missing, WARNING if outdated
+**Goal**: All 17 CE agents declared in `manifest.toml` exist as files in `ce/agents/`.
 
-Verify that all 15 CE agents declared in `manifest.toml` under `[agents] ce = [...]` exist in `.claude/ce/agents/` and match the source files in `streamtex-claude/profiles/project/ce/agents/`.
+**Source files**: `streamtex-claude/profiles/project/manifest.toml` — `[agents] ce` list.
 
-**Expected agents:** source-scanner, import-assessor, audience-analyst, content-strategist, gap-analyst, format-explorer, angle-generator, structure-architect, domain-researcher, learnings-researcher, audience-advocate, pedagogy-analyst, visual-reviewer, style-consistency-checker, content-editor
+**Target files**: `streamtex-claude/profiles/project/ce/agents/*.md`
 
----
+**Rules**:
+- ERROR if a manifest entry has no corresponding `.md` file in `ce/agents/`
+- ERROR if a `.md` file exists in `ce/agents/` but is not listed in the manifest
+- INFO: report total agents declared vs found
 
-## Check 24: CE Template Sync
-
-**Scope:** profiles
-**Severity:** ERROR if missing, WARNING if outdated
-
-Verify that all 9 CE templates declared in `manifest.toml` under `[templates] ce = [...]` exist in `.claude/ce/templates/` and match the source files in `streamtex-claude/profiles/project/ce/templates/`.
-
-**Expected templates:** collect-report, assess-import, assess-improve, assess-create, plan-import, plan-improve, plan-create, review-report, solution
+**Expected agents (17)**: source-scanner, import-assessor, audience-analyst, content-strategist, gap-analyst, format-explorer, angle-generator, structure-architect, domain-researcher, learnings-researcher, audience-advocate, pedagogy-analyst, visual-reviewer, style-consistency-checker, content-editor, feedback-detector, dev-governance.
 
 ---
 
-## Check 25: CE Docs Structure
+## Check 24: CE Template Sync (scope: profiles, all)
 
-**Scope:** blocks
-**Severity:** WARNING if missing
+**Goal**: All 12 CE templates declared in `manifest.toml` exist as files in `ce/templates/`.
 
-For projects with stx-ce installed (detected by presence of `.claude/ce/` or `.claude/commands/stx-ce/`), verify that the `docs/` directory structure exists with the expected subdirectories.
+**Source files**: `streamtex-claude/profiles/project/manifest.toml` — `[templates] ce` list.
 
-**Expected structure:**
+**Target files**: `streamtex-claude/profiles/project/ce/templates/*.md`
+
+**Rules**:
+- ERROR if a manifest entry has no corresponding `.md` file in `ce/templates/`
+- ERROR if a `.md` file exists in `ce/templates/` but is not listed in the manifest
+- INFO: report total templates declared vs found
+
+**Expected templates (12)**: collect-report, assess-import, assess-improve, assess-create, plan-import, plan-improve, plan-create, review-report, solution, producer-profile, feedback-summary, dev-report.
+
+---
+
+## Check 25: CE Docs Structure (scope: projects, all)
+
+**Goal**: Projects with CE profile installed have the correct `docs/` directory structure.
+
+**Scope**: All directories in `projects/` with `.claude/.stx-profile` marker.
+
+**Rules**:
+- WARNING if `docs/` directory does not exist (CE artifacts have nowhere to go)
+- WARNING if any of the 5 required subdirectories are missing: `collect/`, `assess/`, `plans/`, `reviews/`, `solutions/`
+- WARNING if `docs/solutions/` is missing any of the 9 category subdirectories: `structure/`, `style/`, `content/`, `process/`, `pedagogy/`, `assets/`, `deployment/`, `import/`, `governance/`
+- INFO: report projects scanned and structure status
+
+---
+
+## Check 26: CE Cheatsheet Sync (scope: profiles, all)
+
+**Goal**: The CE cheatsheet is present, up-to-date, and consistent with the manifest.
+
+**Source files**: `streamtex-claude/shared/references/ce_cheatsheet_en.md`
+
+**Rules**:
+- ERROR if `ce_cheatsheet_en.md` does not exist
+- ERROR if the cheatsheet does not list all 8 commands (`collect`, `assess`, `plan`, `produce`, `review`, `fix`, `compound`, `go`)
+- WARNING if the cheatsheet agent count does not match manifest (expected: 17)
+- WARNING if the cheatsheet template count does not match manifest (expected: 12)
+- WARNING if the cheatsheet does not mention the 7-phase cycle with FIX
+- INFO: report cheatsheet presence and consistency
+
+---
+
+## Check 27: CE Command Registration (scope: profiles, all)
+
+**Goal**: All 8 CE commands declared in `manifest.toml` exist as files in `commands/stx-ce/`.
+
+**Source files**: `streamtex-claude/profiles/project/manifest.toml` — `[commands] stx-ce` list.
+
+**Target files**: `streamtex-claude/profiles/project/commands/stx-ce/*.md`
+
+**Rules**:
+- ERROR if a manifest entry has no corresponding `.md` file in `commands/stx-ce/`
+- ERROR if a `.md` file exists in `commands/stx-ce/` but is not listed in the manifest
+- WARNING if the corresponding skill file in `ce/skills/` does not exist for each command
+- INFO: report total commands declared vs found
+
+**Expected commands (8)**: collect, assess, plan, produce, review, fix, compound, go.
+**Expected skills (8)**: ce-collect, ce-assess, ce-plan, ce-produce, ce-review, ce-fix, ce-compound, ce-go.
+
+---
+
+## Check 28: CE Plan-Solution Coherence (scope: projects, all)
+
+**Goal**: CE artifacts within a project are internally consistent.
+
+**Scope**: All projects in `projects/` that have a `docs/plans/` directory with at least one plan file.
+
+**Rules**:
+- WARNING if a plan references block names (e.g., `bck_xxx`) that do not exist in `blocks/`
+- WARNING if `docs/reviews/` contains a review but `docs/plans/` is empty (review without plan)
+- WARNING if `docs/solutions/` contains solutions but `docs/reviews/` is empty (compound without review)
+- WARNING if `docs/solutions/producer-profile.md` has `projects_count` > 0 but `last_updated` is more than 90 days old (stale profile)
+- INFO: report CE artifact presence and coherence per project
+
+---
+
+# AI Quality Checks (scope: ai, all)
+
+These checks detect problems specifically caused by AI-generated code and content. They address known failure modes of generative AI: hallucinated APIs, semantic drift between explanations and code, redundant abstractions, optimistic tests, and leaked secrets.
+
+---
+
+## Check 29: Ghost API Calls (scope: ai, all)
+
+**Goal**: Detect function calls, parameters, and imports that reference StreamTeX API symbols which do not exist — "hallucinated" by the AI during code generation.
+
+**Why this check is critical**: When AI generates code, it may invent plausible-sounding functions (`st_card()`, `st_tabs()`, `st_sidebar()`), parameters (`st_write(font_size=12)`), or imports (`from streamtex import st_dashboard`). These errors propagate to every project generated in the same session. Checks 13-14 partially cover this for docs blocks and show_code() examples, but this check extends coverage to **all generated code** across the ecosystem.
+
+**Scope**: All Python files and Python code blocks in markdown across the entire ecosystem:
+- `streamtex-docs/manuals/**/blocks/**/*.py` (rendered code — complements Check 13)
+- `streamtex-docs/templates/**/*.py`
+- `projects/**/*.py`
+- `streamtex-claude/profiles/**/*.md` (Python code blocks — complements Check 11)
+- `streamtex-claude/shared/**/*.md` (Python code blocks)
+
+**Method**:
+1. Build the complete valid API surface: read `streamtex/streamtex/__init__.py`, extract all exported names
+2. For Python files: extract all `st_*()` and `stx.*` calls, verify each exists in exports
+3. For Markdown files: extract fenced Python code blocks (` ```python ... ``` `), parse `st_*()` calls within them
+4. For each call, also verify keyword arguments against `inspect.signature()` of the function
+5. Cross-reference `from streamtex import X` statements — verify `X` exists in exports
+
+**Rules**:
+- ERROR if a `st_*()` call references a function not in `__init__.py` exports
+- ERROR if a `from streamtex import X` imports a name not in `__init__.py` exports
+- ERROR if a keyword argument does not exist in the function's signature
+- WARNING if a function is called with positional arguments in wrong order vs signature
+- INFO: report total calls scanned, total files scanned, and ghost calls found
+
+**How to check** (automated introspection):
+```bash
+uv run python -c "
+import inspect, streamtex
+exports = {n for n in dir(streamtex) if not n.startswith('_')}
+st_fns = {n: getattr(streamtex, n) for n in exports if n.startswith('st_') and callable(getattr(streamtex, n))}
+for name, fn in sorted(st_fns.items()):
+    print(f'{name}: {inspect.signature(fn)}')
+print(f'\nTotal exports: {len(exports)}')
+print(f'st_* functions: {len(st_fns)}')
+"
 ```
-docs/
-  collect/
-  assess/
-  plans/
-  reviews/
-  solutions/
-    structure/
-    style/
-    content/
-    process/
-    pedagogy/
-    assets/
-    deployment/
-    import/
-```
 
-Note: Empty directories are acceptable (project may not have used all phases yet).
+**Difference from Checks 11, 13, 14**: Those checks cover specific scopes (Claude artifacts, rendered block code, show_code examples). Check 29 provides **unified cross-ecosystem coverage** including projects and templates, and specifically targets AI hallucination patterns (invented functions, plausible but non-existent parameters).
 
 ---
 
-## Check 26: CE Cheatsheet Sync
+## Check 30: Dead Code in Documentation Blocks (scope: ai, all)
 
-**Scope:** profiles
-**Severity:** WARNING if missing or outdated
+**Goal**: Detect unused variables, unreachable code, and orphan definitions in documentation blocks — artifacts of AI copy-paste patterns where code is duplicated then partially modified.
 
-Verify that `ce_cheatsheet_en.md` exists in `.claude/references/` and is listed in the manifest's `[shared] references` array. Check that the cheatsheet lists all 7 commands and 15 agents.
+**Why this check is critical**: AI frequently copies a working pattern, modifies part of it, but leaves the original code in place. This results in variables assigned but never read, functions defined but never called, and imports used only in commented-out code. These create confusion for users reading the blocks as learning material.
+
+**Scope**: `streamtex-docs/manuals/**/blocks/**/*.py` + `streamtex-docs/templates/**/*.py`
+
+**Method**:
+1. For each block file, parse the Python AST
+2. Detect dead code patterns:
+   - Variables assigned but never referenced after assignment (excluding `bs = BlockStyles` which is used by the framework)
+   - Functions `def` defined but never called within the same file
+   - `import` statements where the imported name is never used in the file (beyond ruff F401 which is suppressed)
+   - `if False:` or `if 0:` blocks (AI sometimes disables code this way)
+   - Consecutive duplicate function calls with identical arguments (AI stuttering)
+3. Exclude framework-required patterns: `bs = BlockStyles`, `def build()`, `class BlockStyles`
+
+**Rules**:
+- WARNING if a variable is assigned but never referenced (excluding `bs`, `_static_dir`, `_repo_root`)
+- WARNING if a function is defined but never called in the file
+- WARNING if an import is never used (and is not `streamtex` or `custom.styles`)
+- WARNING if consecutive identical calls exist (e.g., two `st_write()` with same content)
+- INFO: report total blocks scanned, total dead code instances found
+
+**Known exceptions**:
+- `bs = BlockStyles` — used by the framework's block rendering
+- `_static_dir`, `_repo_root` — path variables used in file operations
+- Variables starting with `_` — intentionally unused (Python convention)
 
 ---
 
-## Check 27: CE Command Registration
+## Check 31: Explanation ↔ Code Drift (scope: ai, all)
 
-**Scope:** profiles
-**Severity:** ERROR if missing
+**Goal**: Detect inconsistencies between `show_explanation()` text and the actual code demonstrated in the same block — where the AI updated the code but forgot to update the explanation, or vice versa.
 
-Verify that all 7 `/stx-ce:*` commands exist in `.claude/commands/stx-ce/` and match the source files.
+**Why this check is critical**: AI updates code and explanations independently. When modifying a block, it may change a function call (e.g., rename a parameter) but leave the explanation referring to the old parameter name. Users then see a correct code example accompanied by an incorrect explanation, which is more confusing than no explanation at all.
 
-**Expected commands:** collect, assess, plan, produce, review, compound, go
+**Scope**: `streamtex-docs/manuals/**/blocks/**/*.py` — blocks that contain both `show_explanation()` and either rendered code or `show_code()`.
+
+**Method**:
+1. For each block file, extract:
+   - All `st_*` function names and parameter names used in rendered code and `show_code()` examples
+   - All function/parameter names mentioned in `show_explanation()` and `show_details()` text
+2. Cross-reference:
+   - Function names mentioned in explanation but not present in code → drift
+   - Parameter names mentioned in explanation but not used in code → drift
+   - Code uses a function/parameter not mentioned in explanation → acceptable (explanation may be selective)
+3. Verify mentioned names against actual library API (combining with Check 29 data)
+
+**Rules**:
+- WARNING if `show_explanation()` mentions a function name that does not appear in the block's code
+- WARNING if `show_explanation()` mentions a parameter name (in backticks like `` `param_name` `` or in prose like "the param_name argument") that is not used in the block's code
+- WARNING if `show_explanation()` mentions an enum member (e.g., "ListTypes.ul") that differs from what the code actually uses
+- WARNING if `show_explanation()` describes a behavior ("returns X", "takes Y as input") that contradicts the function's current signature
+- INFO: report total blocks with explanations, total drift instances found
+
+**How to detect parameter/function mentions in prose**:
+- Backtick patterns: `` `st_list` ``, `` `l_style` ``, `` `font_size` ``
+- Prose patterns: "the `st_list` function", "using the `l_style` parameter", "pass `ordered` to"
+- Ignore: generic English words that happen to match parameter names (context-dependent)
 
 ---
 
-## Check 28: CE Plan-Solution Coherence
+## Check 32: Cross-Block Contradictions (scope: ai, all)
 
-**Scope:** blocks
-**Severity:** WARNING if inconsistent
+**Goal**: Detect cases where two or more blocks demonstrate the same feature with contradictory patterns — where AI generated inconsistent examples across separate sessions.
 
-For projects with `docs/plans/` containing completed plans (marked DONE):
-- Verify that referenced blocks exist in `blocks/`
-- Verify that `docs/solutions/` contains at least one entry per completed plan (capitalization was performed)
-- Check that solution frontmatter categories match the 8 expected values
+**Why this check is critical**: AI lacks memory between sessions. If block A was generated in session 1 showing `st_list(style=arrows)` and block B was generated in session 2 showing `with st_list(l_style="arrows") as l:`, users encounter contradictory documentation. One pattern may be correct and the other hallucinated.
+
+**Scope**: `streamtex-docs/manuals/**/blocks/**/*.py`
+
+**Method**:
+1. Build an index: for each `st_*` function, collect all blocks that use it (both rendered and show_code)
+2. For each function used in 2+ blocks:
+   - Extract the usage pattern (parameter names, context manager vs direct call, style patterns)
+   - Compare patterns across blocks
+   - Flag contradictions
+3. Focus on high-value functions: `st_list`, `st_grid`, `st_image`, `st_block`, `st_write`, `st_code`, `st_overlay`, `st_space`, `st_marker`, `st_mermaid`, `show_code`, `show_explanation`, `show_details`
+
+**Rules**:
+- ERROR if one block uses a function as a context manager while another uses it as a direct call (for functions that are exclusively one or the other)
+- WARNING if two blocks use different parameter names for the same concept on the same function (e.g., `style=` vs `l_style=`)
+- WARNING if two blocks show mutually exclusive enum values as defaults (e.g., one says default is `ListTypes.unordered`, another says `ListTypes.ordered`)
+- WARNING if two blocks show contradictory style patterns for the same visual effect
+- INFO: report total functions indexed, total blocks per function, contradictions found
+
+**Known acceptable variations**:
+- Different examples showing different use cases of the same function (e.g., `st_list` with ordered vs unordered) — these are NOT contradictions
+- Progressive complexity (intro block shows simple usage, advanced block shows full API) — NOT a contradiction
+- The check targets **structural contradictions** (wrong parameter names, wrong call patterns), not **pedagogical variations**
+
+---
+
+## Check 33: Duplicate Logic Detection (scope: ai, all)
+
+**Goal**: Detect cases where AI recreated existing utility functions or patterns instead of reusing them — resulting in duplicated logic across the codebase.
+
+**Why this check is critical**: AI cannot browse the full codebase before generating code. It may recreate a helper function that already exists in a different module, leading to maintenance burden and potential divergence between the copies.
+
+**Scope**: `streamtex/streamtex/**/*.py` (library source code)
+
+**Method**:
+1. Scan all Python files in the library for function definitions (`def` statements)
+2. For each pair of functions, compare:
+   - Function names: flag if two functions have very similar names (edit distance ≤ 2)
+   - Function bodies: flag if two functions have structurally identical bodies (ignoring variable names)
+   - Docstrings: flag if two functions have identical docstrings but different implementations
+3. Exclude test files, `__init__.py` re-exports, and `@overload` decorators
+
+**Rules**:
+- WARNING if two functions in different modules have identical bodies (>5 lines)
+- WARNING if two functions have near-identical names but different signatures (potential naming collision)
+- INFO: report total functions scanned, duplicates found
+
+---
+
+## Check 34: Orphan Abstractions (scope: ai, all)
+
+**Goal**: Detect configuration classes, registries, or factory patterns that are used by only one caller — over-engineering introduced by AI's tendency to abstract prematurely.
+
+**Why this check is critical**: AI tends to create elaborate abstractions (config dataclasses, registry patterns, strategy patterns) even for functionality with a single use site. These orphan abstractions add cognitive load without providing reuse value.
+
+**Scope**: `streamtex/streamtex/**/*.py` (library source code)
+
+**Method**:
+1. Identify abstraction patterns: classes with "Config", "Registry", "Factory", "Manager", "Provider" in their name
+2. For each, count the number of distinct call sites across the library (excluding tests and the file where it's defined)
+3. Flag abstractions with ≤ 1 external call site
+
+**Rules**:
+- INFO if a Config/Registry/Factory class is used by only 1 external caller (potential over-abstraction)
+- INFO: report total abstractions found, usage counts
+
+**Known exceptions**:
+- `AIImageConfig`, `BibConfig`, `GSheetConfig`, `LinkConfig`, `BlockHelperConfig` — DI pattern, used via `set_*/get_*` in user code (book.py)
+- `PresentationConfig`, `SlideBreakConfig`, `SpacingConfig` — same DI pattern
+- Any class exported in `__init__.py` — intended for user consumption
+
+---
+
+## Check 35: Unused Exports (scope: ai, all)
+
+**Goal**: Detect symbols exported in `__init__.py` that are neither tested, nor documented, nor used in any project — potentially dead API surface that AI added but nothing consumes.
+
+**Why this check is critical**: AI may add exports during a refactoring session and forget to wire them up. Unlike Check 1 (documentation only) and Check 12 (tests only), this check requires **at least one** of: test, documentation, or project usage.
+
+**Scope**:
+- Source: `streamtex/streamtex/__init__.py` — all exported names
+- Test coverage: `streamtex/tests/**/*.py`
+- Documentation: `streamtex-docs/manuals/**/blocks/**/*.py`
+- Project usage: `projects/**/*.py`
+
+**Method**:
+1. Extract all names from `__init__.py` exports
+2. For each name, search for usage in: test files, documentation blocks, project files
+3. Flag names with zero usage across all three categories
+
+**Rules**:
+- WARNING if an export has no usage in tests AND no usage in documentation AND no usage in projects
+- INFO: report total exports, coverage breakdown (tested/documented/used/orphan)
+
+**Known exceptions**: Same as Check 1 known exceptions (low-level internals, config getters, etc.)
+
+---
+
+## Check 36: Version Claims Accuracy (scope: ai, all)
+
+**Goal**: Detect incorrect version claims in documentation and comments — where AI mentions "new in v0.X" or "since v0.X" or "deprecated in v0.X" but the version is wrong.
+
+**Why this check is critical**: AI confabulates version numbers. It may write "new in v0.5" for a feature that was actually added in v0.3, or "deprecated in v0.4" for something still active. These claims mislead users about API stability and upgrade paths.
+
+**Scope**: All documentation and reference files:
+- `streamtex-docs/manuals/**/blocks/**/*.py` (in `show_explanation()`, `show_details()`, `st_write()` strings)
+- `streamtex-claude/shared/references/*.md`
+- `streamtex/README.md`, `streamtex/CHANGELOG.md`
+- `streamtex-docs/README.md`
+
+**Method**:
+1. Extract all version claims using regex patterns:
+   - `since v?(\d+\.\d+(\.\d+)?)` / `new in v?(\d+\.\d+(\.\d+)?)` / `added in v?(\d+\.\d+(\.\d+)?)`
+   - `deprecated in v?(\d+\.\d+(\.\d+)?)` / `removed in v?(\d+\.\d+(\.\d+)?)`
+   - `requires v?(\d+\.\d+(\.\d+)?)` / `available from v?(\d+\.\d+(\.\d+)?)`
+2. For each claim:
+   - If "new/added/since": verify the feature/function existed in CHANGELOG at that version
+   - If "deprecated": verify a deprecation entry exists in CHANGELOG at that version
+   - If "removed": verify the symbol no longer exists in current API
+   - If "requires": verify the constraint is consistent with current `pyproject.toml`
+3. Cross-reference with `streamtex/CHANGELOG.md` entries
+
+**Rules**:
+- WARNING if a "new in vX.Y" claim cannot be verified in CHANGELOG
+- WARNING if a "deprecated in vX.Y" claim references something that is not deprecated
+- ERROR if a "removed in vX.Y" claim references something that still exists in the API
+- INFO: report total version claims found, verified, unverifiable
+
+---
+
+## Check 37: Test Quality Audit (scope: ai, all)
+
+**Goal**: Detect weak, tautological, or superficial tests that give a false sense of coverage — a known pattern when AI generates test suites.
+
+**Why this check is critical**: AI generates tests that reflect its *intention* rather than the *actual behavior*. Common failure modes: assertions that can never fail (`assert True`, `assert x is not None` for a function that never returns None), tests that mock away all real logic, and copy-pasted tests with different names but identical bodies.
+
+**Scope**: `streamtex/tests/test_*.py`
+
+**Method**:
+1. Parse each test file's AST
+2. Detect weak test patterns:
+
+### 37a: Tautological assertions
+- `assert True`
+- `assert x is not None` where `x` is a function return that is always non-None by type
+- `assert isinstance(x, str)` without checking the string's content
+- `assert len(x) > 0` without checking content
+
+### 37b: Empty tests
+- Test functions with no `assert` statement
+- Test functions where the only assertion is in a `try/except` that catches the assertion error
+- Test functions that only call the function without asserting anything about the result
+
+### 37c: Over-mocked tests
+- Tests where `@patch` decorators outnumber `assert` statements
+- Tests where the mock's return value IS the expected value (testing the mock, not the code)
+- Tests that mock internal implementation details (brittle coupling)
+
+### 37d: Copy-paste tests
+- Two or more test functions with identical bodies (ignoring the function name)
+- Test functions that differ by only one literal value but don't use parametrize
+
+### 37e: Missing edge cases
+- Test functions that only test the happy path (no error/exception tests for a function that can raise)
+- Functions with `Optional` parameters but no test with `None` value
+
+**Rules**:
+- WARNING for each tautological assertion found (37a)
+- WARNING for each test function with no meaningful assertions (37b)
+- WARNING for each over-mocked test (37c)
+- WARNING for each copy-pasted test pair (37d)
+- INFO for missing edge case suggestions (37e)
+- INFO: report total tests scanned, quality score (% of tests with meaningful assertions)
+
+---
+
+## Check 38: Silent Failures (scope: ai, all)
+
+**Goal**: Detect error handling patterns that silently swallow exceptions — a common AI pattern where `try/except` blocks catch errors but do nothing with them.
+
+**Why this check is critical**: AI adds defensive `try/except` blocks around code it's unsure about. These hide bugs during development and cause mysterious failures in production. Silent failures are especially dangerous in a documentation/rendering library where a swallowed exception means missing content with no error message.
+
+**Scope**: `streamtex/streamtex/**/*.py` (library source code)
+
+**Method**:
+1. Parse each source file's AST
+2. Detect silent failure patterns:
+   - `except: pass` (bare except with pass)
+   - `except Exception: pass` (broad except with pass)
+   - `except Exception as e: pass` (caught but ignored)
+   - `except Exception: return None` (swallowing exception, returning default)
+   - `except Exception: return ""` / `return []` / `return {}` (swallowing with empty default)
+   - `except Exception: ...` (ellipsis body — Python 3 equivalent of pass)
+3. Exclude patterns that are intentionally silent:
+   - `except ImportError: pass` — valid for optional dependency checks
+   - `except (FileNotFoundError, OSError): pass` — valid for optional file operations
+   - Blocks with logging/warning before the pass/return
+
+**Rules**:
+- WARNING if a bare `except: pass` is found (always a code smell)
+- WARNING if `except Exception: pass` is found without logging
+- WARNING if `except Exception: return <default>` swallows errors without logging
+- INFO: report total try/except blocks, silent ones, and patterns
+
+---
+
+## Check 39: Naming Coherence (scope: ai, all)
+
+**Goal**: Detect inconsistent naming for the same concept across the codebase — where AI used different terms for identical things in different sessions.
+
+**Why this check is critical**: AI lacks naming memory across sessions. The same concept may be called `config` in one module, `settings` in another, and `options` in a third. For parameters: `style` vs `l_style` vs `list_style`. This inconsistency confuses users and makes the API harder to learn.
+
+**Scope**: `streamtex/streamtex/**/*.py` (library source code, public API)
+
+**Method**:
+1. Extract all public function parameter names across the library
+2. Group parameters by semantic concept:
+   - Style-related: `style`, `l_style`, `list_style`, `grid_style`, `block_style`
+   - Content-related: `text`, `content`, `body`, `value`, `data`
+   - Configuration: `config`, `settings`, `options`, `params`
+   - Label/title: `label`, `title`, `name`, `heading`, `caption`
+3. Flag cases where the same concept uses different names across functions at the same level of API
+
+**Rules**:
+- WARNING if two `st_*` functions use different parameter names for semantically identical concepts (e.g., one uses `style` and another uses `s` for the block style parameter)
+- WARNING if a parameter name changed between function versions but the old name still appears in docs/examples
+- INFO: report naming patterns found, consistency score
+
+**Known accepted variations**:
+- `l_style` (st_list) vs `style` (st_block) — different component types, different naming is acceptable
+- Abbreviated vs full names within the same function (e.g., `t` for Tags alias) — convention, not inconsistency
+
+---
+
+## Check 40: Secret Leak Scan (scope: ai, all)
+
+**Goal**: Detect API keys, tokens, passwords, and other secrets accidentally committed to version control — a risk when AI copies configuration examples with real values.
+
+**Why this check is critical**: AI may copy a working `.env` example or API key from context into generated code. Unlike human developers who know to redact secrets, AI treats all context as valid content. One leaked token in a committed file can compromise external services.
+
+**Scope**: All files across the 3 repos (excluding `.git/`, `node_modules/`, `__pycache__/`, `.venv/`):
+- `streamtex/**/*.py`, `streamtex/**/*.toml`, `streamtex/**/*.md`
+- `streamtex-docs/**/*.py`, `streamtex-docs/**/*.toml`, `streamtex-docs/**/*.md`
+- `streamtex-claude/**/*.md`, `streamtex-claude/**/*.toml`
+- `projects/**/*.py`, `projects/**/*.toml`
+
+**Excluded files** (allowed to contain secrets):
+- `*/.env` — gitignored by design
+- `*/.stx-deploy.env` — gitignored by design
+- `streamtex/.env` — local-only secrets file
+
+**Method**:
+1. Scan all files for secret patterns:
+   - API key patterns: `sk-[a-zA-Z0-9]{20,}`, `pypi-[a-zA-Z0-9]{20,}`, `rnd_[a-zA-Z0-9]{20,}`
+   - Generic key patterns: `(?i)(api[_-]?key|secret|token|password|credential)\s*[=:]\s*["'][^"']{8,}["']`
+   - AWS patterns: `AKIA[0-9A-Z]{16}`, `(?i)aws[_-]?secret`
+   - Base64-encoded long strings in non-binary files (potential encoded secrets)
+   - Private key markers: `-----BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY-----`
+2. Verify each match is not:
+   - Inside a comment explaining the format (e.g., "# format: sk-xxx")
+   - A placeholder (e.g., `"your-api-key-here"`, `"xxx"`, `"..."`)
+   - In a `.gitignore`d file
+   - A test fixture with obviously fake values
+
+**Rules**:
+- ERROR if a real-looking API key or token is found in a versioned file
+- ERROR if a private key file is found in a versioned directory
+- WARNING if a generic secret pattern is found (may be a false positive)
+- INFO: report total files scanned, patterns checked, matches found
+
+---
+
+## Check 41: Hardcoded URLs (scope: ai, all)
+
+**Goal**: Detect hardcoded URLs for staging, development, or internal services in production code — where AI embedded environment-specific URLs instead of using configuration.
+
+**Why this check is critical**: AI copies URLs from context (dev servers, staging endpoints, internal tools) into generated code. These URLs break when the environment changes and may expose internal infrastructure details.
+
+**Scope**: `streamtex/streamtex/**/*.py` (library source code, excluding tests)
+
+**Method**:
+1. Extract all URL strings from Python files: `https?://[^\s"']+`
+2. Classify each URL:
+   - **Production**: `streamtex.org`, `pypi.org`, `github.com` → OK
+   - **Staging/dev**: `localhost`, `127.0.0.1`, `0.0.0.0`, `*.local`, `staging.*`, `dev.*` → flag
+   - **Internal**: IP addresses (non-loopback), internal hostnames → flag
+   - **Deprecated**: `streamtex.ros.lu`, `*.onrender.com` → flag (legacy domain)
+3. Exclude:
+   - URLs in test files
+   - URLs in comments explaining infrastructure
+   - URLs that are clearly configuration defaults (e.g., `DEFAULT_HOST = "http://localhost:8501"`)
+
+**Rules**:
+- WARNING if a staging/dev URL is found in non-test production code
+- WARNING if a deprecated domain (`streamtex.ros.lu`, `*.onrender.com`) is found in production code
+- WARNING if a raw IP address (non-loopback) is found in production code
+- INFO: report total URLs found, classified by category
+
+**Known exceptions**:
+- `localhost:8501` in Streamlit runner code — required for local execution
+- `pypi.org/pypi/streamtex/json` in version checking — required for update checks
+
+---
+
+# CLI Coherence Checks (scope: cli, all)
+
+These checks validate that the CLI commands, their documentation, and their implementation are synchronized.
+
+---
+
+## Check 42: CLI Help ↔ Code Coherence (scope: cli, all)
+
+**Goal**: Verify that CLI command help text, argument definitions, and actual behavior are synchronized.
+
+**Why this check is critical**: AI modifies CLI command implementations (adding/removing/renaming options) without updating the help text, or updates help text without matching the code. Users then see `--help` output that doesn't match the actual available options.
+
+**Scope**:
+- `streamtex/streamtex/cli/*.py` — all CLI command modules
+- `streamtex/README.md` — CLI usage examples
+
+**Method**:
+1. For each CLI module (`run_cmd.py`, `deploy_cmd.py`, `project_cmd.py`, `export_cmd.py`, `claude_cmd.py`, `install_cmd.py`, `workspace_cmd.py`, `upgrade_cmd.py`, `status_cmd.py`, `publish_cmd.py`, `dev_cmd.py`, `cache_cmd.py`, `bib_cmd.py`, `shortcuts.py`):
+   - Extract all `@click.command()` / `@click.group()` / `@app.command()` decorated functions
+   - Extract all `@click.option()` / `@click.argument()` decorators with their names and help text
+   - Extract the function's docstring (used as command help)
+2. Cross-reference:
+   - Every option defined in code should be mentioned in the command's docstring or help text
+   - Every option mentioned in README.md CLI examples should exist in the code
+   - Default values in help text should match default values in code
+
+**Rules**:
+- WARNING if a CLI option exists in code but has no help text (empty `help=""` or missing `help=`)
+- WARNING if README.md shows a CLI option that does not exist in the code
+- WARNING if README.md shows a CLI command that does not exist
+- WARNING if a CLI command's docstring mentions options not present in the code
+- INFO: report total commands, total options, help coverage percentage
+
+---
+
+## Check 43: stx-guide ↔ CLI Commands Sync (scope: cli, all)
+
+**Goal**: Verify that `stx-guide.md` accurately documents all CLI commands, their options, and their behavior.
+
+**Why this check is critical**: The stx-guide is the primary reference for users. When CLI commands change, the guide often lags behind. Check 8 partially covers this but focuses on profile-level references. This check does a deep comparison of actual CLI commands vs. stx-guide documentation.
+
+**Scope**:
+- `streamtex-claude/shared/commands/stx-guide.md` — CLI documentation sections
+- `streamtex/streamtex/cli/*.py` — all CLI command modules
+
+**Method**:
+1. Extract all CLI commands from code (command names, subcommands, groups)
+2. Extract all CLI commands documented in stx-guide.md
+3. Compare:
+   - Commands in code but not in guide → missing documentation
+   - Commands in guide but not in code → stale documentation
+   - Subcommand counts: guide should match code
+4. For key commands (`stx deploy`, `stx install`, `stx project`, `stx run`, `stx export`, `stx claude`):
+   - Compare the option list in guide vs. code
+   - Verify example commands in guide are syntactically valid
+
+**Rules**:
+- WARNING if a CLI command exists in code but is not documented in stx-guide
+- WARNING if stx-guide documents a CLI command that does not exist in code
+- WARNING if stx-guide shows incorrect option names for a command
+- WARNING if the number of subcommands for a group differs between guide and code
+- INFO: report total commands in code vs guide, sync percentage
+
+---
+
+## Check 44: Deploy Scripts ↔ Docker Coherence (scope: cli, all)
+
+**Goal**: Verify that deployment scripts, Dockerfiles, CI workflows, and the `stx deploy` CLI are synchronized.
+
+**Why this check is critical**: Deployment involves multiple interconnected files (Dockerfiles, CI workflows, CLI deploy commands, environment variables). AI modifies one without updating the others, causing deploy failures that are hard to debug.
+
+**Scope**:
+- `streamtex-docs/Dockerfile` — shared Docker build
+- `streamtex-docs/.github/workflows/hetzner-deploy.yml` — Hetzner auto-deploy
+- `streamtex-docs/.github/workflows/ci.yml` — Docs CI
+- `streamtex/streamtex/cli/deploy_cmd.py` — deploy CLI commands
+- `streamtex/streamtex/cli/coolify.py` — Coolify API client
+
+**Method**:
+1. **Dockerfile checks**:
+   - `ARG SOURCE_COMMIT` must exist before `uv sync` (cache-bust guard)
+   - Python version in Dockerfile must match `pyproject.toml` `requires-python`
+   - `UV_NO_SOURCES=1` or `--no-sources` must be present
+   - Port exposed must match Streamlit default (8501)
+2. **CI workflow checks**:
+   - `UV_NO_SOURCES=1` must be set as job-level env
+   - Python version must match library `requires-python`
+   - Workflow references to deploy commands must match actual CLI commands
+3. **Deploy CLI checks**:
+   - All Coolify service UUIDs in `deploy_cmd.py` constants should match `.stx-deploy.json`
+   - All environment variable names referenced in deploy code should be documented
+
+**Rules**:
+- ERROR if Dockerfile is missing `ARG SOURCE_COMMIT` before `uv sync`
+- ERROR if Dockerfile Python version doesn't match `pyproject.toml`
+- ERROR if CI workflow is missing `UV_NO_SOURCES=1`
+- WARNING if Dockerfile port doesn't match expected Streamlit port
+- WARNING if deploy CLI references services not in `.stx-deploy.json`
+- INFO: report deployment infrastructure consistency status
+
+---
+
+## Check 45: Optional Dependencies ↔ Imports Coherence (scope: cli, all)
+
+**Goal**: Verify that optional dependency groups in `pyproject.toml` match the actual imports in the code, and that missing optional deps produce clear error messages.
+
+**Why this check is critical**: AI adds new features that depend on optional packages but forgets to add them to the correct extras group in `pyproject.toml`, or adds them to extras but never imports them. Users then get cryptic `ImportError`s instead of a clear "install streamtex[ai] for this feature" message.
+
+**Scope**:
+- `streamtex/pyproject.toml` — `[project.optional-dependencies]`
+- `streamtex/streamtex/**/*.py` — all library source files
+
+**Method**:
+1. Parse `pyproject.toml` optional dependencies: extract each group (`ai`, `pdf`, `cli`, `inspector`, `ai-openai`, `ai-google`, `ai-fal`) and their package lists
+2. For each source file, extract all imports
+3. Map imports to optional dependency groups:
+   - `openai` → `ai-openai` or `ai`
+   - `google.genai` → `ai-google` or `ai`
+   - `fal_client` → `ai-fal` or `ai`
+   - `playwright` → `pdf`
+   - `click`, `rich`, `jinja2` → `cli`
+   - `streamlit_ace` → `inspector`
+4. Verify:
+   - Every optional import has a corresponding extras group
+   - Every package in an extras group is actually imported somewhere
+   - Optional imports are wrapped in `try/except ImportError` with a clear message
+
+**Rules**:
+- ERROR if a package is imported at top level (not in try/except) but is only in optional deps
+- WARNING if an extras group lists a package that is never imported in the codebase
+- WARNING if an optional import's error message doesn't mention the correct extras group name
+- WARNING if a new optional import was added without updating the extras groups
+- INFO: report optional dependency groups, their packages, and import coverage
