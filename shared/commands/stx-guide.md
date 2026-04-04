@@ -1394,10 +1394,20 @@ pour exporter un projet StreamTeX vers HTML.
 
 ## Section 4g — Deploiement Hetzner/Coolify (topic: `deploy-hetzner`)
 
-Le namespace `/stx-deploy` regroupe 11 commandes pour le deploiement sur
+Le namespace `/stx-deploy` regroupe 13 commandes pour le deploiement sur
 infrastructure Hetzner avec Coolify. Ces commandes couvrent le cycle complet :
 provisionnement du serveur, installation de Coolify, deploiement des projets,
 configuration DNS/SSL, securisation et mise a l'echelle.
+
+### Tout-en-un et setup
+
+```bash
+# Deployer de zero a production en une seule commande (orchestre toutes les etapes)
+> /stx-deploy:go
+
+# Configurer l'environnement local (hcloud CLI, cles SSH, tokens API)
+> /stx-deploy:setup
+```
 
 ### Provisionnement et installation
 
@@ -1598,10 +1608,12 @@ configuration DNS/SSL, securisation et mise a l'echelle.
 |-------|----------|
 | Exporter en HTML | `/stx-export:html` |
 
-### Commandes Claude (deploy Hetzner — 11)
+### Commandes Claude (deploy Hetzner — 13)
 
 | Tache | Commande |
 |-------|----------|
+| Deployer de zero a production | `/stx-deploy:go` |
+| Configurer l'environnement local | `/stx-deploy:setup` |
 | Provisionner un serveur | `/stx-deploy:provision` |
 | Installer Coolify | `/stx-deploy:install-coolify` |
 | Verifier les prerequis | `/stx-deploy:preflight` |

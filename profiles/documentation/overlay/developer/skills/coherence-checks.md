@@ -769,7 +769,7 @@ echo "Render deploy:  $RENDER_STATUS"
 
 ## Check 23: CE Agent Sync (scope: profiles, all)
 
-**Goal**: All 17 CE agents declared in `manifest.toml` exist as files in `ce/agents/`.
+**Goal**: All 18 CE agents declared in `manifest.toml` exist as files in `ce/agents/`.
 
 **Source files**: `streamtex-claude/profiles/project/manifest.toml` — `[agents] ce` list.
 
@@ -780,13 +780,13 @@ echo "Render deploy:  $RENDER_STATUS"
 - ERROR if a `.md` file exists in `ce/agents/` but is not listed in the manifest
 - INFO: report total agents declared vs found
 
-**Expected agents (17)**: source-scanner, import-assessor, audience-analyst, content-strategist, gap-analyst, format-explorer, angle-generator, structure-architect, domain-researcher, learnings-researcher, audience-advocate, pedagogy-analyst, visual-reviewer, style-consistency-checker, content-editor, feedback-detector, dev-governance.
+**Expected agents (18)**: source-scanner, import-assessor, audience-analyst, content-strategist, gap-analyst, format-explorer, angle-generator, structure-architect, domain-researcher, learnings-researcher, audience-advocate, pedagogy-analyst, visual-reviewer, style-consistency-checker, content-editor, feedback-detector, dev-governance, ad-hoc-reviewer.
 
 ---
 
 ## Check 24: CE Template Sync (scope: profiles, all)
 
-**Goal**: All 12 CE templates declared in `manifest.toml` exist as files in `ce/templates/`.
+**Goal**: All 16 CE templates declared in `manifest.toml` exist as files in `ce/templates/`.
 
 **Source files**: `streamtex-claude/profiles/project/manifest.toml` — `[templates] ce` list.
 
@@ -797,7 +797,7 @@ echo "Render deploy:  $RENDER_STATUS"
 - ERROR if a `.md` file exists in `ce/templates/` but is not listed in the manifest
 - INFO: report total templates declared vs found
 
-**Expected templates (12)**: collect-report, assess-import, assess-improve, assess-create, plan-import, plan-improve, plan-create, review-report, solution, producer-profile, feedback-summary, dev-report.
+**Expected templates (16)**: collect-report, assess-import, assess-improve, assess-create, plan-import, plan-improve, plan-create, review-report, solution, producer-profile, feedback-summary, dev-report, task-review, coverage-matrix, task-analysis, task-report.
 
 ---
 
@@ -823,9 +823,9 @@ echo "Render deploy:  $RENDER_STATUS"
 
 **Rules**:
 - ERROR if `ce_cheatsheet_en.md` does not exist
-- ERROR if the cheatsheet does not list all 8 commands (`collect`, `assess`, `plan`, `produce`, `review`, `fix`, `compound`, `go`)
-- WARNING if the cheatsheet agent count does not match manifest (expected: 17)
-- WARNING if the cheatsheet template count does not match manifest (expected: 12)
+- ERROR if the cheatsheet does not list all 11 commands (`collect`, `assess`, `plan`, `produce`, `review`, `fix`, `compound`, `go`, `status`, `task`, `continue`)
+- WARNING if the cheatsheet agent count does not match manifest (expected: 18)
+- WARNING if the cheatsheet template count does not match manifest (expected: 16)
 - WARNING if the cheatsheet does not mention the 7-phase cycle with FIX
 - INFO: report cheatsheet presence and consistency
 
@@ -833,7 +833,7 @@ echo "Render deploy:  $RENDER_STATUS"
 
 ## Check 27: CE Command Registration (scope: profiles, all)
 
-**Goal**: All 8 CE commands declared in `manifest.toml` exist as files in `commands/stx-ce/`.
+**Goal**: All 11 CE commands declared in `manifest.toml` exist as files in `commands/stx-ce/`.
 
 **Source files**: `streamtex-claude/profiles/project/manifest.toml` — `[commands] stx-ce` list.
 
@@ -845,8 +845,8 @@ echo "Render deploy:  $RENDER_STATUS"
 - WARNING if the corresponding skill file in `ce/skills/` does not exist for each command
 - INFO: report total commands declared vs found
 
-**Expected commands (8)**: collect, assess, plan, produce, review, fix, compound, go.
-**Expected skills (8)**: ce-collect, ce-assess, ce-plan, ce-produce, ce-review, ce-fix, ce-compound, ce-go.
+**Expected commands (11)**: collect, assess, plan, produce, review, fix, compound, go, status, task, continue.
+**Expected skills (11)**: ce-collect, ce-assess, ce-plan, ce-produce, ce-review, ce-fix, ce-compound, ce-go, ce-status, ce-task, ce-continue.
 
 ---
 
