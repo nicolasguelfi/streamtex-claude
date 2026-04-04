@@ -81,7 +81,7 @@ COLLECT -> ASSESS -> PLAN -> PRODUCE -> REVIEW -> FIX -> COMPOUND
 
 **Priority levels**: CRITICAL (unresolved critical findings) > HIGH (source drift, remaining production) > MEDIUM (stale reviews, source updates) > LOW (missing phases) > INFO (up to date)
 
-## Agents (18)
+## Agents (19)
 
 ### COLLECT (2)
 | Agent | Role |
