@@ -83,7 +83,7 @@
 | LaTeX | StreamTeX |
 |---|---|
 | `\begin{itemize}` | `with st_list(...) as l:` + `with l.item():` |
-| `\begin{enumerate}` | `with st_list(list_type=lt.numbered) as l:` + `with l.item():` |
+| `\begin{enumerate}` | `with st_list(list_type=lt.ordered) as l:` + `with l.item():` |
 | `\begin{description}` | `with st_list(...) as l:` with styled label items |
 | `\begin{figure}` | `st_image(uri="images/...", width="...")` |
 | `\begin{table}` / `\begin{tabular}` | `st_grid()` with `cell_styles` or `st_table()` |
@@ -115,19 +115,19 @@ with st_list(...) as l:
 
 | LaTeX | StreamTeX |
 |---|---|
-| `$x^2 + y^2$` | `st_latex(code="x^2 + y^2")` |
-| `\(x^2 + y^2\)` | `st_latex(code="x^2 + y^2")` |
+| `$x^2 + y^2$` | `st_latex("x^2 + y^2")` |
+| `\(x^2 + y^2\)` | `st_latex("x^2 + y^2")` |
 
 ### Display Math
 
 | LaTeX | StreamTeX |
 |---|---|
-| `$$E = mc^2$$` | `st_latex(code="E = mc^2", display=True)` |
-| `\[E = mc^2\]` | `st_latex(code="E = mc^2", display=True)` |
-| `\begin{equation}` | `st_latex(code="...")` |
-| `\begin{align}` | `st_latex(code="\\begin{align}...\\end{align}")` |
-| `\begin{gather}` | `st_latex(code="\\begin{gather}...\\end{gather}")` |
-| `\begin{multline}` | `st_latex(code="\\begin{multline}...\\end{multline}")` |
+| `$$E = mc^2$$` | `st_latex("E = mc^2")` |
+| `\[E = mc^2\]` | `st_latex("E = mc^2")` |
+| `\begin{equation}` | `st_latex("...")` |
+| `\begin{align}` | `st_latex("\\begin{align}...\\end{align}")` |
+| `\begin{gather}` | `st_latex("\\begin{gather}...\\end{gather}")` |
+| `\begin{multline}` | `st_latex("\\begin{multline}...\\end{multline}")` |
 
 ### Rules
 
@@ -245,7 +245,7 @@ These patterns must NEVER appear in generated code:
 
 ```python
 # Raw LaTeX in st_write (math goes in st_latex)
-st_write(bs.body, "$x^2$")                 # use st_latex(code="x^2")
+st_write(bs.body, "$x^2$")                 # use st_latex("x^2")
 st_write(bs.body, "\\textbf{bold}")         # use (s.bold, "bold") tuple
 
 # Unresolved \input

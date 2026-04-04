@@ -93,13 +93,13 @@ Convert LaTeX content elements to StreamTeX components:
 | `\underline{...}` | `(s.underline, "...")` tuple in `st_write()` |
 | `\texttt{...}` | `(s.code, "...")` tuple in `st_write()` |
 | `\begin{itemize}` | `st_list()` with `l.item()` |
-| `\begin{enumerate}` | `st_list(list_type=lt.numbered)` with `l.item()` |
+| `\begin{enumerate}` | `st_list(list_type=lt.ordered)` with `l.item()` |
 | `\begin{figure}` / `\includegraphics` | `st_image(uri="images/...", width="...")` |
 | `\begin{tikzpicture}` | `st_tikz(code="...")` via `extract_tikz()` |
-| `$...$` | `st_latex(code="...")` (inline) |
-| `$$...$$` / `\[...\]` | `st_latex(code="...", display=True)` |
-| `\begin{equation}` | `st_latex(code="...")` |
-| `\begin{align}` | `st_latex(code="\\begin{align}...\\end{align}")` |
+| `$...$` | `st_latex("...")` (inline) |
+| `$$...$$` / `\[...\]` | `st_latex("...")` |
+| `\begin{equation}` | `st_latex("...")` |
+| `\begin{align}` | `st_latex("\\begin{align}...\\end{align}")` |
 | `\begin{verbatim}` / `\begin{lstlisting}` | `st_code(code="...", language="...")` |
 | `\begin{table}` / `\begin{tabular}` | `st_grid()` with cells or `st_table()` |
 | `\footnote{...}` | Inline parenthetical or `show_details()` |
