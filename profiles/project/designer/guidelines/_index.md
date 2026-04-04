@@ -96,7 +96,7 @@ Each builtin guideline documents its **combinability** — which others it pairs
 
 ## How Commands Use Guidelines
 
-### During production (`/stx-designer:*`, `/stx-ce:produce`)
+### During production (`/stx-block:*`, `/stx-ce:produce`)
 
 1. Read `custom/design-guideline.md` for project default + overrides
 2. Read block-level `@guideline` annotation (if present)
@@ -106,7 +106,7 @@ Each builtin guideline documents its **combinability** — which others it pairs
 6. Apply principles in priority order
 7. Verify constraints
 
-### During audit (`/stx-designer:audit`, `/stx-ce:review`)
+### During audit (`/stx-block:audit`, `/stx-ce:review`)
 
 1. Same resolution as above
 2. For each block/fragment, verify conformance to its effective guideline

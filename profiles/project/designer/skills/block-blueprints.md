@@ -1,7 +1,7 @@
 # Block Blueprints — Template Catalog
 
 This file documents 14 common block templates that Claude uses as reference
-when generating code via `/stx-designer:update` (add block) or `/stx-designer:init`.
+when generating code via `/stx-block:update` (add block) or `/stx-block:init`.
 
 ## How to use
 

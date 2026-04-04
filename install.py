@@ -246,6 +246,13 @@ def install_profile(profile_name: str, target_dir: Path,
                     dst_file.chmod(0o444)
                     total_files += 1
 
+    # Clean up legacy command directories (renamed in v2: stx-designer/stx-project/stx-developer → stx-block)
+    for legacy_dir in ["commands/stx-designer", "commands/stx-project", "commands/stx-developer"]:
+        legacy_path = target_claude / legacy_dir
+        if legacy_path.exists():
+            shutil.rmtree(legacy_path)
+            print(f"  Removed legacy directory: {legacy_dir}")
+
     # Copy settings.json
     settings_src = profile_dir / "settings.json"
     if settings_src.exists():

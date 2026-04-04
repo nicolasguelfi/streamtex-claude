@@ -7,7 +7,7 @@ that reproduces the chart. Zero static image dependency.
 
 ## Arguments
 
-Passed from `/stx-designer:tool survey-convert <arguments>`:
+Passed from `/stx-block:tool survey-convert <arguments>`:
 
 - **`--all`**: Convert ALL images in the source directory (batch mode)
 - **`--list`**: List all images in the source directory (no conversion)
@@ -18,11 +18,11 @@ Passed from `/stx-designer:tool survey-convert <arguments>`:
 ### Examples
 
 ```
-/stx-designer:tool survey-convert
-/stx-designer:tool survey-convert --all
-/stx-designer:tool survey-convert --list
-/stx-designer:tool survey-convert temp/Screenshot_IDE.png
-/stx-designer:tool survey-convert --all /path/to/other/folder
+/stx-block:tool survey-convert
+/stx-block:tool survey-convert --all
+/stx-block:tool survey-convert --list
+/stx-block:tool survey-convert temp/Screenshot_IDE.png
+/stx-block:tool survey-convert --all /path/to/other/folder
 ```
 
 ## Before converting

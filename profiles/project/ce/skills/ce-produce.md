@@ -1,13 +1,13 @@
 # CE Produce
 
-Skill for the PRODUCE phase of the Compound Engineering cycle. Execute the production plan item by item, creating, importing, or improving content as specified. This phase is **command-driven** — it delegates to `/stx-designer:*`, `/stx-import:*`, `/stx-export:*`, and `/stx-deploy:*` commands rather than using standalone agents.
+Skill for the PRODUCE phase of the Compound Engineering cycle. Execute the production plan item by item, creating, importing, or improving content as specified. This phase is **command-driven** — it delegates to `/stx-block:*`, `/stx-import:*`, `/stx-export:*`, and `/stx-deploy:*` commands rather than using standalone agents.
 
 ## Workflow
 
 ### Phase 1: Initialize
 
 1. Load the approved plan from `docs/plans/`. Use the most recent plan file unless a specific path is provided.
-2. If the target project does not exist yet, run `/stx-designer:init --template <type>` where type is derived from the plan (project, presentation, collection, course).
+2. If the target project does not exist yet, run `/stx-block:init --template <type>` where type is derived from the plan (project, presentation, collection, course).
 3. Create a task list from the plan items. Each task has:
    - ID (sequential)
    - Description
@@ -32,21 +32,21 @@ Process each plan item according to its type. After each item, mark it complete 
    - Marp sources: `/stx-import:marp`
    - LaTeX sources: `/stx-import:latex`
    - Other formats: manual conversion following plan instructions
-2. Run `/stx-designer:audit --target <block>` on the imported block.
-3. Run `/stx-designer:fix --target <block>` to resolve any issues found.
+2. Run `/stx-block:audit --target <block>` on the imported block.
+3. Run `/stx-block:fix --target <block>` to resolve any issues found.
 4. Verify the block renders correctly.
 
 #### IMPROVE Items
 
-1. Run `/stx-designer:update` with the improvement instructions from the plan.
-2. If style changes are needed, run `/stx-designer:style-refactor`.
-3. Run `/stx-designer:audit --target <block>` on the modified block.
-4. Run `/stx-designer:fix --target <block>` to resolve any issues found.
+1. Run `/stx-block:update` with the improvement instructions from the plan.
+2. If style changes are needed, run `/stx-block:style-refactor`.
+3. Run `/stx-block:audit --target <block>` on the modified block.
+4. Run `/stx-block:fix --target <block>` to resolve any issues found.
 5. Verify the block renders correctly.
 
 #### CREATE Items
 
-1. Create the block using `/stx-designer:block-new` or `/stx-designer:slide-new` as appropriate.
+1. Create the block using `/stx-block:new` or `/stx-block:slide-new` as appropriate.
 2. Write content according to the plan's content outline for this section.
 3. Apply styles as specified in the plan's design section.
 4. Integrate assets (images, diagrams, code samples) as listed in the plan.
@@ -57,13 +57,13 @@ Process each plan item according to its type. After each item, mark it complete 
    - Verify generated images render correctly and match the intended visual style
 6. If bibliography is configured: insert `cite()` calls in content blocks where sources are referenced, and add `st_bibliography()` in the designated bibliography block.
 7. **Reference traceability**: For every factual claim, statistic, or attribution written in content, add a `# REF: <source url or citation>` comment above the corresponding `st_write()` call. This applies regardless of whether bibliography is configured — source traceability in code is always required. If the plan specifies visible references, also add inline attribution or `cite()` calls.
-8. Run `/stx-designer:audit --target <block>` on the new block.
-9. Run `/stx-designer:fix --target <block>` to resolve any issues found.
+8. Run `/stx-block:audit --target <block>` on the new block.
+9. Run `/stx-block:fix --target <block>` to resolve any issues found.
 10. Verify the block renders correctly.
 
 ### Phase 3: Global Verification
 
-1. Run `/stx-designer:audit --all` to check the entire project.
+1. Run `/stx-block:audit --all` to check the entire project.
 2. Verify `book.py` navigation:
    - All blocks are registered in the correct order.
    - No blocks are missing from the plan.

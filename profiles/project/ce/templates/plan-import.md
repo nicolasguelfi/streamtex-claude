@@ -141,7 +141,7 @@ Import production plan — detailed execution plan for importing external source
 
 ## Pre-Production Checklist
 
-- [ ] Project created (`stx project new` or `/stx-designer:init`)
+- [ ] Project created (`stx project new` or `/stx-block:init`)
 - [ ] Source files accessible and readable
 - [ ] Conversion tools available (pandoc, etc.)
 - [ ] Design profile selected and configured

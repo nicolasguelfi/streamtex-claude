@@ -1,7 +1,7 @@
 # Design Guideline: Dense Informative
 
 > **Scope**: This skill defines a graphical design philosophy for StreamTeX documents
-> that prioritize information density. It is loaded by stx-designer and stx-ce commands
+> that prioritize information density. It is loaded by stx-block and stx-ce commands
 > when the project or block references this guideline. It **complements**
 > `slide-design-rules.md` and `visual-design-rules.md` — where a directive here
 > conflicts with those base rules, **this file wins**.

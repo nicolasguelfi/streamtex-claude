@@ -1,4 +1,4 @@
-# /stx-designer:update — Modify an existing StreamTeX project
+# /stx-block:update — Modify an existing StreamTeX project
 
 Arguments: $ARGUMENTS
 
@@ -10,7 +10,7 @@ Parse `$ARGUMENTS` as: `[OPTIONS] <description>`
 - `--upgrade` — Upgrade project boilerplate to latest template structure
 - `--migrate` — Migrate HTML content to StreamTeX blocks
 - `--export` — Prepare or generate HTML export
-- `--help` — Show the stx-designer cheatsheet (see init.md Help section)
+- `--help` — Show the stx-block cheatsheet (see init.md Help section)
 
 **Description**: Free-form natural language text describing the desired changes.
 
@@ -19,16 +19,16 @@ If `$ARGUMENTS` is empty, ask the user what they want to modify.
 ### Examples
 
 ```
-/stx-designer:update add a comparison block about VM vs Containers
-/stx-designer:update add 3 new slides about security best practices
-/stx-designer:update change the color palette to blue and orange
-/stx-designer:update switch to light theme and enable HTML export
-/stx-designer:update adapt for auditorium projection (large fonts)
-/stx-designer:update remove bck_old_topic and reorder blocks
-/stx-designer:update generate a course on Python in 6 chapters
-/stx-designer:update --upgrade
-/stx-designer:update --migrate convert intro.html to StreamTeX
-/stx-designer:update --export prepare HTML export
+/stx-block:update add a comparison block about VM vs Containers
+/stx-block:update add 3 new slides about security best practices
+/stx-block:update change the color palette to blue and orange
+/stx-block:update switch to light theme and enable HTML export
+/stx-block:update adapt for auditorium projection (large fonts)
+/stx-block:update remove bck_old_topic and reorder blocks
+/stx-block:update generate a course on Python in 6 chapters
+/stx-block:update --upgrade
+/stx-block:update --migrate convert intro.html to StreamTeX
+/stx-block:update --export prepare HTML export
 ```
 
 ## Required readings

@@ -1,4 +1,4 @@
-# /stx-designer:tool — Run a specialized tool
+# /stx-block:tool — Run a specialized tool
 
 Arguments: $ARGUMENTS
 
@@ -10,17 +10,17 @@ Parse `$ARGUMENTS` as: `<tool-name> <description>`
 **Description**: The remaining text provides context, paths, or options.
 
 Special cases:
-- `--help` — Show the stx-designer cheatsheet (see init.md Help section)
+- `--help` — Show the stx-block cheatsheet (see init.md Help section)
 - Empty or `list` — List all available tools
 
 ### Examples
 
 ```
-/stx-designer:tool list
-/stx-designer:tool survey-convert
-/stx-designer:tool survey-convert --all temp/
-/stx-designer:tool survey-convert temp/Screenshot_IDE.png
-/stx-designer:tool --help
+/stx-block:tool list
+/stx-block:tool survey-convert
+/stx-block:tool survey-convert --all temp/
+/stx-block:tool survey-convert temp/Screenshot_IDE.png
+/stx-block:tool --help
 ```
 
 ## Tool resolution
@@ -44,12 +44,12 @@ the complete instructions for that tool.
 When listing tools, show:
 
 ```
-Available stx-designer tools:
+Available stx-block tools:
 
   survey-convert   Convert survey screenshots to code-generated chart blocks
   list             List all available tools
 
-Usage: /stx-designer:tool <tool-name> [options] [description]
+Usage: /stx-block:tool <tool-name> [options] [description]
 ```
 
 ## Built-in tools
@@ -62,7 +62,7 @@ Convert Stack Overflow Developer Survey screenshots into code-generated StreamTe
 
 **Syntax**:
 ```
-/stx-designer:tool survey-convert [OPTIONS] [SOURCE]
+/stx-block:tool survey-convert [OPTIONS] [SOURCE]
 ```
 
 **Options**:
@@ -80,7 +80,7 @@ Convert Stack Overflow Developer Survey screenshots into code-generated StreamTe
 
 ## Adding new tools
 
-To add a new tool to the stx-designer ecosystem:
+To add a new tool to the stx-block ecosystem:
 
 1. Create `.claude/designer/tools/<tool-name>.md` in the profile
 2. The file should contain:
@@ -88,7 +88,7 @@ To add a new tool to the stx-designer ecosystem:
    - Required readings (skills, references)
    - Step-by-step workflow
    - Output format
-3. The tool will automatically appear in `/stx-designer:tool list`
+3. The tool will automatically appear in `/stx-block:tool list`
 4. Update the manifest if the tool needs to be installed with the profile
 
 ## Constraints

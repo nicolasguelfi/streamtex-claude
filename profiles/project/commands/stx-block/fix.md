@@ -1,4 +1,4 @@
-# /stx-designer:fix — Auto-fix project issues
+# /stx-block:fix — Auto-fix project issues
 
 Arguments: $ARGUMENTS
 
@@ -9,7 +9,8 @@ Parse `$ARGUMENTS` as: `[OPTIONS] <description>`
 **Options** (parsed before the description text):
 - `--all` — Fix all issues in the entire project
 - `--target <name>` — Fix a specific element: block name (e.g. `bck_intro`), `styles`, `book`
-- `--help` — Show the stx-designer cheatsheet (see init.md Help section)
+- `--scope <scope>` — Focus on a specific fix scope: `slide`, `style`, `structure`, or `all` (default: `all`)
+- `--help` — Show the stx-block cheatsheet (see init.md Help section)
 
 **Description**: Free-form text providing additional context or directives.
 - Include "presentation" or "projection" to apply live projection fixes
@@ -18,14 +19,24 @@ Parse `$ARGUMENTS` as: `[OPTIONS] <description>`
 If no `--all` or `--target` is given AND no target is detectable from the description,
 ask the user what they want to fix.
 
+### Scope behavior
+
+| Scope | What is fixed |
+|-------|--------------|
+| `all` (default) | All issues: structure + visual/slide + style + guideline |
+| `slide` | Visual design only: long lines, missing show_code(), string concatenation, font sizes, WRONG explanations, defaults, spacing, guideline-specific fixes |
+| `style` | Style issues only: duplicates, inline CSS, non-English names, hardcoded colors, unused styles |
+| `structure` | Structure only: missing BlockStyles, missing build(), raw HTML, raw st.* |
+
 ### Examples
 
 ```
-/stx-designer:fix --all
-/stx-designer:fix --all apply presentation rules
-/stx-designer:fix --target bck_text_styles
-/stx-designer:fix --target bck_text_styles fix projection readability
-/stx-designer:fix --target styles refactor duplicates
+/stx-block:fix --all
+/stx-block:fix --all apply presentation rules
+/stx-block:fix --target bck_text_styles
+/stx-block:fix --target bck_text_styles --scope slide
+/stx-block:fix --target styles --scope style
+/stx-block:fix --target bck_text_styles fix projection readability
 ```
 
 ## Documentation reference (recommended)
@@ -40,7 +51,7 @@ Before fixing, check if real manual blocks are available for reference:
 
 ### Step 1: Implicit audit
 
-Before fixing, run an implicit audit (following `/stx-designer:audit` logic)
+Before fixing, run an implicit audit (following `/stx-block:audit` logic)
 to identify all issues. DO NOT show the full audit report — just summarize
 the findings.
 

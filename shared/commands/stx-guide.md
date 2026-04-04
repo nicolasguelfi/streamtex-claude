@@ -85,9 +85,9 @@ pour fournir une reponse contextuelle.
 - "quelle difference entre ProjectBlockRegistry et LazyBlockRegistry ?"
 - "comment deployer sur Hetzner/Coolify avec plusieurs manuels ?"
 - "comment creer des styles personnalises ?"
-- "comment utiliser /stx-designer:init pour generer un cours ?"
+- "comment utiliser /stx-block:init pour generer un cours ?"
 - "quels sont les blueprints disponibles pour les blocks ?"
-- "comment personnaliser le theme de mon projet avec /stx-designer:update ?"
+- "comment personnaliser le theme de mon projet avec /stx-block:update ?"
 - "comment publier une nouvelle version et propager a tous les users ?"
 - "comment mettre a jour mon workspace apres une nouvelle release ?"
 - "comment generer des images avec l'IA dans mon projet StreamTeX ?"
@@ -396,89 +396,89 @@ stx run
 ```
 
 > **Note** : les templates CLI (`--template project|collection|slides`) sont des repertoires
-> physiques copies depuis `streamtex-docs/templates/`. Les templates stx-designer
-> (`/stx-designer:init --template presentation|course`) sont des blueprints Claude AI
+> physiques copies depuis `streamtex-docs/templates/`. Les templates stx-block
+> (`/stx-block:init --template presentation|course`) sont des blueprints Claude AI
 > qui generent le projet interactivement.
 
-### 4.2b Assistance Claude — commandes stx-designer
+### 4.2b Assistance Claude — commandes stx-block
 
 Apres avoir scaffold un projet, Claude peut le personnaliser interactivement
-grace aux 12 commandes `stx-designer` du profil `project` :
+grace aux 12 commandes `stx-block` du profil `project` :
 
 ```bash
 cd projects/stx-mon-projet/
 claude
 
 # Initialiser un projet complet depuis une description en langage naturel
-> /stx-designer:init cours Docker pour debutants, 8 slides, style sombre
+> /stx-block:init cours Docker pour debutants, 8 slides, style sombre
 # → Claude propose la structure (8 blocks avec blueprints), demande confirmation,
 #   puis genere tous les fichiers (book.py, blocks/bck_title.py ... bck_conclusion.py,
 #   custom/styles.py adapte)
 
 # Avec un template specifique (presentation live, collection, cours)
-> /stx-designer:init --presentation conference AI4SE, 12 slides, palette bleu/violet, PresentationConfig fullscreen
-> /stx-designer:init --collection hub de cours avec 3 sous-projets
-> /stx-designer:init --course Python fundamentals, 6 chapitres avec exercices
+> /stx-block:init --presentation conference AI4SE, 12 slides, palette bleu/violet, PresentationConfig fullscreen
+> /stx-block:init --collection hub de cours avec 3 sous-projets
+> /stx-block:init --course Python fundamentals, 6 chapitres avec exercices
 
 # Ajouter du contenu a un projet existant
-> /stx-designer:update ajouter un bloc comparaison VM vs Containers
-> /stx-designer:update ajouter 3 slides sur la securite
+> /stx-block:update ajouter un bloc comparaison VM vs Containers
+> /stx-block:update ajouter 3 slides sur la securite
 
 # Personnaliser un projet existant
-> /stx-designer:update passer en theme clair, palette verte, gros texte amphi
+> /stx-block:update passer en theme clair, palette verte, gros texte amphi
 
 # Migrer du HTML vers StreamTeX
-> /stx-designer:update --migrate convertir intro.html
+> /stx-block:update --migrate convertir intro.html
 
 # Auditer la qualite
-> /stx-designer:audit --all
-> /stx-designer:audit --target bck_text_styles conformite projection
+> /stx-block:audit --all
+> /stx-block:audit --target bck_text_styles conformite projection
 
 # Corriger automatiquement les problemes
-> /stx-designer:fix --all
-> /stx-designer:fix --target styles refactorer les doublons
+> /stx-block:fix --all
+> /stx-block:fix --target styles refactorer les doublons
 
 # Outils specialises
-> /stx-designer:tool survey-convert temp/Screenshot_IDE.png
+> /stx-block:tool survey-convert temp/Screenshot_IDE.png
 
 # --- Commandes slides ---
 
 # Creer une nouvelle slide
-> /stx-designer:slide-new slide de conclusion avec resume et call-to-action
+> /stx-block:slide-new slide de conclusion avec resume et call-to-action
 
 # Auditer le design visuel d'une slide
-> /stx-designer:slide-audit --target bck_intro conformite projection amphi
+> /stx-block:slide-audit --target bck_intro conformite projection amphi
 
 # Corriger les violations de design d'une slide
-> /stx-designer:slide-fix --target bck_intro
+> /stx-block:slide-fix --target bck_intro
 
 # --- Commandes styles ---
 
 # Auditer les styles des blocks
-> /stx-designer:style-audit --all
+> /stx-block:style-audit --all
 
 # Refactorer les styles (deduplication, consolidation)
-> /stx-designer:style-refactor fusionner les doublons dans custom/styles.py
+> /stx-block:style-refactor fusionner les doublons dans custom/styles.py
 
 # --- Commandes blocks ---
 
 # Creer un nouveau block
-> /stx-designer:block-new block comparaison Docker vs Podman, 2 colonnes
+> /stx-block:new block comparaison Docker vs Podman, 2 colonnes
 
 # Previsualiser et valider un block
-> /stx-designer:block-preview bck_intro
+> /stx-block:preview bck_intro
 
 # Aide
-> /stx-designer:init --help    # affiche le cheatsheet complet
+> /stx-block:init --help    # affiche le cheatsheet complet
 ```
 
 **Commandes Claude disponibles dans le profil `project`** :
 
 | Categorie | Commandes | Description |
 |-----------|-----------|-------------|
-| stx-designer (12) | init, update, audit, fix, tool, slide-new, slide-audit, slide-fix, style-audit, style-refactor, block-new, block-preview | Cycle de vie complet du projet |
-| Developer (2) | test-run, lint | Tests et linting |
-| Project (5) | collection-new, course-generate, project-customize, project-init, project-upgrade | Gestion de projets |
+| stx-block (12) | init, update, audit, fix, tool, slide-new, slide-audit, slide-fix, style-audit, style-refactor, new, preview | Cycle de vie complet du projet |
+| stx-block (5) | init, customize, upgrade, collection-new, course-generate | Gestion de projets |
+| stx-block (2) | test, lint | Tests et linting |
 | Import (6) | marp-analyze, marp, html, html-block, html-batch, html-audit | Import Marp/HTML vers StreamTeX |
 | Export (1) | html | Export StreamTeX vers HTML |
 | stx-issue (6) | bug, feature, question, docs, comment, list | Issues GitHub (shared) |
@@ -1224,7 +1224,7 @@ COLLECT -> ASSESS -> PLAN -> PRODUCE -> REVIEW -> FIX -> COMPOUND
 | `/stx-ce:collect <chemin>` | Inventorier des sources existantes (HTML, Marp, PDF, Word...) |
 | `/stx-ce:assess` | Definir les objectifs du document (public, contenu, forme, livraison) |
 | `/stx-ce:plan [--interactive]` | Planifier la production (auto ou co-construction en 4 etapes) |
-| `/stx-ce:produce` | Executer le plan (orchestre stx-designer + stx-import) |
+| `/stx-ce:produce` | Executer le plan (orchestre stx-block + stx-import) |
 | `/stx-ce:review` | Revue multi-perspective (5 agents : audience, pedagogie, visuel, technique, editorial) |
 | `/stx-ce:fix [--severity LEVEL]` | Corriger les findings de la review avec verification |
 | `/stx-ce:compound` | Capitaliser (3 axes : production, feedback ecosysteme, gouvernance dev) |
@@ -1567,19 +1567,19 @@ configuration DNS/SSL, securisation et mise a l'echelle.
 
 | Tache | Commande |
 |-------|----------|
-| Lancer les tests | `/stx-developer:test-run` |
-| Lancer le linter | `/stx-developer:lint` |
-| Deployer (profil library) | `/stx-developer:deploy` |
+| Lancer les tests | `/stx-block:test` |
+| Lancer le linter | `/stx-block:lint` |
+| Deployer (profil library) | `/stx-deploy:deploy` |
 
 ### Commandes Claude (project)
 
 | Tache | Commande |
 |-------|----------|
-| Initialiser un projet | `/stx-project:project-init <description>` |
-| Personnaliser un projet | `/stx-project:project-customize <description>` |
-| Upgrader un projet | `/stx-project:project-upgrade` |
-| Creer une collection | `/stx-project:collection-new <description>` |
-| Generer un cours | `/stx-project:course-generate` |
+| Initialiser un projet | `/stx-block:init <description>` |
+| Personnaliser un projet | `/stx-block:customize <description>` |
+| Upgrader un projet | `/stx-block:upgrade` |
+| Creer une collection | `/stx-block:collection-new <description>` |
+| Generer un cours | `/stx-block:course-generate` |
 
 ### Commandes Claude (import — 6)
 

@@ -6,7 +6,7 @@ You design the structure of StreamTeX projects. You determine the number of bloc
 their content, their order, and the required features (pagination, TOC,
 banner, export, etc.).
 
-You are implicitly consulted by `/stx-designer:init` and can be invoked
+You are implicitly consulted by `/stx-block:init` and can be invoked
 directly to plan a project's structure before generation.
 
 ## Required readings

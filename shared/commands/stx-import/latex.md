@@ -36,7 +36,7 @@ Parse `$ARGUMENTS` as: `<source_file_or_directory> [OPTIONS]`
 
 ## Prerequisites
 
-- An existing StreamTeX project (created via `/stx-designer:init` or `stx install --project`)
+- An existing StreamTeX project (created via `/stx-block:init` or `stx install --project`)
 - LaTeX source files (`.tex`, with optional `.bib`, `.sty`, images)
 - For multi-file projects: a main `.tex` file that `\input` or `\include` sub-files
 

@@ -81,9 +81,9 @@ alwaysApply: true
 #### C3 — Commandes → Commandes Cursor
 
 ```
-.claude/commands/stx-designer/init.md    → .cursor/commands/stx-designer/init.md
-.claude/commands/stx-designer/update.md  → .cursor/commands/stx-designer/update.md
-.claude/commands/stx-developer/test-run.md → .cursor/commands/stx-developer/test-run.md
+.claude/commands/stx-block/init.md    → .cursor/commands/stx-block/init.md
+.claude/commands/stx-block/update.md  → .cursor/commands/stx-block/update.md
+.claude/commands/stx-block/test.md    → .cursor/commands/stx-block/test.md
 .claude/commands/stx-issue/bug.md        → .cursor/commands/stx-issue/bug.md
 ...
 ```
@@ -211,14 +211,13 @@ The following commands are pre-approved and can be run without confirmation:
 │   │   ├── agent-slide-designer.mdc        ← C6
 │   │   └── agent-slide-reviewer.mdc        ← C6
 │   └── commands/
-│       ├── stx-designer/
+│       ├── stx-block/
 │       │   ├── init.md                     ← C3
 │       │   ├── update.md                   ← C3
 │       │   ├── audit.md                    ← C3
 │       │   ├── fix.md                      ← C3
-│       │   └── tool.md                     ← C3
-│       ├── stx-developer/
-│       │   ├── test-run.md                 ← C3
+│       │   ├── tool.md                     ← C3
+│       │   ├── test.md                     ← C3
 │       │   └── lint.md                     ← C3
 │       ├── stx-issue/
 │       │   ├── bug.md                      ← C3
@@ -373,8 +372,7 @@ Le script doit gérer le cas `presentation` qui étend `project` :
 ```
 .claude/ (profil presentation installé)
 ├── commands/
-│   ├── stx-designer/          ← hérité de project
-│   ├── stx-developer/         ← hérité de project
+│   ├── stx-block/             ← hérité de project
 │   ├── stx-presentation/      ← ajouté par presentation
 │   └── stx-issue/             ← shared
 ├── designer/

@@ -25,7 +25,7 @@ Evaluation strategy depends on the detected pathway.
 
 #### Pathway B (Improvement)
 
-1. Run `/stx-designer:audit --all` to get the current project quality report.
+1. Run `/stx-block:audit --all` to get the current project quality report.
 2. Use the **gap-analyst** agent to compare current state vs. target quality level.
 3. Identify blocks that need rework, missing sections, and style inconsistencies.
 
