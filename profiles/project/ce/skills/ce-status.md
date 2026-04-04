@@ -122,6 +122,21 @@ If `--verbose` flag is set, also show:
 - Full list of review findings with their severity and fix status
 - List of all solution files with their categories
 
+### Session Checkpoint
+
+If `docs/ce-checkpoint.md` exists, include in the dashboard:
+
+```
+Session Checkpoint: docs/ce-checkpoint.md
+  Saved: <checkpoint_date> (<N days ago>)
+  Phase at pause: <current_phase> (<phase_progress>)
+  Active items: <N>
+  Pending issues: <N>
+  Context: <first line of "Context for Next Session">
+```
+
+This alerts the user that a previous session was paused with context that should be restored via `/stx-ce:continue`.
+
 ### Task Activity
 
 If task-related artifacts exist, include in the dashboard:

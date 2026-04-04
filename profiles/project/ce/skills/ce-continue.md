@@ -9,6 +9,29 @@ Skill for session resumption within the Compound Engineering lifecycle. Inspects
 If `--verbose` is set, include detailed artifact contents and full git diffs in the output.
 If `--help` is set, display the CE cheatsheet.
 
+### Step 0: RESTORE CHECKPOINT — Load Previous Session Context
+
+1. **Check for checkpoint**: Look for `docs/ce-checkpoint.md`.
+2. **If found**:
+   - Read the checkpoint file and parse its sections.
+   - Display a **Checkpoint Restored** banner before the briefing:
+     ```
+     Checkpoint restored from <checkpoint_date>
+     
+        Phase at pause: <current_phase> (<phase_progress>)
+        Active items: <N items>
+        Decisions: <N captured>
+        Pending issues: <N>
+     
+        Context: <first 2 lines of "Context for Next Session" section>
+     ```
+   - Integrate checkpoint data into the briefing and proposals:
+     - **Active Work Items** from the checkpoint become HIGH-priority proposals ("Resume in-progress work on <block>")
+     - **Pending Issues** become proposals at their appropriate priority level
+     - **Decisions Log** is displayed as context (not actionable proposals)
+   - After displaying, **archive the checkpoint**: rename `docs/ce-checkpoint.md` to `docs/ce-checkpoint-<checkpoint_date>.md` (ISO date only, e.g., `ce-checkpoint-2026-04-04.md`). This prevents stale checkpoints from being restored in future sessions.
+3. **If not found**: proceed normally (no checkpoint to restore).
+
 ### Step 1: INSPECT — Build Project State Snapshot
 
 1. **Detect project**: Check for `book.py` or `blocks/` directory. If not found, report "No StreamTeX project detected" and exit.

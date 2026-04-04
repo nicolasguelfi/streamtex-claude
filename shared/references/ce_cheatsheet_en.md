@@ -9,7 +9,7 @@ COLLECT -> ASSESS -> PLAN -> PRODUCE -> REVIEW -> FIX -> COMPOUND
    +----------------------------------------------------------+
 ```
 
-## Commands (11)
+## Commands (12)
 
 | Command | Description |
 |---------|-------------|
@@ -23,7 +23,8 @@ COLLECT -> ASSESS -> PLAN -> PRODUCE -> REVIEW -> FIX -> COMPOUND
 | `/stx-ce:go [flags]` | Full autonomous cycle with 3 gates |
 | `/stx-ce:status` | Show CE cycle status for current project |
 | `/stx-ce:task "<desc>"` | Execute ad-hoc task with lifecycle reconciliation |
-| `/stx-ce:continue` | Resume work: briefing, drift detection, proposals |
+| `/stx-ce:pause [--message]` | Save session checkpoint before pausing work |
+| `/stx-ce:continue` | Resume work: briefing, drift detection, checkpoint restore |
 
 ## Pathways
 
@@ -69,17 +70,37 @@ COLLECT -> ASSESS -> PLAN -> PRODUCE -> REVIEW -> FIX -> COMPOUND
 **Plan versioning**: New plan version created (not appended). Latest by date+sequence = current.
 **Composite**: Multiple archetypes in one description → decomposed and sequenced automatically.
 
+## /stx-ce:pause — Session Checkpoint
+
+**Syntax**: `/stx-ce:pause [--message "<text>"]`
+
+**Purpose**: Save a checkpoint before ending a work session. Captures in-progress work, decisions, pending issues, and context that would be lost between sessions.
+
+**Output**: `docs/ce-checkpoint.md` (overwritten each time)
+
+**Checkpoint contains**:
+- Active work items (blocks in progress, incomplete, out-of-plan)
+- Decisions log (design choices, scope decisions, plan deviations)
+- Pending issues (blockers, missing assets, partial fixes)
+- Uncommitted changes summary
+- Free-text context for next session
+
+**Workflow**: INSPECT state → DETECT in-progress work → CAPTURE context (with user confirmation) → WRITE checkpoint
+
+**Best practice**: Run `/stx-ce:pause` before ending any session where work is in an intermediate state. Commit the checkpoint to git for reliable restoration.
+
 ## /stx-ce:continue — Session Resumption
 
 **Syntax**: `/stx-ce:continue [--verbose]`
 
 **Output**:
+0. **Checkpoint restore**: if `docs/ce-checkpoint.md` exists, restore context and archive it
 1. **Briefing**: project name, last activity, plan version, block count, progress
 2. **Drift**: source changes, manual edits, plan mismatch, stale artifacts, unresolved findings
-3. **Proposals**: prioritized next steps with executable commands
+3. **Proposals**: prioritized next steps with executable commands (checkpoint items integrated)
 4. **Dispatch**: select proposal by number, describe custom task, or skip
 
-**Priority levels**: CRITICAL (unresolved critical findings) > HIGH (source drift, remaining production) > MEDIUM (stale reviews, source updates) > LOW (missing phases) > INFO (up to date)
+**Priority levels**: CRITICAL (unresolved critical findings) > HIGH (source drift, remaining production, checkpoint active items) > MEDIUM (stale reviews, source updates) > LOW (missing phases) > INFO (up to date)
 
 ## Agents (18)
 
@@ -127,7 +148,7 @@ COLLECT -> ASSESS -> PLAN -> PRODUCE -> REVIEW -> FIX -> COMPOUND
 |-------|------|
 | `ad-hoc-reviewer` | Custom-criteria review of scoped blocks |
 
-## Templates (16)
+## Templates (17)
 
 ### COLLECT (1)
 | Template | Purpose |
@@ -172,6 +193,7 @@ COLLECT -> ASSESS -> PLAN -> PRODUCE -> REVIEW -> FIX -> COMPOUND
 | `coverage-matrix` | Source vs production coverage analysis |
 | `task-analysis` | Source document structured analysis |
 | `task-report` | Task execution summary |
+| `checkpoint` | Session checkpoint for pause/resume |
 
 ## COMPOUND — 3 Axes of Capitalization
 
@@ -199,6 +221,7 @@ Stored in `docs/solutions/producer-profile.md`. Loaded at COLLECT, used by ASSES
 ```
 my-project/
   docs/
+    ce-checkpoint.md  # Session checkpoint (created by /stx-ce:pause)
     collect/        # Source inventory reports
     assess/         # Requirements and objectives
     plans/          # Production plans
@@ -227,6 +250,7 @@ my-project/
 | Solution | `YYYY-MM-DD-<topic>.md` | `2026-03-22-grid-layout-pattern.md` |
 | Feedback | `YYYY-MM-DD-<name>-feedback.md` | `2026-03-23-info101-feedback.md` |
 | Dev report | `YYYY-MM-DD-dev-report.md` | `2026-03-23-dev-report.md` |
+| Checkpoint | `ce-checkpoint.md` (active) / `ce-checkpoint-YYYY-MM-DD.md` (archived) | `ce-checkpoint.md` |
 
 ## Orchestrated StreamTeX Commands
 
