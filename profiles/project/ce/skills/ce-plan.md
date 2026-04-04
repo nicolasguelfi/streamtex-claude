@@ -92,6 +92,7 @@ Execute 4 steps with user dialogue between each.
    - Export configuration (asset mode, export mode, PDF config, book.py ExportConfig)
    - Production sequence (order of execution)
    - Asset list (images, diagrams, code samples needed)
+   - Reference traceability strategy: decide per-project whether references are displayed (inline attribution, bibliography) or hidden (source-code `# REF:` comments only). In all cases, every factual claim must be traceable in the block source.
    - Deployment configuration (if applicable)
    - Total effort estimate
 4. **GATE**: Present the plan summary to the user and ask for explicit validation before proceeding. The plan must be approved to continue.

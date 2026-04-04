@@ -56,9 +56,10 @@ Process each plan item according to its type. After each item, mark it complete 
    - Use fixed seeds (`seed=<value>`) for reproducibility when specified in the plan
    - Verify generated images render correctly and match the intended visual style
 6. If bibliography is configured: insert `cite()` calls in content blocks where sources are referenced, and add `st_bibliography()` in the designated bibliography block.
-7. Run `/stx-designer:audit --target <block>` on the new block.
-8. Run `/stx-designer:fix --target <block>` to resolve any issues found.
-9. Verify the block renders correctly.
+7. **Reference traceability**: For every factual claim, statistic, or attribution written in content, add a `# REF: <source url or citation>` comment above the corresponding `st_write()` call. This applies regardless of whether bibliography is configured — source traceability in code is always required. If the plan specifies visible references, also add inline attribution or `cite()` calls.
+8. Run `/stx-designer:audit --target <block>` on the new block.
+9. Run `/stx-designer:fix --target <block>` to resolve any issues found.
+10. Verify the block renders correctly.
 
 ### Phase 3: Global Verification
 

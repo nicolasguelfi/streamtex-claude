@@ -39,6 +39,7 @@ Launch 5 review agents in parallel. Each agent analyzes the entire project from 
    - Is the writing clear, concise, and error-free?
    - Is terminology consistent throughout?
    - Are transitions between sections smooth?
+   - **Reference traceability** (RECOMMENDATION): Are factual claims, statistics, and attributions traceable to verifiable sources? Check for `# REF:` comments in block source code. Flag unsourced claims as MINOR (missing comment) or MAJOR (dubious/unverifiable claim).
 
 Each agent produces findings with severity levels:
 - **CRITICAL**: Must be fixed before publication. Blocks functionality or comprehension.
