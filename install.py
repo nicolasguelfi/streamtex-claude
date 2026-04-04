@@ -50,7 +50,7 @@ except ModuleNotFoundError:
                             current_section = current_section.setdefault(key, {})
                         continue
                     # Key = value
-                    m = re.match(r'^(\w+)\s*=\s*(.+)$', line)
+                    m = re.match(r'^([\w-]+)\s*=\s*(.+)$', line)
                     if m:
                         key, value = m.group(1), m.group(2).strip()
                         if value.startswith('"') and value.endswith('"'):
