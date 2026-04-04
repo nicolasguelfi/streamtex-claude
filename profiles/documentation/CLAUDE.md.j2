@@ -52,7 +52,7 @@ See `.claude/references/coding_standards.md` for the full reference. Key rules:
 - Style composition: `Style + Style`, `Style + string`, `Style - string`
 
 ### Media & Visual
-- `st_image(style, src)` — Image handling with base64 encoding
+- `st_image(style, uri=)` — Image handling with base64 encoding
 - `st_ai_image(prompt, ...)` — AI image generation + display (requires `streamtex[ai]`)
 - `st_image(style, uri=, editable=True, name=, prompt=)` — Unified image with editing panel (replaces st_ai_image for new code)
 - `get_available_models(provider)` — List available AI models per provider
@@ -63,7 +63,7 @@ See `.claude/references/coding_standards.md` for the full reference. Key rules:
 - `st_mermaid(style, code)` — Mermaid diagrams
 - `st_plantuml(style, code)` — PlantUML diagrams
 - `st_tikz(style, code)` — TikZ diagrams via LaTeX pipeline
-- `st_latex(style, code)` — LaTeX math rendering
+- `st_latex(content, *, style=)` — LaTeX math rendering
 
 ### Export
 - `st_export(config)`, `st_html()` — HTML export with ExportConfig
