@@ -52,7 +52,7 @@ Build complexity gradually across slides:
 
 ## Application par type de contenu
 
-### Quand la slide a 1-3 éléments textuels courts
+### When the slide has 1-3 short text elements
 
 - Section title slide: clear heading + 1-2 line description of what follows
 - Font: `huge` (64pt) for title, `Large` (48pt) for description
@@ -60,7 +60,7 @@ Build complexity gradually across slides:
 - Optional: section number or breadcrumb
 - Goal: clear signposting
 
-### Quand la slide a 4-7 bullets
+### When the slide has 4-7 bullets
 
 - THIS is the bread-and-butter of academic slides
 - Structured list with bold colored key terms
@@ -69,7 +69,7 @@ Build complexity gradually across slides:
 - Each bullet: key term + short explanation (up to 10 words acceptable)
 - Goal: structured, scannable, referenceable
 
-### Quand la slide a une image dominante
+### When the slide has a dominant image
 
 - Figure/diagram with caption and optional source citation
 - Image: 60% of viewport
@@ -77,7 +77,7 @@ Build complexity gradually across slides:
 - Title above: describes what the figure shows
 - Goal: the figure supports the argument with clear labeling
 
-### Quand la slide a texte + image (balanced)
+### When the slide has text + image (balanced)
 
 - Standard L1/L2 layout: title + 2-column grid
 - Text column: structured list (3-5 items) with key terms
@@ -85,7 +85,7 @@ Build complexity gradually across slides:
 - Both columns same visual weight
 - Goal: concept (text) + illustration (image) side by side
 
-### Quand la slide a un diagramme/code
+### When the slide has a diagram/code
 
 - Diagram or code block: 65-75% of viewport
 - Title: what the diagram/code demonstrates
@@ -93,7 +93,7 @@ Build complexity gradually across slides:
 - Code: syntax-highlighted, line numbers, relevant lines highlighted
 - Goal: the code/diagram is readable AND annotated
 
-### Quand la slide est une transition
+### When the slide is a transition
 
 - Section transition: new section title + brief overview of upcoming content
 - Font: `Huge` (80pt) for section title, `Large` (48pt) for overview

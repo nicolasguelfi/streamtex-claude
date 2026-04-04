@@ -69,7 +69,7 @@ Gaps between elements create visual rhythm (like music beats).
 
 ## Application par type de contenu
 
-### Quand la slide a 1-3 éléments textuels courts
+### When the slide has 1-3 short text elements
 
 - Container: `display:flex; flex-direction:column; justify-content:center; min-height:85vh;`
 - Font: largest size that fits without line wrapping
@@ -77,7 +77,7 @@ Gaps between elements create visual rhythm (like music beats).
 - Vertical distribution: centered with generous gap between elements
 - Goal: the text IS the slide, nothing else competes
 
-### Quand la slide a 4-7 bullets
+### When the slide has 4-7 bullets
 
 - Container: `display:flex; flex-direction:column; justify-content:space-between; min-height:85vh;`
 - Title: occupies 20-25% of vertical space
@@ -86,7 +86,7 @@ Gaps between elements create visual rhythm (like music beats).
 - Equal vertical spacing between bullets — no clustering
 - Goal: the list fills the viewport edge to edge vertically
 
-### Quand la slide a une image dominante
+### When the slide has a dominant image
 
 - Image: 70-80% of viewport area
 - Text: title or caption only, fills remaining space with large font
@@ -97,7 +97,7 @@ Gaps between elements create visual rhythm (like music beats).
   not to its container, so `text-align:center` has no effect on the image itself.
 - Goal: image IS the slide, text is a label
 
-### Quand la slide a texte + image (balanced)
+### When the slide has text + image (balanced)
 
 - Two columns via `st_grid`, each fills its space completely
 - Text column: font sized to fill, bullets evenly distributed vertically
@@ -105,7 +105,7 @@ Gaps between elements create visual rhythm (like music beats).
 - No gap larger than 24px between columns
 - Goal: no visible void in either column
 
-### Quand la slide a un diagramme/code
+### When the slide has a diagram/code
 
 - Diagram/code: 75-80% of viewport, centered
 - Title: compact, above, no more than 15% of viewport height
@@ -113,7 +113,7 @@ Gaps between elements create visual rhythm (like music beats).
 - No body text competing with diagram — title + diagram only
 - Goal: diagram readable from back row of auditorium
 
-### Quand la slide est une transition
+### When the slide is a transition
 
 - Single phrase or question, centered in full viewport (`min-height:85vh`)
 - Font: `giant` (128pt) or `GIANT` (196pt) — as large as possible

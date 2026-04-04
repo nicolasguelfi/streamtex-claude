@@ -56,14 +56,14 @@ Technical slides should show real code, real diagrams, real data:
 
 ## Application par type de contenu
 
-### Quand la slide a 1-3 éléments textuels courts
+### When the slide has 1-3 short text elements
 
 - AVOID single-element slides — combine with related content from adjacent slides
 - If unavoidable: use `Large` (48pt) font, add context (subtitle, annotation)
 - Consider: is this slide necessary, or can it merge with the next?
 - Goal: no "wasted" slide with little content
 
-### Quand la slide a 4-7 bullets
+### When the slide has 4-7 bullets
 
 - Standard density: use full L1/L2/L3 layout
 - Font: `large` (32pt) for body, can go to `big` (24pt) for dense lists
@@ -72,7 +72,7 @@ Technical slides should show real code, real diagrams, real data:
 - Add a summary annotation or "key takeaway" in L3
 - Goal: comprehensive but scannable
 
-### Quand la slide a 8+ items
+### When the slide has 8+ items
 
 - ACCEPTABLE in this guideline (unlike others)
 - Use 2-column layout to fit more items
@@ -81,14 +81,14 @@ Technical slides should show real code, real diagrams, real data:
 - Or use a table format instead of bullets
 - Goal: reference card density
 
-### Quand la slide a une image dominante
+### When the slide has a dominant image
 
 - Image: 50-60% of viewport (not 70-80% like other guidelines)
 - Add annotations, labels, callouts ON the image or beside it
 - Caption with technical details
 - Goal: informative image, not decorative
 
-### Quand la slide a texte + image (balanced)
+### When the slide has text + image (balanced)
 
 - True 50/50 split
 - Both columns dense with content
@@ -96,7 +96,7 @@ Technical slides should show real code, real diagrams, real data:
 - Image: annotated diagram or data visualization
 - Goal: maximum information in both columns
 
-### Quand la slide a un diagramme/code
+### When the slide has a diagram/code
 
 - Code can be longer (up to 15-20 lines with `big` 24pt font)
 - Side-by-side WRONG/CORRECT patterns
@@ -104,7 +104,7 @@ Technical slides should show real code, real diagrams, real data:
 - Annotations pointing to key lines
 - Goal: complete code examples, not snippets
 
-### Quand la slide est une transition
+### When the slide is a transition
 
 - Keep transitions brief — don't waste a full slide
 - Section title + 3-5 bullet overview of upcoming topics

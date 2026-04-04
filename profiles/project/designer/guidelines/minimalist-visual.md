@@ -49,7 +49,7 @@ Empty space creates focus, calm, and visual hierarchy. Do NOT fill it.
 
 ## Application par type de contenu
 
-### Quand la slide a 1-3 éléments textuels courts
+### When the slide has 1-3 short text elements
 
 - Center vertically and horizontally in viewport
 - Use large fonts but NOT the maximum that fits — leave generous margins
@@ -57,7 +57,7 @@ Empty space creates focus, calm, and visual hierarchy. Do NOT fill it.
 - Generous `st_space()` above and below — the void IS the design
 - Goal: elegant simplicity, like a book title page
 
-### Quand la slide a 4-7 bullets
+### When the slide has 4-7 bullets
 
 - AVOID this archetype — prefer splitting into 2-3 slides with 2 bullets each
 - If unavoidable: max 5 bullets, 7 words each
@@ -66,7 +66,7 @@ Empty space creates focus, calm, and visual hierarchy. Do NOT fill it.
 - If it doesn't fit at 48pt, SPLIT the slide
 - Goal: each bullet has room to breathe
 
-### Quand la slide a une image dominante
+### When the slide has a dominant image
 
 - THIS is the preferred archetype for minimalist design
 - Image takes 70-80% of slide area
@@ -75,7 +75,7 @@ Empty space creates focus, calm, and visual hierarchy. Do NOT fill it.
 - Text overlaid on image (with contrast background) or below
 - Goal: the image tells the story
 
-### Quand la slide a texte + image (balanced)
+### When the slide has text + image (balanced)
 
 - Image always dominates: 60-70% image, 30-40% text
 - Text column: 3 keywords max, large font, generous spacing
@@ -83,7 +83,7 @@ Empty space creates focus, calm, and visual hierarchy. Do NOT fill it.
 - Asymmetric layout preferred (not 50/50)
 - Goal: image is the message, text is the label
 
-### Quand la slide a un diagramme/code
+### When the slide has a diagram/code
 
 - Diagram: centered, 60-70% of viewport
 - Generous white space around the diagram (frame it)
@@ -91,7 +91,7 @@ Empty space creates focus, calm, and visual hierarchy. Do NOT fill it.
 - Use the simplest possible diagram (fewer nodes, fewer connections)
 - Goal: the diagram is instantly readable, not detailed
 
-### Quand la slide est une transition
+### When the slide is a transition
 
 - Single question or statement, centered
 - Font: `huge` (64pt) to `Huge` (80pt) — large but not screaming

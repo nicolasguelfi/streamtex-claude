@@ -50,14 +50,14 @@ When in doubt between "more information" and "bigger/clearer":
 
 ## Application par type de contenu
 
-### Quand la slide a 1-3 éléments textuels courts
+### When the slide has 1-3 short text elements
 
 - Font: `giant` (128pt) minimum for 1-2 words, `Huge` (80pt) for a phrase
 - Centered in full viewport (90vh container)
 - High-contrast accent color for key words
 - Goal: visible from 20 meters instantly
 
-### Quand la slide a 4-7 bullets
+### When the slide has 4-7 bullets
 
 - Maximum 4 bullets (not 7 — auditorium constraint)
 - Font: `Large` (48pt) minimum, prefer `huge` (64pt)
@@ -66,7 +66,7 @@ When in doubt between "more information" and "bigger/clearer":
 - Bold colored keywords mandatory for each bullet
 - Goal: scannable in 3 seconds from any seat
 
-### Quand la slide a une image dominante
+### When the slide has a dominant image
 
 - Image: 80%+ of viewport
 - Ensure image is high-resolution (projectors amplify pixelation)
@@ -74,21 +74,21 @@ When in doubt between "more information" and "bigger/clearer":
 - Title as overlay with high-contrast background strip
 - Goal: image visible and clear from back row
 
-### Quand la slide a texte + image (balanced)
+### When the slide has text + image (balanced)
 
 - Image: 60% minimum (larger than standard balanced)
 - Text: 3 bullets maximum, `Large` (48pt) font
 - High contrast between columns
 - Goal: both elements readable at distance
 
-### Quand la slide a un diagramme/code
+### When the slide has a diagram/code
 
 - Diagram: simplified for projection — fewer nodes, thicker lines, larger labels
 - Code: maximum 8 lines, `large` (32pt) minimum font, syntax highlighting with vivid colors
 - Avoid detailed UML — prefer simplified block diagrams
 - Goal: the diagram's message is clear without reading fine print
 
-### Quand la slide est une transition
+### When the slide is a transition
 
 - Single phrase in `GIANT` (196pt) or `giant` (128pt)
 - Vivid accent color

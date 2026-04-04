@@ -52,7 +52,7 @@ Structure exercises from simple to complex:
 
 ## Application par type de contenu
 
-### Quand la slide est un exercice
+### When the slide is an exercise
 
 - Clear title: "Exercise: [objective]"
 - Numbered steps with `st_list` (ordered)
@@ -62,7 +62,7 @@ Structure exercises from simple to complex:
 - Container: light background accent to distinguish from theory slides
 - Goal: participant can follow independently without trainer
 
-### Quand la slide a du code
+### When the slide has code
 
 - Code block: 60-70% of viewport
 - Font: `big` (24pt) minimum for code
@@ -71,7 +71,7 @@ Structure exercises from simple to complex:
 - Side-by-side before/after when showing transformations
 - Goal: copy-paste ready, immediately runnable
 
-### Quand la slide est théorique (concept)
+### When the slide is theoretical (concept)
 
 - Brief: max 4 bullets, keyword style
 - Always include a "Why this matters" or practical connection
@@ -79,14 +79,14 @@ Structure exercises from simple to complex:
 - Font: `Large` (48pt) for body
 - Goal: quick context, then move to practice
 
-### Quand la slide a un diagramme
+### When the slide has a diagram
 
 - Architecture/flow diagrams: clear, labeled, moderate detail
 - Can include more detail than auditorium (participants are closer)
 - Mermaid/PlantUML preferred (reproducible, editable)
 - Goal: reference diagram participants can study
 
-### Quand la slide est une transition
+### When the slide is a transition
 
 - Brief: section title + "In this section, you will..."
 - 2-3 bullet learning objectives
