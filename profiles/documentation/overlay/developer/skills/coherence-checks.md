@@ -78,7 +78,7 @@ Reference file for `/stx-coherence:audit`. Defines 45 check categories (28 stand
 |--------|--------|
 | `streamtex-claude/shared/references/coding_standards.md` | `streamtex/.claude/references/`, `streamtex-docs/.claude/references/`, `streamtex-docs/references/`, `projects/*/.claude/references/` |
 | `streamtex-claude/shared/references/streamtex_cheatsheet_en.md` | Same locations as above |
-| `streamtex-claude/profiles/project/commands/stx-designer/*.md` | `projects/*/.claude/commands/stx-designer/` |
+| `streamtex-claude/profiles/project/commands/stx-block/*.md` | `projects/*/.claude/commands/stx-block/` |
 | `streamtex-claude/profiles/project/designer/agents/*.md` | `projects/*/.claude/designer/agents/` |
 | `streamtex-claude/profiles/project/designer/skills/*.md` | `projects/*/.claude/designer/skills/` |
 | `streamtex-claude/profiles/project/designer/templates/*.md` | `projects/*/.claude/designer/templates/` |
@@ -169,7 +169,7 @@ Reference file for `/stx-coherence:audit`. Defines 45 check categories (28 stand
 - WARNING if topic "presentation" is missing from the topics table or does not document PresentationConfig
 - WARNING if CLI templates documented in stx-guide do not match `AVAILABLE_TEMPLATES` in `install_cmd.py`
 - WARNING if presets documented in stx-guide do not match `PRESET_ORDER` in `workspace_cmd.py`
-- WARNING if the distinction between CLI templates and stx-designer templates is not documented
+- WARNING if the distinction between CLI templates and stx-block templates is not documented
 - WARNING if `/stx-issue:*` commands are missing from the stx-guide topics table or Section 4e
 - WARNING if `/stx-issue:bug`, `/stx-issue:feature`, `/stx-issue:question`, `/stx-issue:docs`, `/stx-issue:comment`, `/stx-issue:list` are missing from the quick reference table (Section 6)
 - INFO: report stx-guide line count and last-known sync date
@@ -238,7 +238,7 @@ Reference file for `/stx-coherence:audit`. Defines 45 check categories (28 stand
 
 **Goal**: All Python code examples in Claude artifacts (skills, agents, commands) use correct, current StreamTeX API.
 
-**Why this check is critical**: Users generate most of their project code via Claude artifacts (`/stx-designer:update`, `/stx-designer:init`, agents). If these artifacts contain incorrect API usage, every generated project inherits the bugs.
+**Why this check is critical**: Users generate most of their project code via Claude artifacts (`/stx-block:update`, `/stx-block:init`, agents). If these artifacts contain incorrect API usage, every generated project inherits the bugs.
 
 **Scope**: All `.md` files containing Python code blocks in:
 - `streamtex-claude/profiles/**/skills/**/*.md`
@@ -596,7 +596,7 @@ for cls in [PdfConfig, ExportConfig, BannerConfig]:
 - INFO: report total files declared vs found per profile
 
 **Example of what this catches**:
-- `documentation/manifest.toml` declares `stx-designer = ["init.md", ...]` but `documentation/commands/stx-designer/` does not exist → 5 ERRORS
+- `documentation/manifest.toml` declares `stx-block = ["init.md", ...]` but `documentation/commands/stx-block/` does not exist → 5 ERRORS
 - `project/manifest.toml` declares `shared.references = ["presentation_cheatsheet_en.md"]` but `shared/references/presentation_cheatsheet_en.md` is missing → 1 ERROR
 
 ---
@@ -630,7 +630,7 @@ for cls in [PdfConfig, ExportConfig, BannerConfig]:
 - INFO: report all 4 sets and their alignment status
 
 **Important distinction** (do NOT flag as errors):
-- stx-designer templates (`/stx-designer:init --template`) are Claude AI blueprints stored in `profiles/project/designer/templates/`. These are a DIFFERENT system from CLI templates and should NOT be compared to `AVAILABLE_TEMPLATES`.
+- stx-block templates (`/stx-block:init --template`) are Claude AI blueprints stored in `profiles/project/designer/templates/`. These are a DIFFERENT system from CLI templates and should NOT be compared to `AVAILABLE_TEMPLATES`.
 - Only flag mismatches for CLI template references (identified by `stx project new --template` or `stx install --template` context).
 
 ---
@@ -656,14 +656,14 @@ for cls in [PdfConfig, ExportConfig, BannerConfig]:
 2. Verify `shared/commands/stx-issue/` contains all 6 files: `bug.md`, `feature.md`, `question.md`, `docs.md`, `comment.md`, `list.md`
 3. Verify all profiles include `"stx-issue"` in their `[shared] commands` list
 4. Verify stx-guide.md references `/stx-issue:*` in topics table and Section 6
-5. Verify NO profile still has `stx-project = ["issue.md"]` or `commands/stx-project/issue.md`
+5. Verify NO profile still has legacy `commands/stx-project/` directory (migrated to stx-issue)
 
 **Rules**:
 - ERROR if a repo is missing `.github/ISSUE_TEMPLATE/` directory
 - ERROR if any of the 4 template files is missing from a repo
 - ERROR if `shared/commands/stx-issue/` is missing any of the 6 command files
 - ERROR if a profile does not include `"stx-issue"` in `[shared] commands`
-- ERROR if any profile still has `commands/stx-project/issue.md` (orphan from old structure)
+- ERROR if any profile still has legacy `commands/stx-project/` or `commands/stx-designer/` or `commands/stx-developer/` directories
 - WARNING if issue templates differ between repos (content should be consistent)
 - WARNING if stx-guide.md does not reference `/stx-issue:*`
 - INFO: report template existence status across all repos and profiles
@@ -674,7 +674,7 @@ for cls in [PdfConfig, ExportConfig, BannerConfig]:
 
 **What**: All command namespace directories and their references must use the `stx-` prefix convention. No bare namespace directories (e.g. `developer/`, `project/`, `designer/`) should exist under `commands/`.
 
-**Why**: Consistent `stx-` prefix avoids user confusion — if `/stx-designer:init` exists, users expect `/stx-project:issue`, not `/project:issue`.
+**Why**: Consistent `stx-` prefix avoids user confusion — if `/stx-block:init` exists, users expect `/stx-block:collection-new`, not `/project:collection-new`.
 
 **Source files**:
 - `streamtex-claude/profiles/*/commands/` → directory names
@@ -690,8 +690,8 @@ for cls in [PdfConfig, ExportConfig, BannerConfig]:
 **Rules**:
 - ERROR if a command directory under `commands/` does not start with `stx-`
 - ERROR if a manifest `[commands]` key does not start with `stx-`
-- ERROR if any file contains a bare namespace slash command reference (e.g. `/developer:test-run` instead of `/stx-developer:test-run`)
-- WARNING if any file contains a bare namespace path reference (e.g. `commands/project/` instead of `commands/stx-project/`)
+- ERROR if any file contains a bare namespace slash command reference (e.g. `/developer:test-run` instead of `/stx-block:test`)
+- WARNING if any file contains a bare namespace path reference (e.g. `commands/project/` instead of `commands/stx-block/`)
 - INFO: report all namespace directories found and their prefix status
 
 ---

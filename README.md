@@ -53,7 +53,7 @@ stx claude install project .
 Then use slash commands to build your project:
 
 ```
-/stx-designer:init Docker introduction course, 10 slides, dark theme, with table of contents
+/stx-block:init Docker introduction course, 10 slides, dark theme, with table of contents
 ```
 
 The AI agent proposes a structure, you approve, and all files are generated.
@@ -91,9 +91,9 @@ stx update
 
 | Profile | Audience | Commands | Agents | Skills | Key Use Cases |
 |---------|----------|:--------:|:------:|:------:|---------------|
-| **project** | Content creators, teachers | 24 | 3 | 8 | Create projects, design slides, migrate HTML, audit design |
+| **project** | Content creators, teachers | 26 | 3 | 8 | Create projects, design blocks, migrate HTML, audit design |
 | **presentation** | Live presenters | +3 | +1 | +3 | All of `project` + live projection rules (48pt+ fonts, 10-20m) |
-| **library** | Library contributors | 4 | — | 3 | Test, lint, deploy the StreamTeX library |
+| **library** | Library contributors | 2 | — | 3 | Test, lint the StreamTeX library (deploy via stx-deploy) |
 | **documentation** | Manual authors | 11 | 2 | 5 | Multi-manual coordination, course generation |
 
 ## Installation
@@ -138,9 +138,7 @@ your-project/
     ├── .stx-profile           # Installed profile marker
     ├── commands/
     │   ├── stx-guide.md       # Shared: ecosystem navigation guide
-    │   ├── stx-designer/      # Design commands (/stx-designer:init, update, audit, fix, tool, slide-*, style-*, block-*)
-    │   ├── stx-developer/     # Dev commands (/stx-developer:test-run, lint, deploy)
-    │   └── stx-project/       # Project commands (/stx-project:issue)
+    │   └── stx-block/          # Block & project commands (/stx-block:init, update, audit, fix, tool, test, lint, ...)
     ├── references/            # Shared: coding standards + cheatsheet
     ├── designer/              # Design skills, agents, templates, tools
     └── developer/             # Developer skills
@@ -148,27 +146,27 @@ your-project/
 
 ## Command Overview
 
-### stx-designer Commands (12) — Project lifecycle
+### stx-block Commands (15) — Project lifecycle
 
 | Command | What it does |
 |---------|-------------|
-| `/stx-designer:init [--template] <desc>` | Create a complete project from natural language. Templates: `project` (default), `presentation`, `collection`, `course` |
-| `/stx-designer:update [--upgrade\|--migrate\|--export] <desc>` | Add blocks, change styles, migrate HTML, export, upgrade structure |
-| `/stx-designer:audit [--all\|--target <name>] <desc>` | Check project quality: structure, styles, design rules, presentation compliance |
-| `/stx-designer:fix [--all\|--target <name>] <desc>` | Auto-fix issues found by audit |
-| `/stx-designer:tool <tool-name> <desc>` | Run specialized tools (e.g. `survey-convert`) |
+| `/stx-block:init [--template] <desc>` | Create a complete project from natural language. Templates: `project` (default), `presentation`, `collection`, `course` |
+| `/stx-block:update [--upgrade\|--migrate\|--export] <desc>` | Add blocks, change styles, migrate HTML, export, upgrade structure |
+| `/stx-block:audit [--all\|--target <name>\|--scope <scope>] <desc>` | Check project quality: structure, styles, design rules, presentation compliance |
+| `/stx-block:fix [--all\|--target <name>\|--scope <scope>] <desc>` | Auto-fix issues found by audit |
+| `/stx-block:tool <tool-name> <desc>` | Run specialized tools (e.g. `survey-convert`) |
+| `/stx-block:new <desc>` | Create a new block |
+| `/stx-block:slide-new <desc>` | Create a new presentation slide |
+| `/stx-block:preview <block>` | Preview and validate a block |
+| `/stx-block:customize <desc>` | Customize project settings |
+| `/stx-block:upgrade` | Upgrade project to latest template |
+| `/stx-block:collection-new <desc>` | Create a new multi-project collection |
+| `/stx-block:course-generate` | Generate book.py from blocks.csv |
+| `/stx-block:style-refactor <block>` | Refactor styles in a block |
+| `/stx-block:test` | Run test suite |
+| `/stx-block:lint` | Run linter with auto-fix |
 
 **Lifecycle**: `init` → `update` → `audit` → `fix` → `update` → ...
-
-All commands accept `--help` to show the full cheatsheet.
-
-### Developer Commands (2-3)
-
-| Command | What it does |
-|---------|-------------|
-| `/stx-developer:test-run` | Run test suite |
-| `/stx-developer:lint` | Run linter with auto-fix |
-| `/stx-developer:deploy` | Deploy to Docker/HF/GCP (library profile only) |
 
 ### Workspace & Project Management
 
@@ -184,7 +182,7 @@ The `presentation` profile extends `project` with additional **skills and agents
 - `survey-chart-conversion.md` — Survey screenshot conversion schema
 - `presentation-designer.md` — Agent for projection-optimized slides
 
-The stx-designer commands **auto-detect** presentation profile and apply projection rules.
+The stx-block commands **auto-detect** presentation profile and apply projection rules.
 
 ## Agents
 

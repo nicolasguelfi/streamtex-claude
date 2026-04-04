@@ -234,16 +234,16 @@ my-project/
 | Action | Commands used |
 |--------|-------------|
 | Import | `/stx-import:html`, `:html-block`, `:html-batch`, `:marp` |
-| Create | `/stx-designer:init`, `:block-new`, `:slide-new` |
-| Improve | `/stx-designer:update`, `:style-refactor` |
-| Verify | `/stx-designer:audit --target`, `/stx-designer:fix --target` |
+| Create | `/stx-block:init`, `:new`, `:slide-new` |
+| Improve | `/stx-block:update`, `:style-refactor` |
+| Verify | `/stx-block:audit --target`, `/stx-block:fix --target` |
 | Deliver | `/stx-export:html`, `/stx-deploy:deploy` |
 
 ### During FIX
 | Action | Commands used |
 |--------|-------------|
-| Fix | `/stx-designer:fix --target <block>` |
-| Verify | `/stx-designer:audit --target <block>`, `--all` |
+| Fix | `/stx-block:fix --target <block>` |
+| Verify | `/stx-block:audit --target <block>`, `--all` |
 
 ### During COMPOUND (Axis 2)
 | Action | Commands used |

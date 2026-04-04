@@ -159,7 +159,7 @@ def _slugify(title: str) -> str:
 
     'Environment (MANDATORY)' -> 'environment'
     'Coding Standards' -> 'coding-standards'
-    'Workflows — stx-designer Commands' -> 'workflows'
+    'Workflows — stx-block Commands' -> 'workflows'
     """
     # Take text before — or ( if present
     text = re.split(r"[—(]", title)[0].strip()

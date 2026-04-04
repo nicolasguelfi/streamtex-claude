@@ -90,11 +90,11 @@ Multi-perspective review report — consolidates findings from all review agents
 
 | # | Finding Ref | Severity | Fix Method | Automatable? |
 |---|------------|----------|-----------|-------------|
-| 1 | <perspective + finding #> | <CRITICAL / MAJOR / MINOR> | <manual edit / /stx-designer:fix / /stx-designer:update / code change> | <yes / no / partial> |
+| 1 | <perspective + finding #> | <CRITICAL / MAJOR / MINOR> | <manual edit / /stx-block:fix / /stx-block:update / code change> | <yes / no / partial> |
 | 2 | <...> | <...> | <...> | <...> |
 
 ## Next Step
 
-- For automatable fixes: proceed with `/stx-designer:fix`
+- For automatable fixes: proceed with `/stx-block:fix`
 - For all other items: proceed with `/stx-ce:compound` to apply fixes and capitalize learnings
 ```

@@ -93,12 +93,12 @@ Execute each archetype in sequence (for composite tasks, each step receives the 
 1. Load the current plan.
 2. Determine what to produce from the task description (new block, modification, split).
 3. If creating a new block:
-   - Use `/stx-designer:block-new` or `/stx-designer:slide-new` with content from the task description and source references.
+   - Use `/stx-block:new` or `/stx-block:slide-new` with content from the task description and source references.
    - Apply design guideline if active (add `# @guideline: <name>` annotation).
-   - Run `/stx-designer:audit --target <block>` to verify.
-   - Fix any findings with `/stx-designer:fix --target <block>`.
+   - Run `/stx-block:audit --target <block>` to verify.
+   - Fix any findings with `/stx-block:fix --target <block>`.
 4. If modifying an existing block:
-   - Use `/stx-designer:update` with the change description.
+   - Use `/stx-block:update` with the change description.
    - Audit and fix.
 5. Update `book.py` to include the new/modified block at the correct position.
 

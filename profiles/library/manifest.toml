@@ -8,12 +8,9 @@ description = "StreamTeX library development"
 extends = "project"
 
 # Overlay adds:
-#   commands/stx-developer/deploy.md   — PyPI publication
 #   developer/skills/architecture.md   — library architecture overview
 #   developer/skills/coherence-checks.md — coherence check rules
-
-[commands]
-stx-developer = ["deploy.md"]
+# Note: deploy.md removed — use /stx-deploy:deploy instead
 
 [skills]
 developer = ["architecture.md", "coherence-checks.md"]

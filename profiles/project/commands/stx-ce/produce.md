@@ -15,10 +15,10 @@ Arguments: $ARGUMENTS
 Executes the production plan item by item. For each item, the appropriate StreamTeX command is invoked:
 
 - **Import items**: `/stx-import:html`, `/stx-import:marp`, or manual conversion
-- **Improvement items**: `/stx-designer:update`, `/stx-designer:style-refactor`
-- **Creation items**: `/stx-designer:block-new`, `/stx-designer:slide-new`
+- **Improvement items**: `/stx-block:update`, `/stx-block:style-refactor`
+- **Creation items**: `/stx-block:new`, `/stx-block:slide-new`
 
-Each item is audited after production (`/stx-designer:audit --target`) and fixed if needed. A global audit runs at the end.
+Each item is audited after production (`/stx-block:audit --target`) and fixed if needed. A global audit runs at the end.
 
 For each block: classify content, match guideline archetype, and apply directives. Add `# @guideline: <name>` annotation at the top of each produced block file. Validate each block against guideline constraints before moving to the next.
 
@@ -34,7 +34,7 @@ If `--interactive` is used without `--granularity`, the granularity is auto-sele
 
 At each validation point:
 1. Show the produced block(s) with guideline archetype and pattern annotations
-2. Run targeted audit (`/stx-designer:audit --target`)
+2. Run targeted audit (`/stx-block:audit --target`)
 3. Present results: Accept / Revise / Skip
 4. If Revise: user provides feedback, block is regenerated
 

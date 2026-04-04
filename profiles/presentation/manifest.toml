@@ -7,8 +7,8 @@ description = "Live projection presentations (10-20m distance)"
 extends = "project"
 
 # Only additions relative to parent profile
-# Note: stx-designer commands are inherited from project profile.
-# The presentation overlay adds skills and agents that the stx-designer
+# Note: stx-block commands are inherited from project profile.
+# The presentation overlay adds skills and agents that the stx-block
 # commands detect and use automatically.
 
 [commands]

@@ -1,4 +1,4 @@
-# /stx-designer:init — Create a new StreamTeX project
+# /stx-block:init — Create a new StreamTeX project
 
 Arguments: $ARGUMENTS
 
@@ -8,7 +8,7 @@ Parse `$ARGUMENTS` as: `[OPTIONS] <description>`
 
 **Options** (parsed before the description text):
 - `--<template-name>` — Use a specific project template (e.g. `--presentation`, `--collection`, `--course`). Default: `project`
-- `--help` — Show the stx-designer cheatsheet (see Help section below)
+- `--help` — Show the stx-block cheatsheet (see Help section below)
 
 **Description**: Free-form natural language text describing the desired project.
 
@@ -17,11 +17,11 @@ If `$ARGUMENTS` is empty or only `--help`, show the Help section.
 ### Examples
 
 ```
-/stx-designer:init Docker course for beginners, 8 slides, dark style
-/stx-designer:init --presentation AI4SE conference talk, 12 slides, blue/violet palette
-/stx-designer:init --collection my teaching hub with 3 sub-projects
-/stx-designer:init --course Python fundamentals, 6 chapters with exercises
-/stx-designer:init --help
+/stx-block:init Docker course for beginners, 8 slides, dark style
+/stx-block:init --presentation AI4SE conference talk, 12 slides, blue/violet palette
+/stx-block:init --collection my teaching hub with 3 sub-projects
+/stx-block:init --course Python fundamentals, 6 chapters with exercises
+/stx-block:init --help
 ```
 
 ## Required readings BEFORE generation
@@ -174,7 +174,7 @@ Next steps:
   1. Fill in block content (replace "[TODO: ...]" placeholders)
   2. Add images to static/images/
   3. Test: stx run
-  4. Use /stx-designer:audit to check compliance
+  4. Use /stx-block:audit to check compliance
 ```
 
 ## Generation rules
@@ -202,32 +202,32 @@ Next steps:
 
 ---
 
-## Help — stx-designer Cheatsheet
+## Help — stx-block Cheatsheet
 
 ```
 ╔══════════════════════════════════════════════════════════════╗
-║                    stx-designer Commands                     ║
+║                    stx-block Commands                     ║
 ╠══════════════════════════════════════════════════════════════╣
 ║                                                              ║
-║  /stx-designer:init [--template] <desc>                      ║
+║  /stx-block:init [--template] <desc>                      ║
 ║    Create a new project from a natural language description.  ║
 ║    Templates: project (default), presentation, collection,   ║
 ║               course                                         ║
 ║                                                              ║
-║  /stx-designer:update [--upgrade|--migrate|--export] <desc>  ║
+║  /stx-block:update [--upgrade|--migrate|--export] <desc>  ║
 ║    Modify an existing project: add blocks, change palette,   ║
 ║    migrate HTML, export, upgrade structure.                   ║
 ║                                                              ║
-║  /stx-designer:audit [--all|--target <name>] <desc>          ║
+║  /stx-block:audit [--all|--target <name>] <desc>          ║
 ║    Check project quality: structure, styles, design rules.   ║
 ║    Targets: block name, "styles", "book", or --all.          ║
 ║    Add "presentation" in desc for projection rules.          ║
 ║                                                              ║
-║  /stx-designer:fix [--all|--target <name>] <desc>            ║
+║  /stx-block:fix [--all|--target <name>] <desc>            ║
 ║    Auto-fix issues found by audit.                           ║
 ║    Same targeting as audit.                                  ║
 ║                                                              ║
-║  /stx-designer:tool <tool-name> <desc>                       ║
+║  /stx-block:tool <tool-name> <desc>                       ║
 ║    Run a specialized tool.                                   ║
 ║    Tools: survey-convert, list                               ║
 ║                                                              ║

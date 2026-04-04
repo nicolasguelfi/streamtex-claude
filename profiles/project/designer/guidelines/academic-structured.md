@@ -1,7 +1,7 @@
 # Design Guideline: Academic Structured
 
 > **Scope**: This skill defines a graphical design philosophy for StreamTeX presentations
-> in academic and educational contexts. It is loaded by stx-designer and stx-ce commands
+> in academic and educational contexts. It is loaded by stx-block and stx-ce commands
 > when the project or block references this guideline. It **complements**
 > `slide-design-rules.md` and `visual-design-rules.md` — where a directive here
 > conflicts with those base rules, **this file wins**.

@@ -7,9 +7,7 @@ description = "Standard StreamTeX project development"
 extends = ""
 
 [commands]
-stx-designer = ["init.md", "update.md", "audit.md", "fix.md", "tool.md", "slide-new.md", "slide-audit.md", "slide-fix.md", "style-audit.md", "style-refactor.md", "block-new.md", "block-preview.md"]
-stx-developer = ["test-run.md", "lint.md"]
-stx-project = ["collection-new.md", "course-generate.md", "project-customize.md", "project-init.md", "project-upgrade.md"]
+stx-block = ["init.md", "update.md", "audit.md", "fix.md", "tool.md", "slide-new.md", "style-refactor.md", "new.md", "preview.md", "customize.md", "upgrade.md", "collection-new.md", "course-generate.md", "test.md", "lint.md"]
 stx-ce = ["collect.md", "assess.md", "plan.md", "produce.md", "review.md", "fix.md", "compound.md", "go.md", "status.md", "task.md", "continue.md"]
 
 [skills]

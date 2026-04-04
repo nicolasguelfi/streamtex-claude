@@ -1,4 +1,4 @@
-# /stx-designer:audit — Verify project quality
+# /stx-block:audit — Verify project quality
 
 Arguments: $ARGUMENTS
 
@@ -9,7 +9,8 @@ Parse `$ARGUMENTS` as: `[OPTIONS] <description>`
 **Options** (parsed before the description text):
 - `--all` — Audit the entire project (all blocks, styles, book.py)
 - `--target <name>` — Audit a specific element: block name (e.g. `bck_intro`), `styles`, `book`
-- `--help` — Show the stx-designer cheatsheet (see init.md Help section)
+- `--scope <scope>` — Focus on a specific audit scope: `slide`, `style`, `structure`, or `all` (default: `all`)
+- `--help` — Show the stx-block cheatsheet (see init.md Help section)
 
 **Description**: Free-form text providing additional context or directives.
 - Include "presentation" or "projection" to apply live projection rules
@@ -19,16 +20,26 @@ Parse `$ARGUMENTS` as: `[OPTIONS] <description>`
 If no `--all` or `--target` is given AND no target is detectable from the description,
 ask the user what they want to audit.
 
+### Scope behavior
+
+| Scope | What is checked |
+|-------|----------------|
+| `all` (default) | Full audit: structure + visual + style + guideline |
+| `slide` | Visual design compliance only: centered content, headings, font sizes, line length, string concatenation, code before rendering, multi-line strings, spacing, section structure, pattern and guideline compliance |
+| `style` | Style consistency only: raw HTML/CSS, hardcoded colors, multiple st_write for inline text, duplicate styles, non-English names, unused styles, guideline palette compliance, dark mode compatibility |
+| `structure` | Structure checks only: imports, BlockStyles, build(), raw HTML, raw st.*, simulated lists |
+
 ### Examples
 
 ```
-/stx-designer:audit --all
-/stx-designer:audit --all check presentation compliance
-/stx-designer:audit --target bck_text_styles
-/stx-designer:audit --target bck_text_styles verify projection readability
-/stx-designer:audit --target styles check for dark mode compatibility
-/stx-designer:audit --target book verify TOC and navigation config
-/stx-designer:audit --all check migration quality
+/stx-block:audit --all
+/stx-block:audit --all check presentation compliance
+/stx-block:audit --target bck_text_styles
+/stx-block:audit --target bck_text_styles --scope slide
+/stx-block:audit --target styles --scope style
+/stx-block:audit --target book verify TOC and navigation config
+/stx-block:audit --all --scope style check for dark mode compatibility
+/stx-block:audit --all check migration quality
 ```
 
 ## Required readings
@@ -185,7 +196,7 @@ Check `book.py` configuration:
 - [x] <check name>
 
 ## Recommendation
-Use `/stx-designer:fix --target <target>` to auto-fix issues.
+Use `/stx-block:fix --target <target>` to auto-fix issues.
 ```
 
 ## Constraints

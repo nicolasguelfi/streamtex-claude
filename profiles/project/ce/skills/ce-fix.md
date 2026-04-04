@@ -21,14 +21,14 @@ Process findings from most severe to least severe.
 
 For each automatable finding:
 
-1. Run `/stx-designer:fix --target <block>` with the specific fix instruction from the finding.
-2. For presentation projects, use `/stx-designer:slide-fix` when appropriate.
+1. Run `/stx-block:fix --target <block>` with the specific fix instruction from the finding.
+2. For presentation projects, use `/stx-block:slide-fix` when appropriate.
 3. For spacing findings, apply these specific fixes:
    - **Inconsistent spacing**: apply a uniform `SpacingConfig` via `set_spacing()` at book or profile level
    - **Unnecessary block-level overrides**: remove `set_block_spacing()` calls that duplicate the global/profile spacing; use `reset_block_spacing()` to clear them
    - **Double-spacing**: fix adjacent bottom+top margins by adjusting one side (prefer setting `bottom=0` on the preceding block or `top=0` on the following block)
    - **Horizontal margin mismatch**: adjust `set_section_horizontal()` or per-block left/right values to match the target profile
-4. Run `/stx-designer:audit --target <block>` to verify the fix resolved the finding.
+4. Run `/stx-block:audit --target <block>` to verify the fix resolved the finding.
 4. Record the result:
    - **FIXED**: the finding is fully resolved (audit confirms)
    - **PARTIAL**: the finding is improved but not fully resolved
@@ -36,7 +36,7 @@ For each automatable finding:
 
 ### Phase 3: Global Verification
 
-1. Run `/stx-designer:audit --all` to perform a full re-audit.
+1. Run `/stx-block:audit --all` to perform a full re-audit.
 2. Compare the number of findings before and after fixes.
 3. Detect regressions: new findings that did not exist in the original review.
 4. If regressions are found, attempt to fix them. If they persist, flag them clearly.

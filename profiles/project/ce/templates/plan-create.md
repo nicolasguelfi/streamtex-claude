@@ -160,7 +160,7 @@ Creation production plan — detailed execution plan for building a new StreamTe
 
 ## Pre-Production Checklist
 
-- [ ] Project created (`stx project new` or `/stx-designer:init`)
+- [ ] Project created (`stx project new` or `/stx-block:init`)
 - [ ] Design profile selected and configured
 - [ ] book.py initialized with skeleton structure
 - [ ] blocks/ directory created

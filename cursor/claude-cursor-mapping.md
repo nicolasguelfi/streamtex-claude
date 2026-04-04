@@ -55,7 +55,7 @@
 | Concept | Description / Finalité | Claude Code | Cursor IDE |
 |---------|----------------------|-------------|------------|
 | **Template de projet** | Modèle de scaffolding définissant structure, thème, typographie par défaut | `.claude/designer/templates/nom.md` (project, presentation, collection, course) | `.cursor/commands/templates/nom.md` — reconditionnés en commandes slash |
-| **Outil spécialisé** | Agent dédié à une tâche technique spécifique (ex: conversion de captures) | `.claude/designer/tools/nom.md` invoqué via `/stx-designer:tool <nom>` | `.cursor/commands/tools/nom.md` — reconditionnés en commandes slash |
+| **Outil spécialisé** | Agent dédié à une tâche technique spécifique (ex: conversion de captures) | `.claude/designer/tools/nom.md` invoqué via `/stx-block:tool <nom>` | `.cursor/commands/tools/nom.md` — reconditionnés en commandes slash |
 
 ### 1.6 Hooks (Automatisations du cycle de vie)
 
