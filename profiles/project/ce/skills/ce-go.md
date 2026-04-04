@@ -96,3 +96,8 @@ When running from `/stx-ce:go`, individual phases operate in pipeline mode:
 - Phases auto-detect context from previous phase outputs rather than prompting.
 - Error handling: if a phase fails, report the error, save progress, and ask the user whether to retry, skip, or abort.
 - Progress is saved so the cycle can be resumed if interrupted.
+
+### Related Commands
+
+- `/stx-ce:task "<description>"` — For ad-hoc tasks outside the pipeline (compare, targeted review, plan amendment, etc.). See `ce-task.md`.
+- `/stx-ce:continue` — For session resumption after a break (briefing, drift detection, proposals). See `ce-continue.md`.

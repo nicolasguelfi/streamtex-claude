@@ -121,3 +121,18 @@ If `--verbose` flag is set, also show:
 - Full list of plan items with their status
 - Full list of review findings with their severity and fix status
 - List of all solution files with their categories
+
+### Task Activity
+
+If task-related artifacts exist, include in the dashboard:
+
+| Metric | Value |
+|--------|-------|
+| Plan versions | N (latest: `<filename>`) |
+| Task reviews | N (latest: `<date>`) |
+| Last task | `<date>` — `<task description excerpt>` |
+
+Scan for:
+- Plan versions: count files in `docs/plans/` matching the project name
+- Task reviews: count files in `docs/reviews/` matching `*-task-review.md` or `*-coverage-task.md`
+- Last task: parse the most recent task-review or coverage-task file header for the task description

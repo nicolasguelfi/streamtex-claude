@@ -116,3 +116,18 @@ Read these files:
 - <topic 1> -- no prior solutions exist, proceed with caution
 - <topic 2> -- consider documenting the solution after completion
 ```
+
+## Targeted Search Mode
+
+When invoked by `/stx-ce:task` for a TARGETED COMPOUND archetype, this agent operates in **targeted mode**:
+
+1. Accept a **search topic** (e.g., "kitchen metaphor", "stat-hero pattern")
+2. Search `docs/solutions/` for entries matching the topic:
+   - Match by filename keywords
+   - Match by content (tags, category, description)
+   - Match by related learnings references
+3. Return:
+   - **Exact matches**: solutions about the same topic (potential duplicates to update)
+   - **Related matches**: solutions about similar topics (potential cross-references)
+   - **No match**: topic is new, create fresh solution file
+4. Report findings to the calling skill for dedup decision.

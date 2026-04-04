@@ -39,6 +39,20 @@ projects_count: <number of CE cycles completed>
 ## Git Preferences
 - branch_suggestions: true
   <!-- Set to false to disable branch creation suggestions for document projects -->
+
+## Task Preferences
+
+| Field | Value | Description |
+|-------|-------|-------------|
+| `task_gate` | `auto` | Gate behavior: `auto` (gate for write tasks), `always` (gate for all), `never` (no gates) |
+
+## Task History
+
+<!-- Last 10 tasks executed — updated automatically by /stx-ce:task -->
+
+| Date | Archetype | Description | Artifacts |
+|------|-----------|-------------|-----------|
+| <!-- populated by ce-task --> | | | |
 ```
 
 ## Usage

@@ -9,7 +9,7 @@ COLLECT -> ASSESS -> PLAN -> PRODUCE -> REVIEW -> FIX -> COMPOUND
    +----------------------------------------------------------+
 ```
 
-## Commands (9)
+## Commands (11)
 
 | Command | Description |
 |---------|-------------|
@@ -22,6 +22,8 @@ COLLECT -> ASSESS -> PLAN -> PRODUCE -> REVIEW -> FIX -> COMPOUND
 | `/stx-ce:compound` | Capitalize learnings (3 axes: production, feedback, governance) |
 | `/stx-ce:go [flags]` | Full autonomous cycle with 3 gates |
 | `/stx-ce:status` | Show CE cycle status for current project |
+| `/stx-ce:task "<desc>"` | Execute ad-hoc task with lifecycle reconciliation |
+| `/stx-ce:continue` | Resume work: briefing, drift detection, proposals |
 
 ## Pathways
 
@@ -50,7 +52,36 @@ COLLECT -> ASSESS -> PLAN -> PRODUCE -> REVIEW -> FIX -> COMPOUND
 | **Auto** | Default (or `--quick`) | Single-pass plan generation |
 | **Interactive** | `--interactive` or auto (>= 10 sources / >= 20 blocks) | 1. Skeleton -> 2. Objectives -> 3. Design -> 4. Final plan |
 
-## Agents (17)
+## /stx-ce:task — Ad-Hoc Tasks
+
+**Syntax**: `/stx-ce:task "<free-text description>"`
+
+| Archetype | Triggers | Artifact |
+|-----------|----------|----------|
+| COMPARE | "compare", "coverage", "gaps" | `docs/reviews/YYYY-MM-DD-coverage-task.md` |
+| TARGETED REVIEW | "review", "check" + scope/criteria | `docs/reviews/YYYY-MM-DD-task-review.md` |
+| TARGETED PRODUCTION | "add", "create", "produce" | New blocks + new plan version |
+| PLAN AMENDMENT | "update plan", "reorder" | New plan version with Change Log |
+| TARGETED COMPOUND | "capitalize", "extract pattern" | `docs/solutions/<cat>/YYYY-MM-DD-<topic>.md` |
+| SOURCE ANALYSIS | "analyze source", "extract from" | `docs/collect/YYYY-MM-DD-task-analysis.md` |
+
+**Gate**: No gate for read-only (COMPARE, ANALYSIS), confirmation for write tasks. Configurable: `task_gate` in producer profile.
+**Plan versioning**: New plan version created (not appended). Latest by date+sequence = current.
+**Composite**: Multiple archetypes in one description → decomposed and sequenced automatically.
+
+## /stx-ce:continue — Session Resumption
+
+**Syntax**: `/stx-ce:continue [--verbose]`
+
+**Output**:
+1. **Briefing**: project name, last activity, plan version, block count, progress
+2. **Drift**: source changes, manual edits, plan mismatch, stale artifacts, unresolved findings
+3. **Proposals**: prioritized next steps with executable commands
+4. **Dispatch**: select proposal by number, describe custom task, or skip
+
+**Priority levels**: CRITICAL (unresolved critical findings) > HIGH (source drift, remaining production) > MEDIUM (stale reviews, source updates) > LOW (missing phases) > INFO (up to date)
+
+## Agents (18)
 
 ### COLLECT (2)
 | Agent | Role |
@@ -91,7 +122,12 @@ COLLECT -> ASSESS -> PLAN -> PRODUCE -> REVIEW -> FIX -> COMPOUND
 | `feedback-detector` | Detect ecosystem bugs and missing features from cycle artifacts |
 | `dev-governance` | Verify dev conventions, propose branches and PRs |
 
-## Templates (12)
+### TASK (1)
+| Agent | Role |
+|-------|------|
+| `ad-hoc-reviewer` | Custom-criteria review of scoped blocks |
+
+## Templates (16)
 
 ### COLLECT (1)
 | Template | Purpose |
@@ -128,6 +164,14 @@ COLLECT -> ASSESS -> PLAN -> PRODUCE -> REVIEW -> FIX -> COMPOUND
 | `producer-profile` | Persistent producer preferences and learnings |
 | `feedback-summary` | Ecosystem feedback summary (bugs, features) |
 | `dev-report` | Dev governance report (repo changes, PRs) |
+
+### TASK (4)
+| Template | Purpose |
+|----------|---------|
+| `task-review` | Targeted review findings |
+| `coverage-matrix` | Source vs production coverage analysis |
+| `task-analysis` | Source document structured analysis |
+| `task-report` | Task execution summary |
 
 ## COMPOUND — 3 Axes of Capitalization
 

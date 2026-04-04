@@ -41,6 +41,29 @@ Read these files:
    - **MAJOR**: significantly impacts quality or user experience
    - **MINOR**: cosmetic or polish-level improvement
 
+## Bidirectional Comparison Mode
+
+When invoked by `/stx-ce:task` for a COMPARE archetype, this agent operates in **bidirectional mode**:
+
+### Forward comparison (source → blocks)
+For each theme/concept in the source document, search the produced blocks for semantic coverage. This is the standard gap analysis direction.
+
+### Reverse comparison (blocks → source)
+For each block's content, verify it has a corresponding source in the reference document. This detects:
+- **Unsourced content**: blocks that contain information not traceable to the source
+- **Creative additions**: content added during production that goes beyond the source (may be intentional)
+- **Hallucinated content**: facts or statistics that appear in blocks but have no source backing
+
+### Coverage Matrix Output
+When in bidirectional mode, produce a coverage matrix instead of the standard gap analysis table:
+
+| # | Source Theme | Lines | Status | Block(s) | Fidelity |
+|---|------------|-------|--------|----------|----------|
+| 1 | Theme name | 524-526 | COVERED | bck_name | Exact |
+
+**Status values**: COVERED, PARTIAL, REPLACED, MISSING
+**Fidelity values**: Exact, Summarized, Adapted, Absent
+
 ## Output Format
 
 ```markdown
