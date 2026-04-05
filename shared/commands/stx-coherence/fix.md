@@ -187,9 +187,30 @@ Remaining issues: W
 
 ## Fix Categories and Actions
 
-### File sync fixes (Check 4)
-- **Action**: `cp <source> <destination>`
-- **Verify**: Compare line counts after copy
+### File sync fixes (Check 4) — Read-Only Profile Files
+
+**CRITICAL RULE**: NEVER overwrite local `.claude/` files in projects. These are read-only copies managed by `stx claude update`. The fix command handles Check 4 divergences differently depending on the direction:
+
+#### Case A: Source newer than local (local is out of date)
+- **Action**: Do NOT copy files. Instead, remind the user:
+  ```
+  ℹ Local copy is out of date. Run `stx claude update` in the project to sync.
+  ```
+- **Skip**: This is not a fixable issue — it's a sync operation outside the fix scope.
+
+#### Case B: Local has improvements not in source (backport needed)
+- **Action**: Copy the relevant changes FROM the local copy TO the source in `streamtex-claude/`:
+  ```
+  Backport: <project>/.claude/<path> → streamtex-claude/<source_path>
+  ```
+- **Verify**: Diff the source after copy to confirm changes applied
+- **Follow-up**: After all backports, remind to run `stx claude update --all` to propagate
+
+#### Case C: Bidirectional divergence
+- **Action**: Present both diffs, ask user to choose:
+  - Option 1: Backport local changes to source (then `stx claude update`)
+  - Option 2: Discard local changes (run `stx claude update` to overwrite)
+  - Option 3: Manual merge (skip, handle later)
 
 ### Parameter/signature fixes (Checks 11, 14)
 - **Action**: Edit specific lines in the file
@@ -216,6 +237,9 @@ Remaining issues: W
 - **NEVER** apply a fix without user confirmation
 - **NEVER** batch multiple fixes into one confirmation (one fix = one confirmation)
 - **NEVER** modify the `streamtex` library code without explicit user approval
+- **NEVER** overwrite read-only `.claude/` files in projects — these are managed by `stx claude update`
+- **NEVER** `chmod` read-only profile files to make them writable
+- For Check 4 (Profile File Sync): backport local improvements to `streamtex-claude/` source, never the reverse
 - Always show the exact file path and line numbers
 - Always show before/after for code edits
 - If a fix could affect other files (propagation), mention it explicitly

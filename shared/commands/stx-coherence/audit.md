@@ -28,7 +28,40 @@ Arguments: $ARGUMENTS (optional scope — default: all)
    - Compare against the expected state defined in coherence-checks.md
    - Record findings with severity (ERROR / WARNING / INFO)
 
-5. **Report findings** in the output format below.
+5. **Profile File Sync (Check 4) — Special Handling**:
+
+   For files distributed from `streamtex-claude` to project `.claude/` directories (read-only copies):
+
+   **NEVER modify local copies directly.** Instead, analyze the divergence direction:
+
+   a. **Source newer than local** (source has content that local doesn't):
+      - Report as INFO: "Local copy out of date — run `stx claude update` to sync"
+
+   b. **Local has modifications not in source** (local diverges from source):
+      - Compare the diff to determine if the local changes are **relevant improvements**
+      - If relevant: report as WARNING with a backport task description:
+        ```
+        [BACKPORT] <source_file> — local copy in <project> has changes not in source:
+          <brief diff summary>
+          → Backport to: streamtex-claude/<source_path>
+          → Then run: stx claude update --all
+        ```
+      - If not relevant (stale local edits superseded by source): report as INFO suggesting `stx claude update`
+
+   c. **Bidirectional divergence** (both changed differently):
+      - Report as WARNING with detailed diff and explicit decision needed
+
+   The audit **MUST NOT**:
+   - Overwrite local `.claude/` files
+   - `chmod` any files
+   - Copy files from source to local or vice versa
+
+   The audit **MUST**:
+   - Report divergences with enough context to decide the action
+   - Generate backport task descriptions for relevant local improvements
+   - Remind that `stx claude update` handles source→local sync
+
+6. **Report findings** in the output format below.
 
 ## Output Format
 
@@ -62,4 +95,14 @@ Arguments: $ARGUMENTS (optional scope — default: all)
 
 ### INFO (N) — for awareness
 - [Category] Description
+
+### BACKPORT TASKS (N) — local improvements to propagate upstream
+- [File] <source_path> — <brief description of local improvement>
+  Local: <project>/.claude/<path>
+  Target: streamtex-claude/<source_path>
+  Diff summary: <what changed>
+  Action: Copy relevant changes to source, then run `stx claude update --all`
+
+### SYNC REMINDERS (N) — local copies out of date
+- [File] <path> — run `stx claude update` to sync from source
 ```

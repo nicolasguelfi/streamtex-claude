@@ -86,16 +86,30 @@ Reference file for `/stx-coherence:audit`. Defines 45 check categories (28 stand
 | `streamtex-claude/profiles/documentation/designer/agents/*.md` | `streamtex-docs/.claude/designer/agents/` |
 | `streamtex-claude/shared/commands/stx-guide.md` | `streamtex/.claude/commands/`, `streamtex-docs/.claude/commands/`, `projects/*/.claude/commands/` |
 
-**Method**: First verify source existence, then read both files, compare content. If different, report as ERROR.
+**Method**: First verify source existence, then read both files, compare content. If different, determine the divergence direction by analyzing the diff.
+
+**IMPORTANT**: Local `.claude/` files in projects are read-only copies installed by `stx claude update`. The audit MUST NOT modify them. Instead, it analyzes the divergence direction and reports appropriate actions.
+
+**Divergence Direction Analysis**:
+1. **Source newer** (source has content that local doesn't, local has no unique additions): the local copy is simply out of date → INFO recommending `stx claude update`
+2. **Local has improvements** (local has content not in source, potentially useful): the local copy was legitimately improved → WARNING with BACKPORT task to propagate changes to `streamtex-claude/` source
+3. **Bidirectional** (both have unique changes): requires manual decision → WARNING with detailed diff
 
 **Rules**:
 - ERROR if a source file declared in a manifest `[shared]` section does not exist in `shared/references/` or `shared/commands/` (source existence guard)
-- ERROR if file content differs between source and copy
 - WARNING if a source file exists but has no copy in an expected location
+- WARNING + BACKPORT if local copy has relevant improvements not in source (include diff summary and target path in `streamtex-claude/`)
+- WARNING if bidirectional divergence detected (both source and local have unique changes)
+- INFO if local copy is simply out of date — recommend `stx claude update`
 - INFO: report total files checked and sync status
 - INFO: report any files found in `.claude/custom/` (user customizations detected)
 - WARNING if a file in `.claude/custom/references/` has the same name as a file in `.claude/references/` (potential shadow/conflict)
 - WARNING if a file in `.claude/custom/skills/` has the same name as a file in `.claude/developer/skills/` or `.claude/designer/skills/` (potential shadow/conflict)
+
+**Prohibited actions** (the audit and fix MUST NOT):
+- Overwrite local `.claude/` read-only files
+- `chmod` read-only files to make them writable
+- Copy from source to local (that's `stx claude update`'s job)
 
 ---
 
