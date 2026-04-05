@@ -14,6 +14,9 @@ problem_type: <pattern / antipattern / technique / workaround>
 pathway: <A: IMPORT / B: IMPROVE / C: CREATE / A+B / mixed>
 scope: <specific / generic>
 tags: [<tag1>, <tag2>, <tag3>]
+integrated: false
+integrated_date: null
+integrated_to: null
 ---
 
 # <Solution Title>

@@ -5,27 +5,23 @@ Arguments: $ARGUMENTS
 ## Options
 
 - `--target <block>` — Fix a single block instead of all findings
-- `--severity <level>` — Minimum severity threshold: CRITICAL (default), MAJOR, MINOR, SUGGESTION
-- `--interactive` — Present each fix for user validation before applying (accept/skip/modify)
+- `--severity <level>` — Minimum severity threshold: MAJOR (default), CRITICAL, MINOR, SUGGESTION
+- `--batch` — Apply fixes without per-fix validation (default is interactive)
 - `--help` — Show stx-ce cheatsheet
 
 ## Description
 
 Loads the latest review report from `docs/reviews/` and fixes all automatable findings above the severity threshold. Each fix is verified by a targeted audit. Produces a traceability report.
 
-### Interactive Mode (`--interactive`)
+### Interactive Mode (default)
 
-When enabled, each finding is presented individually before fixing:
+Each finding is presented individually before fixing:
 
-1. **Show finding**: Display the problem, affected block, severity, and proposed correction
-2. **Show diff preview**: Show what will change (before/after)
-3. **User choice**: Accept (apply fix) / Skip (keep as-is) / Modify (edit the proposed fix)
-4. **Trace decision**: Record the user's choice in the traceability report
+1. **Show finding**: Display the Ref, Severity, File, Problem, and proposed Before/After
+2. **User choice**: Accept (apply fix) / Skip (keep as-is) / Modify (edit the proposed fix)
+3. **Trace decision**: Record the user's choice in the traceability report
 
-Suggested defaults based on finding count:
-- <10 findings: interactive by default
-- 10-30 findings: interactive for CRITICAL/MAJOR, batch for MINOR
-- 30+ findings: batch with summary, interactive only if `--interactive` is explicit
+Use `--batch` to skip per-fix validation and apply all automatable fixes at once.
 
 The REVIEW -> FIX cycle can be iterated: after FIX, run `/stx-ce:review` again to validate corrections.
 

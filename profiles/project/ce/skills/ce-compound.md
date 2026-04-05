@@ -202,6 +202,7 @@ Report what was capitalized across all 3 axes:
    - Branch status
    - PRs created or pending
 
-Suggest next cycle:
+Suggest next steps:
+- Run `/stx-ce:integrate` to route solutions to their operational destinations (lib issues, skill updates, custom rules).
 - Run `/stx-ce:collect` to start a new cycle with new material.
 - Run `/stx-ce:assess` to reassess and improve the current project.

@@ -64,7 +64,14 @@ Process the following flags before starting:
 - Run `/stx-ce:compound` to capitalize learnings.
 - This step always runs unless `--review-only` was set and the user declined fixes.
 
-#### Step 8: Final Report
+#### Step 8: INTEGRATE
+
+- Run `/stx-ce:integrate` to route solutions to their operational destinations.
+- Present the routing plan to the user.
+- **GATE**: The user validates which integrations to execute (accept all, select, skip, cancel).
+- This step runs after COMPOUND if solutions were produced. Skip if no new solutions.
+
+#### Step 9: Final Report
 
 Produce a comprehensive summary covering:
 

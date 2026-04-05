@@ -9,11 +9,20 @@ Skill for the FIX phase of the Compound Engineering cycle. Load the latest revie
 1. Scan `docs/reviews/` for the most recent review report.
 2. If no report is found, inform the user and suggest running `/stx-ce:review` first. Do not proceed.
 3. Parse the report to extract all findings with their severity, block, and description.
-4. Filter findings by the `--severity` threshold (default: CRITICAL). Include all findings at or above the threshold.
+4. Filter findings by the `--severity` threshold (default: MAJOR). Include all findings at or above the threshold.
 5. If `--target <block>` is set, further filter to only that block.
 6. Classify each finding as **automatable** or **manual**:
    - Automatable: style issues, convention violations, spacing, CSS problems, missing attributes, section spacing inconsistencies
    - Manual: content rewrites, structural reorganization, pedagogical changes, factual corrections
+
+### Mode Selection
+
+Default mode is **interactive**: each finding is presented individually for accept/skip/modify.
+
+- **Interactive (default)**: Present each fix one at a time. For each finding, show: Ref, Severity, File, Problem, Before/After. Wait for the user's choice: Accept / Skip / Modify. Record the decision in the traceability report.
+- **Batch (`--batch`)**: Apply all automatable fixes without per-fix validation. Use only when the user explicitly opts in.
+
+If a finding triggers a discussion that leads to a broader change (e.g., a lib evolution instead of per-block fixes), record the decision and skip the original finding.
 
 ### Phase 2: Apply Fixes
 

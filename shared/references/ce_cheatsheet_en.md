@@ -3,13 +3,13 @@
 ## Cycle
 
 ```
-COLLECT -> ASSESS -> PLAN -> PRODUCE -> REVIEW -> FIX -> COMPOUND
-   ^                  |                    |        |        |
-   |               [GATE]              [GATE]    [GATE]      |
-   +----------------------------------------------------------+
+COLLECT -> ASSESS -> PLAN -> PRODUCE -> REVIEW -> FIX -> COMPOUND -> INTEGRATE
+   ^                  |                    |        |        |           |
+   |               [GATE]              [GATE]    [GATE]   [GATE]        |
+   +--------------------------------------------------------------------+
 ```
 
-## Commands (12)
+## Commands (13)
 
 | Command | Description |
 |---------|-------------|
@@ -18,9 +18,10 @@ COLLECT -> ASSESS -> PLAN -> PRODUCE -> REVIEW -> FIX -> COMPOUND
 | `/stx-ce:plan [--interactive]` | Plan production (auto or collaborative 4-step) |
 | `/stx-ce:produce` | Execute the plan (import/create/improve) |
 | `/stx-ce:review` | Multi-perspective review (5 agents) — read-only evaluation |
-| `/stx-ce:fix [--severity LEVEL]` | Fix findings from the latest review with verification |
+| `/stx-ce:fix [--severity LEVEL]` | Fix findings from the latest review (interactive by default) |
 | `/stx-ce:compound` | Capitalize learnings (3 axes: production, feedback, governance) |
-| `/stx-ce:go [flags]` | Full autonomous cycle with 3 gates |
+| `/stx-ce:integrate` | Route solutions to operational destinations (lib issues, custom rules) |
+| `/stx-ce:go [flags]` | Full autonomous cycle with 4 gates |
 | `/stx-ce:status` | Show CE cycle status for current project |
 | `/stx-ce:task "<desc>"` | Execute ad-hoc task with lifecycle reconciliation |
 | `/stx-ce:pause [--message]` | Save session checkpoint before pausing work |
@@ -203,6 +204,19 @@ COLLECT -> ASSESS -> PLAN -> PRODUCE -> REVIEW -> FIX -> COMPOUND
 | **2. Ecosystem feedback** | Detect bugs/features, propose tickets via `/stx-issue:*` (with GATE) | GitHub issues, `feedback-summary.md` |
 | **3. Dev governance** | Inventory ecosystem repo changes, verify workflows, propose PRs | `docs/solutions/governance/dev-report.md` |
 
+## INTEGRATE — Route Solutions to Operational Destinations
+
+| Destination | Target | Method |
+|-------------|--------|--------|
+| **streamtex** (lib) | Library bugs or features | `/stx-issue:feature` or `/stx-issue:bug` |
+| **streamtex-claude** (plugin) | Skill, command, template changes | `/stx-issue:feature` or `/stx-issue:bug` |
+| **streamtex-docs** (docs) | Documentation improvements | `/stx-issue:docs` |
+| **Author custom** | `.claude/custom/references/` or `custom/design-guideline.md` | Direct file update |
+
+Options: `--target <file>` (single solution), `--dry-run` (preview only)
+
+Solutions are marked `integrated: true` in frontmatter after processing.
+
 ## Producer Profile
 
 Stored in `docs/solutions/producer-profile.md`. Loaded at COLLECT, used by ASSESS (pre-fill R9-R12) and PLAN (inform design proposals). Updated at COMPOUND.
@@ -273,3 +287,10 @@ my-project/
 | Action | Commands used |
 |--------|-------------|
 | Submit tickets | `/stx-issue:bug`, `:feature`, `:docs`, `:question` |
+
+### During INTEGRATE
+| Action | Commands used |
+|--------|-------------|
+| Route to repos | `/stx-issue:feature`, `:bug`, `:docs` |
+| Route to author | Direct edit of `.claude/custom/references/` or `custom/design-guideline.md` |
+| Mark integrated | Update solution frontmatter (`integrated: true`) |
