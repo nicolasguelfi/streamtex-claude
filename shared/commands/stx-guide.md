@@ -126,6 +126,7 @@ streamtex-dev/                  # Workspace root
       stx_manual_ce/
       stx_manual_deploy/
       stx_manual_developer/
+      stx_manual_patterns/
       stx_manuals_collection/
     shared-blocks/
   streamtex-claude/             # Profils Claude
@@ -159,13 +160,15 @@ streamtex-dev/                  # Workspace root
 | Developer | 8505 |
 | AI | 8506 |
 | CE | 8507 |
+| Patterns | 8508 |
 
 ```bash
-./run-manuals.sh --all        # Lance les 7 manuels
-./run-manuals.sh --intro      # Lance seulement l'intro
-./run-manuals.sh --developer  # Lance seulement le developer
-./run-manuals.sh --ai         # Lance seulement l'AI
-./run-manuals.sh --ce         # Lance seulement le CE
+./run-manuals.sh --all         # Lance les 8 manuels
+./run-manuals.sh --intro       # Lance seulement l'intro
+./run-manuals.sh --developer   # Lance seulement le developer
+./run-manuals.sh --ai          # Lance seulement l'AI
+./run-manuals.sh --ce          # Lance seulement le CE
+./run-manuals.sh --patterns    # Lance seulement le patterns
 ```
 
 ### Flux de dependances
@@ -416,7 +419,7 @@ stx run
 ### 4.2b Assistance Claude — commandes stx-block
 
 Apres avoir scaffold un projet, Claude peut le personnaliser interactivement
-grace aux 12 commandes `stx-block` du profil `project` :
+grace aux 15 commandes `stx-block` du profil `project` :
 
 ```bash
 cd projects/stx-mon-projet/
@@ -459,16 +462,11 @@ claude
 # Creer une nouvelle slide
 > /stx-block:slide-new slide de conclusion avec resume et call-to-action
 
-# Auditer le design visuel d'une slide
-> /stx-block:slide-audit --target bck_intro conformite projection amphi
-
-# Corriger les violations de design d'une slide
-> /stx-block:slide-fix --target bck_intro
+# Auditer ou corriger une slide via les commandes generiques
+> /stx-block:audit --target bck_intro conformite projection amphi
+> /stx-block:fix --target bck_intro
 
 # --- Commandes styles ---
-
-# Auditer les styles des blocks
-> /stx-block:style-audit --all
 
 # Refactorer les styles (deduplication, consolidation)
 > /stx-block:style-refactor fusionner les doublons dans custom/styles.py
@@ -489,15 +487,18 @@ claude
 
 | Categorie | Commandes | Description |
 |-----------|-----------|-------------|
-| stx-block (12) | init, update, audit, fix, tool, slide-new, slide-audit, slide-fix, style-audit, style-refactor, new, preview | Cycle de vie complet du projet |
-| stx-block (5) | init, customize, upgrade, collection-new, course-generate | Gestion de projets |
-| stx-block (2) | test, lint | Tests et linting |
+| stx-block (15) | init, update, audit, fix, tool, slide-new, style-refactor, new, preview, customize, upgrade, collection-new, course-generate, test, lint | Cycle de vie complet du projet (creation, edition, audit, correction, tests, lint) |
+| stx-ce (13) | collect, assess, plan, produce, review, fix, compound, go, status, task, continue, pause, integrate | Compound Document Engineering — methodologie de production |
 | Import (6) | marp-analyze, marp, html, html-block, html-batch, html-audit | Import Marp/HTML vers StreamTeX |
 | Export (1) | html | Export StreamTeX vers HTML |
 | stx-issue (6) | bug, feature, question, docs, comment, list | Issues GitHub (shared) |
+| stx-pattern (5) | list, show, new, reindex, validate | Catalogue de design patterns |
 | Skills (8, profil project) | visual-design-rules, slide-design-rules, style-conventions, streamtex-quick-reference, block-blueprints, testing-patterns, stx-migrate, docs-lookup | Regles de conception |
+| Skills CE (13) | ce-collect, ce-assess, ce-plan, ce-produce, ce-review, ce-fix, ce-compound, ce-go, ce-status, ce-task, ce-continue, ce-pause, ce-integrate | Skills CE associes aux 13 commandes |
 | Agents (3, profil project) | slide-designer, slide-reviewer, project-architect | Agents specialises |
-| Templates (4) | project, presentation, collection, course | Templates pour init |
+| Agents CE (18) | source-scanner, import-assessor, audience-analyst, content-strategist, gap-analyst, format-explorer, angle-generator, structure-architect, domain-researcher, learnings-researcher, audience-advocate, pedagogy-analyst, visual-reviewer, style-consistency-checker, content-editor, feedback-detector, dev-governance, ad-hoc-reviewer | Agents CE specialises |
+| Templates (4) | project, presentation, collection, course | Templates Claude pour `/stx-block:init` |
+| Templates CE (17) | collect-report, assess-import/improve/create, plan-import/improve/create, review-report, solution, producer-profile, feedback-summary, dev-report, task-review, coverage-matrix, task-analysis, task-report, checkpoint | Templates CE pour les artefacts |
 | Tools (1) | survey-convert | Outils specialises |
 
 **Cycle de vie** : `init` → `update` → `audit` → `fix` → `update` → ...
@@ -1541,7 +1542,7 @@ patterns priment quand l'utilisateur les nomme explicitement.
 
 ```bash
 # 1. Au scaffold d'un nouveau projet
-stx project new mon-cours --template presentation
+stx project new mon-cours --template slides
 cd projects/stx-mon-cours
 stx patterns install --preset slides
 
