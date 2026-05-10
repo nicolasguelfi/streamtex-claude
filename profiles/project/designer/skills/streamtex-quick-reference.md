@@ -193,9 +193,9 @@ named = Style.create(s.bold + s.Large, "my_title")
 ## Helpers (from `blocks/helpers.py`)
 
 ```python
-show_explanation("What this does and why.")   # Blue callout
+show_explanation("What this does and why.")   # Blue ptn_callout
 show_code("st_write(s.bold, 'Hello')")        # Syntax-highlighted code
-show_details("Default: tag=Tags.span.")       # Amber callout
+show_details("Default: tag=Tags.span.")       # Amber ptn_callout
 show_code_inline("inline code")               # Code without wrapper box
 ```
 
@@ -314,7 +314,7 @@ annotation `# @pattern: <name>`.
 ### Patterns vs blueprints
 
 - Blueprint = whole block type (Title, Conclusion, Exercise...)
-- Pattern = composition primitive (`stat_hero`, `callout`, `slide_heading`)
+- Pattern = composition primitive (`ptn_stat_hero`, `ptn_callout`, `ptn_slide_heading`)
 
 A block can combine 1 blueprint × N patterns × style conventions.
 Patterns prime over blueprints when the user explicitly names one.

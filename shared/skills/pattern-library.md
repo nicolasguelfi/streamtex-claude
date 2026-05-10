@@ -18,7 +18,7 @@ Patterns are **not** Python code. They are descriptions read by an AI agent
 Read this skill whenever the user:
 
 - Asks to create or modify a StreamTeX block
-- Mentions a pattern by name (e.g. *"use `grid_boston`"*, *"like `stat_hero`"*)
+- Mentions a pattern by name (e.g. *"use `grid_boston`"*, *"like `ptn_stat_hero`"*)
 - Asks what patterns are available (`/stx-pattern:list`)
 - Wants to inspect a pattern (`/stx-pattern:show <name>`)
 - Wants to create or update a pattern (`/stx-pattern:new`, `/stx-pattern:reindex`)
@@ -65,7 +65,7 @@ Every `streamtex-patterns/` folder must contain a `_pattern_library.md`:
 | Name | Description | Tags | Extrapolable |
 |---|---|---|---|
 | grid_boston | 2-row grid, yellow header / green body | grid, comparison | ✓ |
-| stat_hero | XL stat with body and source | stat, evidence | ✓ |
+| ptn_stat_hero | XL stat with body and source | stat, evidence | ✓ |
 | ... | ... | ... | ... |
 <!-- END AUTO -->
 
@@ -219,10 +219,10 @@ Resolution algorithm:
 
 Examples:
 
-- `card_grid` mentions `callout_info` → read `callout_info.md` and apply it
+- `ptn_card_grid` mentions `callout_info` → read `callout_info.md` and apply it
   for each cell.
-- `evidence_insight` mentions `cite` (which doesn't exist) → generate a
-  citation footer inline + suggest `/stx-pattern:new cite`.
+- `ptn_evidence_insight` mentions `ptn_cite` (which doesn't exist) → generate a
+  citation footer inline + suggest `/stx-pattern:new ptn_cite`.
 
 ---
 

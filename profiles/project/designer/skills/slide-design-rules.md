@@ -628,12 +628,12 @@ from scratch:
 
 | Rule area | Canonical pattern |
 |---|---|
-| Slide title row with optional tooltip | `slide_heading` |
-| Hero stat slide (one focal number) | `stat_hero` |
-| Evidence-driven slide (stat + takeaways + source) | `evidence_insight` |
-| Workshop exercise (briefing → action → debrief) | `exercise_flow` |
-| Multi-category card grid | `categorized_grid` |
-| Title slide (cover) | `title_slide` |
+| Slide title row with optional tooltip | `ptn_slide_heading` |
+| Hero stat slide (one focal number) | `ptn_stat_hero` |
+| Evidence-driven slide (stat + takeaways + source) | `ptn_evidence_insight` |
+| Workshop exercise (briefing → action → debrief) | `ptn_exercise_flow` |
+| Multi-category card grid | `ptn_categorized_grid` |
+| Title slide (cover) | `ptn_title_slide` |
 
 When the user names one of these patterns, **read it in full** before
 generating, and respect its INVARIANTS strictly (no projection-killing

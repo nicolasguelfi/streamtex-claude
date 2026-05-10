@@ -28,7 +28,7 @@ not the exact content. Content is always adapted to the user's request.
 
 A title slide with course/project name, subtitle, author.
 
-> **See also**: pattern `title_slide` (`.claude/custom/streamtex-patterns/title_slide.md`)
+> **See also**: pattern `ptn_title_slide` (`.claude/custom/streamtex-patterns/ptn_title_slide.md`)
 
 **When to use**: first slide of a presentation, project landing page.
 
@@ -55,7 +55,7 @@ def build():
 
 A section introduction slide with number and title.
 
-> **See also**: pattern `slide_heading` (`.claude/custom/streamtex-patterns/slide_heading.md`)
+> **See also**: pattern `ptn_slide_heading` (`.claude/custom/streamtex-patterns/ptn_slide_heading.md`)
 
 **When to use**: transition between major parts of a presentation.
 
@@ -106,7 +106,7 @@ def build():
 
 A slide with 2 columns comparing concepts.
 
-> **See also**: pattern `comparison_table` (`.claude/custom/streamtex-patterns/comparison_table.md`)
+> **See also**: pattern `ptn_comparison_table` (`.claude/custom/streamtex-patterns/ptn_comparison_table.md`)
 
 **When to use**: "X vs Y", pros/cons, before/after.
 
@@ -239,7 +239,7 @@ def build():
 
 A slide with a quote or key message highlighted.
 
-> **See also**: pattern `stat_hero` (`.claude/custom/streamtex-patterns/stat_hero.md`)
+> **See also**: pattern `ptn_stat_hero` (`.claude/custom/streamtex-patterns/ptn_stat_hero.md`)
 
 **When to use**: author quote, important message, intermediate conclusion.
 
@@ -266,7 +266,7 @@ def build():
 
 A slide with an image grid.
 
-> **See also**: pattern `card_grid` (`.claude/custom/streamtex-patterns/card_grid.md`)
+> **See also**: pattern `ptn_card_grid` (`.claude/custom/streamtex-patterns/ptn_card_grid.md`)
 
 **When to use**: portfolio, visual examples, multiple screenshots.
 

@@ -302,8 +302,8 @@ Patterns are graphic design primitives stored in the project's
 CE pipeline at three points:
 
 - **PLAN** : the plan can declare which patterns will be used per
-  block ("this section uses `evidence_insight`", "this slide uses
-  `stat_hero`").
+  block ("this section uses `ptn_evidence_insight`", "this slide uses
+  `ptn_stat_hero`").
 - **PRODUCE** : `/stx-ce:produce` reads the catalog before generating
   each block; named patterns are applied with their INVARIANTS
   respected.

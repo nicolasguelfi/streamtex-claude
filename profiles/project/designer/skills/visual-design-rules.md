@@ -185,12 +185,12 @@ the visual rules described in this skill:
 
 | Rule area | Canonical pattern |
 |---|---|
-| Highlighted information box | `callout` (info / warning / critical / success variants) |
-| Responsive cards grid | `card_grid` |
-| Comparison table with header + active rows | `comparison_table` |
-| Numbered key takeaways list | `takeaways` |
-| Source citation footer | `cite` |
-| Inline keyword/accent/highlight | `inline_emphasis` |
+| Highlighted information box | `ptn_callout` (info / warning / critical / success variants) |
+| Responsive cards grid | `ptn_card_grid` |
+| Comparison table with header + active rows | `ptn_comparison_table` |
+| Numbered key takeaways list | `ptn_takeaways` |
+| Source citation footer | `ptn_cite` |
+| Inline keyword/accent/highlight | `ptn_inline_emphasis` |
 
 When generating, **prefer composing patterns** over inlining custom
 visual structures — patterns encode the project palette and stay

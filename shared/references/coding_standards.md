@@ -269,8 +269,8 @@ Blocks that implement a named pattern from the streamtex-patterns
 catalog SHOULD declare it via a top-of-file comment:
 
 ```python
-# @pattern: stat_hero
-# @pattern: stat_hero, slide_heading   # multiple patterns allowed
+# @pattern: ptn_stat_hero
+# @pattern: ptn_stat_hero, ptn_slide_heading   # multiple patterns allowed
 ```
 
 **Convention**: pattern names are written in `snake_case`
@@ -278,8 +278,8 @@ catalog SHOULD declare it via a top-of-file comment:
 
 Historical artifacts may use `kebab-case` (e.g. `stat-hero`,
 `table-roadmap`) — these should be migrated to `snake_case` and
-mapped to the canonical pattern name (e.g. `stat_hero`,
-`comparison_table`).
+mapped to the canonical pattern name (e.g. `ptn_stat_hero`,
+`ptn_comparison_table`).
 
 The annotation enables tooling like `stx patterns audit` to detect
 drift between the catalog and the code, and to suggest patterns when a

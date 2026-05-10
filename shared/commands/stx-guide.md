@@ -1504,10 +1504,10 @@ stx patterns update
 
 # Statut
 stx patterns status
-stx patterns diff callout
+stx patterns diff ptn_callout
 
 # Promouvoir une modif locale
-stx patterns promote callout
+stx patterns promote ptn_callout
 
 # Validation
 stx patterns validate --all
@@ -1531,7 +1531,7 @@ INTERDITS) / When to use / When NOT to use.
 
 ### Patterns vs blueprints
 
-- **Pattern** = primitive de composition (`stat_hero`, `callout`)
+- **Pattern** = primitive de composition (`ptn_stat_hero`, `ptn_callout`)
 - **Blueprint** = type de bloc complet (Title slide, Conclusion)
 
 Un bloc combine 1 blueprint x N patterns x conventions de style. Les
@@ -1547,7 +1547,7 @@ stx patterns install --preset slides
 
 # 2. Edition d'un bloc (Claude conscient du catalogue)
 > /stx-block:new ajoute un slide qui presente la METR study
-  avec le pattern stat_hero
+  avec le pattern ptn_stat_hero
 
 # 3. Mise a jour des patterns
 cd ../../streamtex-patterns

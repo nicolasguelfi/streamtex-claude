@@ -1371,9 +1371,9 @@ bib_sources = ["references.bib"]
 st_book([...], bib_sources=bib_sources, bib_config=bib_config)
 
 # In-text citations (inside blocks)
-from streamtex.bib import cite, st_cite, st_bibliography
+from streamtex.bib import ptn_cite, st_cite, st_bibliography
 st_cite("author2024key")           # Inline citation widget
-cite("key1", "key2")               # Multi-key inline citation string
+ptn_cite("key1", "key2")               # Multi-key inline citation string
 st_bibliography()                   # Render full bibliography
 ```
 
@@ -1436,7 +1436,7 @@ reset_bib_registry()
 registry = get_bib_registry()
 registry.register(entry)             # Register a single BibEntry
 registry.register_many(entries)      # Register a list of BibEntry objects
-registry.cite("key")                 # Mark key as cited, returns 1-based number
+registry.ptn_cite("key")                 # Mark key as cited, returns 1-based number
 cited = registry.get_cited_entries()  # List of cited BibEntry in citation order
 all_entries = registry.get_all_entries()  # All registered entries
 registry.reset()                     # Clear all entries and citations
@@ -1495,13 +1495,13 @@ with open("output.bib", "w") as f:
 ```python
 from streamtex import st_refs, BibRefs, generate_bib_stubs
 
-# st_refs — global BibRefs proxy; attribute access calls cite()
+# st_refs — global BibRefs proxy; attribute access calls ptn_cite()
 st_write(s.big, "According to ", st_refs.vaswani2017, " transformers...")
-# Equivalent to: st_write(s.big, "According to ", cite("vaswani2017"), "...")
+# Equivalent to: st_write(s.big, "According to ", ptn_cite("vaswani2017"), "...")
 
-# BibRefs — proxy class mapping attribute access to cite() calls
+# BibRefs — proxy class mapping attribute access to ptn_cite() calls
 refs = BibRefs()
-html_citation = refs.some_key          # Returns cite("some_key") HTML string
+html_citation = refs.some_key          # Returns ptn_cite("some_key") HTML string
 
 # generate_bib_stubs(*paths, output_path) — generate typed Python module for IDE completion
 content = generate_bib_stubs("refs.bib", output_path="custom/bib_refs.py")
@@ -1696,7 +1696,7 @@ registry = get_bib_registry()
 registry.register(entry)             # Register a BibEntry (overwrites if key exists)
 registry.register_many(entries)      # Register multiple entries
 entry = registry.get("key")          # Retrieve by key (None if not found)
-num = registry.cite("key")           # Mark as cited, returns 1-based citation number
+num = registry.ptn_cite("key")           # Mark as cited, returns 1-based citation number
 cited = registry.get_cited_entries()  # Cited entries in citation order
 all_e = registry.get_all_entries()   # All registered entries
 keys = registry.list_keys()          # Sorted list of all keys
@@ -2328,12 +2328,12 @@ class TextStylesCustom:
     )
 
 class ContainerStylesCustom:
-    callout = Style.create(
+    ptn_callout = Style.create(
         BackgroundsCustom.callout_bg
         + Container.borders.solid_border
         + Style("border-color: #4A90D9; border-width: 0 0 0 4px;", "callout_border")
         + Container.paddings.medium_padding,
-        "callout"
+        "ptn_callout"
     )
 
 class Custom:
@@ -2389,7 +2389,7 @@ time. Catalog : `.claude/custom/streamtex-patterns/`.
 stx patterns list                # list patterns available
 stx patterns presets             # list presets
 stx patterns install --preset slides    # install a preset
-stx patterns install --pattern callout  # install one pattern
+stx patterns install --pattern ptn_callout  # install one pattern
 stx patterns update              # refresh from source (drift detection)
 stx patterns sync                # idempotent install + update
 stx patterns status              # show drift state
