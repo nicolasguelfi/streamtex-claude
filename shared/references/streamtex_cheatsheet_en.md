@@ -1349,6 +1349,18 @@ stx.add_zoom_options(container=st.sidebar)              # Render controls in spe
 stx.inject_zoom_logic(100, 100)      # Width 100%, Zoom 100%
 stx.inject_zoom_logic(80, 150)       # Width 80%, Zoom 150%
 stx.inject_zoom_logic(120, 50)       # Width 120%, Zoom 50%
+
+# Block-scoped zoom (context manager) — applies CSS zoom to enclosed content
+# only, via :has() selector (same pattern as st_block).  Composes with the
+# global page zoom and any section-level zoom.
+with stx.st_zoom(75):                 # 75% zoom for this block only
+    stx.st_write(s.body, "Dense content rendered at 75%")
+    stx.st_image(s.img, "diagram.png")
+
+# Imperative variants (no automatic cleanup; reset by st_slide_break or end of build()):
+stx.set_zoom(150)                     # Zoom 150% from now on
+stx.st_write(s.body, "Big text")
+stx.reset_zoom()                      # Restore inherited section zoom
 ```
 
 ## Bibliography
