@@ -44,3 +44,16 @@ Parse `$ARGUMENTS` as: `<block_name>`
 5. **Color sanity check**: Compare 3-5 key colored elements between HTML and StreamTeX.
 
 6. **Report** issues found and suggest fixes.
+
+### Pattern coverage estimate
+
+In the audit report, include a **pattern coverage** section:
+
+- For each slide / block in the source, suggest which pattern from the
+  catalog it corresponds to (best match).
+- Compute a coverage % : how many slides match a known pattern.
+- Flag slides that DON'T match any pattern as "ad-hoc — consider
+  /stx-pattern:new if reusable".
+
+This helps the user decide which patterns to install before importing
+(better preset = better imports).

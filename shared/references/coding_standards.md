@@ -263,6 +263,29 @@ def build():
 - **Style classes**: `BlockStyles` or `BStyles`, aliased as `bs = BlockStyles`
 - **Variables**: `snake_case` | **Classes**: `PascalCase`
 
+## Pattern annotations
+
+Blocks that implement a named pattern from the streamtex-patterns
+catalog SHOULD declare it via a top-of-file comment:
+
+```python
+# @pattern: stat_hero
+# @pattern: stat_hero, slide_heading   # multiple patterns allowed
+```
+
+**Convention**: pattern names are written in `snake_case`
+(matching the filename and the YAML frontmatter `name` field).
+
+Historical artifacts may use `kebab-case` (e.g. `stat-hero`,
+`table-roadmap`) — these should be migrated to `snake_case` and
+mapped to the canonical pattern name (e.g. `stat_hero`,
+`comparison_table`).
+
+The annotation enables tooling like `stx patterns audit` to detect
+drift between the catalog and the code, and to suggest patterns when a
+block matches one. See the `pattern-library` skill for the catalog and
+mechanism.
+
 ## 9. Style System
 
 ### Style Creation & Composition

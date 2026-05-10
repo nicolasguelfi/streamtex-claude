@@ -271,3 +271,50 @@ Design guidelines are AI skills that define a visual philosophy for the project.
 - **Built-in**: `maximize-viewport`, `minimalist-visual`, `academic-structured`, `dense-informative`
 - **Scoping**: project default → block override → inline override (most specific wins)
 - **Combination**: `# @guideline: A + B` (A has priority)
+
+---
+
+## Pattern commands
+
+Reusable graphic design patterns from `streamtex-patterns/`. The
+catalog is read by Claude before generating any block.
+
+### CLI
+
+| Command | Role |
+|---|---|
+| `stx patterns list` | List available patterns |
+| `stx patterns presets` | List available presets |
+| `stx patterns install --preset <name>` | Install a preset |
+| `stx patterns install --pattern <a,b,c>` | Install specific patterns |
+| `stx patterns update` | Refresh from source (drift-aware) |
+| `stx patterns sync` | Idempotent install + update |
+| `stx patterns status` | Show drift state |
+| `stx patterns diff <name>` | Diff installed vs source |
+| `stx patterns validate [--all]` | Check format A2 |
+| `stx patterns promote <name>` | Push local edit to source |
+| `stx patterns remove <name>` | Uninstall |
+| `stx patterns init` | Scaffold a new pattern in the source repo |
+
+### Slash commands
+
+| Command | Role |
+|---|---|
+| `/stx-pattern:list` | List patterns in current project |
+| `/stx-pattern:show <name>` | Display the full pattern file |
+| `/stx-pattern:new <description>` | Create a new pattern (conversational) |
+| `/stx-pattern:reindex` | Regenerate AUTO section of `_pattern_library.md` |
+| `/stx-pattern:validate [name|--all]` | Lint format A2 |
+
+### Naming convention
+
+`snake_case` everywhere — pattern filename, frontmatter `name`, code
+annotation `# @pattern: <name>`.
+
+### Patterns vs blueprints
+
+- Blueprint = whole block type (Title, Conclusion, Exercise...)
+- Pattern = composition primitive (`stat_hero`, `callout`, `slide_heading`)
+
+A block can combine 1 blueprint × N patterns × style conventions.
+Patterns prime over blueprints when the user explicitly names one.

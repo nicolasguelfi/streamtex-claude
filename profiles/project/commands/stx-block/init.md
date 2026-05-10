@@ -177,6 +177,26 @@ Next steps:
   4. Use /stx-block:audit to check compliance
 ```
 
+### Step 5 — (Optional) Install patterns preset
+
+After scaffolding, propose to the user:
+
+> Install a streamtex-patterns preset to bootstrap reusable design
+> primitives? Recommended for this project type: `<preset>`.
+>
+> ```bash
+> stx patterns install --preset <preset>
+> ```
+
+Choose preset based on the template:
+- `--template project` → `core`
+- `--template presentation` → `slides`
+- `--template course` → `slides`
+- `--template collection` → `core`
+
+This is a SUGGESTION (the user MAY decline). Do not block project
+generation on this step.
+
 ## Generation rules
 
 - All blocks follow the `BlockStyles` + `build()` pattern

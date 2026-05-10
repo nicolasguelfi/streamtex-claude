@@ -130,6 +130,39 @@ Multiple `st_write` calls stack vertically. For inline text with different style
 Always use `uv tool install "streamtex[cli]" -U` in docs and user instructions.
 This command works for both installation AND upgrade. Do NOT use `uv tool upgrade` (fails if not already installed).
 
+## StreamTeX Patterns (graphic design patterns)
+
+If the documentation project contains a `streamtex-patterns/` folder (default
+location: `.claude/custom/streamtex-patterns/`, recommended preset: `docs`),
+it defines reusable graphic design patterns (named grids, callouts, hero
+stats, manual headings, etc.) that the user can invoke by name when creating
+or editing manual blocks.
+
+**Mandatory rules**:
+1. **Before generating or modifying any StreamTeX block**, read
+   `<patterns-dir>/_pattern_library.md` to know which patterns are available.
+2. When the user names a pattern in any prompt (e.g. *"use grid_boston"*,
+   *"like stat_hero"*), read the full `<patterns-dir>/<name>.md` file
+   **before** generating code.
+3. Strictly respect each pattern's `INVARIANTS` section. Adjust only within
+   `PARAMS`. Refuse anything matching `INTERDITS` and propose a new pattern
+   instead.
+4. The pattern's code skeleton is a **starting point** — adapt it to the
+   manual's `custom/styles.py` and palette.
+5. If the user describes something that matches no existing pattern but is
+   reusable across manuals, suggest `/stx-pattern:new` to capture it.
+
+**Difference with blueprints**:
+- A **blueprint** = a complete block type (`title`, `conclusion`, `exercise`).
+- A **pattern** = a reusable composition primitive used inside a block
+  (`grid_boston`, `callout_critical`, `slide_heading`).
+
+A block can combine: 1 blueprint × N patterns × style conventions.
+
+**Commands**: `/stx-pattern:list` `/stx-pattern:show <name>`
+`/stx-pattern:new` `/stx-pattern:reindex` `/stx-pattern:validate`.
+See the `pattern-library` skill for the full mechanism.
+
 ## Customization
 - `.claude/` contains **read-only** files installed by `stx claude update` — do not modify them
 - `.claude/custom/` contains **your personalizations** — never overwritten by updates

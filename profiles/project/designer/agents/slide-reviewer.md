@@ -63,6 +63,21 @@ Issues:
   - [Anti-pattern] Thumbnail image in fill zone
 ```
 
+### Pattern compliance (review criterion)
+
+For each slide reviewed:
+
+- If `# @pattern: <name>` annotation present:
+  - Verify the slide respects the pattern's INVARIANTS section.
+  - Flag any deviation as an issue.
+- If no annotation but the slide implements a known pattern (matches
+  Visual + Structure):
+  - Suggest adding the annotation and aligning to the pattern's code
+    skeleton.
+- If a referenced pattern is missing from the catalog:
+  - Flag as a broken reference; suggest `/stx-pattern:new` or
+    `stx patterns sync`.
+
 ## Output Format
 
 For each file reviewed, produce:

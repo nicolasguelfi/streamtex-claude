@@ -54,7 +54,7 @@ Si `$ARGUMENTS` correspond a un **topic** reconnu (voir liste ci-dessous) : repo
 Si `$ARGUMENTS` est une **question libre** en langage naturel : utilise toute la base de connaissances
 pour fournir une reponse contextuelle.
 
-### Topics reconnus (19)
+### Topics reconnus (20)
 
 | Topic | Description |
 |-------|-------------|
@@ -77,6 +77,7 @@ pour fournir une reponse contextuelle.
 | `stx-cli` | Reference complete de toutes les commandes `stx` |
 | `release` | Workflow de release complet (dev : publier + propager) |
 | `update` | Mettre a jour son workspace (user : recevoir les mises a jour) |
+| `patterns` | Mecanisme streamtex-patterns : catalogue de design patterns reutilisables, repo central, install/update, slash commands |
 
 ### Exemples de questions libres acceptees
 
@@ -98,13 +99,14 @@ pour fournir une reponse contextuelle.
 
 ## Section 2 — Carte de l'ecosysteme
 
-### Repos (7)
+### Repos (8)
 
 | Repo | GitHub | Type | Role |
 |------|--------|------|------|
 | `streamtex` | `nicolasguelfi/streamtex` | library | Librairie Python principale (PyPI) |
 | `streamtex-docs` | `nicolasguelfi/streamtex-docs` | docs | Manuels et documentation |
 | `streamtex-claude` | `nicolasguelfi/streamtex-claude` | claude | Profils Claude AI |
+| `streamtex-patterns` | `nicolasguelfi/streamtex-patterns` | patterns | Catalogue partage de design patterns graphiques (read by Claude) |
 | `stx-ai4se` | `nicolasguelfi/stx-ai4se` | project | Projet presentation AI4SE |
 | `stx-html-example` | `nicolasguelfi/stx-html-example` | project | Projet exemple HTML |
 | `stx-modelsward` | `nicolasguelfi/stx-modelsward` | project | Projet MODELSWARD |
@@ -133,6 +135,12 @@ streamtex-dev/                  # Workspace root
       presentation/
       project/
     shared/references/
+  streamtex-patterns/           # Catalogue partage de design patterns
+    core/                       # patterns universels
+    slides/                     # patterns presentations/cours
+    docs/                       # patterns manuels
+    projects/<X>/               # patterns specifiques projet
+    presets/                    # recettes d'installation (.toml)
   projects/                     # Projets utilisateur
     stx-ai4se/
     stx-html-example/
@@ -171,6 +179,11 @@ PyPI (streamtex>=0.3.0)
 streamtex-claude
   |
   +-- profiles --> installes dans chaque projet via `stx claude install`
+
+streamtex-patterns
+  |
+  +-- consumed by projects via `stx patterns install --preset <name>`
+  +-- referenced via `[patterns].source` in stx.toml or pyproject.toml
 
 stx.toml
   |
@@ -1460,6 +1473,101 @@ configuration DNS/SSL, securisation et mise a l'echelle.
 
 ---
 
+## Section 4h — Patterns graphiques (topic: `patterns`)
+
+Le namespace `streamtex-patterns` regroupe le **catalogue partage de
+patterns de design graphique**. Patterns = primitives de composition
+nommees (callout, card_grid, slide_heading, stat_hero, etc.) lues par
+Claude au moment de generer un bloc.
+
+### Architecture
+
+- **Repo central** : `streamtex-patterns/` dans le workspace, source de
+  verite. Structure : `core/`, `slides/`, `docs/`, `projects/<X>/`,
+  `presets/*.toml`.
+- **Cote projet** : patterns installes dans
+  `<project>/.claude/custom/streamtex-patterns/` avec
+  `.patterns-meta.json` tracant origine + SHA.
+- **Mecanisme** : la skill `pattern-library` est chargee par Claude.
+  Elle lui dit de consulter le catalogue avant chaque generation de bloc.
+
+### CLI `stx patterns`
+
+```bash
+# Installer un preset
+stx patterns install --preset slides    # pour cours/presentations
+stx patterns install --preset docs      # pour manuels StreamTeX
+stx patterns install --preset core      # universels seulement
+
+# Mettre a jour (drift-aware)
+stx patterns update
+
+# Statut
+stx patterns status
+stx patterns diff callout
+
+# Promouvoir une modif locale
+stx patterns promote callout
+
+# Validation
+stx patterns validate --all
+```
+
+### Slash commands Claude
+
+```
+/stx-pattern:list             # liste les patterns du projet
+/stx-pattern:show <name>      # affiche un pattern
+/stx-pattern:new <descr>      # cree un pattern (conversationnel)
+/stx-pattern:reindex          # regenere _pattern_library.md
+/stx-pattern:validate         # lint format A2
+```
+
+### Format de pattern (A2)
+
+YAML frontmatter + sections markdown : Visual / Structure / Styling
+rules / Code skeleton / Extrapolation rules (INVARIANTS / PARAMS /
+INTERDITS) / When to use / When NOT to use.
+
+### Patterns vs blueprints
+
+- **Pattern** = primitive de composition (`stat_hero`, `callout`)
+- **Blueprint** = type de bloc complet (Title slide, Conclusion)
+
+Un bloc combine 1 blueprint x N patterns x conventions de style. Les
+patterns priment quand l'utilisateur les nomme explicitement.
+
+### Workflow recommande
+
+```bash
+# 1. Au scaffold d'un nouveau projet
+stx project new mon-cours --template presentation
+cd projects/stx-mon-cours
+stx patterns install --preset slides
+
+# 2. Edition d'un bloc (Claude conscient du catalogue)
+> /stx-block:new ajoute un slide qui presente la METR study
+  avec le pattern stat_hero
+
+# 3. Mise a jour des patterns
+cd ../../streamtex-patterns
+git pull                    # recuperer les evolutions du repo central
+cd ../projects/mon-cours
+stx patterns update         # propager dans le projet
+```
+
+### Sources distantes (futur)
+
+```toml
+# stx.toml du projet
+[patterns]
+source = "git+https://github.com/nicolasguelfi/streamtex-patterns.git@v0.1.0"
+preset = "slides"
+mode = "copy"
+```
+
+---
+
 ## Section 5 — Gotchas connus
 
 ### 1. `from streamtex import *` masque `list()`
@@ -1547,6 +1655,11 @@ configuration DNS/SSL, securisation et mise a l'echelle.
 | Publier sur PyPI (CI) | `gh release create vX.Y.Z` (OIDC) |
 | Generer stubs bib | `stx bib generate-stubs refs.bib` |
 | Lancer un projet | `stx run` |
+| Patterns — installer un preset | `stx patterns install --preset slides` |
+| Patterns — mettre a jour | `stx patterns update` |
+| Patterns — statut/drift | `stx patterns status` |
+| Patterns — valider format | `stx patterns validate --all` |
+| Patterns — promouvoir | `stx patterns promote <name>` |
 
 ### Commandes Claude (issues)
 
@@ -1590,6 +1703,16 @@ configuration DNS/SSL, securisation et mise a l'echelle.
 | Upgrader un projet | `/stx-block:upgrade` |
 | Creer une collection | `/stx-block:collection-new <description>` |
 | Generer un cours | `/stx-block:course-generate` |
+
+### Commandes Claude (stx-pattern — 5)
+
+| Tache | Commande |
+|-------|----------|
+| Patterns — lister | `/stx-pattern:list` |
+| Patterns — afficher | `/stx-pattern:show <name>` |
+| Patterns — creer | `/stx-pattern:new <description>` |
+| Patterns — regenerer index | `/stx-pattern:reindex` |
+| Patterns — valider | `/stx-pattern:validate [name\|--all]` |
 
 ### Commandes Claude (import — 6)
 

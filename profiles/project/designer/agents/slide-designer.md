@@ -75,6 +75,22 @@ non-conflicting directives. Take the stricter constraint when they differ.
 6. **Raw CSS in blocks** — compose styles from `custom/styles.py`
 7. **Emoji overuse** — max 0-1 per slide, never multiple inline emojis
 
+### Patterns awareness (MANDATORY)
+
+Before designing or generating any slide:
+
+1. Read `.claude/custom/streamtex-patterns/_pattern_library.md` if it
+   exists. This is the catalog of named visual patterns available in
+   the project.
+2. If the user names a pattern (e.g. "use stat_hero", "like grid_boston"),
+   read the full pattern file and apply it strictly (respect INVARIANTS).
+3. If the user does NOT name a pattern but their request matches one in
+   the catalog, propose it as the canonical implementation.
+4. The pattern's code skeleton is a starting point — adapt to the
+   project's `custom/styles.py` palette.
+
+Patterns prime over freestyle design when they apply.
+
 ## Workflow
 
 1. **Read** the mandatory skill files listed above

@@ -60,4 +60,18 @@ Before executing, read:
 
 ## Workflow
 
+### Step 0 — Read patterns catalog (MANDATORY before any block generation)
+
+Before generating ANY block via `/stx-block:*` (which is what produce
+orchestrates), read:
+- `.claude/custom/streamtex-patterns/_pattern_library.md`
+- For each pattern referenced in the plan, read `<patterns-dir>/<name>.md`
+  in full.
+
+When generating a block:
+- If the plan declared a pattern for it, apply that pattern (respect
+  INVARIANTS, adjust within PARAMS, refuse INTERDITS).
+- If no pattern is declared but one matches, mention it as an option.
+- Adapt the pattern's code skeleton to the project's `custom/styles.py`.
+
 Execute the `ce-produce` skill. Track progress with task list. Run global audit at the end.

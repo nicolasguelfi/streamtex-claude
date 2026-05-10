@@ -116,6 +116,19 @@ Execute each step in order. Each step is documented in `.claude/import-formats/m
   - `auto_marker_on_toc=1` in MarkerConfig
 - Verify: `python -c "import setup; import blocks"` (all blocks load)
 
+### Reverse pattern mapping (post-import)
+
+After importing a Marp slide / HTML page into a StreamTeX block,
+analyze the produced block:
+
+- Does it match a known pattern in
+  `.claude/custom/streamtex-patterns/_pattern_library.md`?
+- If yes, **add the `# @pattern: <name>` annotation** at the top of the
+  block file and propose to refactor the block to use the pattern's
+  code skeleton (which often is more concise than ad-hoc code).
+- If no but the block represents a recurring pattern in the source
+  material, propose `/stx-pattern:new` to capture it for future imports.
+
 ## Post-import checklist
 
 After all steps complete, verify:

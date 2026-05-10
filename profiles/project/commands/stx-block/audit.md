@@ -128,6 +128,19 @@ For each block file, check:
 #### Pattern Compliance (if patterns defined)
 - [ ] If block uses `@pattern:` annotation, verify it follows the named pattern's recipe
 
+### Pattern compliance checks
+
+When auditing a block:
+
+- If the block has a `# @pattern: <name>` annotation, verify it conforms
+  to the pattern's INVARIANTS. Report violations.
+- If the block looks like an unannotated implementation of a known
+  pattern (matches Visual + Structure), suggest adding the annotation
+  and aligning with the pattern.
+- If a pattern is named in `# @pattern:` but doesn't exist in the
+  catalog, flag it as a broken reference. Suggest `/stx-pattern:new` or
+  `stx patterns sync`.
+
 #### Guideline Compliance (if active guideline exists)
 
 For each block:

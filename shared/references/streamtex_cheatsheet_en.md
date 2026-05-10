@@ -2378,6 +2378,43 @@ COLLECT -> ASSESS -> PLAN -> PRODUCE -> REVIEW -> FIX -> COMPOUND
 
 3 pathways: **A** (import external), **B** (improve existing), **C** (create new).
 
+## Patterns
+
+Reusable graphic design patterns. Read by Claude at block-generation
+time. Catalog : `.claude/custom/streamtex-patterns/`.
+
+### CLI
+
+```
+stx patterns list                # list patterns available
+stx patterns presets             # list presets
+stx patterns install --preset slides    # install a preset
+stx patterns install --pattern callout  # install one pattern
+stx patterns update              # refresh from source (drift detection)
+stx patterns sync                # idempotent install + update
+stx patterns status              # show drift state
+stx patterns diff <name>         # diff installed vs source
+stx patterns validate [--all]    # check format A2 compliance
+stx patterns promote <name>      # push local edit to source repo
+stx patterns remove <name>       # uninstall
+```
+
+### Slash commands (Claude)
+
+`/stx-pattern:list` `/stx-pattern:show <name>` `/stx-pattern:new`
+`/stx-pattern:reindex` `/stx-pattern:validate`
+
+### Format
+
+Pattern files = YAML frontmatter + structured markdown sections
+(Visual / Structure / Styling rules / Code skeleton / Extrapolation
+rules / When to use / When NOT to use). Spec A2.
+
+### Naming
+
+`snake_case` everywhere (filename, frontmatter `name`, code annotations
+`# @pattern: <name>`).
+
 ## Tips and Best Practices
 
 1. Group common styles in a `BlockStyles` class — one per block

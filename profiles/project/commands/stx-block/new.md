@@ -4,6 +4,27 @@ Arguments: $ARGUMENTS (block name and optional description, e.g. "bck_intro_welc
 
 ## Steps
 
+### Step 0 — Read pattern catalog (MANDATORY)
+
+Before generating any block code, read
+`.claude/custom/streamtex-patterns/_pattern_library.md` if it exists.
+This lists the available named patterns in the project.
+
+If the user **named a pattern** explicitly in their request (e.g.
+"use stat_hero", "like grid_boston"):
+- Read the full `<patterns-dir>/<name>.md` file.
+- Respect strictly the INVARIANTS section.
+- Adjust within PARAMS only.
+- Refuse anything matching INTERDITS; propose creating a new pattern
+  with `/stx-pattern:new` instead.
+
+If the user did NOT name a pattern but the request matches one in the
+catalog, mention it as an option ("This looks like the `stat_hero`
+pattern — apply it?") before proceeding.
+
+The pattern's code skeleton is a **starting point** — adapt it to the
+project's `custom/styles.py` and palette, not a copy-paste.
+
 1. **Load context**: Read `documentation/streamtex_cheatsheet_en.md` for syntax reference.
 2. **Read architecture**: Read the target project's `book.py` to understand how blocks are wired. For reference, see `documentation/template_project/book.py` or `documentation/manuals/stx_manual_intro/book.py`.
 3. **Check blueprints**: Read `.claude/designer/skills/block-blueprints.md` and check if a blueprint matches the requested block type. If a match is found, use it as the structural base and adapt it to the user's specific context (subject, palette, audience). Common matches:

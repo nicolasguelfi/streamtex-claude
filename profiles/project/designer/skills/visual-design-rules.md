@@ -175,3 +175,23 @@ the "what to aim for" while this file provides the "minimum acceptable baseline"
 
 See `.claude/designer/guidelines/_index.md` for the available guidelines and
 the scoping/annotation system (`@guideline` comments).
+
+---
+
+## Canonical pattern implementations
+
+The streamtex-patterns catalog provides reference implementations of
+the visual rules described in this skill:
+
+| Rule area | Canonical pattern |
+|---|---|
+| Highlighted information box | `callout` (info / warning / critical / success variants) |
+| Responsive cards grid | `card_grid` |
+| Comparison table with header + active rows | `comparison_table` |
+| Numbered key takeaways list | `takeaways` |
+| Source citation footer | `cite` |
+| Inline keyword/accent/highlight | `inline_emphasis` |
+
+When generating, **prefer composing patterns** over inlining custom
+visual structures — patterns encode the project palette and stay
+consistent with the deck's identity.

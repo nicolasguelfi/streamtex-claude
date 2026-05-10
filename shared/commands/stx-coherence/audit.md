@@ -10,10 +10,11 @@ Arguments: $ARGUMENTS (optional scope — default: all)
 2. **Load rules**: Read `.claude/developer/skills/coherence-checks.md`.
 
 3. **Determine scope** from arguments:
-   - `all` (default) — Run ALL checks (standard + ai + cli = checks 1-45)
+   - `all` (default) — Run ALL checks (standard + ai + cli + patterns = checks 1-49)
    - `standard` — Checks 1-28 (original ecosystem coherence checks)
    - `ai` — Checks 29-41 (AI-generated code quality: ghost API, dead code, explanation drift, cross-block contradictions, unused exports, version claims, test quality, silent failures, naming coherence, secret leaks, hardcoded URLs)
    - `cli` — Checks 42-45 (CLI coherence: help↔code, stx-guide↔CLI, deploy scripts↔Docker, optional deps↔imports)
+   - `patterns` — Checks P1-P4 / 46-49 (streamtex-patterns mechanism: catalog drift, annotations consistency, format A2 compliance, naming conventions — see `pattern-library` skill for the underlying mechanism)
    - `library` — Checks 1 + 2 + 5 + 9 + 10 + 12 + 17 + 22 (API coverage, cheatsheet sync, version alignment, README links, language, test coverage sync, CHANGELOG freshness, release pipeline)
    - `docs` — Checks 3 + 6 + 7 + 10 + 13 + 14 + 15 + 16 (cross-manual consistency, block structure, template freshness, language, blocks→library API, example signatures, enum coherence, static files)
    - `profiles` — Checks 4 + 8 + 10 + 11 + 18 + 19 + 20 + 21 (profile file sync, stx-guide sync, language, artifact API validation, manifest file existence, CLI template registry sync, issue template sync, command namespace prefix)
@@ -106,3 +107,60 @@ Arguments: $ARGUMENTS (optional scope — default: all)
 ### SYNC REMINDERS (N) — local copies out of date
 - [File] <path> — run `stx claude update` to sync from source
 ```
+
+## Patterns Checks (46-49)
+
+The following checks verify the coherence of the **streamtex-patterns**
+mechanism in a project. The mechanism itself is described in the
+`pattern-library` skill — these checks only verify its integrity, they do
+not redefine it.
+
+**Check P1: Pattern catalog drift**
+
+If `.claude/custom/streamtex-patterns/` exists, run
+`stx patterns status` and check that no pattern has uncommitted local
+modifications relative to `.patterns-meta.json` (Strat U2 detection).
+
+- Severity: warning
+- Failure example: "callout.md modified locally vs source SHA"
+- Fix suggestion: "Run `stx patterns diff callout` to inspect; promote
+  with `stx patterns promote` or revert with `stx patterns update --force`."
+
+**Check P2: Pattern annotations consistency**
+
+Scan all `bck_*.py` files in `blocks/` (and atomic sub-blocks) for
+annotations like `# @pattern: <name>`. For each annotation:
+
+- Verify `<name>` is in snake_case (not kebab-case).
+- Verify `<name>` matches a pattern in
+  `.claude/custom/streamtex-patterns/_pattern_library.md`.
+- Verify the file ACTUALLY uses that pattern (light heuristic on
+  imports / function calls / styles).
+
+- Severity: error for mismatched names, warning for missing pattern usage
+- Failure example: "bck_evidence.py declares `# @pattern: stat-hero`
+  (kebab-case); should be `stat_hero`"
+- Fix: provide a sed/migration command.
+
+**Check P3: Pattern format A2 compliance**
+
+If `.claude/custom/streamtex-patterns/` exists, run
+`stx patterns validate --all` (or simulate via the spec).
+
+- Severity: error
+- Failure example: "callout.md missing required section `## Visual`"
+- Fix: refer to SPEC.md (in streamtex-patterns repo) for the full A2
+  rules.
+
+**Check P4: Pattern naming conventions**
+
+Verify that:
+
+- Each pattern filename matches its frontmatter `name`.
+- Each pattern filename is snake_case (regex `^[a-z][a-z0-9_]*\.md$`).
+- No filename starts with `_` except `_pattern_library.md`.
+- The `# @pattern:` annotations in blocks use snake_case
+  (canonicalized from any historical kebab-case).
+
+- Severity: error
+- Fix: rename + sed migration.

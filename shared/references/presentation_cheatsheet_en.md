@@ -452,6 +452,34 @@ Style: telegraphic keywords, bold colored accents.
 
 ---
 
+## Slides patterns (catalog)
+
+Patterns specifically designed for slide-based decks. Install with
+`stx patterns install --preset slides`.
+
+| Pattern | Use case |
+|---|---|
+| `slide_heading` | Standard title row with optional tooltip (95/5 grid) |
+| `title_slide` | Cover slide (huge title + AI image + subtitle) |
+| `stat_hero` | Single oversized statistic with body and source |
+| `evidence_insight` | Stat + takeaways + source (composite) |
+| `exercise_flow` | Workshop exercise (briefing → action → debrief, 3 slides) |
+| `categorized_grid` | Multi-category card grid with named groups |
+| `takeaways` | 3–5 numbered key insights |
+| `callout` | Highlighted info/warning/critical/success box |
+| `card_grid` | Responsive grid of cards (taxonomies) |
+| `comparison_table` | Multi-column table with header and active rows |
+| `cite` | Source attribution footer |
+| `inline_emphasis` | Inline keyword/accent/highlight in mixed-style text |
+
+When asking Claude to generate a slide, you can name a pattern:
+*"create a slide that compares Cursor vs Claude Code, use the
+`comparison_table` pattern"*.
+
+See `streamtex_cheatsheet_en.md` for the full pattern CLI reference.
+
+---
+
 ## 17. File Structure
 
 ```

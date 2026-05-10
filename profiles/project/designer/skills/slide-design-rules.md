@@ -616,3 +616,25 @@ When a project has an active guideline:
 The `@guideline` annotation in block files indicates which guideline applies.
 Resolution: inline annotation > block annotation > project override > project default.
 See `.claude/designer/guidelines/_index.md` for the complete scoping system.
+
+---
+
+## Canonical pattern implementations
+
+The streamtex-patterns catalog provides reference implementations of
+the rules described in this skill. When generating a slide, prefer
+applying one of these patterns rather than reimplementing the rules
+from scratch:
+
+| Rule area | Canonical pattern |
+|---|---|
+| Slide title row with optional tooltip | `slide_heading` |
+| Hero stat slide (one focal number) | `stat_hero` |
+| Evidence-driven slide (stat + takeaways + source) | `evidence_insight` |
+| Workshop exercise (briefing → action → debrief) | `exercise_flow` |
+| Multi-category card grid | `categorized_grid` |
+| Title slide (cover) | `title_slide` |
+
+When the user names one of these patterns, **read it in full** before
+generating, and respect its INVARIANTS strictly (no projection-killing
+font shrinking, no hardcoded colors, etc.).

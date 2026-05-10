@@ -17,4 +17,5 @@ stx-docs = ["release.md"]
 developer = ["coherence-checks.md"]
 
 [shared]
-commands = ["stx-coherence"]
+commands = ["stx-coherence", "stx-pattern"]
+skills = ["pattern-library.md"]

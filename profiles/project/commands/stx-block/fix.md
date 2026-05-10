@@ -144,6 +144,18 @@ After applying:
 | Hardcoded black/white | Remove or use theme-aware alternatives |
 | Unused styles in `BlockStyles` | Remove unused entries |
 
+### Pattern-aware fixes
+
+When fixing a block:
+
+- If the block has a `# @pattern: <name>` annotation:
+  - Apply fixes that respect the pattern's INVARIANTS.
+  - If a fix would violate INTERDITS, ask the user whether to remove
+    the annotation (the block no longer is that pattern) or rework the
+    fix.
+- If a fix consolidates duplicated styling that exists in a pattern,
+  refactor to apply the pattern instead.
+
 ### Guideline Compliance Fixes (`--target guidelines`)
 
 | Found | Fix |
