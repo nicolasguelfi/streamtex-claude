@@ -49,3 +49,16 @@ The review report must include a **Guideline Compliance** section:
 ### Pattern Opportunities
 - Identify recurring visual components across blocks that could be extracted as named patterns
 - Propose pattern names and descriptions for `custom/design-guideline.md ## Patterns`
+
+### Pattern compliance review
+
+For each block reviewed:
+
+- If the block has a `# @pattern:` annotation, verify it conforms to
+  the declared pattern's INVARIANTS.
+- If the block looks like an unannotated implementation of a known
+  pattern, flag it as a missed reuse opportunity.
+- Cross-reference with the plan: blocks that were planned to use a
+  pattern should actually use it.
+
+Findings of this review feed into `/stx-ce:fix`.

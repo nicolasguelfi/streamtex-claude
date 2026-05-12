@@ -294,3 +294,23 @@ my-project/
 | Route to repos | `/stx-issue:feature`, `:bug`, `:docs` |
 | Route to author | Direct edit of `.claude/custom/references/` or `custom/design-guideline.md` |
 | Mark integrated | Update solution frontmatter (`integrated: true`) |
+
+## Patterns in the CE pipeline
+
+Patterns are graphic design primitives stored in the project's
+`.claude/custom/streamtex-patterns/` catalog. They participate in the
+CE pipeline at three points:
+
+- **PLAN** : the plan can declare which patterns will be used per
+  block ("this section uses `ptn_evidence_insight`", "this slide uses
+  `ptn_stat_hero`").
+- **PRODUCE** : `/stx-ce:produce` reads the catalog before generating
+  each block; named patterns are applied with their INVARIANTS
+  respected.
+- **REVIEW** : `/stx-ce:review` checks that blocks declared as using a
+  pattern conform to that pattern (no INVARIANT violation).
+
+If a pattern is missing from the catalog, propose
+`/stx-pattern:new` during PLAN/PRODUCE rather than improvising.
+
+See `streamtex_cheatsheet_en.md` for the pattern CLI/slash commands.

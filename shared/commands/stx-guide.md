@@ -54,7 +54,7 @@ Si `$ARGUMENTS` correspond a un **topic** reconnu (voir liste ci-dessous) : repo
 Si `$ARGUMENTS` est une **question libre** en langage naturel : utilise toute la base de connaissances
 pour fournir une reponse contextuelle.
 
-### Topics reconnus (19)
+### Topics reconnus (20)
 
 | Topic | Description |
 |-------|-------------|
@@ -77,6 +77,7 @@ pour fournir une reponse contextuelle.
 | `stx-cli` | Reference complete de toutes les commandes `stx` |
 | `release` | Workflow de release complet (dev : publier + propager) |
 | `update` | Mettre a jour son workspace (user : recevoir les mises a jour) |
+| `patterns` | Mecanisme streamtex-patterns : catalogue de design patterns reutilisables, repo central, install/update, slash commands |
 
 ### Exemples de questions libres acceptees
 
@@ -98,13 +99,14 @@ pour fournir une reponse contextuelle.
 
 ## Section 2 — Carte de l'ecosysteme
 
-### Repos (7)
+### Repos (8)
 
 | Repo | GitHub | Type | Role |
 |------|--------|------|------|
 | `streamtex` | `nicolasguelfi/streamtex` | library | Librairie Python principale (PyPI) |
 | `streamtex-docs` | `nicolasguelfi/streamtex-docs` | docs | Manuels et documentation |
 | `streamtex-claude` | `nicolasguelfi/streamtex-claude` | claude | Profils Claude AI |
+| `streamtex-patterns` | `nicolasguelfi/streamtex-patterns` | patterns | Catalogue partage de design patterns graphiques (read by Claude) |
 | `stx-ai4se` | `nicolasguelfi/stx-ai4se` | project | Projet presentation AI4SE |
 | `stx-html-example` | `nicolasguelfi/stx-html-example` | project | Projet exemple HTML |
 | `stx-modelsward` | `nicolasguelfi/stx-modelsward` | project | Projet MODELSWARD |
@@ -124,6 +126,7 @@ streamtex-dev/                  # Workspace root
       stx_manual_ce/
       stx_manual_deploy/
       stx_manual_developer/
+      stx_manual_patterns/
       stx_manuals_collection/
     shared-blocks/
   streamtex-claude/             # Profils Claude
@@ -133,6 +136,12 @@ streamtex-dev/                  # Workspace root
       presentation/
       project/
     shared/references/
+  streamtex-patterns/           # Catalogue partage de design patterns
+    core/                       # patterns universels
+    slides/                     # patterns presentations/cours
+    docs/                       # patterns manuels
+    projects/<X>/               # patterns specifiques projet
+    presets/                    # recettes d'installation (.toml)
   projects/                     # Projets utilisateur
     stx-ai4se/
     stx-html-example/
@@ -151,13 +160,15 @@ streamtex-dev/                  # Workspace root
 | Developer | 8505 |
 | AI | 8506 |
 | CE | 8507 |
+| Patterns | 8508 |
 
 ```bash
-./run-manuals.sh --all        # Lance les 7 manuels
-./run-manuals.sh --intro      # Lance seulement l'intro
-./run-manuals.sh --developer  # Lance seulement le developer
-./run-manuals.sh --ai         # Lance seulement l'AI
-./run-manuals.sh --ce         # Lance seulement le CE
+./run-manuals.sh --all         # Lance les 8 manuels
+./run-manuals.sh --intro       # Lance seulement l'intro
+./run-manuals.sh --developer   # Lance seulement le developer
+./run-manuals.sh --ai          # Lance seulement l'AI
+./run-manuals.sh --ce          # Lance seulement le CE
+./run-manuals.sh --patterns    # Lance seulement le patterns
 ```
 
 ### Flux de dependances
@@ -171,6 +182,11 @@ PyPI (streamtex>=0.3.0)
 streamtex-claude
   |
   +-- profiles --> installes dans chaque projet via `stx claude install`
+
+streamtex-patterns
+  |
+  +-- consumed by projects via `stx patterns install --preset <name>`
+  +-- referenced via `[patterns].source` in stx.toml or pyproject.toml
 
 stx.toml
   |
@@ -403,7 +419,7 @@ stx run
 ### 4.2b Assistance Claude — commandes stx-block
 
 Apres avoir scaffold un projet, Claude peut le personnaliser interactivement
-grace aux 12 commandes `stx-block` du profil `project` :
+grace aux 15 commandes `stx-block` du profil `project` :
 
 ```bash
 cd projects/stx-mon-projet/
@@ -446,16 +462,11 @@ claude
 # Creer une nouvelle slide
 > /stx-block:slide-new slide de conclusion avec resume et call-to-action
 
-# Auditer le design visuel d'une slide
-> /stx-block:slide-audit --target bck_intro conformite projection amphi
-
-# Corriger les violations de design d'une slide
-> /stx-block:slide-fix --target bck_intro
+# Auditer ou corriger une slide via les commandes generiques
+> /stx-block:audit --target bck_intro conformite projection amphi
+> /stx-block:fix --target bck_intro
 
 # --- Commandes styles ---
-
-# Auditer les styles des blocks
-> /stx-block:style-audit --all
 
 # Refactorer les styles (deduplication, consolidation)
 > /stx-block:style-refactor fusionner les doublons dans custom/styles.py
@@ -476,15 +487,18 @@ claude
 
 | Categorie | Commandes | Description |
 |-----------|-----------|-------------|
-| stx-block (12) | init, update, audit, fix, tool, slide-new, slide-audit, slide-fix, style-audit, style-refactor, new, preview | Cycle de vie complet du projet |
-| stx-block (5) | init, customize, upgrade, collection-new, course-generate | Gestion de projets |
-| stx-block (2) | test, lint | Tests et linting |
+| stx-block (15) | init, update, audit, fix, tool, slide-new, style-refactor, new, preview, customize, upgrade, collection-new, course-generate, test, lint | Cycle de vie complet du projet (creation, edition, audit, correction, tests, lint) |
+| stx-ce (13) | collect, assess, plan, produce, review, fix, compound, go, status, task, continue, pause, integrate | Compound Document Engineering — methodologie de production |
 | Import (6) | marp-analyze, marp, html, html-block, html-batch, html-audit | Import Marp/HTML vers StreamTeX |
 | Export (1) | html | Export StreamTeX vers HTML |
 | stx-issue (6) | bug, feature, question, docs, comment, list | Issues GitHub (shared) |
+| stx-pattern (5) | list, show, new, reindex, validate | Catalogue de design patterns |
 | Skills (8, profil project) | visual-design-rules, slide-design-rules, style-conventions, streamtex-quick-reference, block-blueprints, testing-patterns, stx-migrate, docs-lookup | Regles de conception |
+| Skills CE (13) | ce-collect, ce-assess, ce-plan, ce-produce, ce-review, ce-fix, ce-compound, ce-go, ce-status, ce-task, ce-continue, ce-pause, ce-integrate | Skills CE associes aux 13 commandes |
 | Agents (3, profil project) | slide-designer, slide-reviewer, project-architect | Agents specialises |
-| Templates (4) | project, presentation, collection, course | Templates pour init |
+| Agents CE (18) | source-scanner, import-assessor, audience-analyst, content-strategist, gap-analyst, format-explorer, angle-generator, structure-architect, domain-researcher, learnings-researcher, audience-advocate, pedagogy-analyst, visual-reviewer, style-consistency-checker, content-editor, feedback-detector, dev-governance, ad-hoc-reviewer | Agents CE specialises |
+| Templates (4) | project, presentation, collection, course | Templates Claude pour `/stx-block:init` |
+| Templates CE (17) | collect-report, assess-import/improve/create, plan-import/improve/create, review-report, solution, producer-profile, feedback-summary, dev-report, task-review, coverage-matrix, task-analysis, task-report, checkpoint | Templates CE pour les artefacts |
 | Tools (1) | survey-convert | Outils specialises |
 
 **Cycle de vie** : `init` → `update` → `audit` → `fix` → `update` → ...
@@ -1460,6 +1474,101 @@ configuration DNS/SSL, securisation et mise a l'echelle.
 
 ---
 
+## Section 4h — Patterns graphiques (topic: `patterns`)
+
+Le namespace `streamtex-patterns` regroupe le **catalogue partage de
+patterns de design graphique**. Patterns = primitives de composition
+nommees (callout, card_grid, slide_heading, stat_hero, etc.) lues par
+Claude au moment de generer un bloc.
+
+### Architecture
+
+- **Repo central** : `streamtex-patterns/` dans le workspace, source de
+  verite. Structure : `core/`, `slides/`, `docs/`, `projects/<X>/`,
+  `presets/*.toml`.
+- **Cote projet** : patterns installes dans
+  `<project>/.claude/custom/streamtex-patterns/` avec
+  `.patterns-meta.json` tracant origine + SHA.
+- **Mecanisme** : la skill `pattern-library` est chargee par Claude.
+  Elle lui dit de consulter le catalogue avant chaque generation de bloc.
+
+### CLI `stx patterns`
+
+```bash
+# Installer un preset
+stx patterns install --preset slides    # pour cours/presentations
+stx patterns install --preset docs      # pour manuels StreamTeX
+stx patterns install --preset core      # universels seulement
+
+# Mettre a jour (drift-aware)
+stx patterns update
+
+# Statut
+stx patterns status
+stx patterns diff ptn_callout
+
+# Promouvoir une modif locale
+stx patterns promote ptn_callout
+
+# Validation
+stx patterns validate --all
+```
+
+### Slash commands Claude
+
+```
+/stx-pattern:list             # liste les patterns du projet
+/stx-pattern:show <name>      # affiche un pattern
+/stx-pattern:new <descr>      # cree un pattern (conversationnel)
+/stx-pattern:reindex          # regenere _pattern_library.md
+/stx-pattern:validate         # lint format A2
+```
+
+### Format de pattern (A2)
+
+YAML frontmatter + sections markdown : Visual / Structure / Styling
+rules / Code skeleton / Extrapolation rules (INVARIANTS / PARAMS /
+INTERDITS) / When to use / When NOT to use.
+
+### Patterns vs blueprints
+
+- **Pattern** = primitive de composition (`ptn_stat_hero`, `ptn_callout`)
+- **Blueprint** = type de bloc complet (Title slide, Conclusion)
+
+Un bloc combine 1 blueprint x N patterns x conventions de style. Les
+patterns priment quand l'utilisateur les nomme explicitement.
+
+### Workflow recommande
+
+```bash
+# 1. Au scaffold d'un nouveau projet
+stx project new mon-cours --template slides
+cd projects/stx-mon-cours
+stx patterns install --preset slides
+
+# 2. Edition d'un bloc (Claude conscient du catalogue)
+> /stx-block:new ajoute un slide qui presente la METR study
+  avec le pattern ptn_stat_hero
+
+# 3. Mise a jour des patterns
+cd ../../streamtex-patterns
+git pull                    # recuperer les evolutions du repo central
+cd ../projects/mon-cours
+stx patterns update         # propager dans le projet
+```
+
+### Sources distantes (futur)
+
+```toml
+# stx.toml du projet
+[patterns]
+source = "git+https://github.com/nicolasguelfi/streamtex-patterns.git@v0.1.0"
+preset = "slides"
+mode = "copy"
+```
+
+---
+
 ## Section 5 — Gotchas connus
 
 ### 1. `from streamtex import *` masque `list()`
@@ -1547,6 +1656,11 @@ configuration DNS/SSL, securisation et mise a l'echelle.
 | Publier sur PyPI (CI) | `gh release create vX.Y.Z` (OIDC) |
 | Generer stubs bib | `stx bib generate-stubs refs.bib` |
 | Lancer un projet | `stx run` |
+| Patterns — installer un preset | `stx patterns install --preset slides` |
+| Patterns — mettre a jour | `stx patterns update` |
+| Patterns — statut/drift | `stx patterns status` |
+| Patterns — valider format | `stx patterns validate --all` |
+| Patterns — promouvoir | `stx patterns promote <name>` |
 
 ### Commandes Claude (issues)
 
@@ -1590,6 +1704,16 @@ configuration DNS/SSL, securisation et mise a l'echelle.
 | Upgrader un projet | `/stx-block:upgrade` |
 | Creer une collection | `/stx-block:collection-new <description>` |
 | Generer un cours | `/stx-block:course-generate` |
+
+### Commandes Claude (stx-pattern — 5)
+
+| Tache | Commande |
+|-------|----------|
+| Patterns — lister | `/stx-pattern:list` |
+| Patterns — afficher | `/stx-pattern:show <name>` |
+| Patterns — creer | `/stx-pattern:new <description>` |
+| Patterns — regenerer index | `/stx-pattern:reindex` |
+| Patterns — valider | `/stx-pattern:validate [name\|--all]` |
 
 ### Commandes Claude (import — 6)
 

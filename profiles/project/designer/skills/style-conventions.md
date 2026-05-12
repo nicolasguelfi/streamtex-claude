@@ -59,3 +59,26 @@ When refactoring or creating styles, verify compliance with the active guideline
 
 The `@guideline` annotation system allows different guidelines per block or fragment.
 See `.claude/designer/guidelines/_index.md` for details.
+
+## Patterns interaction
+
+When the project has a `streamtex-patterns/` catalog, the patterns
+encode the visual conventions. **Patterns must respect** the style
+conventions of this skill — they don't override them. If a pattern's
+code skeleton appears to deviate from these conventions, treat it as a
+bug in the pattern (open an issue / propose a fix), not as a license to
+break conventions.
+
+In particular, the following conventions apply both to ad-hoc blocks
+**and** to pattern code skeletons:
+
+- Use `stx.*` for content rendering (no raw `st.*` for content).
+- Use `Style` composition (`Style + Style`, `Style + string`) — no
+  inline HTML/CSS.
+- One `st_write()` with tuples for inline mixed-style text.
+- No hardcoded black/white — let Streamlit handle themes.
+- Block files declare a `BlockStyles` class + `build()` function.
+
+When applying a pattern, **adapt** its code skeleton to use the
+project's `custom/styles.py` palette — never copy-paste the skeleton
+verbatim if the styles don't match the project.

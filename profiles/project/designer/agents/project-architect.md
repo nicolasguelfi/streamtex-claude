@@ -71,6 +71,23 @@ or user request), integrate its principles into all design decisions:
 
 When proposing the project structure, note: "Design guideline: <name>" in the output.
 
+### Patterns infrastructure (project bootstrap)
+
+When architecting a new StreamTeX project:
+
+1. Choose a **patterns preset** based on the project type:
+   - Course / training / presentation → `slides`
+   - Documentation manual → `docs`
+   - Hub / collection → `core`
+2. Document the choice in the project's `stx.toml` under `[patterns]`.
+3. Run `stx patterns install --preset <name>` early in the bootstrap.
+4. Mention in the project's README which patterns are used and how to
+   update them.
+
+If the project has unique visual idioms, plan to **author
+project-specific patterns** under `projects/<X>/` in the central repo
+or `.claude/custom/streamtex-patterns/` locally.
+
 ### Block-to-blueprint mapping
 
 When planning a project, associate each block with a blueprint:

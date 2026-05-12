@@ -3,6 +3,11 @@
 This file documents 14 common block templates that Claude uses as reference
 when generating code via `/stx-block:update` (add block) or `/stx-block:init`.
 
+> **Patterns vs Blueprints** : si l'utilisateur nomme un pattern de la
+> pattern-library (ex. "use stat_hero", "like grid_boston"), le pattern
+> prime sur le blueprint correspondant. Lire d'abord
+> .claude/custom/streamtex-patterns/<name>.md avant de générer.
+
 ## How to use
 
 > **Naming convention**: Block files use descriptive names (`bck_title.py`, `bck_containers.py`),
@@ -22,6 +27,8 @@ not the exact content. Content is always adapted to the user's request.
 ## Blueprint 1: Title (bck_title)
 
 A title slide with course/project name, subtitle, author.
+
+> **See also**: pattern `ptn_title_slide` (`.claude/custom/streamtex-patterns/ptn_title_slide.md`)
 
 **When to use**: first slide of a presentation, project landing page.
 
@@ -47,6 +54,8 @@ def build():
 ## Blueprint 2: Section Header (bck_section)
 
 A section introduction slide with number and title.
+
+> **See also**: pattern `ptn_slide_heading` (`.claude/custom/streamtex-patterns/ptn_slide_heading.md`)
 
 **When to use**: transition between major parts of a presentation.
 
@@ -96,6 +105,8 @@ def build():
 ## Blueprint 4: Two-Column Comparison (bck_comparison)
 
 A slide with 2 columns comparing concepts.
+
+> **See also**: pattern `ptn_comparison_table` (`.claude/custom/streamtex-patterns/ptn_comparison_table.md`)
 
 **When to use**: "X vs Y", pros/cons, before/after.
 
@@ -228,6 +239,8 @@ def build():
 
 A slide with a quote or key message highlighted.
 
+> **See also**: pattern `ptn_stat_hero` (`.claude/custom/streamtex-patterns/ptn_stat_hero.md`)
+
 **When to use**: author quote, important message, intermediate conclusion.
 
 **Structure**:
@@ -252,6 +265,8 @@ def build():
 ## Blueprint 9: Image Gallery (bck_gallery)
 
 A slide with an image grid.
+
+> **See also**: pattern `ptn_card_grid` (`.claude/custom/streamtex-patterns/ptn_card_grid.md`)
 
 **When to use**: portfolio, visual examples, multiple screenshots.
 
@@ -489,3 +504,25 @@ Example: The "content slide" blueprint defines L1 + L2 (headline + 2-column grid
 The `maximize-viewport` guideline then specifies: fonts expand to fill, no void > 15%,
 images fill their zone. The `minimalist-visual` guideline instead specifies: generous
 white space, image-dominant, telegraphic text.
+
+---
+
+## Patterns vs Blueprints — Decision tree
+
+When the user asks for a block, ask in this order:
+
+1. Did the user **name a pattern** (e.g. "use stat_hero")?
+   → Read the pattern file in full, follow its INVARIANTS, generate.
+2. Does the request match an **available pattern** in
+   `.claude/custom/streamtex-patterns/_pattern_library.md`?
+   → Apply that pattern (still read it in full).
+3. Does the request match a **blueprint** here (Title, Conclusion,
+   Exercise...)?
+   → Use the blueprint as a starting structure.
+4. Neither?
+   → Generate freely. If the rendering looks reusable, suggest
+     `/stx-pattern:new` to capture it.
+
+Patterns describe **primitives** (a grid, a callout, a heading row).
+Blueprints describe **whole block types** (title slide, conclusion).
+A block can combine: 1 blueprint × N patterns × style conventions.

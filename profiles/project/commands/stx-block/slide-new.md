@@ -4,6 +4,27 @@ Arguments: $ARGUMENTS (slide name and description, e.g. "bck_zoom - Zoom control
 
 ## Steps
 
+### Step 0 — Read pattern catalog (MANDATORY)
+
+Before generating any slide code, read
+`.claude/custom/streamtex-patterns/_pattern_library.md` if it exists.
+This lists the available named patterns in the project.
+
+If the user **named a pattern** explicitly in their request (e.g.
+"use stat_hero", "like grid_boston"):
+- Read the full `<patterns-dir>/<name>.md` file.
+- Respect strictly the INVARIANTS section.
+- Adjust within PARAMS only.
+- Refuse anything matching INTERDITS; propose creating a new pattern
+  with `/stx-pattern:new` instead.
+
+If the user did NOT name a pattern but the request matches one in the
+catalog, mention it as an option ("This looks like the `stat_hero`
+pattern — apply it?") before proceeding.
+
+The pattern's code skeleton is a **starting point** — adapt it to the
+project's `custom/styles.py` and palette, not a copy-paste.
+
 1. **Load rules**: Read `.claude/designer/skills/visual-design-rules.md` for the full design ruleset.
 2. **Read style conventions**: Read `.claude/designer/skills/style-conventions.md`.
 3. **Load guideline**: If `custom/design-guideline.md` exists, read it and load the referenced
