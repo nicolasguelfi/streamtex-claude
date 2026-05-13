@@ -1,6 +1,8 @@
 # CE Compound
 
-Skill for the COMPOUND phase of the Compound Engineering cycle. Capitalize learnings across 3 axes: document production, ecosystem feedback, and development governance.
+Skill for the COMPOUND phase of the Compound Engineering cycle. Capitalize learnings across 3 axes: document production (including pattern catalog enrichment), ecosystem feedback, and development governance. Proposes partial purge of master plan snapshots.
+
+Read `.claude/ce/skills/ce-conventions.md` before invoking any user-facing question.
 
 ## Workflow
 
@@ -84,6 +86,27 @@ Run 5 analysis perspectives sequentially to extract knowledge from the cycle.
      - Related learnings (cross-references)
      - Tags for searchability
 2. Create the category subdirectory if it does not exist.
+
+#### Phase 1.3.5: Pattern Catalog Enrichment
+
+This phase complements the patterns already captured at the local level during PROTOTYPE. COMPOUND catches **emergent patterns** that appeared during PRODUCE without going through PROTOTYPE.
+
+1. Scan all blocks produced or modified during this iteration for **emergent compositions** that appear ≥ 2 times across blocks but are not yet in the catalog.
+2. For each candidate, the **learnings-researcher** agent checks if a similar pattern already exists in `.claude/custom/streamtex-patterns/` (local) or in the shared `streamtex-patterns` repo.
+3. Surface a multi-select QCM listing the candidates:
+
+   *"<N> compositions visuelles émergentes détectées. Recommandé : capturer toutes celles marquées (✓). Que faites-vous ?"*
+
+   Options:
+   - `Tout capturer (Recommandé)` — runs `/stx-pattern:new --from <block>` for each candidate
+   - `Recommandés uniquement` — captures the marked subset
+   - `Sélection à préciser` — drill down per candidate
+   - `Discutons-en`
+
+4. For each captured pattern, update `master-plan.yaml -> patterns.applied` with `level: local`, the new pattern name, and the blocks that use it.
+5. Promotion `draft → local` is implicit when capture is done at this step. Promotion `local → shared` happens in INTEGRATE.
+
+Append `decisions_log` entries for every QCM.
 
 #### Phase 1.4: Update Producer Profile
 
@@ -183,9 +206,36 @@ Write to `docs/solutions/governance/YYYY-MM-DD-dev-report.md` using the **dev-re
 
 ---
 
+### Axis 4: Master Plan Maintenance
+
+#### Phase 4.1: Mark Iteration Complete
+
+Update `master-plan.yaml -> iterations[<current>]` with:
+- `completed: <YYYY-MM-DD>`
+- `summary`: one-line summary of what was produced or improved
+- `artifacts.review`, `artifacts.solutions`: paths to artifacts created during this iteration
+
+#### Phase 4.2: Re-evaluate Objectives
+
+Run the `objective-monitor` agent. Update `master-plan.yaml -> objectives[*].status` based on the iteration's outcome. Append `decisions_log` entries for any user QCM about objective reversals.
+
+#### Phase 4.3: Propose Snapshot Purge
+
+Scan `docs/master-plan/archive/` for accumulated snapshots. If the count exceeds 20 paired snapshots, surface a QCM:
+
+*"Le master plan contient <N> snapshots dans `docs/master-plan/archive/`. Proposer une purge ?"*
+
+Options:
+- `Garder les 10 plus récents (Recommandé)` — moves older to `archive/old/`
+- `Garder tous` — no action
+- `Sélection à préciser` — drill down per snapshot
+- `Discutons-en`
+
+The purge moves files to `archive/old/` rather than deleting them — recovery remains possible.
+
 ### Summary
 
-Report what was capitalized across all 3 axes:
+Report what was capitalized across all 4 axes:
 
 1. **Axis 1 — Document production**:
    - Number of new learnings created / updated

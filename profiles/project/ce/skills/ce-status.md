@@ -1,15 +1,20 @@
 # CE Status
 
-Skill for displaying the CE cycle status dashboard. Scans project artifacts to determine which phases are complete, in progress, or pending, and presents a formatted summary.
+Skill for displaying the CE cycle status dashboard. Primary source: the master plan (`docs/master-plan.yaml` + `docs/master-plan.md`). Fallback: scan the project artifacts.
+
+Read `.claude/ce/skills/ce-conventions.md` before invoking any user-facing question.
 
 ## Workflow
 
-### Phase 1: Detect Project
+### Phase 1: Detect Project and Master Plan
 
 1. Verify the current directory is a StreamTeX project:
    - Check for `book.py` or `blocks/` directory at the project root.
    - If neither exists, report an error: "Not a StreamTeX project — no book.py or blocks/ found."
 2. Identify the project name from the directory name or from `pyproject.toml` if available.
+3. **Master plan detection**:
+   - If `docs/master-plan.yaml` and `docs/master-plan.md` exist, load them. The dashboard is built primarily from the YAML.
+   - If absent, fall back to artifact scanning (Phase 2 below) and indicate in the dashboard that no master plan exists yet.
 
 ### Phase 2: Scan Artifacts
 
@@ -68,6 +73,14 @@ If a review file exists in `docs/reviews/`:
 3. Count unfixed findings (items not marked as fixed or resolved).
 4. Record the review date from the filename.
 
+### Phase 5.5: Objectives and Coherence Debt (Master Plan)
+
+If the master plan is present:
+
+1. Invoke the **objective-monitor** agent to produce the status table and any significant deviation briefing.
+2. Read `coherence_debt` from the YAML. List any unresolved entries.
+3. Invoke the **plan-reconciler** agent (silent mode). If `STATUS: aligned`, do not display anything. Otherwise include a one-line warning ("Divergences plan / book.py détectées — exécutez `/stx-ce:continue` pour réconcilier").
+
 ### Phase 6: Display Dashboard
 
 Output the following formatted dashboard:
@@ -76,15 +89,30 @@ Output the following formatted dashboard:
 CE Cycle Status — {project_name}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
+Master plan: {present | absent}
+Iterations completed: {N}    Current scope: {document | part:P1 | section:S1.1 | none}
+
 Phase        Status              Date         Artifact
 ─────        ──────              ────         ────────
 COLLECT      {status_icon}       {date}       {artifact_path}
 ASSESS       {status_icon}       {date}       {artifact_path}
 PLAN         {status_icon}       {date}       {artifact_path}
+PROTOTYPE    {status_icon}       {date}       {artifact_path}
 PRODUCE      {status_icon}       {date}       {summary}
 REVIEW       {status_icon}       {date}       {artifact_path}
 FIX          {status_icon}       {date}       {artifact_path}
 COMPOUND     {status_icon}       {date}       {artifact_path}
+INTEGRATE    {status_icon}       {date}       {artifact_path}
+```
+
+If the master plan is present, prepend the dashboard with:
+
+```
+Objectives:
+  O1 — {title}  [{status}]  {one-line judgment}
+  O2 — {title}  [{status}]  {one-line judgment}
+
+Coherence debt: {N entries — listed if N > 0}
 ```
 
 Status icons:

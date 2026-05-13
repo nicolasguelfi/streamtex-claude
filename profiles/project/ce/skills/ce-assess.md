@@ -1,17 +1,22 @@
 # CE Assess
 
-Skill for the ASSESS phase of the Compound Engineering cycle. Evaluate existing material and define objectives through structured dialogue with the user.
+Skill for the ASSESS phase of the Compound Engineering cycle. Evaluate existing material and define objectives through structured dialogue with the user. Initializes or enriches the master plan.
+
+Read `.claude/ce/skills/ce-conventions.md` before any user-facing question. All interactions follow the universal QCM format with `(Recommandé)` + `Discutons-en` + auto-injected `Autre`.
 
 ## Workflow
 
-### Phase 0: Auto-Detect Pathway and Load Producer Profile
+### Phase 0: Auto-Detect Pathway and Load Master Plan
 
 1. Check `docs/collect/` for reports containing external sources. If found, enable mode **IMPORT (A)**.
 2. Check if the current directory is a StreamTeX project with a `blocks/` directory. If found, enable mode **IMPROVEMENT (B)**.
 3. If neither condition is met, set mode to **CREATION (C)**.
 4. If both conditions 1 and 2 are met, combine **A+B** (import and improve).
 5. Log the detected pathway for the user.
-6. **Producer profile**: If `docs/solutions/producer-profile.md` exists, load it. Use the producer's style preferences, content preferences, and production priorities to pre-fill form requirements R9-R12 in Phase 2. Inform the user which preferences were pre-filled and allow them to override.
+6. **Master plan detection**:
+   - If `docs/master-plan.yaml` and `docs/master-plan.md` exist, load them. This is **not the first iteration** — ASSESS will enrich rather than initialize.
+   - If absent, this is the **first iteration**. ASSESS will create both files at the end of Phase 3.
+7. **Producer profile**: If `docs/solutions/producer-profile.md` exists, load it. Read `dialog_level` to modulate QCM frequency. Use the producer's style preferences, content preferences, and production priorities to pre-fill form requirements R9-R12 in Phase 2. Inform the user which preferences were pre-filled and allow them to override.
 
 ### Phase 1: Evaluate
 
@@ -38,7 +43,11 @@ Evaluation strategy depends on the detected pathway.
 
 ### Phase 2: Dialogue with User
 
-Ask focused questions to capture requirements R1 through R26. Use AskUserQuestion for each group.
+Ask focused questions to capture requirements R1 through R26. Use AskUserQuestion following the universal QCM format defined in `ce-conventions.md`: 1 to 2 business options (first one `(Recommandé)`), `Discutons-en`, and auto-injected `Autre`.
+
+In subsequent iterations (master plan already exists), only ask the questions whose answers are missing or stale; pre-fill the rest from the existing master plan and confirm in a single recap QCM.
+
+**Objectives are captured in free text** (R8 — learning objectives or document goals). Do not force a quantitative/structural/qualitative grid. Consolidate the user's statements and your own contextual inferences into prose criteria per objective. The `objective-monitor` agent will later judge their state by reasoning over the project content, not by computing metrics.
 
 1. **Identity** (R1-R3):
    - R1: Document title
@@ -78,9 +87,9 @@ Ask focused questions to capture requirements R1 through R26. Use AskUserQuestio
    - R23: AI image provider — preferred provider (openai | google | fal) and model, or `auto` for default. API key availability
    - R24: AI image mode — generation mode (manual | auto), seed strategy for reproducibility (fixed seed | random)
 
-### Phase 3: Generate Assessment Document
+### Phase 3: Generate Assessment Document and Master Plan
 
-1. Write to `docs/assess/YYYY-MM-DD-<name>-assess-<pathway>.md` using the appropriate pathway template from `.claude/ce/templates/`.
+1. Write the assess report to `docs/assess/YYYY-MM-DD-<name>-assess-<pathway>.md` using the appropriate pathway template from `.claude/ce/templates/`.
 2. The document must include:
    - Detected pathway with justification
    - Audience profile
@@ -88,4 +97,21 @@ Ask focused questions to capture requirements R1 through R26. Use AskUserQuestio
    - Content evaluation results
    - Gap analysis findings
    - Recommended approach for the PLAN phase
-3. Suggest next step: run `/stx-ce:plan` to create a structured production plan.
+
+### Phase 4: Initialize or Enrich the Master Plan
+
+Following the `master-plan.md` template in `.claude/ce/templates/`:
+
+1. **First iteration** (master plan absent):
+   - Create `docs/master-plan.yaml` with: identity (from R1-R3), objectives (free-text criteria consolidated from R8 and context), an empty `toc` (filled in PLAN), transverse_decisions defaults (filled progressively), empty patterns/iterations/decisions_log/coherence_debt, pointers to the assess report just written.
+   - Create `docs/master-plan.md` with: vue d'ensemble paragraph, objectives in prose, transverse_decisions narrative skeleton, empty TOC with a placeholder note "à renseigner en PLAN".
+   - Do **not** take a snapshot — the files have just been created, there is nothing to archive.
+2. **Subsequent iteration** (master plan present):
+   - Read both files.
+   - Snapshot the current state to `docs/master-plan/archive/YYYY-MM-DD-NNN.{yaml,md}` if they differ from the last snapshot.
+   - Update `identity.last_updated`, add new objectives if elicited, refine criteria of existing objectives if user provided clarifications. Append entries to `decisions_log` for every QCM answered.
+   - Add the assess report reference to `pointers.assess`.
+
+3. Append an `iterations` entry with the cycle sequence number, started date, pathway, and a placeholder scope (will be set in PLAN).
+
+4. Suggest next step: run `/stx-ce:plan` to create a structured plan increment.

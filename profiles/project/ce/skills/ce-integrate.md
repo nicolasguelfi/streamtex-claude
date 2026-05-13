@@ -1,18 +1,21 @@
 # CE Integrate
 
-Skill for the INTEGRATE phase of the Compound Engineering cycle. Routes capitalized solutions from `docs/solutions/` to their operational destinations: library issues, skill updates, documentation improvements, or author custom rules.
+Skill for the INTEGRATE phase of the Compound Engineering cycle. Routes capitalized solutions from `docs/solutions/` to their operational destinations: library issues, skill updates, documentation improvements, author custom rules, **and patterns promoted from the local catalog to the shared `streamtex-patterns` repository**.
+
+Read `.claude/ce/skills/ce-conventions.md` before invoking any user-facing question.
 
 ## Workflow
 
-### Phase 1: Load Solutions
+### Phase 1: Load Solutions and Patterns
 
 1. Scan `docs/solutions/` recursively for `.md` files (excluding `producer-profile.md`).
 2. For each file, parse the YAML frontmatter.
 3. Filter to solutions where:
    - `integrated` is `false`, or
    - `integrated` field is absent (legacy solutions)
-4. If `--target <file>` is set, process only that file.
-5. If no unintegrated solutions are found, report "Nothing to integrate" and exit.
+4. **Load patterns at `local` level**: read `master-plan.yaml -> patterns.applied`, filter to entries with `level: local` and no `promoted_at` value. These are candidates for promotion to the shared catalog.
+5. If `--target <file>` is set, process only that file.
+6. If no unintegrated solutions and no local patterns are found, report "Nothing to integrate" and exit.
 
 ### Phase 2: Classify Destinations
 
@@ -25,6 +28,9 @@ For each unintegrated solution, determine the routing destination by analyzing i
 | References manuals, cheatsheets, documentation gaps, tutorials | **streamtex-docs** (docs) | `/stx-issue:docs` or `/stx-issue:feature` |
 | Is a project-specific coding rule, style convention, naming rule | **Author custom** (`.claude/custom/references/`) | Direct file update or creation |
 | Is a design pattern or guideline refinement | **Author guideline** (`custom/design-guideline.md`) | Direct file update |
+| Is a local pattern judged broadly reusable | **streamtex-patterns** (shared catalog) | PR via `gh` to the shared repo |
+
+For local patterns (loaded in Phase 1 step 4): the LLM judges in free text whether each pattern is suitable for shared promotion. Eligibility cues (non-exhaustive): the pattern was applied to ≥ 2 distinct block archetypes, its INVARIANTS are not project-specific, the description is portable.
 
 Classification heuristics:
 - `scope: generic` solutions are more likely to target repos (lib/claude/docs)
@@ -32,28 +38,25 @@ Classification heuristics:
 - `category: guidelines` → check if it's a generic guideline pattern (→ streamtex-claude) or a project-specific refinement (→ author custom)
 - Solutions can have **multiple destinations** (e.g., a rule for the author + an issue for the plugin)
 
-### Phase 3: GATE — Routing Validation
+### Phase 3: GATE (fundamental) — Routing Validation
 
-Present the proposed routing to the user:
+Present the proposed routing to the user as a multi-select QCM following the universal format (see `ce-conventions.md`). The QCM includes both solutions and pattern promotion proposals:
 
-```
-Solutions to integrate:
+*"Routages proposés (<N>) : <résumé en prose mentionnant les destinations recommandées>. Que faites-vous ?"*
 
-| # | Solution | Category | Destination | Action |
-|---|----------|----------|-------------|--------|
-| 1 | factorize-duplicate-styles | style | .claude/custom/ | Update style-rules.md |
-| 2 | lib-evolution-over-block-fixes | process | streamtex-claude | Issue: update ce-fix.md |
-| 3 | visible-references-pattern | guidelines | .claude/custom/ | Update design guideline |
-```
+Options:
+- `Tout exécuter (Recommandé)` — proceed with every recommended routing
+- `Recommandés uniquement` — apply the subset marked recommended
+- `Sélection à préciser` — drill down per item
+- `Discutons-en`
 
-The user can:
-- **Accept all** — proceed with all integrations
-- **Accept N** — proceed with specific items
-- **Skip N** — skip specific items (mark as `integrated: skipped`)
-- **Modify N** — change the destination or action
-- **Cancel** — abort integration
+`Autre` (auto-injected) captures custom instructions.
+
+For long routing lists (> 4 items), use the aggregated pattern from `ce-conventions.md` section 1.2.
 
 If `--dry-run` is set, display the routing table and exit without executing.
+
+Append `decisions_log` entries.
 
 ### Phase 4: Execute Integration
 
@@ -86,6 +89,19 @@ For each validated integration:
 1. If the solution is a new pattern → add to `## Patterns` section
 2. If the solution is a guideline refinement → update the relevant section
 3. Present the proposed change to the user before applying.
+
+#### 4d. Pattern Promotion to Shared Catalog (`streamtex-patterns` repo)
+
+For each pattern accepted for promotion in Phase 3:
+
+1. Locate the pattern file in `.claude/custom/streamtex-patterns/<name>.md`.
+2. Check out the `streamtex-patterns` repo (the user is expected to have it accessible — if not, surface a QCM proposing to clone it or skip).
+3. Create a branch `feat/promote-<pattern_name>-from-<project>`.
+4. Copy the pattern file into the appropriate preset folder (`core/`, `slides/`, `docs/`, or `projects/<X>/`) of the shared repo. The LLM judges the preset in free text based on the pattern's intent.
+5. Run `/stx-pattern:reindex` in the shared repo.
+6. Commit and open a PR via `gh pr create` with the rationale in the body.
+7. Update `master-plan.yaml -> patterns.applied[*].level = shared` and `promoted_at = <date>` for this pattern.
+8. Record the PR URL in the corresponding entry.
 
 ### Phase 5: Mark as Integrated
 

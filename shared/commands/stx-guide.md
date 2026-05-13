@@ -71,7 +71,7 @@ pour fournir une reponse contextuelle.
 | `book` | Orchestration book.py (TOC, markers, banners, zoom) |
 | `ai-images` | Generation d'images IA (OpenAI, Google Imagen, fal.ai) |
 | `presentation` | Mode presentation fullscreen 16/9 |
-| `compound-engineering` | Compound Document Engineering (cycle CE, parcours A/B/C, 9 commandes stx-ce) |
+| `compound-engineering` | Compound Document Engineering (cycle CE 8 phases, parcours A/B/C, 14 commandes stx-ce, master plan, PROTOTYPE, catalogue patterns 3 niveaux) |
 | `issues` | Creer des issues GitHub avec metadata auto-collectees |
 | `troubleshooting` | Gotchas connus et resolution de problemes |
 | `stx-cli` | Reference complete de toutes les commandes `stx` |
@@ -488,13 +488,13 @@ claude
 | Categorie | Commandes | Description |
 |-----------|-----------|-------------|
 | stx-block (15) | init, update, audit, fix, tool, slide-new, style-refactor, new, preview, customize, upgrade, collection-new, course-generate, test, lint | Cycle de vie complet du projet (creation, edition, audit, correction, tests, lint) |
-| stx-ce (13) | collect, assess, plan, produce, review, fix, compound, go, status, task, continue, pause, integrate | Compound Document Engineering — methodologie de production |
+| stx-ce (14) | collect, assess, plan, prototype, produce, review, fix, compound, go, status, task, continue, pause, integrate | Compound Document Engineering — methodologie de production iterative et incrementale |
 | Import (6) | marp-analyze, marp, html, html-block, html-batch, html-audit | Import Marp/HTML vers StreamTeX |
 | Export (1) | html | Export StreamTeX vers HTML |
 | stx-issue (6) | bug, feature, question, docs, comment, list | Issues GitHub (shared) |
 | stx-pattern (5) | list, show, new, reindex, validate | Catalogue de design patterns |
 | Skills (8, profil project) | visual-design-rules, slide-design-rules, style-conventions, streamtex-quick-reference, block-blueprints, testing-patterns, stx-migrate, docs-lookup | Regles de conception |
-| Skills CE (13) | ce-collect, ce-assess, ce-plan, ce-produce, ce-review, ce-fix, ce-compound, ce-go, ce-status, ce-task, ce-continue, ce-pause, ce-integrate | Skills CE associes aux 13 commandes |
+| Skills CE (15) | ce-conventions, ce-collect, ce-assess, ce-plan, ce-prototype, ce-produce, ce-review, ce-fix, ce-compound, ce-go, ce-status, ce-task, ce-continue, ce-pause, ce-integrate | Skills CE associes aux 14 commandes + reference conventions |
 | Agents (3, profil project) | slide-designer, slide-reviewer, project-architect | Agents specialises |
 | Agents CE (18) | source-scanner, import-assessor, audience-analyst, content-strategist, gap-analyst, format-explorer, angle-generator, structure-architect, domain-researcher, learnings-researcher, audience-advocate, pedagogy-analyst, visual-reviewer, style-consistency-checker, content-editor, feedback-detector, dev-governance, ad-hoc-reviewer | Agents CE specialises |
 | Templates (4) | project, presentation, collection, course | Templates Claude pour `/stx-block:init` |
@@ -1236,14 +1236,16 @@ COLLECT -> ASSESS -> PLAN -> PRODUCE -> REVIEW -> FIX -> COMPOUND
 | Commande | Quand l'utiliser |
 |----------|-----------------|
 | `/stx-ce:collect <chemin>` | Inventorier des sources existantes (HTML, Marp, PDF, Word...) |
-| `/stx-ce:assess` | Definir les objectifs du document (public, contenu, forme, livraison) |
-| `/stx-ce:plan [--interactive]` | Planifier la production (auto ou co-construction en 4 etapes) |
-| `/stx-ce:produce` | Executer le plan (orchestre stx-block + stx-import) |
+| `/stx-ce:assess` | Definir les objectifs, initialiser le master plan (1re iteration) ou l'enrichir |
+| `/stx-ce:plan [--interactive]` | Produire le plan d'increment, mettre a jour le TOC du master plan |
+| `/stx-ce:prototype` | Valider les styles par l'exemple + capturer les patterns dans le catalogue local |
+| `/stx-ce:produce` | Executer le plan d'increment en appliquant les patterns mappes |
 | `/stx-ce:review` | Revue multi-perspective (5 agents : audience, pedagogie, visuel, technique, editorial) |
-| `/stx-ce:fix [--severity LEVEL]` | Corriger les findings de la review avec verification |
-| `/stx-ce:compound` | Capitaliser (3 axes : production, feedback ecosysteme, gouvernance dev) |
-| `/stx-ce:status` | Afficher l'etat courant du cycle CE (phase active, progression, artefacts) |
-| `/stx-ce:go "description"` | Cycle complet autonome avec 3 gates |
+| `/stx-ce:fix [--severity LEVEL]` | Corriger les findings + proposer reapplication des nouveaux patterns aux blocs anterieurs |
+| `/stx-ce:compound` | Capitaliser (4 axes : production, feedback, gouvernance, patterns) |
+| `/stx-ce:integrate` | Router solutions + promouvoir patterns locaux vers le catalogue partage |
+| `/stx-ce:status` | Tableau de bord lu depuis le master plan |
+| `/stx-ce:go` | Cycle complet orchestre avec dialogue de scope contextuel et gates fondamentaux |
 
 ### Les 3 parcours
 

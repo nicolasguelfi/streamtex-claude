@@ -1,6 +1,8 @@
 # CE Continue
 
-Skill for session resumption within the Compound Engineering lifecycle. Inspects project state, detects drift since last activity, and proposes prioritized next steps.
+Skill for session resumption within the Compound Engineering lifecycle. Inspects project state, runs reconciliation and objectives monitoring, detects drift since last activity, and proposes prioritized next steps.
+
+Read `.claude/ce/skills/ce-conventions.md` before invoking any user-facing question. All proposals follow the universal QCM format.
 
 ## Workflow
 
@@ -36,13 +38,19 @@ If `--help` is set, display the CE cheatsheet.
 
 1. **Detect project**: Check for `book.py` or `blocks/` directory. If not found, report "No StreamTeX project detected" and exit.
 
-2. **Scan CE artifacts**:
+2. **Load master plan** if present:
+   - Read `docs/master-plan.yaml` and `docs/master-plan.md`.
+   - Use the YAML as the primary source for objectives, TOC statuses, iterations history, decisions log, coherence debt.
+   - If absent, fall back to legacy artifact scanning.
+
+3. **Scan CE artifacts**:
    - `docs/collect/` — collect reports (sorted by date)
    - `docs/assess/` — assessment documents
    - `docs/plans/` — plan files (identify current = latest by date+sequence)
+   - `docs/prototypes/` — prototype reports
    - `docs/reviews/` — review files (including task-review files)
    - `docs/solutions/` — solution files by category
-   - `docs/solutions/producer-profile.md` — producer profile
+   - `docs/solutions/producer-profile.md` — producer profile (read `dialog_level`)
 
 3. **Determine last CE activity date**: The most recent timestamp from any CE artifact filename (YYYY-MM-DD prefix).
 
@@ -62,6 +70,21 @@ If `--help` is set, display the CE cheatsheet.
    - Count unresolved CRITICAL and MAJOR findings
 
 7. **Design guideline**: Check `custom/design-guideline.md` for active guideline name.
+
+### Step 1.5: RECONCILE AND MONITOR (Master Plan Present Only)
+
+If a master plan is present, run two agents before drift detection:
+
+1. **plan-reconciler** — detects divergences between `book.py` and the master plan TOC.
+   - If `STATUS: aligned`: no action, continue silently.
+   - Otherwise: surface the reconciliation QCM as defined in `ce-conventions.md` (one global proposal + `Discutons-en` + drill-down option).
+   - Refused divergences are written to `coherence_debt` in the YAML.
+2. **objective-monitor** — judges objective status.
+   - The status table is always shown in the briefing.
+   - Significant deviations are surfaced as QCMs (one per significant objective, with a recommended proposal).
+   - In `dialog_level: minimal`, the QCMs are deferred to the next fundamental gate; the briefing still includes the deviation summary.
+
+Append a `decisions_log` entry for every QCM presented and answered.
 
 ### Step 2: DETECT DRIFT — What Changed Since Last Activity
 
@@ -128,18 +151,19 @@ Generate a prioritized list of recommendations based on the inspection and drift
 
 ### Step 4: INTERACT — Dispatch User Choice
 
-Present the briefing + drift + proposals to the user, then prompt:
+Present the briefing + drift + proposals to the user as a QCM following the universal format (see `ce-conventions.md`):
 
-```
-Enter a number to execute a proposal,
-describe your own task (dispatches to /stx-ce:task),
-or type 'skip' to exit.
-```
+- Option 1: the highest-priority proposal `(Recommandé)`.
+- Option 2: an alternative proposal from the list (if any).
+- Option 3: `Discutons-en` (free dialogue about the next step).
+- `Autre` is auto-injected for free-form task description (dispatches to `/stx-ce:task`).
 
 **Dispatch logic**:
-- **Number selected**: Execute the corresponding command from the proposals list.
-- **Free text**: Dispatch to `/stx-ce:task "<user text>"`.
-- **"skip"** or empty: Exit without action.
+- **Option 1 or 2 selected**: Execute the corresponding command.
+- **`Discutons-en`**: Open dialogue to refine the user's intent, then dispatch.
+- **`Autre`**: Dispatch to `/stx-ce:task "<user text>"`.
+
+Append a `decisions_log` entry for the user's choice.
 
 ### Output Format
 

@@ -2,18 +2,27 @@
 
 ## Role
 
-Designs the document structure -- parts, sections, blocks, navigation flow, and reading progression. This is the central planning agent that transforms assessment outputs into a concrete, buildable document skeleton. The skeleton serves as the blueprint for all subsequent production work.
+Designs the document structure -- parts, sections, blocks, navigation flow, and reading progression. This is the central planning agent that transforms assessment outputs into a concrete, buildable document skeleton.
+
+Behavior is differentiated by iteration:
+
+- **First iteration**: produces the **global master plan TOC** (parts → sections → planned blocks) and the detailed plan for the first increment.
+- **Subsequent iterations**: produces only the detailed plan for the current increment scope, in coherence with the existing master plan TOC. Does **not** modify the global TOC unless the user explicitly requests structural change (validated via QCM).
 
 ## Before Starting
 
 Read these files:
-1. .claude/designer/skills/block-blueprints.md
-2. .claude/designer/templates/ (the selected template)
-3. The audience profile (from audience-analyst agent)
-4. The content strategy report (from content-strategist agent)
-5. The gap analysis report (from gap-analyst agent)
-6. The format and angle reports (from format-explorer and angle-generator, if pathway C)
-7. `.claude/designer/guidelines/<active>.md` (if present) — to align structure proposals with design philosophy
+1. `.claude/ce/skills/ce-conventions.md` — QCM format, scope detection, decisions log.
+2. `docs/master-plan.yaml` (if present) — current TOC, transverse decisions, iteration history.
+3. `docs/master-plan.md` (if present) — narrative TOC, intentions, raw content drafts.
+4. `.claude/designer/skills/block-blueprints.md`
+5. `.claude/designer/templates/` (the selected template)
+6. The audience profile (from audience-analyst agent)
+7. The content strategy report (from content-strategist agent)
+8. The gap analysis report (from gap-analyst agent)
+9. The format and angle reports (from format-explorer and angle-generator, if pathway C)
+10. `.claude/designer/guidelines/<active>.md` (if present) — to align structure proposals with design philosophy
+11. `<patterns-catalog>/_pattern_library.md` — available patterns to map onto planned blocks
 
 ## Methodology
 
@@ -48,9 +57,10 @@ Read these files:
    - Total block count and complexity distribution
    - Estimated production effort per section
    - Critical path (what must be built first)
-7. **Present skeleton for validation**:
-   - In interactive mode: present the skeleton and iterate with user feedback
-   - In batch mode: produce the full skeleton document
+7. **Map candidate patterns**: for each planned block, propose one or more patterns from the catalog (or mark as "ad-hoc" if no existing pattern fits). The mapping is written to `master-plan.yaml -> patterns.applied`.
+8. **Present skeleton for validation**:
+   - In interactive mode: present the skeleton and iterate with user feedback via QCM (`Approuver (Recommandé)` / `Réviser` / `Discutons-en`).
+   - In batch mode: produce the full skeleton document.
 
 ## Output Format
 

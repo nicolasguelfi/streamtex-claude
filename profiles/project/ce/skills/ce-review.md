@@ -1,15 +1,23 @@
 # CE Review
 
-Skill for the REVIEW phase of the Compound Engineering cycle. Perform a multi-perspective document review using parallel agent analysis and synthesize findings.
+Skill for the REVIEW phase of the Compound Engineering cycle. Perform a multi-perspective document review using parallel agent analysis and synthesize findings. Review scope follows the current iteration's scope (full document, part, section, or specific blocks).
+
+Read `.claude/ce/skills/ce-conventions.md` before invoking any user-facing question.
 
 ## Workflow
 
 ### Phase 1: Load Context
 
 1. Identify the project to review (current directory or specified path).
-2. Load the production plan from `docs/plans/` if it exists, to understand original objectives.
-3. Load the assessment from `docs/assess/` if it exists, to compare against requirements.
-4. Inventory all blocks in the project for the review scope.
+2. Load the master plan (`docs/master-plan.yaml` + `docs/master-plan.md`). Use the YAML `iterations` to determine the current iteration's scope, the YAML `objectives` for comparison, and the YAML `transverse_decisions` for design expectations.
+3. Load the production plan from `docs/plans/` (most recent) to understand the current increment's objectives.
+4. Load the assessment from `docs/assess/` to compare against requirements.
+5. Inventory blocks for the review scope:
+   - `document` scope: all `bck_*` in `blocks/`.
+   - `part:<id>` scope: blocks under the part in the master plan TOC.
+   - `section:<id>` scope: blocks under the section.
+   - `blocks:<list>` scope: explicit block names.
+6. Run the `objective-monitor` agent — its output feeds the final synthesis ("are objectives met by the produced content?").
 
 ### Phase 2: Multi-Agent Review (Parallel)
 
@@ -69,13 +77,13 @@ If more than 5 agents would run, switch to serial mode to avoid context saturati
    - Prioritized action list
    - Comparison against assessment requirements (if available)
    - Comparison against plan objectives (if available)
-3. **GATE**: Present the review summary to the user and ask for explicit validation.
+3. Update each reviewed block's status in `master-plan.yaml -> toc[*].sections[*].blocks[*].status` to `reviewed`.
+4. **GATE (fundamental)**: surface QCM following `ce-conventions.md`. Options: `Lancer FIX (Recommandé)` / `Examiner les findings d'abord` / `Sauter vers COMPOUND` / `Discutons-en`.
 
 ### After Review
 
-Suggest next steps to the user:
-1. Run `/stx-ce:fix` to correct automatable findings.
-2. Run `/stx-ce:fix --severity MAJOR` to also fix MAJOR findings.
-3. Skip fixes and proceed directly to `/stx-ce:compound` if the review is satisfactory.
+Append `decisions_log` entry. Suggest next steps based on the user's QCM answer:
+1. `/stx-ce:fix` to correct automatable findings.
+2. Skip fixes and proceed to `/stx-ce:compound` if the review is satisfactory.
 
-The REVIEW -> FIX cycle can be iterated: after FIX, run `/stx-ce:review` again to validate corrections.
+The REVIEW → FIX cycle can be iterated: after FIX, run `/stx-ce:review` again to validate corrections.

@@ -12,6 +12,7 @@ Read these files:
 3. The project's BlockStyles classes (in blocks/*.py files)
 4. The audience profile (for device and context constraints)
 5. `.claude/designer/guidelines/<active>.md` (if project has active guideline via `custom/design-guideline.md`)
+6. `docs/master-plan.yaml -> patterns.applied` — mapping of patterns expected on each block. Treat unfulfilled mappings (block listed in mapping but pattern not visibly applied) as a `MAJOR` finding.
 
 ## Methodology
 

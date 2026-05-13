@@ -3,29 +3,47 @@
 ## Cycle
 
 ```
-COLLECT -> ASSESS -> PLAN -> PRODUCE -> REVIEW -> FIX -> COMPOUND -> INTEGRATE
-   ^                  |                    |        |        |           |
-   |               [GATE]              [GATE]    [GATE]   [GATE]        |
-   +--------------------------------------------------------------------+
+COLLECT -> ASSESS -> PLAN -> PROTOTYPE -> PRODUCE -> REVIEW -> FIX -> COMPOUND -> INTEGRATE
+   ^                  |          |                       |        |        |           |
+   |               [GATE]   (auto-skipped if           [GATE]  [GATE]   [GATE]        |
+   |                          patterns validated)                                     |
+   +-------------------------------------------------------------------------------------+
 ```
 
-## Commands (13)
+Each cycle covers the **full document** or an **increment** (part, section, blocks).
+Scope is chosen by dialogue at the start — no flags required.
+
+## Master plan
+
+Two paired files at the project root, updated by every CE skill:
+
+- `docs/master-plan.yaml` — pilotage (identity, objectives, TOC statuses, patterns mapping, decisions log)
+- `docs/master-plan.md` — contenu détaillé (TOC hiérarchique + propositions brutes par nœud)
+
+Snapshots in `docs/master-plan/archive/YYYY-MM-DD-NNN.{yaml,md}` whenever the plan differs from the last snapshot.
+
+## QCM convention
+
+All user interactions go through QCMs with: 1 option `(Recommandé)` + alternatives + `Discutons-en` + auto-injected `Autre`. The producer profile field `dialog_level` (`minimal`/`guided`/`exhaustive`) modulates the frequency of QCMs — never the format.
+
+## Commands (14)
 
 | Command | Description |
 |---------|-------------|
 | `/stx-ce:collect <path>` | Inventory and classify existing material |
-| `/stx-ce:assess` | Evaluate material and define document objectives |
-| `/stx-ce:plan [--interactive]` | Plan production (auto or collaborative 4-step) |
-| `/stx-ce:produce` | Execute the plan (import/create/improve) |
+| `/stx-ce:assess` | Evaluate material, define objectives, initialize the master plan |
+| `/stx-ce:plan [--interactive]` | Produce a plan increment, update master plan TOC |
+| `/stx-ce:prototype` | Validate styles by example + capture patterns into local catalog |
+| `/stx-ce:produce` | Execute the plan increment, apply mapped patterns |
 | `/stx-ce:review` | Multi-perspective review (5 agents) — read-only evaluation |
-| `/stx-ce:fix [--severity LEVEL]` | Fix findings from the latest review (interactive by default) |
-| `/stx-ce:compound` | Capitalize learnings (3 axes: production, feedback, governance) |
-| `/stx-ce:integrate` | Route solutions to operational destinations (lib issues, custom rules) |
-| `/stx-ce:go [flags]` | Full autonomous cycle with 4 gates |
-| `/stx-ce:status` | Show CE cycle status for current project |
+| `/stx-ce:fix [--severity LEVEL]` | Fix findings + propose ré-application of new patterns to prior blocks |
+| `/stx-ce:compound` | Capitalize learnings + enrich local pattern catalog |
+| `/stx-ce:integrate` | Route solutions + promote local patterns to shared catalog |
+| `/stx-ce:go` | Orchestrated cycle with contextual scope dialog and fundamental gates |
+| `/stx-ce:status` | Show CE cycle status from the master plan |
 | `/stx-ce:task "<desc>"` | Execute ad-hoc task with lifecycle reconciliation |
-| `/stx-ce:pause [--message]` | Save session checkpoint before pausing work |
-| `/stx-ce:continue` | Resume work: briefing, drift detection, checkpoint restore |
+| `/stx-ce:pause [--message]` | Save session checkpoint + snapshot master plan if changed |
+| `/stx-ce:continue` | Resume work: reconciliation + objectives monitoring + proposals |
 
 ## Pathways
 

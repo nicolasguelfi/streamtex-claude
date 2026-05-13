@@ -45,6 +45,7 @@ projects_count: <number of CE cycles completed>
 | Field | Value | Description |
 |-------|-------|-------------|
 | `task_gate` | `auto` | Gate behavior: `auto` (gate for write tasks), `always` (gate for all), `never` (no gates) |
+| `dialog_level` | `guided` | Conversational verbosity across CE skills: `minimal` (QCM only at fundamental gates: post-PLAN, post-REVIEW, post-FIX, post-INTEGRATE), `guided` (QCM at all structuring decisions: scope, pathway, design choices, PROTOTYPE confirmation, pattern promotion — default), `exhaustive` (QCM even on minor choices: block naming, blueprint selection, style options) |
 
 ## Task History
 
@@ -62,3 +63,4 @@ projects_count: <number of CE cycles completed>
 - **PLAN**: Pass to `structure-architect` and `visual-reviewer` (interactive step 3) for informed proposals.
 - **COMPOUND**: Enrich with new preferences and anti-patterns discovered during the cycle. Increment `projects_count`.
 - **Consolidation**: When multiple projects have their own profiles, COMPOUND proposes merging them into a unified profile.
+- **`dialog_level` everywhere**: All CE skills read `dialog_level` before deciding when to surface QCM. In `minimal`, sub-decisions apply the recommended default silently; in `guided`, structuring decisions are surfaced; in `exhaustive`, every choice is surfaced. The QCM format (1 option marked `(Recommandé)` + `Discutons-en` + auto-injected `Autre`) is identical across levels — only the **frequency** changes.

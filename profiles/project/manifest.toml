@@ -8,20 +8,20 @@ extends = ""
 
 [commands]
 stx-block = ["init.md", "update.md", "audit.md", "fix.md", "tool.md", "slide-new.md", "style-refactor.md", "new.md", "preview.md", "customize.md", "upgrade.md", "collection-new.md", "course-generate.md", "test.md", "lint.md"]
-stx-ce = ["collect.md", "assess.md", "plan.md", "produce.md", "review.md", "fix.md", "compound.md", "go.md", "status.md", "task.md", "continue.md", "pause.md", "integrate.md"]
+stx-ce = ["collect.md", "assess.md", "plan.md", "prototype.md", "produce.md", "review.md", "fix.md", "compound.md", "go.md", "status.md", "task.md", "continue.md", "pause.md", "integrate.md"]
 
 [skills]
 designer = ["slide-design-rules.md", "visual-design-rules.md", "style-conventions.md", "streamtex-quick-reference.md", "block-blueprints.md"]
 developer = ["testing-patterns.md", "stx-migrate.md", "docs-lookup.md"]
-ce = ["ce-collect.md", "ce-assess.md", "ce-plan.md", "ce-produce.md", "ce-review.md", "ce-fix.md", "ce-compound.md", "ce-go.md", "ce-status.md", "ce-task.md", "ce-continue.md", "ce-pause.md", "ce-integrate.md"]
+ce = ["ce-conventions.md", "ce-collect.md", "ce-assess.md", "ce-plan.md", "ce-prototype.md", "ce-produce.md", "ce-review.md", "ce-fix.md", "ce-compound.md", "ce-go.md", "ce-status.md", "ce-task.md", "ce-continue.md", "ce-pause.md", "ce-integrate.md"]
 
 [agents]
 designer = ["slide-designer.md", "slide-reviewer.md", "project-architect.md"]
-ce = ["source-scanner.md", "import-assessor.md", "audience-analyst.md", "content-strategist.md", "gap-analyst.md", "format-explorer.md", "angle-generator.md", "structure-architect.md", "domain-researcher.md", "learnings-researcher.md", "audience-advocate.md", "pedagogy-analyst.md", "visual-reviewer.md", "style-consistency-checker.md", "content-editor.md", "feedback-detector.md", "dev-governance.md", "ad-hoc-reviewer.md"]
+ce = ["source-scanner.md", "import-assessor.md", "audience-analyst.md", "content-strategist.md", "gap-analyst.md", "format-explorer.md", "angle-generator.md", "structure-architect.md", "domain-researcher.md", "learnings-researcher.md", "audience-advocate.md", "pedagogy-analyst.md", "visual-reviewer.md", "style-consistency-checker.md", "content-editor.md", "feedback-detector.md", "dev-governance.md", "ad-hoc-reviewer.md", "prototype-designer.md", "plan-reconciler.md", "objective-monitor.md"]
 
 [templates]
 designer = ["project.md", "presentation.md", "collection.md", "course.md"]
-ce = ["collect-report.md", "assess-import.md", "assess-improve.md", "assess-create.md", "plan-import.md", "plan-improve.md", "plan-create.md", "review-report.md", "solution.md", "producer-profile.md", "feedback-summary.md", "dev-report.md", "task-review.md", "coverage-matrix.md", "task-analysis.md", "task-report.md", "checkpoint.md"]
+ce = ["collect-report.md", "assess-import.md", "assess-improve.md", "assess-create.md", "plan-import.md", "plan-improve.md", "plan-create.md", "review-report.md", "solution.md", "producer-profile.md", "feedback-summary.md", "dev-report.md", "task-review.md", "coverage-matrix.md", "task-analysis.md", "task-report.md", "checkpoint.md", "master-plan.md", "prototype-report.md"]
 
 [guidelines]
 designer = ["_index.md", "maximize-viewport.md", "minimalist-visual.md", "academic-structured.md", "dense-informative.md"]

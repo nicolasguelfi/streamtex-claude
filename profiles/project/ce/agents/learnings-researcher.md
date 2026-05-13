@@ -10,6 +10,7 @@ Read these files:
 1. The document structure plan (from structure-architect agent)
 2. The current task description or work item
 3. `custom/design-guideline.md` + referenced guideline (if project has active guideline)
+4. The local patterns catalog (`.claude/custom/streamtex-patterns/_pattern_library.md`) and the shared catalog (any `streamtex-patterns/` folder installed by the project) — patterns may already cover the search topic
 
 ## Methodology
 
@@ -37,9 +38,11 @@ Read these files:
    - Patterns: approaches that worked well and can be reused
    - Shortcuts: time-saving techniques discovered
    - Constraints: limitations discovered that affect current work
-6. **Check named design patterns**: When searching for existing solutions, also check
-   `custom/design-guideline.md ## Patterns` for named patterns that could be referenced
-   instead of creating new solutions
+6. **Check named design patterns**: When searching for existing solutions, also check:
+   - `custom/design-guideline.md ## Patterns` for named patterns that could be referenced
+   - `.claude/custom/streamtex-patterns/_pattern_library.md` for the local catalog
+   - Any `streamtex-patterns/` folder in the project for the shared catalog
+   Patterns that already exist should be preferred over creating new solutions; surface the match for reuse.
 7. **Report findings** with direct file references for traceability
 
 ## Output Format

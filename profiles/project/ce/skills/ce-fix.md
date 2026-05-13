@@ -1,6 +1,8 @@
 # CE Fix
 
-Skill for the FIX phase of the Compound Engineering cycle. Load the latest review report, apply automated corrections, verify each fix, and produce a traceability report.
+Skill for the FIX phase of the Compound Engineering cycle. Load the latest review report, apply automated corrections, verify each fix, propose ré-application of new patterns to prior blocks, and produce a traceability report.
+
+Read `.claude/ce/skills/ce-conventions.md` before invoking any user-facing question. Before mutating any block, run the `plan-reconciler` agent — silent passage if aligned, QCM if divergence.
 
 ## Workflow
 
@@ -83,12 +85,23 @@ For each automatable finding:
 
 3. List remaining findings (manual + failed), grouped by severity.
 
-### Phase 5: GATE
+### Phase 4.5: Pattern Re-application (cohérence inter-itérations)
 
-Present the results to the user and propose next steps:
+If the current iteration (or a recent prior iteration) introduced new patterns in `master-plan.yaml -> patterns.applied` that are not yet applied to all candidate blocks, surface a QCM:
 
-1. **Re-review**: Run `/stx-ce:review` to validate that corrections meet quality standards.
-2. **Continue**: Proceed to `/stx-ce:compound` to capitalize learnings.
-3. **Fix more**: Run `/stx-ce:fix --severity MINOR` to lower the threshold and fix more findings.
+*"Le pattern `<pattern_name>` a été défini en itération <N>. <M> blocs déjà produits utilisent une composition similaire ad-hoc. Réaligner ?"*
 
-The user must explicitly choose before proceeding.
+Options: `Réaligner tous les blocs (Recommandé)` / `Sélection à préciser` / `Non, inscrire en dette de cohérence` / `Discutons-en`.
+
+Refusals create entries in `master-plan.yaml -> coherence_debt` with affected blocks. Acceptances trigger `/stx-block:update --target <block>` with the pattern as design directive.
+
+Update statuses in the YAML for each modified block: `fixed`. Append `decisions_log` entries.
+
+### Phase 5: GATE (fundamental)
+
+Surface QCM following `ce-conventions.md`. Options:
+
+- *"Continuer vers COMPOUND"* `(Recommandé)`
+- *"Re-revue"* (`/stx-ce:review`)
+- *"Fix more — abaisser la sévérité"*
+- `Discutons-en`

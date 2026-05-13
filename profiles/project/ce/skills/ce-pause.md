@@ -1,6 +1,8 @@
 # CE Pause
 
-Skill for creating a session checkpoint before pausing work. Captures the current state of in-progress work, decisions made, and context needed to resume effectively in a future session.
+Skill for creating a session checkpoint before pausing work. Captures the current state of in-progress work, decisions made, and context needed to resume effectively in a future session. Snapshots the master plan if it has changed since the last snapshot.
+
+Read `.claude/ce/skills/ce-conventions.md` before invoking any user-facing question.
 
 ## Workflow
 
@@ -89,6 +91,18 @@ To populate the "Decisions log" and "Context for next session" sections:
    ```
 
 3. **If `--message` was provided**: Include it as the primary context annotation, still present the rest for confirmation.
+
+### Step 3.5: MASTER PLAN SNAPSHOT
+
+If a master plan is present:
+
+1. Compare `docs/master-plan.yaml` and `docs/master-plan.md` against the most recent paired snapshot in `docs/master-plan/archive/`.
+2. If either file differs from its last snapshot:
+   - Surface a QCM: *"Le plan a évolué pendant cette session. Snapshot avant pause ?"* with options `Oui (Recommandé)`, `Non`, `Discutons-en`.
+   - Default `Oui`: write paired snapshot `docs/master-plan/archive/YYYY-MM-DD-NNN.{yaml,md}` (next available NNN for the day).
+3. If both files are identical to the last snapshot: skip silently.
+
+Append a `decisions_log` entry if a QCM was surfaced.
 
 ### Step 4: WRITE CHECKPOINT
 

@@ -1,15 +1,21 @@
 # CE Plan
 
-Skill for the PLAN phase of the Compound Engineering cycle. Create a structured production plan from the assessment. Supports two modes: auto (default) and interactive.
+Skill for the PLAN phase of the Compound Engineering cycle. Produces a plan **for the current increment**, in coherence with the master plan. In first iteration also produces the global master plan TOC.
+
+Read `.claude/ce/skills/ce-conventions.md` before invoking any user-facing question.
 
 ## Workflow
 
-### Phase 0: Load Assessment and Producer Profile
+### Phase 0: Load Master Plan, Assessment, and Producer Profile
 
-1. Scan `docs/assess/` for the most recent assessment file.
-2. If no assessment is found, inform the user and suggest running `/stx-ce:assess` first. Do not proceed.
-3. Parse the assessment to extract pathway, requirements, audience profile, and gap analysis.
-4. **Producer profile**: If `docs/solutions/producer-profile.md` exists, load it and pass it to the planning agents. The `structure-architect` uses favorite patterns and anti-patterns. The `domain-researcher` uses domain context to inform research scope.
+1. Load `docs/master-plan.yaml` and `docs/master-plan.md` if present.
+   - **First iteration**: master plan was initialized in ASSESS. The TOC is empty; PLAN will fill it (global skeleton) and produce the detailed plan for the first increment.
+   - **Subsequent iterations**: TOC exists; PLAN focuses on the current increment scope only. The master plan TOC is updated only if the user has requested a change in the global structure.
+2. Scan `docs/assess/` for the most recent assessment file.
+3. If no assessment is found, inform the user and suggest running `/stx-ce:assess` first. Do not proceed.
+4. Parse the assessment to extract pathway, requirements, audience profile, and gap analysis.
+5. **Producer profile**: If `docs/solutions/producer-profile.md` exists, load it and pass it to the planning agents. The `structure-architect` uses favorite patterns and anti-patterns. The `domain-researcher` uses domain context to inform research scope. Read `dialog_level`.
+6. **Scope**: read the scope established by the caller (typically `ce-go`). If invoked standalone, surface a scope QCM based on the master plan state (see `ce-go` Step 0 for the question template).
 
 ### Phase 1: Research
 
@@ -77,10 +83,25 @@ Execute 4 steps with user dialogue between each.
 1. The **structure-architect** agent assembles the complete plan from validated choices.
 2. The **learnings-researcher** agent enriches with applicable patterns from previous solutions.
 
-### Phase 3: Generate Plan Document
+### Phase 3: Generate Plan Document and Update Master Plan
 
 1. Determine the daily sequence number by scanning `docs/plans/` for files matching today's date (`YYYY-MM-DD-NNN-*`). Increment NNN from the highest found, or start at 001.
-2. Write to `docs/plans/YYYY-MM-DD-NNN-<pathway>-<name>-plan.md` using the pathway-specific template from `.claude/ce/templates/`.
+2. Write to `docs/plans/YYYY-MM-DD-NNN-<scope>-<name>-plan.md` using the pathway-specific template from `.claude/ce/templates/`. The `<scope>` segment is `doc` for full document, `part-<id>` for a part, `section-<id>` for a section.
+
+#### Phase 3.1: Update Master Plan
+
+Before writing the plan increment, snapshot the master plan if either file differs from the last snapshot. Then:
+
+**First iteration**:
+- Populate `master-plan.yaml -> toc` with the full global skeleton (parts → sections → planned blocks with status `planned`).
+- Update `master-plan.md` TOC section with titles and `Intention` notes for each node. Add `Notes de conception` reflecting design choices.
+- Populate `transverse_decisions` with palette, profiles, bibliography, AI image config, export, spacing.
+- Append the current iteration entry in `iterations` with scope, pathway, started date.
+
+**Subsequent iterations**:
+- Update only the nodes in the current scope: refine titles, sources, notes, propositions brutes in the MD; refine statuses, patterns mapping in the YAML.
+- If the user requested a global structural change during this PLAN, surface a QCM before applying it: *"Modifier le squelette global du master plan ?"* → `Appliquer (Recommandé)` / `Limiter à l'incrément courant` / `Discutons-en`.
+- Append a new entry in `iterations`.
 3. The plan document must include:
    - Document structure with all sections and blocks
    - Per-section: objective, content outline, block type, estimated effort
@@ -95,5 +116,5 @@ Execute 4 steps with user dialogue between each.
    - Reference traceability strategy: decide per-project whether references are displayed (inline attribution, bibliography) or hidden (source-code `# REF:` comments only). In all cases, every factual claim must be traceable in the block source.
    - Deployment configuration (if applicable)
    - Total effort estimate
-4. **GATE**: Present the plan summary to the user and ask for explicit validation before proceeding. The plan must be approved to continue.
-5. Suggest next step: run `/stx-ce:produce` to execute the plan.
+4. **GATE (fundamental)**: surface QCM to validate the plan. Options: `Approuver et continuer (Recommandé)` / `Demander des modifications` / `Discutons-en`. Append `decisions_log` entry.
+5. Suggest next step: PROTOTYPE (`/stx-ce:prototype`) if styles/patterns need validation; otherwise PRODUCE (`/stx-ce:produce`).
