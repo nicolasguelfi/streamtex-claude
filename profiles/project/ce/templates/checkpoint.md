@@ -5,7 +5,7 @@ project: {{ project_name }}
 checkpoint_date: {{ YYYY-MM-DDTHH:MM:SS }}
 session_started: {{ YYYY-MM-DDTHH:MM:SS (estimated from first CE artifact or git log) }}
 current_plan: {{ docs/plans/YYYY-MM-DD-NNN-...-plan.md or "none" }}
-current_phase: {{ COLLECT | ASSESS | PLAN | PRODUCE | REVIEW | FIX | COMPOUND }}
+current_phase: {{ COLLECT | ASSESS | PLAN | PROTOTYPE | PRODUCE | REVIEW | FIX | COMPOUND | INTEGRATE }}
 phase_progress: {{ e.g. "PRODUCE 8/12 blocks" or "REVIEW 3/5 perspectives" }}
 guideline: {{ active design guideline name or "none" }}
 ---

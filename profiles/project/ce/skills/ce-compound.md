@@ -1,12 +1,12 @@
 # CE Compound
 
-Skill for the COMPOUND phase of the Compound Engineering cycle. Capitalize learnings across 3 axes: document production (including pattern catalog enrichment), ecosystem feedback, and development governance. Proposes partial purge of master plan snapshots.
+Skill for the COMPOUND phase of the Compound Engineering cycle. Capitalize learnings across 4 axes: document production (including pattern catalog enrichment), ecosystem feedback, development governance, and master plan maintenance (including partial purge of snapshots).
 
 Read `.claude/ce/skills/ce-conventions.md` before invoking any user-facing question.
 
 ## Workflow
 
-The COMPOUND phase executes 3 axes sequentially.
+The COMPOUND phase executes 4 axes sequentially.
 
 ---
 

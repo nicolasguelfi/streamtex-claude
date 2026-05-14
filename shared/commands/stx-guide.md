@@ -71,7 +71,7 @@ pour fournir une reponse contextuelle.
 | `book` | Orchestration book.py (TOC, markers, banners, zoom) |
 | `ai-images` | Generation d'images IA (OpenAI, Google Imagen, fal.ai) |
 | `presentation` | Mode presentation fullscreen 16/9 |
-| `compound-engineering` | Compound Document Engineering (cycle CE 8 phases, parcours A/B/C, 14 commandes stx-ce, master plan, PROTOTYPE, catalogue patterns 3 niveaux) |
+| `compound-engineering` | Compound Document Engineering (cycle CE 9 phases iteratif/incremental, parcours A/B/C, 14 commandes stx-ce, master plan, PROTOTYPE auto-declenche, catalogue patterns 3 niveaux) |
 | `issues` | Creer des issues GitHub avec metadata auto-collectees |
 | `troubleshooting` | Gotchas connus et resolution de problemes |
 | `stx-cli` | Reference complete de toutes les commandes `stx` |
@@ -1223,15 +1223,15 @@ class Styles(StxStyles):
 
 stx-ce est une methodologie structuree pour la production documentaire StreamTeX. Elle couvre le cycle complet : collecte de materiel, evaluation, planification, production, revue, corrections, et capitalisation.
 
-### Le cycle en 7 phases
+### Le cycle en 9 phases
 
 ```
-COLLECT -> ASSESS -> PLAN -> PRODUCE -> REVIEW -> FIX -> COMPOUND
+COLLECT -> ASSESS -> PLAN -> PROTOTYPE -> PRODUCE -> REVIEW -> FIX -> COMPOUND -> INTEGRATE
 ```
 
-3 **gates** de validation (apres PLAN, REVIEW, et FIX) permettent a l'utilisateur de piloter le processus.
+4 **gates fondamentaux** de validation (apres PLAN, REVIEW, FIX et INTEGRATE) permettent a l'utilisateur de piloter le processus. PROTOTYPE est auto-declenche via QCM quand un nouveau territoire visuel apparait ou qu'aucun pattern n'est encore valide.
 
-### Les 9 commandes
+### Les commandes principales
 
 | Commande | Quand l'utiliser |
 |----------|-----------------|

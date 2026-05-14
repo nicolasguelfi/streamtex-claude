@@ -2374,19 +2374,25 @@ dark = {
 StreamTeX includes a structured document production methodology. Full reference: `ce_cheatsheet_en.md`.
 
 ```
-COLLECT -> ASSESS -> PLAN -> PRODUCE -> REVIEW -> FIX -> COMPOUND
+COLLECT → ASSESS → PLAN → PROTOTYPE → PRODUCE → REVIEW → FIX → COMPOUND → INTEGRATE
 ```
 
 | Command | Description |
 |---------|-------------|
 | `/stx-ce:collect <path>` | Inventory and classify sources |
-| `/stx-ce:assess` | Evaluate material, define objectives |
-| `/stx-ce:plan` | Plan production (auto or `--interactive`) |
-| `/stx-ce:produce` | Execute the plan |
-| `/stx-ce:review` | 5-perspective review |
-| `/stx-ce:fix` | Fix findings with verification |
-| `/stx-ce:compound` | Capitalize (3 axes: production, feedback, governance) |
-| `/stx-ce:go` | Full autonomous cycle with 3 gates |
+| `/stx-ce:assess` | Evaluate material, define objectives, initialize the master plan |
+| `/stx-ce:plan` | Plan the next increment (auto or `--interactive`); first iteration also produces the global TOC |
+| `/stx-ce:prototype` | Validate styles by example; capture/reuse patterns into the local catalog |
+| `/stx-ce:produce` | Execute the increment plan; apply mapped patterns |
+| `/stx-ce:review` | Scope-aware review across multiple perspectives |
+| `/stx-ce:fix` | Fix findings with verification; may re-apply new patterns to earlier blocks |
+| `/stx-ce:compound` | Capitalize (4 axes: production, feedback, governance, master plan) |
+| `/stx-ce:integrate` | Route solutions; promote local patterns to the shared catalog when eligible |
+| `/stx-ce:go "description"` | Orchestrated cycle with contextual scope dialogue (4 fundamental gates) |
+| `/stx-ce:continue` | Resume session with reconciliation |
+| `/stx-ce:status` | Master plan dashboard |
+| `/stx-ce:task <id>` | Sub-task within an increment |
+| `/stx-ce:pause` | Snapshot before stopping |
 
 3 pathways: **A** (import external), **B** (improve existing), **C** (create new).
 

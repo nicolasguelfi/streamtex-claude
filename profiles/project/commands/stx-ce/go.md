@@ -15,7 +15,7 @@ Arguments: $ARGUMENTS
 
 ## Description
 
-Executes the complete CE cycle (COLLECT > ASSESS > PLAN > PRODUCE > REVIEW > COMPOUND) with validation gates.
+Executes the complete CE cycle (COLLECT → ASSESS → PLAN → PROTOTYPE → PRODUCE → REVIEW → FIX → COMPOUND → INTEGRATE) with 4 fundamental validation gates (post-PLAN, post-REVIEW, post-FIX, post-INTEGRATE). PROTOTYPE is QCM-driven and skipped when the increment continues an already-validated visual territory.
 
 The planning mode is auto-detected: interactive if COLLECT finds >= 10 sources or >= 20 estimated blocks, auto otherwise. Use `--interactive` to force collaborative planning.
 

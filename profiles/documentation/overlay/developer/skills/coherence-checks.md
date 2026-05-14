@@ -783,7 +783,7 @@ echo "Render deploy:  $RENDER_STATUS"
 
 ## Check 23: CE Agent Sync (scope: profiles, all)
 
-**Goal**: All 18 CE agents declared in `manifest.toml` exist as files in `ce/agents/`.
+**Goal**: All CE agents declared in `manifest.toml` (`[agents] ce`) exist as files in `ce/agents/`, and reciprocally every file in `ce/agents/` is declared in the manifest.
 
 **Source files**: `streamtex-claude/profiles/project/manifest.toml` — `[agents] ce` list.
 
@@ -794,13 +794,13 @@ echo "Render deploy:  $RENDER_STATUS"
 - ERROR if a `.md` file exists in `ce/agents/` but is not listed in the manifest
 - INFO: report total agents declared vs found
 
-**Expected agents (18)**: source-scanner, import-assessor, audience-analyst, content-strategist, gap-analyst, format-explorer, angle-generator, structure-architect, domain-researcher, learnings-researcher, audience-advocate, pedagogy-analyst, visual-reviewer, style-consistency-checker, content-editor, feedback-detector, dev-governance, ad-hoc-reviewer.
+The expected agent names are derived from the manifest at audit time — the list itself is not hardcoded here, to stay self-maintaining as the cycle evolves.
 
 ---
 
 ## Check 24: CE Template Sync (scope: profiles, all)
 
-**Goal**: All 16 CE templates declared in `manifest.toml` exist as files in `ce/templates/`.
+**Goal**: All CE templates declared in `manifest.toml` (`[templates] ce`) exist as files in `ce/templates/`, and reciprocally every file in `ce/templates/` is declared in the manifest.
 
 **Source files**: `streamtex-claude/profiles/project/manifest.toml` — `[templates] ce` list.
 
@@ -811,21 +811,23 @@ echo "Render deploy:  $RENDER_STATUS"
 - ERROR if a `.md` file exists in `ce/templates/` but is not listed in the manifest
 - INFO: report total templates declared vs found
 
-**Expected templates (16)**: collect-report, assess-import, assess-improve, assess-create, plan-import, plan-improve, plan-create, review-report, solution, producer-profile, feedback-summary, dev-report, task-review, coverage-matrix, task-analysis, task-report.
+The expected template names are derived from the manifest at audit time — the list itself is not hardcoded here, to stay self-maintaining as the cycle evolves.
 
 ---
 
 ## Check 25: CE Docs Structure (scope: projects, all)
 
-**Goal**: Projects with CE profile installed have the correct `docs/` directory structure.
+**Goal**: Projects with CE profile installed have the correct `docs/` directory structure for all CE artifacts.
 
 **Scope**: All directories in `projects/` with `.claude/.stx-profile` marker.
 
 **Rules**:
 - WARNING if `docs/` directory does not exist (CE artifacts have nowhere to go)
-- WARNING if any of the 5 required subdirectories are missing: `collect/`, `assess/`, `plans/`, `reviews/`, `solutions/`
-- WARNING if `docs/solutions/` is missing any of the 9 category subdirectories: `structure/`, `style/`, `content/`, `process/`, `pedagogy/`, `assets/`, `deployment/`, `import/`, `governance/`
+- WARNING if any of the required subdirectories are missing: `collect/`, `assess/`, `plans/`, `prototypes/`, `reviews/`, `solutions/`, `master-plan/archive/`
+- WARNING if `docs/solutions/` is missing any of the category subdirectories declared in the CE conventions (see `.claude/ce/skills/ce-conventions.md` and the solutions template for the authoritative list)
 - INFO: report projects scanned and structure status
+
+The required subdirectory list mirrors the artifact paths produced by CE skills; it is updated here whenever a new phase introduces a new artifact directory.
 
 ---
 
@@ -837,17 +839,19 @@ echo "Render deploy:  $RENDER_STATUS"
 
 **Rules**:
 - ERROR if `ce_cheatsheet_en.md` does not exist
-- ERROR if the cheatsheet does not list all 11 commands (`collect`, `assess`, `plan`, `produce`, `review`, `fix`, `compound`, `go`, `status`, `task`, `continue`)
-- WARNING if the cheatsheet agent count does not match manifest (expected: 18)
-- WARNING if the cheatsheet template count does not match manifest (expected: 16)
-- WARNING if the cheatsheet does not mention the 7-phase cycle with FIX
+- ERROR if any CE command declared in `manifest.toml` (`[commands] stx-ce`) is missing from the cheatsheet
+- WARNING if the cheatsheet agent count does not match the count in `manifest.toml` (`[agents] ce`)
+- WARNING if the cheatsheet template count does not match the count in `manifest.toml` (`[templates] ce`)
+- WARNING if the cheatsheet does not describe the current CE cycle (must mention the PROTOTYPE phase between PLAN and PRODUCE, and the INTEGRATE phase after COMPOUND)
 - INFO: report cheatsheet presence and consistency
+
+The audit derives expected commands, agents, and templates from the manifest at audit time — no enumeration is hardcoded here, to stay self-maintaining as the cycle evolves.
 
 ---
 
 ## Check 27: CE Command Registration (scope: profiles, all)
 
-**Goal**: All 11 CE commands declared in `manifest.toml` exist as files in `commands/stx-ce/`.
+**Goal**: All CE commands declared in `manifest.toml` (`[commands] stx-ce`) exist as files in `commands/stx-ce/`, and reciprocally every file in `commands/stx-ce/` is declared in the manifest.
 
 **Source files**: `streamtex-claude/profiles/project/manifest.toml` — `[commands] stx-ce` list.
 
@@ -856,11 +860,10 @@ echo "Render deploy:  $RENDER_STATUS"
 **Rules**:
 - ERROR if a manifest entry has no corresponding `.md` file in `commands/stx-ce/`
 - ERROR if a `.md` file exists in `commands/stx-ce/` but is not listed in the manifest
-- WARNING if the corresponding skill file in `ce/skills/` does not exist for each command
+- WARNING if the corresponding skill file in `ce/skills/` does not exist for each command (skill name = `ce-<command>`)
 - INFO: report total commands declared vs found
 
-**Expected commands (11)**: collect, assess, plan, produce, review, fix, compound, go, status, task, continue.
-**Expected skills (11)**: ce-collect, ce-assess, ce-plan, ce-produce, ce-review, ce-fix, ce-compound, ce-go, ce-status, ce-task, ce-continue.
+The expected command and skill names are derived from the manifest at audit time — the list itself is not hardcoded here, to stay self-maintaining as the cycle evolves.
 
 ---
 

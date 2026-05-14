@@ -127,7 +127,7 @@ class Styles(StxStyles):
 ## Compound Engineering (optional)
 
 Use `/stx-ce:go "description"` to produce this project with the full CE cycle:
-COLLECT -> ASSESS -> PLAN -> PRODUCE -> REVIEW -> FIX -> COMPOUND.
+COLLECT -> ASSESS -> PLAN -> PROTOTYPE -> PRODUCE -> REVIEW -> FIX -> COMPOUND -> INTEGRATE.
 See `.claude/references/ce_cheatsheet_en.md` for details.
 
 ## Reference files
