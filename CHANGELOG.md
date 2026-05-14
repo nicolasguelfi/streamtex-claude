@@ -8,6 +8,8 @@ Prior to this Changelog, changes are tracked in the git history of this reposito
 
 ## [Unreleased]
 
+## [0.1.0] — 2026-05-14
+
 ### Added
 - **Iterative/incremental CE lifecycle.** Cross-repo refonte aligning the Compound Engineering cycle with the project state. Highlights:
   - **9-phase cycle**: `COLLECT → ASSESS → PLAN → PROTOTYPE → PRODUCE → REVIEW → FIX → COMPOUND → INTEGRATE`. PROTOTYPE is QCM-driven (auto-triggered when a new visual territory appears or no pattern is yet validated; skipped otherwise).
