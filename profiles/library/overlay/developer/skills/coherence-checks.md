@@ -882,6 +882,33 @@ The expected command and skill names are derived from the manifest at audit time
 
 ---
 
+## Check 28a: CE Master Plan Schema Integrity (scope: profiles, all)
+
+**Goal**: Every `master-plan.yaml -> <field>` reference across CE skills, agents, templates, and the cheatsheet corresponds to a field actually defined in the master plan schema. This catches drift between the canonical schema and how the various CE artifacts read/write it.
+
+**Source files**:
+- `streamtex-claude/profiles/project/ce/templates/master-plan.md` — canonical schema (the YAML block under `## File 1 — docs/master-plan.yaml`)
+
+**Target files** (referencing files to scan):
+- `streamtex-claude/profiles/project/ce/skills/*.md`
+- `streamtex-claude/profiles/project/ce/agents/*.md`
+- `streamtex-claude/profiles/project/ce/templates/*.md`
+- `streamtex-claude/shared/references/ce_cheatsheet_en.md`
+
+**Method**:
+1. Parse the YAML schema from `master-plan.md` (the canonical schema source). Build the set of valid top-level keys and nested paths, treating array index placeholders `[*]` and dict-key wildcards `*` as accepted shapes (e.g., `toc[*].sections[*].blocks[*].status` matches the schema's `toc: [parts: [sections: [blocks: [status: ...]]]]` structure).
+2. In each target file, extract every occurrence of `master-plan.yaml -> <path>` (regex `master-plan\.yaml\s*->\s*([A-Za-z_][A-Za-z0-9_.\[\]*]*)`).
+3. For each extracted path, verify it corresponds to a defined field in the schema (after normalising index/wildcard placeholders).
+
+**Rules**:
+- ERROR if a `master-plan.yaml -> <path>` reference points to a path absent from the schema (drift detected)
+- WARNING if the schema defines a top-level section never referenced by any target file (potential dead schema entry — except for `identity`, `pointers`, `iterations`, which are written but not deep-referenced)
+- INFO: report total references checked and unique paths used
+
+**Why this check matters**: the master plan schema is the single source of truth for orchestration metadata. References dispersed across 17+ skills/agents/templates are vulnerable to silent drift when the schema evolves. This check enforces the contract documented in the master-plan template header (commit `50f983d`).
+
+---
+
 # AI Quality Checks (scope: ai, all)
 
 These checks detect problems specifically caused by AI-generated code and content. They address known failure modes of generative AI: hallucinated APIs, semantic drift between explanations and code, redundant abstractions, optimistic tests, and leaked secrets.

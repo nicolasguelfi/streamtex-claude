@@ -22,7 +22,7 @@ Arguments: $ARGUMENTS (optional scope — default: all)
    - `artifacts` — Check 11 only (Claude artifact API validation)
    - `tests` — Check 12 only (test coverage sync)
    - `language` — Check 10 only (language consistency)
-   - `ce` — Checks 23-28 (CE agent sync, CE template sync, CE docs structure, CE cheatsheet sync, CE command registration, CE plan-solution coherence)
+   - `ce` — Checks 23-28 + 28a (CE agent sync, CE template sync, CE docs structure, CE cheatsheet sync, CE command registration, CE plan-solution coherence, CE master plan schema integrity)
 
 4. **Execute checks** for the selected scope. For each check:
    - Read the specified source files
