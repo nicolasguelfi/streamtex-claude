@@ -36,7 +36,6 @@ This includes both explicit `/stx-ce:*` commands and direct user requests during
 - After modifications: `uv run pytest tests/ -v`
 - If adding features: update `CHANGELOG.md`
 - If adding public API: update `__init__.py`
-- Reference: `.claude/developer/skills/architecture.md`
 
 ### streamtex-claude (Claude profiles)
 - After adding files: verify `manifest.toml` lists them
@@ -48,7 +47,6 @@ This includes both explicit `/stx-ce:*` commands and direct user requests during
 - After adding blocks: verify `blocks/__init__.py` registration
 - After adding blocks: verify `book.py` references
 - Run: `uv run ruff check`
-- Reference: `.claude/developer/skills/coherence-checks.md`
 
 ## COMPOUND Inventory
 
