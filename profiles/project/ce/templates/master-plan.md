@@ -1,5 +1,9 @@
 # Template: Master Plan
 
+> **Nature of this file** — schema reference, not a copy source. CE skills (`ce-assess`, `ce-continue`, `ce-plan`, etc.) read this template to know the structure of the runtime files, then **construct** `docs/master-plan.yaml` and `docs/master-plan.md` programmatically from user input and contextual inference. The orchestrator never copies this file directly to `docs/`.
+>
+> When the schema evolves, edit this single file — both runtime files derive from it. This document is also the canonical source for fields referenced as `master-plan.yaml -> <field>` across all skills, agents, and other templates (see check 26 of the coherence audit).
+
 The **master plan** is the living reference for the document being produced. It is stored as **two paired files** in the project's `docs/` directory:
 
 - `docs/master-plan.yaml` — pilotage and automation metadata (machine-readable)
