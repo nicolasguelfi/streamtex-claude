@@ -52,12 +52,14 @@ jobs:
                   'developer': 'developer/skills',
                   'presentation': 'designer/presentation/skills',
                   'ce': 'ce/skills',
+                  'pack-engineering': 'pack-engineering/skills',
               }
               agent_paths = {
                   'designer': 'designer/agents',
                   'developer': 'developer/agents',
                   'presentation': 'designer/presentation/agents',
                   'ce': 'ce/agents',
+                  'pack-engineering': 'pack-engineering/agents',
               }
 
               # For profiles with extends, check overlay/ directory
