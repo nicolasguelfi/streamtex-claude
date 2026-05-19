@@ -181,7 +181,7 @@ Next steps:
 
 After scaffolding, propose to the user:
 
-> Install a streamtex-patterns preset to bootstrap reusable design
+> Install a streamtex-design kit to bootstrap reusable design
 > primitives? Recommended for this project type: `<preset>`.
 >
 > ```bash

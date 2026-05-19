@@ -65,12 +65,12 @@ Execute the `ce-plan` skill. GATE: The plan must be validated by the user before
 
 When planning the production:
 
-1. Read `.claude/custom/streamtex-patterns/_pattern_library.md` if it
+1. Read ``stx component list` (reuse-architecture skill)` if it
    exists.
 2. For each block in the plan, **declare which pattern(s)** it will use
    (if any) — written explicitly in the plan deliverable.
 3. If the plan reveals **gaps** (a pattern is missing for a needed
-   primitive), propose `/stx-pattern:new` during PLAN itself, before
+   primitive), propose `/stx-component:new` during PLAN itself, before
    PRODUCE.
 
 The plan deliverable should have a "Patterns used" column or section

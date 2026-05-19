@@ -62,7 +62,7 @@ See `.claude/designer/guidelines/_index.md` for details.
 
 ## Patterns interaction
 
-When the project has a `streamtex-patterns/` catalog, the patterns
+When the project has a the active packs (see reuse-architecture skill) catalog, the patterns
 encode the visual conventions. **Patterns must respect** the style
 conventions of this skill — they don't override them. If a pattern's
 code skeleton appears to deviate from these conventions, treat it as a

@@ -8,6 +8,69 @@ Prior to this Changelog, changes are tracked in the git history of this reposito
 
 ## [Unreleased]
 
+## [0.2.0] — 2026-05-19 (Wave 3 Phase 5 — CE workflows refresh)
+
+Builds on the Wave 2 [Unreleased] section (Phase 4 infrastructure, kept
+below). Wave 3 completes the migration on the CE side and ships v0.2.0
+of the profiles.
+
+### Removed
+- `profiles/project/designer/skills/block-blueprints.md` (PLAN §18.1 —
+  deferred deletion now safe since Phase 4 + Phase 5 references are
+  removed). Manifest entry for `block-blueprints.md` dropped from
+  `profiles/project/manifest.toml`.
+
+### Changed (Phase 5 vocabulary refresh)
+Mechanical bulk pass (`pattern-library` → `reuse-architecture`,
+`/stx-pattern:*` → `/stx-component:*`, `.claude/custom/streamtex-patterns/`
+→ primary local pack `./mypack/components/`, etc.) followed by targeted
+touch-ups. Total files touched: **27** (24 CE / designer / shared +
+3 stx-block/stx-ce commands).
+
+CE skills (6 files):
+- `ce-conventions.md` — pattern-catalog table + 3-level promotion table
+  rewritten with the streamtex 0.7.x flow (mypack / git pack / pypi).
+- `ce-prototype.md` — capture target switched to `mypack/components/`.
+- `ce-compound.md` — learnings-researcher mention switched.
+- `ce-go.md` — INTEGRATE promotion phrasing updated.
+- `ce-integrate.md` — promotion routing table aligned with the 4 Q12
+  destinations and the `stx component promote --to=<pack>` command.
+- `ce-prototype.md` — capture skeleton clarified.
+
+CE agents (6 files): `prototype-designer`, `structure-architect`,
+`learnings-researcher`, `content-strategist`, `format-explorer`,
+`audience-advocate` — vocabulary refresh + pre-read pointer to the
+central `reuse-architecture` skill.
+
+CE templates: `master-plan.md` — `patterns.applied` → `components.applied`,
+catalog location moved to the primary local pack.
+
+Designer skills (5 files): `slide-design-rules`, `visual-design-rules`,
+`style-conventions`, `streamtex-quick-reference`, `slide-design-rules` —
+catalog references updated to `stx component list` + active packs.
+
+Designer agents (3 files): `slide-designer`, `slide-reviewer`,
+`project-architect` — local catalog path updated.
+
+Designer templates: `course.md` — same vocabulary refresh.
+
+Project commands (6 files): `stx-block/{audit,new,slide-new,update,init}.md`
++ `stx-ce/{plan,produce,prototype}.md` — slash-command refs migrated
+from `/stx-pattern:*` to `/stx-component:*`.
+
+Shared references (3 files): `coding_standards.md`, `ce_cheatsheet_en.md`,
+`streamtex_cheatsheet_en.md` — historical patterns mentions rewired to
+the reuse architecture.
+
+`shared/commands/stx-guide.md` — repo table entry for `streamtex-design`
+fixed (correct repo URL + label `reuse`); workspace layout block
+redrawn around `streamtex-design/`; topic `patterns` renamed to `reuse`
+in the help table.
+
+### Acceptance
+- `grep -rEn "pattern-library|block-blueprints|ptn_|_pattern_library" profiles/project/ce/` → 0 active references (legacy mentions in `reuse-architecture` skill / overlay CLAUDE.md.j2 explicitly say "removed in 0.7.x").
+- Manifests parse cleanly. `block-blueprints.md` no longer registered.
+
 ### Added (Wave 2 Phase 4 — non-CE infrastructure for `streamtex 0.7.x` reuse architecture)
 - **`shared/skills/reuse-architecture.md`** (~150 lines) — single source of
   truth for the new vocabulary (pack / component / design system / kit),

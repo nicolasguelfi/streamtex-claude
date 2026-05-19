@@ -138,7 +138,7 @@ When auditing a block:
   pattern (matches Visual + Structure), suggest adding the annotation
   and aligning with the pattern.
 - If a pattern is named in `# @pattern:` but doesn't exist in the
-  catalog, flag it as a broken reference. Suggest `/stx-pattern:new` or
+  catalog, flag it as a broken reference. Suggest `/stx-component:new` or
   `stx patterns sync`.
 
 #### Guideline Compliance (if active guideline exists)

@@ -86,7 +86,7 @@ When architecting a new StreamTeX project:
 
 If the project has unique visual idioms, plan to **author
 project-specific patterns** under `projects/<X>/` in the central repo
-or `.claude/custom/streamtex-patterns/` locally.
+or `the active packs (see reuse-architecture skill)` locally.
 
 ### Block-to-blueprint mapping
 

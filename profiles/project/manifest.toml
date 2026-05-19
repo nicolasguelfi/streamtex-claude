@@ -11,7 +11,7 @@ stx-block = ["init.md", "update.md", "audit.md", "fix.md", "tool.md", "slide-new
 stx-ce = ["collect.md", "assess.md", "plan.md", "prototype.md", "produce.md", "review.md", "fix.md", "compound.md", "go.md", "status.md", "task.md", "continue.md", "pause.md", "integrate.md"]
 
 [skills]
-designer = ["slide-design-rules.md", "visual-design-rules.md", "style-conventions.md", "streamtex-quick-reference.md", "block-blueprints.md"]
+designer = ["slide-design-rules.md", "visual-design-rules.md", "style-conventions.md", "streamtex-quick-reference.md"]
 developer = ["testing-patterns.md", "stx-migrate.md", "docs-lookup.md"]
 ce = ["ce-conventions.md", "ce-collect.md", "ce-assess.md", "ce-plan.md", "ce-prototype.md", "ce-produce.md", "ce-review.md", "ce-fix.md", "ce-compound.md", "ce-go.md", "ce-status.md", "ce-task.md", "ce-continue.md", "ce-pause.md", "ce-integrate.md"]
 

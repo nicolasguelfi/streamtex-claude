@@ -19,7 +19,7 @@ Before executing, read:
 2. `.claude/ce/skills/ce-conventions.md` — QCM format, paths, snapshot, patterns levels
 3. `docs/master-plan.yaml` and `docs/master-plan.md` — current scope and patterns mapping
 4. The most recent plan in `docs/plans/` — increment objectives
-5. `<patterns-catalog>/_pattern_library.md` — available patterns
+5. `stx component list` — available components from active packs
 
 ## Workflow
 

@@ -22,7 +22,7 @@ Read these files:
 8. The gap analysis report (from gap-analyst agent)
 9. The format and angle reports (from format-explorer and angle-generator, if pathway C)
 10. `.claude/designer/guidelines/<active>.md` (if present) — to align structure proposals with design philosophy
-11. `<patterns-catalog>/_pattern_library.md` — available patterns to map onto planned blocks
+11. ``stx component list` (active packs)` — available patterns to map onto planned blocks
 
 ## Methodology
 

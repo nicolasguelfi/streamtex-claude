@@ -110,7 +110,7 @@ Arguments: $ARGUMENTS (optional scope — default: all)
 
 ## Reuse architecture checks (replaces former Patterns Checks 46-49)
 
-The legacy `streamtex-patterns` markdown-catalog mechanism is removed in
+The legacy `streamtex-design` markdown-catalog mechanism is removed in
 streamtex 0.7.x and superseded by the **reuse architecture** (Python
 packs, components, design systems, kits). Coherence is now enforced by
 `stx validate`, which aggregates:

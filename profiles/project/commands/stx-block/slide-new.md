@@ -7,7 +7,7 @@ Arguments: $ARGUMENTS (slide name and description, e.g. "bck_zoom - Zoom control
 ### Step 0 — Read pattern catalog (MANDATORY)
 
 Before generating any slide code, read
-`.claude/custom/streamtex-patterns/_pattern_library.md` if it exists.
+``stx component list` (reuse-architecture skill)` if it exists.
 This lists the available named patterns in the project.
 
 If the user **named a pattern** explicitly in their request (e.g.
@@ -16,7 +16,7 @@ If the user **named a pattern** explicitly in their request (e.g.
 - Respect strictly the INVARIANTS section.
 - Adjust within PARAMS only.
 - Refuse anything matching INTERDITS; propose creating a new pattern
-  with `/stx-pattern:new` instead.
+  with `/stx-component:new` instead.
 
 If the user did NOT name a pattern but the request matches one in the
 catalog, mention it as an option ("This looks like the `stat_hero`

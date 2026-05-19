@@ -180,7 +180,7 @@ the scoping/annotation system (`@guideline` comments).
 
 ## Canonical pattern implementations
 
-The streamtex-patterns catalog provides reference implementations of
+The reuse-architecture catalog provides reference implementations of
 the visual rules described in this skill:
 
 | Rule area | Canonical pattern |

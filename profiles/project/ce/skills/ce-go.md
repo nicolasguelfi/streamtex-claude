@@ -111,7 +111,7 @@ The following flags remain implemented but are inferred from dialogue rather tha
 
 #### Step 8: INTEGRATE
 
-- Run `/stx-ce:integrate` to route solutions to their operational destinations, including pattern promotion to the shared catalog (`streamtex-patterns` repo) for patterns judged generic enough.
+- Run `/stx-ce:integrate` to route solutions to their operational destinations, including pattern promotion to the shared catalog (`streamtex-design` pack) for patterns judged generic enough.
 - Present the routing plan to the user.
 - **GATE (fundamental)**: surface QCM to validate which integrations to execute. Options: `Tout exécuter (Recommandé)` / `Sélection à préciser` / `Aucun` / `Discutons-en`.
 - This step runs after COMPOUND if solutions or local patterns were produced. Skip if no new solutions and no new patterns.

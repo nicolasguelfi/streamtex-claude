@@ -276,7 +276,7 @@ Design guidelines are AI skills that define a visual philosophy for the project.
 
 ## Pattern commands
 
-Reusable graphic design patterns from `streamtex-patterns/`. The
+Reusable graphic design patterns from the active packs (see reuse-architecture skill). The
 catalog is read by Claude before generating any block.
 
 ### CLI
@@ -300,11 +300,11 @@ catalog is read by Claude before generating any block.
 
 | Command | Role |
 |---|---|
-| `/stx-pattern:list` | List patterns in current project |
-| `/stx-pattern:show <name>` | Display the full pattern file |
-| `/stx-pattern:new <description>` | Create a new pattern (conversational) |
-| `/stx-pattern:reindex` | Regenerate AUTO section of `_pattern_library.md` |
-| `/stx-pattern:validate [name|--all]` | Lint format A2 |
+| `/stx-component:list` | List patterns in current project |
+| `/stx-component:show <name>` | Display the full pattern file |
+| `/stx-component:new <description>` | Create a new pattern (conversational) |
+| `/stx-validate` | Aggregate validation across active packs (`stx validate`) |
+| `/stx-component:validate [name|--all]` | Lint format A2 |
 
 ### Naming convention
 

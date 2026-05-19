@@ -265,7 +265,7 @@ def build():
 
 ## Pattern annotations
 
-Blocks that implement a named pattern from the streamtex-patterns
+Blocks that implement a named pattern from the streamtex-design
 catalog SHOULD declare it via a top-of-file comment:
 
 ```python

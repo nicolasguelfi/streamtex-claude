@@ -2399,7 +2399,7 @@ COLLECT → ASSESS → PLAN → PROTOTYPE → PRODUCE → REVIEW → FIX → COM
 ## Patterns
 
 Reusable graphic design patterns. Read by Claude at block-generation
-time. Catalog : `.claude/custom/streamtex-patterns/`.
+time. Catalog : the primary local pack (`./mypack/components/`).
 
 ### CLI
 
@@ -2419,8 +2419,8 @@ stx patterns remove <name>       # uninstall
 
 ### Slash commands (Claude)
 
-`/stx-pattern:list` `/stx-pattern:show <name>` `/stx-pattern:new`
-`/stx-pattern:reindex` `/stx-pattern:validate`
+`/stx-component:list` `/stx-component:show <name>` `/stx-component:new`
+`/stx-validate` `/stx-component:validate`
 
 ### Format
 
