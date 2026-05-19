@@ -344,6 +344,7 @@ def convert_skills(source_dir: Path, target_dir: Path,
         ("", source_dir / "developer" / "skills"),
         ("pres-", source_dir / "designer" / "presentation" / "skills"),
         ("ce-", source_dir / "ce" / "skills"),
+        ("pe-", source_dir / "pack-engineering" / "skills"),
     ]
 
     for prefix, skill_dir in skill_dirs:
@@ -372,6 +373,7 @@ def convert_agents(source_dir: Path, target_dir: Path,
         ("", source_dir / "developer" / "agents"),
         ("pres-", source_dir / "designer" / "presentation" / "agents"),
         ("ce-", source_dir / "ce" / "agents"),
+        ("pe-", source_dir / "pack-engineering" / "agents"),
     ]
 
     warning = (

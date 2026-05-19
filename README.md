@@ -17,8 +17,10 @@
 
 **AI profiles for [StreamTeX](https://github.com/nicolasguelfi/streamtex)** — build presentations, courses, and web-books with slash commands and agents, no coding required.
 
-> Install a profile to get **up to 31 slash commands**, **3 specialized agents**, **8 blueprints**,
-> coding standards, and a project-specific CLAUDE.md — all tailored to your use case.
+> Install a profile to get **up to 38 slash commands** (`stx-block`, `stx-ce`, `stx-pe`),
+> specialized agents, blueprints, coding standards, and a project-specific CLAUDE.md.
+
+> **New in 0.3.0**: Pack Engineering (`/stx-pe:*`) — an orchestrated 7-step lifecycle for extracting, forking, refining, auditing, adopting, and publishing reuse packs across N projects. Single user-facing agent (`pack-orchestrator`) with 4 validation gates.
 
 ## Quick Start for End-Users
 
@@ -91,7 +93,7 @@ stx update
 
 | Profile | Audience | Commands | Agents | Skills | Key Use Cases |
 |---------|----------|:--------:|:------:|:------:|---------------|
-| **project** | Content creators, teachers | 26 | 3 | 8 | Create projects, design blocks, migrate HTML, audit design |
+| **project** | Content creators, teachers | 36 | 10 | 16 | Create projects, design blocks, migrate HTML, audit design, **orchestrate pack lifecycles** (`/stx-pe`) |
 | **presentation** | Live presenters | +3 | +1 | +3 | All of `project` + live projection rules (48pt+ fonts, 10-20m) |
 | **library** | Library contributors | 2 | — | 3 | Test, lint the StreamTeX library (deploy via stx-deploy) |
 | **documentation** | Manual authors | 11 | 2 | 5 | Multi-manual coordination, course generation |
@@ -168,6 +170,22 @@ your-project/
 
 **Lifecycle**: `init` → `update` → `audit` → `fix` → `update` → ...
 
+### stx-pe Commands (7) — Pack Engineering lifecycle
+
+Orchestrated 7-step lifecycle (DISCOVERY → DESIGN → IMPLEMENT → ADOPT → RETROFIT → AUDIT → PUBLISH) with 4 fundamental gates (G1-G4). Single user-facing agent `pack-orchestrator` auto-classifies into the right sub-mode.
+
+| Command | What it does |
+|---------|-------------|
+| `/stx-pe:go [<projects>]` | Auto-detect sub-mode from prompt + workspace state |
+| `/stx-pe:bootstrap <projects>` | Extract a new pack from N projects |
+| `/stx-pe:specialize <upstream> <projects>` | Fork an upstream pack with domain extensions |
+| `/stx-pe:refine` | Incrementally enrich the active pack with new patterns |
+| `/stx-pe:audit <pack> [<projects>]` | Read-only pack health audit (unused / duplicates / drift) |
+| `/stx-pe:adopt <pack> <projects>` | Install pack in N projects without extraction |
+| `/stx-pe:publish <pack-path>` | Release a mature pack (semver + tag + optional PyPI) |
+
+**Indirect routing**: `/stx-ce:task "extract a shared pack from projects A B C"` auto-routes to `/stx-pe:bootstrap`. PUBLISH is the only sub-mode that is NOT auto-routed — releases require explicit `/stx-pe:publish`.
+
 ### Workspace & Project Management
 
 | Command | What it does |
@@ -191,6 +209,7 @@ The stx-block commands **auto-detect** presentation profile and apply projection
 | **Project Architect** | project | Designs project structure from natural language descriptions |
 | **Slide Designer** | project | Creates pedagogically structured, visually polished slides |
 | **Slide Reviewer** | project | Reviews and validates completed slides |
+| **Pack Orchestrator** | project | THE single user-facing PE agent — auto-classifies into bootstrap/specialize/refine/audit/adopt/publish, delegates to 6 invisible specialists, surfaces 4 validation gates |
 | **Presentation Designer** | presentation | Specialist for live projection (10-20m distance) |
 
 ## Updating

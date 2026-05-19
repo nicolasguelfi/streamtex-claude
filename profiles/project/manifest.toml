@@ -34,7 +34,7 @@ designer = ["_index.md", "maximize-viewport.md", "minimalist-visual.md", "academ
 designer = ["survey-convert.md"]
 
 [shared]
-references = ["coding_standards.md", "streamtex_cheatsheet_en.md", "presentation_cheatsheet_en.md", "ce_cheatsheet_en.md"]
+references = ["coding_standards.md", "streamtex_cheatsheet_en.md", "presentation_cheatsheet_en.md", "ce_cheatsheet_en.md", "pe_cheatsheet_en.md"]
 commands = ["stx-guide.md", "stx-issue", "stx-import", "stx-export", "stx-deploy", "stx-pack", "stx-component", "stx-ds", "stx-kit", "stx-validate", "stx-new"]
 skills = ["import-conventions.md", "hetzner-infrastructure.md", "ssh-operations.md", "reuse-architecture.md"]
 agents = ["import-converter.md", "deploy-operator.md"]
