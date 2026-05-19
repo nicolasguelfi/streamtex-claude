@@ -152,8 +152,7 @@ each manual's `stx.toml` — to expose components like `manual_section`,
    suggest `stx component new <name>` to capture it into `mypack/`.
 
 **Commands**: `/stx-pack`, `/stx-component`, `/stx-ds`, `/stx-kit`,
-`/stx-validate`. The legacy `/stx-pattern:*` commands were removed in
-streamtex 0.7.x.
+`/stx-validate`.
 
 ## Customization
 - `.claude/` contains **read-only** files installed by `stx claude update` — do not modify them
