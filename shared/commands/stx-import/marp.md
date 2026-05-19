@@ -118,16 +118,10 @@ Execute each step in order. Each step is documented in `.claude/import-formats/m
 
 ### Reverse pattern mapping (post-import)
 
-After importing a Marp slide / HTML page into a StreamTeX block,
-analyze the produced block:
-
-- Does it match a known pattern in
-  `.claude/custom/streamtex-patterns/_pattern_library.md`?
-- If yes, **add the `# @pattern: <name>` annotation** at the top of the
-  block file and propose to refactor the block to use the pattern's
-  code skeleton (which often is more concise than ad-hoc code).
-- If no but the block represents a recurring pattern in the source
-  material, propose `/stx-pattern:new` to capture it for future imports.
+<!-- D19 (PLAN §18.9) — imports are pack-agnostic. Any refactor towards
+components of a specific pack belongs to a user-prepared custom artifact
+in `.claude/custom/skills/import-<pack>-mapping.md` or
+`.claude/custom/commands/refactor-<pack>/run.md`. -->
 
 ## Post-import checklist
 

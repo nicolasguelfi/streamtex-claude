@@ -108,37 +108,26 @@ stx run
 6. **Testing** -> `uv run pytest tests/ -v` (`/stx-block:test`)
 7. **Linting** -> `uv run ruff check` (`/stx-block:lint`)
 
-## StreamTeX Patterns (graphic design patterns)
+## Reuse architecture (packs, components, design systems, kits)
 
-If the project contains a `streamtex-patterns/` folder (default location:
-`.claude/custom/streamtex-patterns/`), it defines reusable graphic design
-patterns (named grids, callouts, hero stats, slide headings, etc.) that
-the user can invoke by name when creating or editing blocks.
+The presentation profile leans on the `streamtex-design` pack components
+(`title_slide`, `slide_heading`, `stat_hero`, `takeaways`,
+`narrative_transition`, `callout`, `card_grid`, `cite`) paired with the
+`slides-modern-dark` kit. See the `reuse-architecture` skill (loaded
+automatically) for the full mechanism.
 
-**Mandatory rules**:
-1. **Before generating or modifying any StreamTeX block**, read
-   `<patterns-dir>/_pattern_library.md` to know which patterns are available.
-2. When the user names a pattern in any prompt (e.g. *"use grid_boston"*,
-   *"like stat_hero"*), read the full `<patterns-dir>/<name>.md` file
-   **before** generating code.
-3. Strictly respect each pattern's `INVARIANTS` section. Adjust only within
-   `PARAMS`. Refuse anything matching `INTERDITS` and propose a new pattern
-   instead.
-4. The pattern's code skeleton is a **starting point** — adapt it to the
-   project's `custom/styles.py` and palette.
-5. If the user describes something that matches no existing pattern but is
-   reusable, suggest `/stx-pattern:new` to capture it.
+**Mandatory rules** (cf. project-level CLAUDE.md):
+1. Run `stx component list --granularity primitive|composition|block`
+   before generating or editing a slide.
+2. Inspect specific components via `stx component show <name>`.
+3. Strictly respect each component's `INVARIANTS`. Adjust only within
+   `PARAMS`. Refuse anything matching `INTERDITS`.
+4. If a slide pattern recurs, capture it as a new component with
+   `stx component new`.
 
-**Difference with blueprints**:
-- A **blueprint** = a complete block type (`title`, `conclusion`, `exercise`).
-- A **pattern** = a reusable composition primitive used inside a block
-  (`grid_boston`, `callout_critical`, `ptn_slide_heading`).
-
-A block can combine: 1 blueprint × N patterns × style conventions.
-
-**Commands**: `/stx-pattern:list` `/stx-pattern:show <name>`
-`/stx-pattern:new` `/stx-pattern:reindex` `/stx-pattern:validate`.
-See the `pattern-library` skill for the full mechanism.
+**Commands**: `/stx-pack`, `/stx-component`, `/stx-ds`, `/stx-kit`,
+`/stx-validate`. The legacy `/stx-pattern:*` commands were removed in
+streamtex 0.7.x.
 
 ## Presentation patterns recommendation
 

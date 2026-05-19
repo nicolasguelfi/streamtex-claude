@@ -492,8 +492,8 @@ claude
 | Import (6) | marp-analyze, marp, html, html-block, html-batch, html-audit | Import Marp/HTML vers StreamTeX |
 | Export (1) | html | Export StreamTeX vers HTML |
 | stx-issue (6) | bug, feature, question, docs, comment, list | Issues GitHub (shared) |
-| stx-pattern (5) | list, show, new, reindex, validate | Catalogue de design patterns |
-| Skills (8, profil project) | visual-design-rules, slide-design-rules, style-conventions, streamtex-quick-reference, block-blueprints, testing-patterns, stx-migrate, docs-lookup | Regles de conception |
+| stx-pack / stx-component / stx-ds / stx-kit / stx-validate / stx-new (6) | sub-commands listed in §4h | Reuse architecture (packs, components, design systems, kits) |
+| Skills (8, profil project) | visual-design-rules, slide-design-rules, style-conventions, streamtex-quick-reference, reuse-architecture (shared), testing-patterns, stx-migrate, docs-lookup | Regles de conception |
 | Skills CE (15) | ce-conventions, ce-collect, ce-assess, ce-plan, ce-prototype, ce-produce, ce-review, ce-fix, ce-compound, ce-go, ce-status, ce-task, ce-continue, ce-pause, ce-integrate | Skills CE associes aux 14 commandes + reference conventions |
 | Agents (3, profil project) | slide-designer, slide-reviewer, project-architect | Agents specialises |
 | Agents CE (18) | source-scanner, import-assessor, audience-analyst, content-strategist, gap-analyst, format-explorer, angle-generator, structure-architect, domain-researcher, learnings-researcher, audience-advocate, pedagogy-analyst, visual-reviewer, style-consistency-checker, content-editor, feedback-detector, dev-governance, ad-hoc-reviewer | Agents CE specialises |
@@ -1476,97 +1476,85 @@ configuration DNS/SSL, securisation et mise a l'echelle.
 
 ---
 
-## Section 4h — Patterns graphiques (topic: `patterns`)
+## Section 4h — Reuse architecture (topic: `reuse`)
 
-Le namespace `streamtex-patterns` regroupe le **catalogue partage de
-patterns de design graphique**. Patterns = primitives de composition
-nommees (callout, card_grid, slide_heading, stat_hero, etc.) lues par
-Claude au moment de generer un bloc.
+Depuis `streamtex 0.7.x`, le catalogue de design est exposé par la
+**reuse architecture** : packs Python distribués via les entry points
+PEP 621 `streamtex.packs`, exposant components, design systems, CLI
+templates, project blueprints et kits. Le pack officiel est
+`streamtex-design`. La skill centrale est `reuse-architecture`.
 
 ### Architecture
 
-- **Repo central** : `streamtex-patterns/` dans le workspace, source de
-  verite. Structure : `core/`, `slides/`, `docs/`, `projects/<X>/`,
-  `presets/*.toml`.
-- **Cote projet** : patterns installes dans
-  `<project>/.claude/custom/streamtex-patterns/` avec
-  `.patterns-meta.json` tracant origine + SHA.
-- **Mecanisme** : la skill `pattern-library` est chargee par Claude.
-  Elle lui dit de consulter le catalogue avant chaque generation de bloc.
+- **Pack** = package Python (local / git / pypi) — unité de distribution.
+- **Component** = module Python avec docstring §4.1 + `__component_meta__`.
+  Granularité : `primitive` / `composition` / `block`.
+- **Design system** = classe Python implémentant `DesignSystemProtocol`.
+- **Kit** = TOML qui colle 1 DS + N components (+ template + samples).
+- **`stx.toml`** déclare les packs actifs, le DS, l'ordre de résolution
+  et le kit (cf. PLAN §6.1).
 
-### CLI `stx patterns`
+### CLI `stx pack` / `stx component` / `stx ds` / `stx kit` / `stx validate`
 
 ```bash
-# Installer un preset
-stx patterns install --preset slides    # pour cours/presentations
-stx patterns install --preset docs      # pour manuels StreamTeX
-stx patterns install --preset core      # universels seulement
+# Ajouter le pack officiel
+stx pack add github.com/nicolasguelfi/streamtex-design --rev v0.1.0
 
-# Mettre a jour (drift-aware)
-stx patterns update
+# Inventorier
+stx pack list [--trace]
+stx component list [--granularity primitive|composition|block]
+stx ds list
+stx kit list
 
-# Statut
-stx patterns status
-stx patterns diff ptn_callout
+# Installer un kit complet
+stx kit install streamtex_design:project-default
 
-# Promouvoir une modif locale
-stx patterns promote ptn_callout
+# Capturer/promouvoir (CE)
+stx component new <name>
+stx component promote <name> --to=<pack>
 
-# Validation
-stx patterns validate --all
+# Validation agrégée
+stx validate [--strict]
 ```
 
 ### Slash commands Claude
 
 ```
-/stx-pattern:list             # liste les patterns du projet
-/stx-pattern:show <name>      # affiche un pattern
-/stx-pattern:new <descr>      # cree un pattern (conversationnel)
-/stx-pattern:reindex          # regenere _pattern_library.md
-/stx-pattern:validate         # lint format A2
+/stx-pack            # gestion des packs
+/stx-component       # gestion des components
+/stx-ds              # gestion des design systems
+/stx-kit             # gestion des kits
+/stx-validate        # validation agrégée
+/stx-new             # alias de stx project new
 ```
 
-### Format de pattern (A2)
+### Format de component
 
-YAML frontmatter + sections markdown : Visual / Structure / Styling
-rules / Code skeleton / Extrapolation rules (INVARIANTS / PARAMS /
-INTERDITS) / When to use / When NOT to use.
+Module Python avec :
+- Docstring §4.1 (Visual / Structure / Styling rules / Extrapolation
+  rules avec INVARIANTS+PARAMS+INTERDITS / When to use / When NOT to
+  use / Design system bundles required).
+- `__component_meta__: ComponentMeta` (nom, description, tags,
+  bundles_required, granularity, optional `uses_components`).
+- Fonction publique avec signature kwargs-only.
 
-### Patterns vs blueprints
-
-- **Pattern** = primitive de composition (`ptn_stat_hero`, `ptn_callout`)
-- **Blueprint** = type de bloc complet (Title slide, Conclusion)
-
-Un bloc combine 1 blueprint x N patterns x conventions de style. Les
-patterns priment quand l'utilisateur les nomme explicitement.
-
-### Workflow recommande
+### Workflow recommandé
 
 ```bash
-# 1. Au scaffold d'un nouveau projet
-stx project new mon-cours --template slides
-cd projects/stx-mon-cours
-stx patterns install --preset slides
+# 1. Scaffold d'un nouveau projet avec un kit
+stx project new mon-cours --kit streamtex_design:project-default
+cd projects/mon-cours
 
-# 2. Edition d'un bloc (Claude conscient du catalogue)
-> /stx-block:new ajoute un slide qui presente la METR study
-  avec le pattern ptn_stat_hero
+# 2. Édition d'un bloc (Claude consulte reuse-architecture)
+> /stx-block:new ajoute un slide qui présente la METR study
+  avec le component stat_hero
 
-# 3. Mise a jour des patterns
-cd ../../streamtex-patterns
-git pull                    # recuperer les evolutions du repo central
-cd ../projects/mon-cours
-stx patterns update         # propager dans le projet
-```
+# 3. Capture d'une composition réutilisable dans mypack local
+stx component new evidence_slide
+> /stx-ce:prototype
 
-### Sources distantes (futur)
-
-```toml
-# stx.toml du projet
-[patterns]
-source = "git+https://github.com/nicolasguelfi/streamtex-patterns.git@v0.1.0"
-preset = "slides"
-mode = "copy"
+# 4. Validation
+stx validate
 ```
 
 ---
@@ -1707,15 +1695,16 @@ mode = "copy"
 | Creer une collection | `/stx-block:collection-new <description>` |
 | Generer un cours | `/stx-block:course-generate` |
 
-### Commandes Claude (stx-pattern — 5)
+### Commandes Claude (reuse architecture — 6)
 
 | Tache | Commande |
 |-------|----------|
-| Patterns — lister | `/stx-pattern:list` |
-| Patterns — afficher | `/stx-pattern:show <name>` |
-| Patterns — creer | `/stx-pattern:new <description>` |
-| Patterns — regenerer index | `/stx-pattern:reindex` |
-| Patterns — valider | `/stx-pattern:validate [name\|--all]` |
+| Packs — gestion | `/stx-pack` |
+| Components — gestion | `/stx-component` |
+| Design systems — gestion | `/stx-ds` |
+| Kits — gestion | `/stx-kit` |
+| Validation agrégée | `/stx-validate` |
+| Nouveau projet | `/stx-new <name> [--kit <pack>:<kit_name>]` |
 
 ### Commandes Claude (import — 6)
 
