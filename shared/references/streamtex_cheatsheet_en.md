@@ -193,7 +193,7 @@ set_ai_image_config(AIImageConfig(
     auto_generate=False,           # Manual mode (button) by default
 ))
 
-# Declarative AI image (unified API since 0.7.x)
+# Declarative AI image (unified image API)
 st_image(prompt="a minimalist neural network diagram, flat design, dark bg",
          editable=True, name="neural_net",
          width="100%", provider="openai", ai_size="1024x1024")
@@ -1602,7 +1602,7 @@ Credentials resolution: explicit path > `GSHEET_CREDENTIALS` env > `GOOGLE_APPLI
 ```python
 from streamtex import ExportConfig, ExportMode
 
-# --- Legacy usage (internal buffer config) ---
+# --- Internal buffer config (rarely constructed manually) ---
 config = ExportConfig(
     enabled=True,                    # Enable export buffer (default False)
     page_title="My StreamTeX Export",  # Title of exported HTML document

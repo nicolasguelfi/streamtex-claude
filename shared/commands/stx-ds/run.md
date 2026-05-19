@@ -1,4 +1,4 @@
-Manage StreamTeX design systems (PLAN §7.3 / 0.7.x).
+Manage StreamTeX design systems.
 
 Arguments: $ARGUMENTS
 

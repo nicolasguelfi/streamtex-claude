@@ -215,7 +215,7 @@ Replicas are separate Coolify applications with the same FQDN. `AppEntry.replica
 
 | Mode | Port | Components | Use case |
 |------|------|------------|----------|
-| `streamlit-only` (default) | 8501 | Streamlit | Legacy, interactive docs |
+| `streamlit-only` (default) | 8501 | Streamlit | Interactive docs, no Nginx |
 | `dual` | 80 | Nginx + Streamlit | Static fallback + interactive |
 | `static-only` | 80 | Nginx | Max performance, no interactivity |
 

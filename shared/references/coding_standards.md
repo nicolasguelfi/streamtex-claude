@@ -263,29 +263,17 @@ def build():
 - **Style classes**: `BlockStyles` or `BStyles`, aliased as `bs = BlockStyles`
 - **Variables**: `snake_case` | **Classes**: `PascalCase`
 
-## Pattern annotations
+## Reuse architecture
 
-Blocks that implement a named pattern from the streamtex-design
-catalog SHOULD declare it via a top-of-file comment:
+Components are Python modules in installed packs, discovered via the
+`streamtex.packs` entry point. Import them directly from their pack:
 
 ```python
-# @pattern: ptn_stat_hero
-# @pattern: ptn_stat_hero, ptn_slide_heading   # multiple patterns allowed
+from streamtex_design.components.callout import callout
 ```
 
-**Convention**: pattern names are written in `snake_case`
-(matching the filename and the YAML frontmatter `name` field).
-
-Historical artifacts may use `kebab-case` (e.g. `stat-hero`,
-`table-roadmap`) — these should be migrated to `snake_case` and
-mapped to the canonical pattern name (e.g. `ptn_stat_hero`,
-`ptn_comparison_table`).
-
-The reuse architecture (PLAN §6.2, `streamtex 0.7.x`) replaces this
-mechanism: components are Python modules in installed packs, discovered
-via the `streamtex.packs` entry point. See the `reuse-architecture` skill
-for the catalog and mechanism, and the `stx validate` aggregate command
-for drift detection.
+See the `reuse-architecture` skill for the catalog and mechanism, and
+the `stx validate` aggregate command for drift detection.
 
 ## 9. Style System
 

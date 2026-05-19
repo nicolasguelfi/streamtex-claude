@@ -14,7 +14,7 @@ Arguments: $ARGUMENTS (optional scope — default: all)
    - `standard` — Checks 1-28 (original ecosystem coherence checks)
    - `ai` — Checks 29-41 (AI-generated code quality: ghost API, dead code, explanation drift, cross-block contradictions, unused exports, version claims, test quality, silent failures, naming coherence, secret leaks, hardcoded URLs)
    - `cli` — Checks 42-45 (CLI coherence: help↔code, stx-guide↔CLI, deploy scripts↔Docker, optional deps↔imports)
-   - `reuse` — Use `stx validate` directly (PV/CV/DV/KV/BV codes — see `reuse-architecture` skill). The legacy `patterns` scope is removed in streamtex 0.7.x.
+   - `reuse` — Use `stx validate` directly (PV/CV/DV/KV/BV codes — see `reuse-architecture` skill).
    - `library` — Checks 1 + 2 + 5 + 9 + 10 + 12 + 17 + 22 (API coverage, cheatsheet sync, version alignment, README links, language, test coverage sync, CHANGELOG freshness, release pipeline)
    - `docs` — Checks 3 + 6 + 7 + 10 + 13 + 14 + 15 + 16 (cross-manual consistency, block structure, template freshness, language, blocks→library API, example signatures, enum coherence, static files)
    - `profiles` — Checks 4 + 8 + 10 + 11 + 18 + 19 + 20 + 21 (profile file sync, stx-guide sync, language, artifact API validation, manifest file existence, CLI template registry sync, issue template sync, command namespace prefix)
@@ -108,12 +108,10 @@ Arguments: $ARGUMENTS (optional scope — default: all)
 - [File] <path> — run `stx claude update` to sync from source
 ```
 
-## Reuse architecture checks (replaces former Patterns Checks 46-49)
+## Reuse architecture checks
 
-The legacy `streamtex-design` markdown-catalog mechanism is removed in
-streamtex 0.7.x and superseded by the **reuse architecture** (Python
-packs, components, design systems, kits). Coherence is now enforced by
-`stx validate`, which aggregates:
+The reuse architecture (Python packs, components, design systems, kits)
+enforces coherence through `stx validate`, which aggregates:
 
 - **Pack manifest** (`PV001-PV010`) — `_pack_manifest.toml` schema.
 - **Components** (`CV001-CV011`) — docstring sections + `__component_meta__`.

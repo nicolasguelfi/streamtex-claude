@@ -26,7 +26,7 @@ The pack-side semver rule of `pe-conventions.md` §7 :
 - **Minor** : CHANGED contract on existing components OR added DS/kit.
 - **Major** : REMOVED components OR breaking contract change.
 
-⚠️ The library-side rule "Stay on 0.7.X" (memory `feedback_no_minor_bump`)
+⚠️ The library-side stay-on-patches rule (memory `feedback_no_minor_bump`)
 applies to `streamtex` ONLY, not to user packs. Packs have their own
 semver lifecycle.
 

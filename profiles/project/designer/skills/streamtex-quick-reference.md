@@ -112,7 +112,7 @@ st_image(uri="static/images/logo.png", link="https://...", hover=True)
 ```python
 # Requires: uv add "streamtex[ai]" + AIImageConfig in book.py
 
-# Declarative AI image (unified API since 0.7.x)
+# Declarative AI image (unified image API)
 st_image(prompt="A minimalist illustration of cloud architecture",
          editable=True, name="cloud_arch")
 

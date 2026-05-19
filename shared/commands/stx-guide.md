@@ -72,7 +72,7 @@ pour fournir une reponse contextuelle.
 | `stx-cli` | Reference complete de toutes les commandes `stx` |
 | `release` | Workflow de release complet (dev : publier + propager) |
 | `update` | Mettre a jour son workspace (user : recevoir les mises a jour) |
-| `reuse` | Mecanisme reuse architecture (`streamtex 0.7.x`) : packs, components, design systems, kits ; voir `reuse-architecture` skill |
+| `reuse` | Mecanisme reuse architecture : packs, components, design systems, kits ; voir `reuse-architecture` skill |
 
 ### Exemples de questions libres acceptees
 
@@ -897,7 +897,7 @@ STX_FAL_KEY=fal-...
 ### Utilisation
 
 ```python
-# Declaratif AI image (API unifiee depuis 0.7.x)
+# Declaratif AI image (API image unifiee)
 st_image(prompt="A minimalist diagram of microservices",
          editable=True, name="microservices")
 
@@ -1458,11 +1458,11 @@ configuration DNS/SSL, securisation et mise a l'echelle.
 
 ## Section 4h — Reuse architecture (topic: `reuse`)
 
-Depuis `streamtex 0.7.x`, le catalogue de design est exposé par la
-**reuse architecture** : packs Python distribués via les entry points
-PEP 621 `streamtex.packs`, exposant components, design systems, CLI
-templates, project blueprints et kits. Le pack officiel est
-`streamtex-design`. La skill centrale est `reuse-architecture`.
+Le catalogue de design est exposé par la **reuse architecture** : packs
+Python distribués via les entry points PEP 621 `streamtex.packs`,
+exposant components, design systems, CLI templates, project blueprints
+et kits. Le pack officiel est `streamtex-design`. La skill centrale est
+`reuse-architecture`.
 
 ### Architecture
 

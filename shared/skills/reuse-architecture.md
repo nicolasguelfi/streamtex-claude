@@ -1,8 +1,7 @@
 # Reuse architecture — packs, components, design systems, kits
 
 This skill is the **single source of truth** for the StreamTeX reuse
-architecture (introduced in `streamtex 0.7.x`). It replaces the legacy
-`pattern-library` and `block-blueprints` skills.
+architecture: packs, components, design systems, and kits.
 
 A **component** is a Python module that exposes a callable + a docstring
 following PLAN §4.1 (Visual / Structure / Styling rules / Extrapolation

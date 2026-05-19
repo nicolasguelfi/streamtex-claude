@@ -111,7 +111,7 @@ PE and CE are **parallel and independent** :
 
 ## 7. Pack-side semver policy
 
-The "Stay on 0.7.X" rule (memory `feedback_no_minor_bump`) applies to
+The stay-on-patches rule (memory `feedback_no_minor_bump`) applies to
 **streamtex** the library, NOT to **packs**. Each pack has its own
 semver life-cycle :
 

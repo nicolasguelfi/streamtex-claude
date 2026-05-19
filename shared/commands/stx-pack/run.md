@@ -1,4 +1,4 @@
-Manage StreamTeX packs (reuse architecture — PLAN §6.2 / 0.7.x).
+Manage StreamTeX packs (reuse architecture).
 
 Arguments: $ARGUMENTS
 

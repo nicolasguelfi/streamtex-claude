@@ -1,4 +1,4 @@
-Manage StreamTeX components (reuse architecture — PLAN §7.2 / 0.7.x).
+Manage StreamTeX components (reuse architecture).
 
 Arguments: $ARGUMENTS
 

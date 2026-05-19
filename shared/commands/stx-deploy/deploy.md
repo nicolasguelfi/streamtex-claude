@@ -19,7 +19,7 @@ Parse `$ARGUMENTS` as: `[PATH] [OPTIONS]`
 - `--help` — Show deployment guide
 
 **Serve modes**:
-- `streamlit-only` (default): Streamlit on port 8501, legacy behavior
+- `streamlit-only` (default): Streamlit on port 8501, no Nginx layer
 - `dual`: Nginx on port 80 proxies Streamlit + serves pre-exported static HTML at `/html/`. Auto-fallback to static if Streamlit is down.
 - `static-only`: Nginx serves static HTML only. Lowest resource usage, no interactivity.
 

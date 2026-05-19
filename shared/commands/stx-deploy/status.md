@@ -79,7 +79,7 @@ Projects (N deployed):
 
 The **Replicas** column shows `healthy/total` when replicas > 1, or just `1` for single instances.
 Replica containers are hidden from the table — only the primary is shown with aggregate info.
-The **Mode** column shows the serve mode: `dual` (Nginx + Streamlit), `static` (Nginx only), or `streamlit` (legacy).
+The **Mode** column shows the serve mode: `dual` (Nginx + Streamlit), `static` (Nginx only), or `streamlit` (no Nginx).
 
 Use `stx deploy status coolify` for the CLI equivalent.
 

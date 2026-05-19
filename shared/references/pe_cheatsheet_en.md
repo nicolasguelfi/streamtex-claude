@@ -114,7 +114,7 @@ You don't need to type `/stx-pe:*`. The free-text `/stx-ce:task` command auto-cl
 | Component CHANGED (signature, output, INVARIANTS) | minor |
 | Component ADDED only (or doc fixes) | patch |
 
-Independent from streamtex library's "stay on 0.7.X" rule — each user pack has its own version trajectory.
+Independent from streamtex library's stay-on-patches rule — each user pack has its own version trajectory.
 
 ## CLI commands orchestrated by PE
 

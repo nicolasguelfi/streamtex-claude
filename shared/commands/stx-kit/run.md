@@ -1,4 +1,4 @@
-Manage StreamTeX kits (PLAN §7.4 / 0.7.x).
+Manage StreamTeX kits.
 
 Arguments: $ARGUMENTS
 
