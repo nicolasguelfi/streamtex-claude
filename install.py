@@ -86,16 +86,19 @@ CATEGORY_PATHS = {
         "developer": "developer/skills",
         "presentation": "designer/presentation/skills",
         "ce": "ce/skills",
+        "pack-engineering": "pack-engineering/skills",
     },
     "agents": {
         "designer": "designer/agents",
         "developer": "developer/agents",
         "presentation": "designer/presentation/agents",
         "ce": "ce/agents",
+        "pack-engineering": "pack-engineering/agents",
     },
     "templates": {
         "designer": "designer/templates",
         "ce": "ce/templates",
+        "pack-engineering": "pack-engineering/templates",
     },
     "tools": {
         "designer": "designer/tools",

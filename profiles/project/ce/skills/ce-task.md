@@ -22,6 +22,11 @@ Analyze the free-text task description using AI understanding with keyword hints
    - **PLAN AMENDMENT**: keywords "update plan", "add to plan", "reorder", "remove from plan", "amend"
    - **TARGETED COMPOUND**: keywords "capitalize", "save learning", "extract pattern", "document pattern"
    - **SOURCE ANALYSIS**: keywords "analyze source", "extract from", "list topics", "what does the source say"
+   - **PACK_BOOTSTRAP**: keywords "extract pack", "from scratch", "bootstrap pack", "new pack from projects", "factoriser composants"
+   - **PACK_SPECIALIZE**: keywords "specialize pack", "fork pack", "extend pack", "upstream pack"
+   - **PACK_REFINE**: keywords "refine pack", "enrichir pack", "capture emerged patterns", "add to pack"
+   - **PACK_AUDIT**: keywords "audit pack", "pack health", "unused components", "pack duplicates"
+   - **PACK_ADOPT**: keywords "adopt pack", "install pack in projects", "wire pack"
 5. **Detect composite tasks**: If multiple archetypes are detected, decompose and sequence them (each step feeds the next).
 6. **Ambiguity handling**: If the classification is not confident, present interpretation and ask user to confirm before proceeding.
 
@@ -147,6 +152,33 @@ Execute each archetype in sequence (for composite tasks, each step receives the 
    - **Key concepts**: definitions and terminology
    - **Structure**: document organization and flow
 3. Generate analysis report using the **task-analysis** template.
+
+#### Archetypes: PACK_BOOTSTRAP / PACK_SPECIALIZE / PACK_REFINE / PACK_AUDIT / PACK_ADOPT
+
+These archetypes delegate to the **Pack Engineering (PE)** subsystem. They are NOT executed inline by `ce-task` ; instead they invoke the `pack-orchestrator` agent (which is the single user-facing agent for the entire PE galaxy). The verb is derived from the archetype :
+
+| Archetype | Delegates to | Equivalent command |
+|---|---|---|
+| PACK_BOOTSTRAP | `pack-orchestrator` with verb `bootstrap` | `/stx-pe:bootstrap <projects>` |
+| PACK_SPECIALIZE | `pack-orchestrator` with verb `specialize` | `/stx-pe:specialize <upstream> <projects>` |
+| PACK_REFINE | `pack-orchestrator` with verb `refine` | `/stx-pe:refine` |
+| PACK_AUDIT | `pack-orchestrator` with verb `audit` | `/stx-pe:audit <pack>` |
+| PACK_ADOPT | `pack-orchestrator` with verb `adopt` | `/stx-pe:adopt <pack> <projects>` |
+
+**Read these PE skill files before delegating** :
+1. `.claude/pack-engineering/skills/pe-conventions.md`
+2. `.claude/pack-engineering/skills/pe-go.md`
+3. The sub-mode skill matching the archetype : `pe-bootstrap.md` / `pe-specialize.md` / `pe-refine.md` / `pe-audit.md` / `pe-adopt.md`
+4. `.claude/pack-engineering/agents/pack-orchestrator.md`
+
+Argument extraction from task description :
+- Project paths : detect positional paths or "from <projects>" mentions.
+- Upstream ref : detect `git:...`, `pypi:...`, or "upstream <name>" mentions.
+- Pack ref : detect "for pack <name>" or "audit <pack>" mentions.
+
+The orchestrator handles all user-facing interaction including the 4 fundamental gates (G1, G2, G3, G4). `ce-task` simply hands off and waits for completion ; the orchestrator's outputs are written to `docs/pack-engineering/` (not `docs/plans/` or `docs/reviews/`).
+
+**PUBLISH is intentionally excluded** from auto-routing — releasing a pack requires explicit `/stx-pe:publish <pack-path>` to prevent accidental publishes.
 
 ### Step 5: RECONCILE — Update Lifecycle Artifacts
 

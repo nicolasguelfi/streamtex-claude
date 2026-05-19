@@ -34,6 +34,35 @@ Before executing any phase, the orchestrator builds a contextual proposal by rea
 
 5. **Capture decision** in `decisions_log` and set the internal `scope` for downstream phases.
 
+### Step 0bis: Detect Pack Engineering Intent (route to PE)
+
+Before launching the main CE pipeline, analyze the prompt for Pack Engineering intent. If detected, **suspend ce-go and hand off to `pack-orchestrator`** — PE is its own lifecycle and must not interleave with CE phases.
+
+Trigger keywords (case-insensitive, French + English) :
+
+| Sub-mode | Triggers |
+|---|---|
+| `bootstrap` | "extract pack", "from scratch", "bootstrap pack", "new pack from projects", "factoriser composants depuis", "extraire un pack" |
+| `specialize` | "specialize pack", "fork pack", "extend pack", "upstream pack", "spécialiser <pack>", "étendre <pack>" |
+| `refine` | "refine pack", "enrichir pack", "capture emerged patterns", "add to pack" |
+| `audit` | "audit pack", "pack health", "unused components", "santé du pack" |
+| `adopt` | "adopt pack in projects", "install pack in N projects", "wire pack" |
+| `publish` | NEVER auto-routed (requires explicit `/stx-pe:publish`) |
+
+Routing :
+1. If a single PE trigger is detected with high confidence → confirm with QCM :
+
+   > "L'intention détectée concerne l'ingénierie de pack (sous-mode `<mode>`). Lancer le cycle PE plutôt que CE ?"
+   > - Oui, lancer `/stx-pe:<mode>` (Recommandé)
+   > - Non, continuer en CE
+   > - Discutons-en
+
+2. If confirmed → invoke `pack-orchestrator` with the chosen verb and stop ce-go. The orchestrator handles its own lifecycle (gates G1-G4) and writes outputs to `docs/pack-engineering/`.
+
+3. If declined or no PE intent → continue with CE Step 1 (COLLECT) as normal.
+
+Read `.claude/pack-engineering/skills/pe-conventions.md` + `.claude/pack-engineering/agents/pack-orchestrator.md` before delegating.
+
 ### Internal Flags (not exposed in default flow)
 
 The following flags remain implemented but are inferred from dialogue rather than typed by the user. Power users may still pass them directly:
