@@ -133,6 +133,7 @@ def check_manifest_categories_covered() -> None:
         "agents": "convert_agents",
         "templates": "convert_templates",
         "tools": "convert_tools",
+        "guidelines": "convert_guidelines",
         "shared": "convert_references",  # shared -> references + commands
     }
 
