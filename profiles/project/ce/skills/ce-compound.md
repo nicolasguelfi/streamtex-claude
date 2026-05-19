@@ -98,12 +98,12 @@ This phase complements the patterns already captured at the local level during P
    *"<N> compositions visuelles émergentes détectées. Recommandé : capturer toutes celles marquées (✓). Que faites-vous ?"*
 
    Options:
-   - `Tout capturer (Recommandé)` — runs `/stx-component:new --from <block>` for each candidate
+   - `Tout capturer (Recommandé)` — runs `stx component new <name>` for each candidate (extracting the recurring visual idiom from `<block>` into the new component)
    - `Recommandés uniquement` — captures the marked subset
    - `Sélection à préciser` — drill down per candidate
    - `Discutons-en`
 
-4. For each captured pattern, update `master-plan.yaml -> patterns.applied` with `level: local`, the new pattern name, and the blocks that use it.
+4. For each captured component, update `master-plan.yaml -> components.applied` with `level: local`, the new component name, and the blocks that use it.
 5. Promotion `draft → local` is implicit when capture is done at this step. Promotion `local → shared` happens in INTEGRATE.
 
 Append `decisions_log` entries for every QCM.

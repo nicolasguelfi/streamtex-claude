@@ -14,7 +14,7 @@ From a project, the typical path is `../../streamtex-docs/manuals/` or `../strea
 | Intro | `stx_manual_intro/blocks/` | Text, grids, lists, images, containers, styles, installation | ~29 |
 | Advanced | `stx_manual_advanced/blocks/` | Export, PDF, bibliography, diagrams, overlays, banners, visibility | ~48 |
 | AI | `stx_manual_ai/blocks/` | AI image generation, providers, caching, Claude profiles, prompts | ~40 |
-| Deploy | `stx_manual_deploy/blocks/` | Docker, Render, CI/CD, preflight checks | ~12 |
+| Deploy | `stx_manual_deploy/blocks/` | Docker, Hetzner/Coolify, HuggingFace, CI/CD, preflight checks | ~12 |
 | Developer | `stx_manual_developer/blocks/` | Architecture, block system, testing, CLI, migration | ~41 |
 | Collection | `stx_manuals_collection/blocks/` | Multi-project hubs | ~1 |
 
@@ -46,7 +46,7 @@ When looking for an answer:
    - Grids, lists, containers → Intro manual
    - Export, PDF, bibliography, diagrams → Advanced manual
    - AI images, Claude → AI manual
-   - Docker, Render, CI → Deploy manual
+   - Docker, Hetzner/Coolify, HuggingFace, CI → Deploy manual
    - Testing, architecture, CLI → Developer manual
 
 2. **Search block filenames** — they are descriptive:
@@ -95,5 +95,6 @@ Then fall back to:
 | "How to configure the banner?" | Advanced | `bck_banner_config` |
 | "How to use overlays?" | Advanced | `bck_overlays` |
 | "How to test blocks?" | Developer | `bck_dev_testing`, `bck_testing_gotchas` |
-| "How to deploy to Render?" | Deploy | `bck_render` |
+| "How to deploy to Hetzner/Coolify?" | Deploy | `bck_hetzner_coolify` |
+| "How to deploy to HuggingFace?" | Deploy | `bck_huggingface` |
 | "How to set up CI?" | Deploy | `bck_ci_cd` |

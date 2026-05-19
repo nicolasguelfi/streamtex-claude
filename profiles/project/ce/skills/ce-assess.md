@@ -69,7 +69,7 @@ In subsequent iterations (master plan already exists), only ask the questions wh
    - R12: Estimated length (number of sections/slides)
 4. **Delivery** (R13-R15):
    - R13: Target platform (web, PDF, both)
-   - R14: Deployment target (local, Render, Hetzner, other)
+   - R14: Deployment target (local, Hetzner/Coolify, HuggingFace, GCP, other)
    - R15: Timeline and deadlines
 5. **Sources** (R16-R18, pathway A only):
    - R16: Priority ranking of collected sources
@@ -103,7 +103,7 @@ In subsequent iterations (master plan already exists), only ask the questions wh
 Following the `master-plan.md` template in `.claude/ce/templates/`:
 
 1. **First iteration** (master plan absent):
-   - Create `docs/master-plan.yaml` with: identity (from R1-R3), objectives (free-text criteria consolidated from R8 and context), an empty `toc` (filled in PLAN), transverse_decisions defaults (filled progressively), empty patterns/iterations/decisions_log/coherence_debt, pointers to the assess report just written.
+   - Create `docs/master-plan.yaml` with: identity (from R1-R3), objectives (free-text criteria consolidated from R8 and context), an empty `toc` (filled in PLAN), transverse_decisions defaults (filled progressively), empty components/iterations/decisions_log/coherence_debt, pointers to the assess report just written.
    - Create `docs/master-plan.md` with: vue d'ensemble paragraph, objectives in prose, transverse_decisions narrative skeleton, empty TOC with a placeholder note "à renseigner en PLAN".
    - Do **not** take a snapshot — the files have just been created, there is nothing to archive.
 2. **Subsequent iteration** (master plan present):

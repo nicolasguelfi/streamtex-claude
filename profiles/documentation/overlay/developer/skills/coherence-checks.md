@@ -464,11 +464,11 @@ uv run python -c "
 import inspect
 from streamtex import st_list, st_image, st_grid, st_write, st_code, st_space, st_block, st_span
 from streamtex import st_book, st_collection, st_markdown, st_mermaid, st_plantuml, st_tikz, st_latex
-from streamtex import st_ai_image, st_ai_image_widget, st_slide_break, st_br, st_overlay
+from streamtex import st_slide_break, st_br, st_overlay
 from streamtex import show_code, show_explanation, show_details, show_code_inline
 for fn in [st_list, st_image, st_grid, st_write, st_code, st_space, st_block, st_span,
            st_book, st_collection, st_markdown, st_mermaid, st_plantuml, st_tikz, st_latex,
-           st_ai_image, st_ai_image_widget, st_slide_break, st_br, st_overlay,
+           st_slide_break, st_br, st_overlay,
            show_code, show_explanation, show_details, show_code_inline]:
     print(f'{fn.__name__}: {inspect.signature(fn)}')
 "
@@ -712,9 +712,9 @@ for cls in [PdfConfig, ExportConfig, BannerConfig]:
 
 ## Check 22: Release & Deploy Pipeline Coherence (scope: library, all)
 
-**Goal**: The release pipeline (git tag → PyPI → lock file → Render deploy → GitHub Release) is fully consistent. Every step must be completed and synchronized.
+**Goal**: The release pipeline (git tag → PyPI → lock file → Hetzner deploy → GitHub Release) is fully consistent. Every step must be completed and synchronized.
 
-**Why this check is critical**: Missing any step in the release pipeline causes silent failures: Render installs the wrong version from PyPI, GitHub shows an outdated "Latest" badge, lock files reference non-existent versions, or users install an old version. This check was added after a session where multiple pipeline steps were skipped, causing hours of debugging.
+**Why this check is critical**: Missing any step in the release pipeline causes silent failures: Coolify installs the wrong version from PyPI, GitHub shows an outdated "Latest" badge, lock files reference non-existent versions, or users install an old version. This check was added after a session where multiple pipeline steps were skipped, causing hours of debugging.
 
 **Source files**:
 - `streamtex/pyproject.toml` → `[project] version`
@@ -724,7 +724,7 @@ for cls in [PdfConfig, ExportConfig, BannerConfig]:
 - PyPI: `curl -s https://pypi.org/pypi/streamtex/json | python3 -c "import sys,json; print(json.load(sys.stdin)['info']['version'])"`
 - `streamtex-docs/uv.lock` → `name = "streamtex"` version
 - GitHub Releases: `gh release list -R nicolasguelfi/streamtex --limit 1`
-- Render deploy: `gh run list -R nicolasguelfi/streamtex-docs --workflow=render-deploy.yml --limit=1 --json conclusion`
+- Hetzner deploy: `gh run list -R nicolasguelfi/streamtex-docs --workflow=hetzner-deploy.yml --limit=1 --json conclusion`
 
 **Method**:
 1. Read the library version from `pyproject.toml` and `__init__.py` — they MUST match
@@ -733,7 +733,7 @@ for cls in [PdfConfig, ExportConfig, BannerConfig]:
 4. Query PyPI for the latest published version — MUST match library version
 5. Read `streamtex-docs/uv.lock` streamtex version — MUST match PyPI version
 6. Query GitHub Releases for the latest release — MUST match library version
-7. Query the last Render deploy workflow run — MUST be `success`
+7. Query the last Hetzner deploy workflow run — MUST be `success`
 
 **Rules**:
 - ERROR if `pyproject.toml` version ≠ `__init__.py` `__version__`
@@ -742,7 +742,7 @@ for cls in [PdfConfig, ExportConfig, BannerConfig]:
 - ERROR if PyPI latest version ≠ library version (library not published)
 - ERROR if `streamtex-docs/uv.lock` streamtex version ≠ PyPI latest (lock file stale)
 - ERROR if no GitHub Release exists for the library version
-- WARNING if the latest Render deploy workflow run is `failure`
+- WARNING if the latest Hetzner deploy workflow run is `failure`
 - WARNING if the GitHub Release for the library version is not marked as "Latest"
 - INFO: report the complete pipeline state (version, tag, PyPI, lock, release, deploy)
 
@@ -756,7 +756,7 @@ GIT_TAG=$(cd streamtex && git tag --sort=-creatordate | head -1)
 PYPI_VER=$(curl -s https://pypi.org/pypi/streamtex/json | python3 -c "import sys,json; print(json.load(sys.stdin)['info']['version'])")
 LOCK_VER=$(grep -A1 'name = "streamtex"' streamtex-docs/uv.lock | grep version | head -1 | sed 's/.*"\(.*\)".*/\1/')
 GH_RELEASE=$(gh release list -R nicolasguelfi/streamtex --limit 1 --json tagName,isLatest -q '.[0].tagName')
-RENDER_STATUS=$(gh run list -R nicolasguelfi/streamtex-docs --workflow=render-deploy.yml --limit=1 --json conclusion -q '.[0].conclusion')
+HETZNER_STATUS=$(gh run list -R nicolasguelfi/streamtex-docs --workflow=hetzner-deploy.yml --limit=1 --json conclusion -q '.[0].conclusion')
 
 echo "pyproject.toml: $LIB_VER"
 echo "__init__.py:    $INIT_VER"
@@ -765,7 +765,7 @@ echo "Git tag:        $GIT_TAG"
 echo "PyPI:           $PYPI_VER"
 echo "Lock file:      $LOCK_VER"
 echo "GitHub Release: $GH_RELEASE"
-echo "Render deploy:  $RENDER_STATUS"
+echo "Hetzner deploy: $HETZNER_STATUS"
 ```
 
 **Release pipeline checklist** (correct order):
@@ -775,9 +775,9 @@ echo "Render deploy:  $RENDER_STATUS"
 4. `git tag vX.Y.Z && git push origin vX.Y.Z`
 5. `gh release create vX.Y.Z --title "..." --notes "..." --latest`
 6. Update `streamtex-docs/uv.lock`: `uv lock --upgrade-package streamtex`
-7. Commit + push streamtex-docs
-8. `gh workflow run render-deploy.yml -R nicolasguelfi/streamtex-docs`
-9. Verify deploy success
+7. Update `streamtex-docs/.stx-version` to the new version
+8. Commit + push streamtex-docs (auto-triggers `hetzner-deploy.yml`)
+9. Verify deploy success on Coolify
 
 ---
 

@@ -8,7 +8,7 @@ Reviews the document from the reader/learner perspective. Evaluates clarity, pro
 
 Read these files:
 1. The audience profile from docs/assess/ (if available)
-2. .claude/designer/skills/block-blueprints.md (to understand expected block patterns)
+2. .claude/shared/skills/reuse-architecture.md (pack/component vocabulary; block-tier components via `stx component list --granularity block`)
 3. The document structure plan (to understand intended progression)
 4. `custom/design-guideline.md` + referenced guideline (if project has active guideline)
 

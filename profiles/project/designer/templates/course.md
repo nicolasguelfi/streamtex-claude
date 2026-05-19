@@ -32,55 +32,61 @@ Recommended for courses: `academic-structured` or `maximize-viewport`.
 A course follows a strict pedagogical progression:
 
 ### Phase 1: Context (1-2 blocks)
-- **Title block** (Blueprint 1): Course name, instructor, date
-- **Objectives block** (Blueprint 3): Learning objectives as bullet points
+- **Title block** — use `title_slide` component: course name, instructor, date
+- **Objectives block** — use `takeaways` or `composite_block`: learning objectives as bullet points
 
 ### Phase 2: Core content (N blocks)
 Each chapter follows the pattern:
-- **Section header** (Blueprint 2): Chapter title and overview
-- **Concept explanation** (Blueprint 3): Key concepts with bullets
-- **Illustration** (Blueprint 5 or 11): Diagram or AI-generated visual
-- **Practical demo** (Blueprint 6): Code examples with output
-- **Exercise / quiz** (Blueprint 3): Practice questions or key points
+- **Section header** — use `manual_section` or `slide_heading`: chapter title and overview
+- **Concept explanation** — use `composite_block` + `narrative_transition`: key concepts with bullets
+- **Illustration** — use `feature_walkthrough` or `composite_block`: diagram or AI-generated visual
+- **Practical demo** — use `composite_block` with `st_code`: code examples with output
+- **Exercise / quiz** — use `exercise_flow`: practice questions or key points
 
 ### Phase 3: Synthesis (1-2 blocks)
-- **Summary** (Blueprint 10): Key takeaways from all chapters
-- **Next steps** (Blueprint 3): References, further reading, assignments
+- **Summary** — use `takeaways`: key takeaways from all chapters
+- **Next steps** — use `composite_block`: references, further reading, assignments
 
-## Blueprint mapping
+## Component mapping (default streamtex-design pack)
 
-| Chapter element | Blueprint | Notes |
+| Chapter element | Component | Notes |
 |----------------|-----------|-------|
-| Course title | 1 — Title | First slide |
-| Learning objectives | 3 — Text Content | Bullet list |
-| Chapter header | 2 — Section Header | "Chapter N: Title" |
-| Concept explanation | 3 — Text Content | Key points |
-| Visual illustration | 5 — Image + Text | Diagram + explanation |
-| Code demonstration | 6 — Code + Result | Live code example |
-| Comparison | 4 — Two-Column Comparison | "Approach A vs B" |
-| Process/workflow | 7 — Timeline | Step-by-step |
-| Key takeaway | 8 — Quote | Important message |
-| Chapter summary | 10 — Conclusion | End-of-chapter recap |
-| Course conclusion | 10 — Conclusion | Final takeaways |
+| Course title | `title_slide` | First slide |
+| Learning objectives | `takeaways` or `composite_block` | Bullet list |
+| Chapter header | `manual_section` / `slide_heading` | "Chapter N: Title" |
+| Concept explanation | `composite_block` | Mix text + lists |
+| Visual illustration | `feature_walkthrough` | Diagram + caption |
+| Code demonstration | `composite_block` + `st_code` | Live code example |
+| Comparison | `comparison_table` | "Approach A vs B" |
+| Process/workflow | `exercise_flow` or `transition_gse` | Step-by-step |
+| Key takeaway | `cite` or `evidence_insight` | Important message |
+| Chapter summary | `takeaways` | End-of-chapter recap |
+| Course conclusion | `takeaways` | Final takeaways |
+
+If your installed pack does not expose one of these names, run
+`stx component list` to discover what is available, or scaffold a
+project-local component with `stx component new <name> --granularity composition`.
 
 ## Typical course structure (6 chapters)
 
 ```
- 1.  bck_title              Blueprint 1   Course title
- 2.  bck_objectives         Blueprint 3   Learning objectives
- 3.  bck_ch1_header         Blueprint 2   Chapter 1: Introduction
- 4.  bck_ch1_content        Blueprint 3   Chapter 1 content
- 5.  bck_ch1_demo           Blueprint 6   Chapter 1 demo
- 6.  bck_ch2_header         Blueprint 2   Chapter 2: ...
- 7.  bck_ch2_content        Blueprint 3   Chapter 2 content
- 8.  bck_ch2_comparison     Blueprint 4   Chapter 2 comparison
+ 1.  bck_title              title_slide       Course title
+ 2.  bck_objectives         takeaways         Learning objectives
+ 3.  bck_ch1_header         manual_section    Chapter 1: Introduction
+ 4.  bck_ch1_content        composite_block   Chapter 1 content
+ 5.  bck_ch1_demo           composite_block   Chapter 1 demo (code)
+ 6.  bck_ch2_header         manual_section    Chapter 2: ...
+ 7.  bck_ch2_content        composite_block   Chapter 2 content
+ 8.  bck_ch2_comparison     comparison_table  Chapter 2 comparison
  ...
-13.  bck_ch6_content        Blueprint 3   Chapter 6 content
-14.  bck_summary            Blueprint 10  Course summary
-15.  bck_next_steps         Blueprint 3   References & assignments
+13.  bck_ch6_content        composite_block   Chapter 6 content
+14.  bck_summary            takeaways         Course summary
+15.  bck_next_steps         composite_block   References & assignments
 ```
 
 ## Reference files
 
 - `.claude/designer/agents/project-architect.md` — architecture agent for planning
-- `.claude/designer/skills/block-blueprints.md` — all available blueprints
+- `.claude/shared/skills/reuse-architecture.md` — pack/component catalog
+- `stx component list` — browse every component installed in the project
+- `stx component show <name>` — read a component's contract before using it

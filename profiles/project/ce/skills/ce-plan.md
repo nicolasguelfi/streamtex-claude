@@ -99,7 +99,7 @@ Before writing the plan increment, snapshot the master plan if either file diffe
 - Append the current iteration entry in `iterations` with scope, pathway, started date.
 
 **Subsequent iterations**:
-- Update only the nodes in the current scope: refine titles, sources, notes, propositions brutes in the MD; refine statuses, patterns mapping in the YAML.
+- Update only the nodes in the current scope: refine titles, sources, notes, propositions brutes in the MD; refine statuses, components mapping in the YAML.
 - If the user requested a global structural change during this PLAN, surface a QCM before applying it: *"Modifier le squelette global du master plan ?"* → `Appliquer (Recommandé)` / `Limiter à l'incrément courant` / `Discutons-en`.
 - Append a new entry in `iterations`.
 3. The plan document must include:

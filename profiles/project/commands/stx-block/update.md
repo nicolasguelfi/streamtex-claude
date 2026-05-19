@@ -43,13 +43,13 @@ If `$ARGUMENTS` is empty, ask the user what they want to modify.
 
 | Mode | Additional readings |
 |------|-------------------|
-| Add block/slide | `block-blueprints.md`, `streamtex_cheatsheet_en.md` |
+| Add block/slide | `shared/skills/reuse-architecture.md`, `streamtex_cheatsheet_en.md` |
 | Add slide (presentation) | `slide-design-rules.md`, `presentation-design-rules.md` (if present) |
 | Change styles | `style-conventions.md`, `custom/themes.py` (if exists) |
 | Upgrade | Template files in `designer/templates/` |
 | Migrate HTML | Migration rules (see Migrate mode below) |
 | Export HTML | `streamtex_cheatsheet_en.md` Section "Export" |
-| Generate course | `block-blueprints.md`, `project-architect.md` |
+| Generate course | `shared/skills/reuse-architecture.md`, `project-architect.md` |
 | All modes | `custom/design-guideline.md` (if present) + referenced guideline from `.claude/designer/guidelines/` |
 | All modes | `custom/design-guideline.md` `## Patterns` section (if present) — named design patterns |
 
@@ -63,7 +63,7 @@ Before generating blocks, search for real examples in the StreamTeX manuals:
    - Read matching blocks to study their `build()` function, `BlockStyles` patterns, and real API usage
    - **Prioritize real examples over generating from scratch** — manual blocks are the gold standard
    - Manual index: intro (text, grids, lists, images), advanced (export, PDF, diagrams, overlays), ai (AI images), deploy (Docker, CI), developer (architecture, testing)
-3. **If NOT found** — rely on cheatsheet and block-blueprints (no action needed)
+3. **If NOT found** — rely on cheatsheet and the component catalog (`stx component list`)
 
 ## Step 0 — Read pattern catalog (MANDATORY)
 
@@ -109,13 +109,13 @@ If the mode is ambiguous, state what you detected and ask for confirmation.
 ### Workflow
 
 1. **Read context**: Read `book.py` and existing blocks to understand the project
-2. **Check blueprints**: Read `.claude/designer/skills/block-blueprints.md` and match the request to a blueprint:
-   - "title slide" → Blueprint 1
-   - "comparison X vs Y" → Blueprint 4
-   - "code demo" → Blueprint 6
-   - "steps / process" → Blueprint 7
-   - "conclusion" → Blueprint 10
-   - (See full mapping in `block-blueprints.md`)
+2. **Check the component catalog**: Read `.claude/shared/skills/reuse-architecture.md` for vocabulary, then run `stx component list --granularity block` to enumerate block-tier components. Match the request to a component:
+   - "title slide" → `title_slide`
+   - "comparison X vs Y" → `comparison_table`
+   - "code demo / walkthrough" → `feature_walkthrough`
+   - "steps / process / exercise" → `exercise_flow`
+   - "conclusion / takeaways" → `takeaways`, `narrative_transition`
+   - For unmatched intents, scaffold a custom block and consider `/stx-component:new` to capture it into the primary local pack.
 3. **Determine naming**: Assign `bck_<name>.py` using a semantic name (no numbered prefix)
 4. **Load guideline context**:
    - Load the active guideline (resolve from project default → block override)
@@ -127,7 +127,7 @@ If the mode is ambiguous, state what you detected and ask for confirmation.
    - Content adapted to the user's description using the blueprint structure
    - **MANDATORY: At least one `st_write(...)` with `toc_lvl="1"` as the first significant heading.** Without this, the block will be invisible in the sidebar and floating navigation bar (markers are auto-generated from TOC level-1 entries via `auto_marker_on_toc`). Even if the user does not explicitly ask for a title, always include one.
    - **MANDATORY: Use the most specific `stx.*` component for each content type.** In particular, any enumeration of 2+ items MUST use `st_list()` with `l.item()` — never simulate lists with successive `st_write()` calls, markdown dashes (`"- item"`), or unicode bullets (`"• item"`). See `coding_standards.md` section 6 for BAD/GOOD patterns.
-   - When the user requests an **interactive AI image** (or "image AI editable/modifiable"), use `st_ai_image_widget(...)`. The widget is inherently interactive — the user can modify the prompt and regenerate the image without any additional parameter.
+   - When the user requests an **AI image** (declarative or "editable/modifiable"), use `st_image(prompt="<prompt>", editable=True, name="<derived_from_prompt>")`. The single `editable=True` parameter opens the editor panel on click (Prompt / AI / Edit / History tabs) — the same call covers both declarative rendering and end-user-driven editing.
 6. **Show wiring instructions**: Tell the user how to add the block to `book.py`:
    ```python
    import blocks

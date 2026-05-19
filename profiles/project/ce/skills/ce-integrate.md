@@ -1,6 +1,6 @@
 # CE Integrate
 
-Skill for the INTEGRATE phase of the Compound Engineering cycle. Routes capitalized solutions from `docs/solutions/` to their operational destinations: library issues, skill updates, documentation improvements, author custom rules, **and patterns promoted from the local catalog to the shared `streamtex-design` packsitory**.
+Skill for the INTEGRATE phase of the Compound Engineering cycle. Routes capitalized solutions from `docs/solutions/` to their operational destinations: library issues, skill updates, documentation improvements, author custom rules, **and components promoted from the local pack to a shared pack (e.g. `streamtex-design`)**.
 
 Read `.claude/ce/skills/ce-conventions.md` before invoking any user-facing question.
 
@@ -13,9 +13,9 @@ Read `.claude/ce/skills/ce-conventions.md` before invoking any user-facing quest
 3. Filter to solutions where:
    - `integrated` is `false`, or
    - `integrated` field is absent (legacy solutions)
-4. **Load patterns at `local` level**: read `master-plan.yaml -> patterns.applied`, filter to entries with `level: local` and no `promoted_at` value. These are candidates for promotion to the shared catalog.
+4. **Load components at `local` level**: read `master-plan.yaml -> components.applied`, filter to entries with `level: local` and no `promoted_at` value. These are candidates for promotion to a shared pack.
 5. If `--target <file>` is set, process only that file.
-6. If no unintegrated solutions and no local patterns are found, report "Nothing to integrate" and exit.
+6. If no unintegrated solutions and no local components are found, report "Nothing to integrate" and exit.
 
 ### Phase 2: Classify Destinations
 
@@ -90,18 +90,16 @@ For each validated integration:
 2. If the solution is a guideline refinement → update the relevant section
 3. Present the proposed change to the user before applying.
 
-#### 4d. Pattern Promotion to Shared Catalog (`streamtex-design` pack)
+#### 4d. Component Promotion to a Shared Pack
 
-For each pattern accepted for promotion in Phase 3:
+For each component accepted for promotion in Phase 3:
 
-1. Locate the pattern file in `mypack/components/<name>.py`.
-2. Check out the `streamtex-design` pack (the user is expected to have it accessible — if not, surface a QCM proposing to clone it or skip).
-3. Create a branch `feat/promote-<pattern_name>-from-<project>`.
-4. Copy the pattern file into the appropriate preset folder (`core/`, `slides/`, `docs/`, or `projects/<X>/`) of the shared repo. The LLM judges the preset in free text based on the pattern's intent.
-5. Run `/stx-validate` in the shared repo.
-6. Commit and open a PR via `gh pr create` with the rationale in the body.
-7. Update `master-plan.yaml -> patterns.applied[*].level = shared` and `promoted_at = <date>` for this pattern.
-8. Record the PR URL in the corresponding entry.
+1. Locate the component file in `mypack/components/<name>.py`.
+2. Identify the target pack from the routing decision (e.g. `streamtex-design` or another git/pypi pack already declared in `stx.toml`).
+3. Run `stx component promote <name> --to <pack>` from the project root. The CLI handles the branch creation, file copy into the pack's `components/` directory, optional commit, and PR opening (cf. `component_cmd.py promote` for the exact behaviour — note that PyPI destinations are refused with `PR001`).
+4. Run `stx validate` (or `stx component validate <name>`) inside the target pack to confirm the contract still holds.
+5. Update `master-plan.yaml -> components.applied[*].level = shared` and `promoted_at = <date>` for this component.
+6. Record the resulting PR URL (or commit SHA for plain-copy local packs) in the corresponding entry.
 
 ### Phase 5: Mark as Integrated
 

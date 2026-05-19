@@ -27,12 +27,13 @@ project's `custom/styles.py` and palette, not a copy-paste.
 
 1. **Load context**: Read `documentation/streamtex_cheatsheet_en.md` for syntax reference.
 2. **Read architecture**: Read the target project's `book.py` to understand how blocks are wired. For reference, see `documentation/template_project/book.py` or `documentation/manuals/stx_manual_intro/book.py`.
-3. **Check blueprints**: Read `.claude/designer/skills/block-blueprints.md` and check if a blueprint matches the requested block type. If a match is found, use it as the structural base and adapt it to the user's specific context (subject, palette, audience). Common matches:
-   - "title slide" → Blueprint 1 (bck_title)
-   - "comparison X vs Y" → Blueprint 4 (bck_comparison)
-   - "code demo" → Blueprint 6 (bck_code_demo)
-   - "steps / process" → Blueprint 7 (bck_timeline)
-   - "summary / conclusion" → Blueprint 10 (bck_conclusion)
+3. **Check the component catalog**: Read `.claude/shared/skills/reuse-architecture.md` for the pack/component vocabulary, then run `stx component list --granularity block` to enumerate block-tier components available in installed packs (default: `streamtex_design`). If a component matches the requested block intent, import and call it from the new block file. Common matches:
+   - "title slide" → `title_slide` (streamtex_design.components)
+   - "comparison X vs Y" → `comparison_table`
+   - "code demo / walkthrough" → `feature_walkthrough`
+   - "steps / process / exercise" → `exercise_flow`
+   - "summary / conclusion / takeaways" → `takeaways` or `narrative_transition`
+   For unmatched intents, scaffold from scratch and consider `/stx-component:new` to capture the new component into the project's primary local pack.
 3a. **Load guideline**: If `custom/design-guideline.md` exists in the target project,
     read it and load the referenced guideline from `.claude/designer/guidelines/`.
 3b. **Load patterns**: Check `custom/design-guideline.md` for a `## Patterns` section.

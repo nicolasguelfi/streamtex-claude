@@ -183,7 +183,7 @@ st_image(uri="ai/concept.png", editable=True, name="concept",
 
 ```python
 from streamtex import set_ai_image_config, AIImageConfig
-from streamtex import st_ai_image, st_ai_image_widget, generate_image
+from streamtex import st_image, generate_image
 
 # Configure in book.py (once)
 set_ai_image_config(AIImageConfig(
@@ -193,17 +193,15 @@ set_ai_image_config(AIImageConfig(
     auto_generate=False,           # Manual mode (button) by default
 ))
 
-# Declarative — in block code
-st_ai_image("a minimalist neural network diagram, flat design, dark bg",
-            width="100%", provider="openai", size="1024x1024",
-            api_key=None)  # Per-call API key override (bypasses config/env)
+# Declarative AI image (unified API since 0.7.x)
+st_image(prompt="a minimalist neural network diagram, flat design, dark bg",
+         editable=True, name="neural_net",
+         width="100%", provider="openai", ai_size="1024x1024")
 
-# Interactive — widget with prompt input + generate button
-st_ai_image_widget(default_prompt="a serene landscape", key="my_gen",
-                   show_save=True, api_key=None,
-                   style=s.ai_image, width="100%", height="auto",
-                   size="1024x1024", quality="standard", model=None,
-                   alt="", light_bg=False, config=None)
+# Interactive editing — same call; clicking the image opens the
+# editor panel (Prompt / AI / Edit / History tabs).
+st_image(prompt="a serene landscape", editable=True, name="landscape",
+         provider="openai", ai_size="1024x1024", quality="standard")
 
 # Programmatic — generate without displaying (e.g. Claude workflow)
 path = generate_image("a futuristic city", provider="openai",
@@ -211,7 +209,7 @@ path = generate_image("a futuristic city", provider="openai",
 st_image(uri=path, width="100%")
 ```
 
-**API keys** via environment variables (`.env` or Render):
+**API keys** via environment variables (`.env` or Coolify env vars):
 ```bash
 STX_OPENAI_API_KEY=sk-...
 STX_GOOGLE_AI_KEY=AIza...
@@ -655,8 +653,7 @@ st_book(
     chrome_banner=True,             # Show browser recommendation banner (Chrome/Edge)
     doc_version=None,               # str | None — version string shown in sidebar
     loading=True,                   # Show loading overlay with progress (default True)
-    banner_color="rgba(211,47,47,0.8)",  # Legacy — use banner=BannerConfig(...) instead
-    monties_color=None,             # Legacy — use banner=BannerConfig(...) instead
+    banner_color="rgba(211,47,47,0.8)",  # Shorthand — prefer banner=BannerConfig(...)
 )
 ```
 
@@ -2250,7 +2247,7 @@ stx deploy hetzner [PATH] --serve-mode dual  # deploy with Nginx + Streamlit (st
 stx deploy update [TARGET]         # rebuild service + all replicas (default) or --quick restart
 stx deploy update [TARGET] --serve-mode static-only  # switch to static HTML only
 stx deploy scale TARGET --replicas N  # scale service to N containers (load-balanced)
-stx deploy status coolify|render|huggingface [NAME]  # check health, replicas, serve mode
+stx deploy status coolify|huggingface [NAME]  # check health, replicas, serve mode
 
 # Export
 stx export html [PATH]             # export project to static HTML (for dual/static-only mode)
@@ -2263,9 +2260,7 @@ stx export html --title "My Doc" .      # custom HTML title
 
 ```bash
 stx deploy docker [PATH]           # build and run locally with Docker
-stx deploy render [PATH]           # generate render.yaml (legacy, Hetzner preferred)
 stx deploy huggingface [PATH]      # deploy to HuggingFace Spaces
-stx deploy env-sync                # sync env vars from render.yaml to Render services
 ```
 
 ### Claude / AI Profiles
@@ -2396,25 +2391,35 @@ COLLECT → ASSESS → PLAN → PROTOTYPE → PRODUCE → REVIEW → FIX → COM
 
 3 pathways: **A** (import external), **B** (improve existing), **C** (create new).
 
-## Patterns
+## Reuse architecture (packs / components / DS / kits)
 
-Reusable graphic design patterns. Read by Claude at block-generation
-time. Catalog : the primary local pack (`./mypack/components/`).
+Reusable graphic design building blocks live in Python packs declared in
+`stx.toml`. A pack can be a project sub-folder (primary local), a local
+path elsewhere, or a git repository. The default `streamtex-design`
+pack ships 18 components, 3 design systems, and 4 kits.
 
 ### CLI
 
 ```
-stx patterns list                # list patterns available
-stx patterns presets             # list presets
-stx patterns install --preset slides    # install a preset
-stx patterns install --pattern ptn_callout  # install one pattern
-stx patterns update              # refresh from source (drift detection)
-stx patterns sync                # idempotent install + update
-stx patterns status              # show drift state
-stx patterns diff <name>         # diff installed vs source
-stx patterns validate [--all]    # check format A2 compliance
-stx patterns promote <name>      # push local edit to source repo
-stx patterns remove <name>       # uninstall
+stx pack list                                     # list discovered packs
+stx pack add <git_url> [--rev <tag>]              # add a pack
+stx pack sync                                     # refresh packs to declared revisions
+stx pack info <name>                              # pack lifecycle state + manifest
+
+stx component list [--granularity primitive|composition|block]
+stx component show <pack>:<name>                  # signature + docstring
+stx component new <name> [--pack <pack>]          # scaffold into primary local pack
+stx component promote <name> --to <pack_name>     # routes per Q12 (local / git PR)
+
+stx ds list                                       # design systems across packs
+stx ds switch <pack>:<name>                       # set [design_system].use
+stx ds new <name> [--pack <pack>]                 # scaffold a new DS
+
+stx kit list                                      # kits across packs
+stx kit install <pack>:<kit_name>                 # apply a kit (DS + components)
+stx kit new <name> [--pack <pack>]                # scaffold a new kit
+
+stx validate [--strict]                           # aggregate validation, exit 0/1/2
 ```
 
 ### Slash commands (Claude)

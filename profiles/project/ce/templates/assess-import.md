@@ -51,7 +51,7 @@ Import assessment report (pathway A) — defines requirements and import strateg
 | Req | Description | Specification |
 |-----|-------------|---------------|
 | R13 | Delivery format | <web / PDF / both> |
-| R14 | Deployment target | <local / Render / Hetzner / other> |
+| R14 | Deployment target | <local / Hetzner-Coolify / HuggingFace / other> |
 | R15 | Update frequency | <one-shot / periodic / continuous> |
 
 ### Sources (R16-R18)

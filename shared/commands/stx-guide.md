@@ -21,7 +21,6 @@ Tu as acces aux CLI suivants et tu PEUX les utiliser pour agir directement :
 | `uv` | uv | Gestion deps Python, run, build, publish |
 | `stx` | StreamTeX CLI | Commandes StreamTeX (workspace, deploy, publish, etc.) |
 | `docker` | Docker | Build et run de conteneurs |
-| `render` | Render CLI v2 | **(legacy)** Gerer les services Render — remplace par Hetzner/Coolify |
 
 ### Quand executer vs expliquer
 
@@ -39,10 +38,6 @@ gh repo list nicolasguelfi --json name,url -q '.[] | select(.name | contains("st
 /stx-deploy:status                    # Statut de l'infrastructure
 /stx-deploy:deploy                    # Deployer un projet
 /stx-deploy:update                    # Mettre a jour les deploiements
-
-# Render (legacy) — les commandes ci-dessous ne sont plus utilisees en production
-# render services --output json
-# render deploys list --service-id <id> --output json
 ```
 
 ## Routage de $ARGUMENTS
@@ -314,26 +309,14 @@ stx deploy docker [PATH]          # Build + run Docker
   --tag TAG                       # Tag de l'image (defaut: nom du repertoire)
   --build-only                    # Build sans lancer le conteneur
 
-stx deploy render [PATH]          # Genere render.yaml
-  --name NAME                     # Nom du service Render
-  --branch BRANCH                 # Branche git (defaut: main)
-  --plan PLAN                     # Plan Render (defaut: free)
-  --env KEY=VALUE                 # Variables d'environnement (repetable)
-  --multi                         # Mode multi-service (un par manuel)
-
 stx deploy huggingface [PATH]     # Deploy sur HuggingFace Spaces
   --space URL                     # URL du Space HF (requis)
   --title TITLE                   # Titre du Space
   --emoji EMOJI                   # Emoji du Space (defaut: chart_with_upwards_trend)
   --skip-push                     # Prepare sans pusher
 
-stx deploy env-sync               # Synchronise les env vars render.yaml → Render API
-  --path PATH                     # Repertoire projet (defaut: .)
-  --dry-run                       # Affiche le diff sans appliquer
-  --service NAME                  # Synchronise un seul service
-
 stx deploy status PLATFORM [NAME] # Statut de deploiement
-  PLATFORM                        # "render" ou "huggingface"
+  PLATFORM                        # "huggingface" (Render removed in 0.7.1)
   NAME                            # Nom du service (optionnel, auto-discover sinon)
   --path PATH                     # Repertoire projet pour la decouverte
   --timeout SECONDS               # Timeout HTTP (defaut: 10)
@@ -552,13 +535,6 @@ gh secret set COOLIFY_API_TOKEN -R nicolasguelfi/<repo> --body "<cle-api-coolify
 # Declenchement manuel (deploie tous les services) :
 gh workflow run hetzner-deploy.yml -R nicolasguelfi/<repo>
 ```
-
-#### Deploiement Render (legacy)
-
-> **Note** : Render n'est plus la plateforme de production. Les commandes
-> `stx deploy render` et `stx deploy env-sync` existent encore mais sont
-> conservees uniquement pour compatibilite. Utiliser Hetzner/Coolify pour
-> tout nouveau deploiement.
 
 ### 4.5 Deploiement HuggingFace Spaces
 
@@ -921,11 +897,14 @@ STX_FAL_KEY=fal-...
 ### Utilisation
 
 ```python
-# Declaratif — generer + afficher
-st_ai_image("A minimalist diagram of microservices")
+# Declaratif AI image (API unifiee depuis 0.7.x)
+st_image(prompt="A minimalist diagram of microservices",
+         editable=True, name="microservices")
 
-# Widget interactif — l'utilisateur tape le prompt dans le navigateur
-st_ai_image_widget(default_prompt="A cloud architecture diagram")
+# Editions interactives — meme appel; cliquer sur l'image ouvre
+# le panneau editeur (onglets Prompt / AI / Edit / History).
+st_image(prompt="A cloud architecture diagram",
+         editable=True, name="cloud_arch")
 
 # Programmatique — sauvegarder sur disque
 from streamtex import generate_image
@@ -1641,17 +1620,16 @@ stx validate
 | Deploy Hetzner/Coolify | `/stx-deploy:deploy` |
 | Statut Hetzner/Coolify | `/stx-deploy:status` |
 | Deploy HuggingFace | `stx deploy huggingface . --space URL` |
-| Generer render.yaml (legacy) | `stx deploy render .` |
 | Check publication | `stx publish check .` |
 | Publier sur PyPI (local) | `stx publish pypi .` (lit `.env` auto) |
 | Publier sur PyPI (CI) | `gh release create vX.Y.Z` (OIDC) |
 | Generer stubs bib | `stx bib generate-stubs refs.bib` |
 | Lancer un projet | `stx run` |
-| Patterns — installer un preset | `stx patterns install --preset slides` |
-| Patterns — mettre a jour | `stx patterns update` |
-| Patterns — statut/drift | `stx patterns status` |
-| Patterns — valider format | `stx patterns validate --all` |
-| Patterns — promouvoir | `stx patterns promote <name>` |
+| Reuse — installer un kit | `stx kit install streamtex-design:slides-modern-dark` |
+| Reuse — synchroniser les packs | `stx pack sync` |
+| Reuse — lister les packs + état | `stx pack list` |
+| Reuse — valider (errors/warnings) | `stx validate [--strict]` |
+| Reuse — promouvoir un composant | `stx component promote <name> --to <pack>` |
 
 ### Commandes Claude (issues)
 
@@ -1771,14 +1749,3 @@ stx validate
 | Voir le dernier run | `gh run list -R nicolasguelfi/<repo> -w "Deploy to Hetzner" --limit 3` |
 | Voir les logs d'un run | `gh run view <run-id> -R nicolasguelfi/<repo> --log` |
 
-### Commandes Render CLI (legacy)
-
-> **Note** : Render n'est plus la plateforme de production. Ces commandes sont
-> conservees pour reference. Utiliser Hetzner/Coolify (`/stx-deploy:*`) pour la production.
-
-| Tache | Commande |
-|-------|----------|
-| Lister les services | `render services` |
-| Details d'un service | `render services show --id <id>` |
-| Declencher un deploy | `render deploys create --service-id <id>` |
-| Voir les logs | `render logs --service-id <id> --tail 50` |

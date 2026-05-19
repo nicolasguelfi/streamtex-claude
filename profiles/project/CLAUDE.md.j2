@@ -100,7 +100,7 @@ When the user asks a question about StreamTeX usage, patterns, or features:
    - `stx_manual_intro/blocks/` — fundamentals (text, grids, lists, images, containers, styles)
    - `stx_manual_advanced/blocks/` — advanced features (export, PDF, bibliography, diagrams, overlays, banners)
    - `stx_manual_ai/blocks/` — AI image generation, Claude profiles, prompt patterns
-   - `stx_manual_deploy/blocks/` — deployment (Docker, Render, CI/CD)
+   - `stx_manual_deploy/blocks/` — deployment (Docker, Hetzner/Coolify, HuggingFace, CI/CD)
    - `stx_manual_developer/blocks/` — library internals (architecture, testing, block system, CLI)
    - Block files are `bck_*.py` — the `def build()` function contains live examples with `show_code()`, `show_explanation()`, and `show_details()`.
 3. **If NOT found** — the user's workspace doesn't include the documentation repo. Tell them:
@@ -165,7 +165,7 @@ COLLECT → ASSESS → PLAN → PROTOTYPE → PRODUCE → REVIEW → FIX → COM
 ### Master plan
 
 Living reference for the document, **independent of git history**:
-- `docs/master-plan.yaml` — orchestration metadata (objectives, TOC, statuses, decisions log, patterns mapping)
+- `docs/master-plan.yaml` — orchestration metadata (objectives, TOC, statuses, decisions log, components mapping)
 - `docs/master-plan.md` — content plan (intentions, sources, design notes, raw content drafts)
 - `docs/master-plan/archive/YYYY-MM-DD-NNN.{yaml,md}` — paired snapshots taken automatically whenever the plan differs from the last snapshot
 

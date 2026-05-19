@@ -204,7 +204,6 @@ The following commands are pre-approved and can be run without confirmation:
 │   │   ├── skill-slide-design-rules.mdc    ← C4
 │   │   ├── skill-visual-design-rules.mdc   ← C4
 │   │   ├── skill-style-conventions.mdc     ← C4
-│   │   ├── skill-block-blueprints.mdc      ← C4
 │   │   ├── skill-testing-patterns.mdc      ← C5
 │   │   ├── skill-docs-lookup.mdc           ← C5
 │   │   ├── agent-project-architect.mdc     ← C6

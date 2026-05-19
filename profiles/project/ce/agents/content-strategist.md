@@ -7,7 +7,7 @@ Analyzes existing content, identifies themes and coverage, and validates the con
 ## Before Starting
 
 Read these files:
-1. .claude/designer/skills/block-blueprints.md
+1. .claude/shared/skills/reuse-architecture.md — pack/component vocabulary; block-tier components via `stx component list --granularity block`
 2. The source scan report (from source-scanner agent)
 3. The audience profile (from audience-analyst agent)
 4. Any existing project blocks (blocks/ directory)

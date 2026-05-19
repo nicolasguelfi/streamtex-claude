@@ -9,13 +9,13 @@ Pilots the PROTOTYPE phase: selects the pilot block(s), proposes the pattern str
 Read these files:
 
 1. `.claude/ce/skills/ce-conventions.md` — QCM format, components catalog levels.
-2. `docs/master-plan.yaml` — TOC, iterations, current scope, patterns mapping.
+2. `docs/master-plan.yaml` — TOC, iterations, current scope, components mapping.
 3. `docs/master-plan.md` — narrative TOC and propositions brutes for the increment.
 4. The current plan increment from `docs/plans/`.
 5. ``stx component list` (active packs)` — available patterns (read each `<component>.py` for any pattern referenced).
 6. The producer profile — favorite patterns, anti-patterns.
 7. The active design guideline if present.
-8. `.claude/designer/skills/block-blueprints.md` — block archetypes.
+8. `.claude/shared/skills/reuse-architecture.md` — pack/component vocabulary; block-tier components via `stx component list --granularity block`.
 
 ## Methodology
 
@@ -25,7 +25,7 @@ From the plan increment, for each planned block in scope:
 
 - Identify the archetype (title, intro, content, code-demo, comparison, callout, conclusion).
 - Identify the visual components expected (heading, body text, grids, callouts, images, code boxes).
-- Identify the patterns already mapped in `master-plan.yaml -> patterns.applied` for this block.
+- Identify the components already mapped in `master-plan.yaml -> components.applied` for this block.
 
 ### Step 2 — Select pilot block(s)
 

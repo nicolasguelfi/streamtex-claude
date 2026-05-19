@@ -61,7 +61,7 @@ Improvement assessment report (pathway B) — evaluates current document state a
 | Req | Description | Specification |
 |-----|-------------|---------------|
 | R13 | Delivery format | <web / PDF / both> |
-| R14 | Deployment target | <local / Render / Hetzner / other> |
+| R14 | Deployment target | <local / Hetzner-Coolify / HuggingFace / other> |
 | R15 | Update frequency | <one-shot / periodic / continuous> |
 
 ## Gaps Identified

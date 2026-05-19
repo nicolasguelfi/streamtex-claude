@@ -101,9 +101,9 @@ Summary of the QCM decisions captured during this prototype:
 
 ## Next Steps
 
-- [ ] Run `/stx-ce:produce` to produce the remaining blocks of the scope, applying the validated patterns and styles.
-- [ ] If patterns were captured at the local level, ensure `master-plan.yaml -> patterns.applied` reflects the mapping (block → patterns).
-- [ ] Consider promotion to the shared catalog in INTEGRATE if any pattern proves broadly applicable.
+- [ ] Run `/stx-ce:produce` to produce the remaining blocks of the scope, applying the validated components and styles.
+- [ ] If components were captured at the local level, ensure `master-plan.yaml -> components.applied` reflects the mapping (block → components).
+- [ ] Consider promotion to a shared pack in INTEGRATE if any component proves broadly applicable.
 ```
 
 ## Notes

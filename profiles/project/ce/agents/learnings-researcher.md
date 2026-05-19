@@ -7,10 +7,11 @@ Searches the docs/solutions/ directory for past documented solutions, patterns, 
 ## Before Starting
 
 Read these files:
-1. The document structure plan (from structure-architect agent)
-2. The current task description or work item
-3. `custom/design-guideline.md` + referenced guideline (if project has active guideline)
-4. The local components catalog (`stx component list` (active packs)) and the shared catalog (any a git/pypi pack declared in stx.toml installed by the project) — patterns may already cover the search topic
+1. `.claude/shared/skills/reuse-architecture.md` — pack/component/DS/kit vocabulary; discovery; capture/promote routing.
+2. The document structure plan (from structure-architect agent)
+3. The current task description or work item
+4. `custom/design-guideline.md` + referenced guideline (if project has active guideline)
+5. The local components catalog (`stx component list`) and the shared catalog (any git/pypi pack declared in stx.toml installed by the project) — components may already cover the search topic
 
 ## Methodology
 

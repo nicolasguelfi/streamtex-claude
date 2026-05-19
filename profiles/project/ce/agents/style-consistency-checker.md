@@ -12,7 +12,7 @@ Read these files:
 3. The project's book.py
 4. The project's blocks/ directory listing
 5. `.claude/designer/guidelines/<active>.md` (if project has active guideline)
-6. `docs/master-plan.yaml -> patterns.applied` — confirm that the patterns expected on each block are actually present in the block code (check INVARIANTS preservation). Flag deviations as `MAJOR` findings.
+6. `docs/master-plan.yaml -> components.applied` — confirm that the components expected on each block are actually present in the block code (check INVARIANTS preservation). Flag deviations as `MAJOR` findings.
 
 ## Methodology
 

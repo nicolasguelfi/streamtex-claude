@@ -74,9 +74,9 @@ For each slide reviewed:
   Visual + Structure):
   - Suggest adding the annotation and aligning to the pattern's code
     skeleton.
-- If a referenced pattern is missing from the catalog:
+- If a referenced component is missing from the catalog:
   - Flag as a broken reference; suggest `/stx-component:new` or
-    `stx patterns sync`.
+    `stx pack sync`.
 
 ## Output Format
 

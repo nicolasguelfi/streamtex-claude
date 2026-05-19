@@ -85,15 +85,15 @@ For each automatable finding:
 
 3. List remaining findings (manual + failed), grouped by severity.
 
-### Phase 4.5: Pattern Re-application (cohérence inter-itérations)
+### Phase 4.5: Component Re-application (cohérence inter-itérations)
 
-If the current iteration (or a recent prior iteration) introduced new patterns in `master-plan.yaml -> patterns.applied` that are not yet applied to all candidate blocks, surface a QCM:
+If the current iteration (or a recent prior iteration) introduced new components in `master-plan.yaml -> components.applied` that are not yet applied to all candidate blocks, surface a QCM:
 
-*"Le pattern `<pattern_name>` a été défini en itération <N>. <M> blocs déjà produits utilisent une composition similaire ad-hoc. Réaligner ?"*
+*"Le composant `<component_name>` a été défini en itération <N>. <M> blocs déjà produits utilisent une composition similaire ad-hoc. Réaligner ?"*
 
 Options: `Réaligner tous les blocs (Recommandé)` / `Sélection à préciser` / `Non, inscrire en dette de cohérence` / `Discutons-en`.
 
-Refusals create entries in `master-plan.yaml -> coherence_debt` with affected blocks. Acceptances trigger `/stx-block:update --target <block>` with the pattern as design directive.
+Refusals create entries in `master-plan.yaml -> coherence_debt` with affected blocks. Acceptances trigger `/stx-block:update --target <block>` with the component as design directive.
 
 Update statuses in the YAML for each modified block: `fixed`. Append `decisions_log` entries.
 

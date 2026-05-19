@@ -107,19 +107,22 @@ st_image(uri="static/images/photo.png", width="400px", height="auto", alt="Descr
 st_image(uri="static/images/logo.png", link="https://...", hover=True)
 ```
 
-## AI Image Generation — `st_ai_image()` / `st_ai_image_widget()`
+## AI Image Generation — `st_image(prompt=..., editable=True, name=...)`
 
 ```python
 # Requires: uv add "streamtex[ai]" + AIImageConfig in book.py
 
-# Declarative — generate + display
-st_ai_image("A minimalist illustration of cloud architecture")
+# Declarative AI image (unified API since 0.7.x)
+st_image(prompt="A minimalist illustration of cloud architecture",
+         editable=True, name="cloud_arch")
 
-# With provider/size override
-st_ai_image("A futuristic dashboard", provider="google", size="1024x1024")
+# With provider / size override
+st_image(prompt="A futuristic dashboard", editable=True, name="dashboard",
+         provider="google", ai_size="1024x1024")
 
-# Interactive widget — user types prompt in browser
-st_ai_image_widget(default_prompt="A modern diagram")
+# Interactive editing — clicking the image opens the editor panel
+# (Prompt / AI / Edit / History tabs, with a save action).
+st_image(prompt="A modern diagram", editable=True, name="diagram")
 
 # Programmatic — save to file then display
 from streamtex import generate_image
@@ -204,7 +207,7 @@ show_code_inline("inline code")               # Code without wrapper box
 ```python
 from streamtex import st_book, TOCConfig, MarkerConfig, BannerConfig
 
-toc = TOCConfig(numerate_titles=False, toc_position=0)
+toc = TOCConfig(numbering=NumberingMode.NONE, toc_position=0)
 marker = MarkerConfig(auto_marker_on_toc=1, show_nav_ui=True, draggable=True, collapsible=True)
 
 st_book([blocks.bck_01, blocks.bck_02, ...],
@@ -274,47 +277,40 @@ Design guidelines are AI skills that define a visual philosophy for the project.
 
 ---
 
-## Pattern commands
+## Reuse architecture commands
 
-Reusable graphic design patterns from the active packs (see reuse-architecture skill). The
-catalog is read by Claude before generating any block.
+Reusable design building blocks live in **packs** declared in `stx.toml`.
+A pack can be a project sub-folder (primary local), a path elsewhere on
+disk (secondary local), or a git repository. See
+`shared/skills/reuse-architecture.md` for the full vocabulary.
 
 ### CLI
 
 | Command | Role |
 |---|---|
-| `stx patterns list` | List available patterns |
-| `stx patterns presets` | List available presets |
-| `stx patterns install --preset <name>` | Install a preset |
-| `stx patterns install --pattern <a,b,c>` | Install specific patterns |
-| `stx patterns update` | Refresh from source (drift-aware) |
-| `stx patterns sync` | Idempotent install + update |
-| `stx patterns status` | Show drift state |
-| `stx patterns diff <name>` | Diff installed vs source |
-| `stx patterns validate [--all]` | Check format A2 |
-| `stx patterns promote <name>` | Push local edit to source |
-| `stx patterns remove <name>` | Uninstall |
-| `stx patterns init` | Scaffold a new pattern in the source repo |
-
-### Slash commands
-
-| Command | Role |
-|---|---|
-| `/stx-component:list` | List patterns in current project |
-| `/stx-component:show <name>` | Display the full pattern file |
-| `/stx-component:new <description>` | Create a new pattern (conversational) |
-| `/stx-validate` | Aggregate validation across active packs (`stx validate`) |
-| `/stx-component:validate [name|--all]` | Lint format A2 |
+| `stx pack list` | List discovered packs + lifecycle state |
+| `stx pack add <git_url> [--rev <tag>]` | Add a git pack to stx.toml |
+| `stx pack sync` | Refresh packs to declared revisions |
+| `stx pack info <name>` | Show pack manifest + state |
+| `stx component list [--pack <pack>]` | List components across installed packs |
+| `stx component show <name>` | Show source + docstring contract |
+| `stx component find <query>` | Substring search across names + tags |
+| `stx component new <name> [--pack <pack>] [--granularity primitive\|composition\|block]` | Scaffold a new component in the primary local pack by default |
+| `stx component validate [<name>]` | Validate one component, or every component if no name |
+| `stx component promote <name> --to <pack> [--no-commit]` | Promote to another pack (Q12 routing) |
+| `stx ds list` | List design systems across packs |
+| `stx ds show <ref>` | Inspect a design system |
+| `stx ds switch <ref>` | Set `[design_system].use` |
+| `stx ds new <name> [--pack <pack>]` | Scaffold a new design system |
+| `stx ds validate [<ref>]` | Validate one or every design system |
+| `stx kit list` | List kits across packs |
+| `stx kit show <ref>` | Inspect a kit |
+| `stx kit install <ref>` | Apply a kit (set DS + record `[kit].use`) |
+| `stx kit new <name> [--pack <pack>] [--design-system <ds>]` | Scaffold a new kit |
+| `stx kit validate [<ref>]` | Validate one or every kit |
+| `stx validate [--strict]` | Aggregate validation; exit 0 (OK), 1 (warnings), 2 (errors) |
 
 ### Naming convention
 
-`snake_case` everywhere — pattern filename, frontmatter `name`, code
-annotation `# @pattern: <name>`.
-
-### Patterns vs blueprints
-
-- Blueprint = whole block type (Title, Conclusion, Exercise...)
-- Pattern = composition primitive (`ptn_stat_hero`, `ptn_callout`, `ptn_slide_heading`)
-
-A block can combine 1 blueprint × N patterns × style conventions.
-Patterns prime over blueprints when the user explicitly names one.
+`snake_case` everywhere — component filename, public function name,
+optional `# @component: <name>` annotation.

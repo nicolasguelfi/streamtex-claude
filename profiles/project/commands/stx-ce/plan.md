@@ -49,7 +49,7 @@ If a guideline is active, the structure proposals must respect its principles. E
 Before executing, read:
 1. `.claude/ce/skills/ce-plan.md` — Full workflow
 2. `docs/assess/` — Latest assessment document
-3. `.claude/designer/skills/block-blueprints.md` — Block catalog for structure planning
+3. `.claude/shared/skills/reuse-architecture.md` — pack/component vocabulary; block-tier catalog via `stx component list --granularity block`
 4. `.claude/designer/templates/` — Available project templates
 5. If Pathway C with sources >500 lines: source gap analysis is mandatory (see above)
 - If assess report references a design guideline, load it from `.claude/designer/guidelines/<name>.md`

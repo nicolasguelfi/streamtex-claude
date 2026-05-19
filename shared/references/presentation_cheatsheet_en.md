@@ -223,13 +223,17 @@ Naming convention: `static/images/bck_{description}.png`
 
 ```python
 # Declarative — generate + display (requires streamtex[ai] + AIImageConfig in book.py)
-st_ai_image("Flat vector illustration of microservices architecture, dark bg, cyan accent")
+st_image(prompt="Flat vector illustration of microservices architecture, dark bg, cyan accent",
+         editable=True, name="microservices_arch")
 
-# With overrides (use valid sizes for the target model)
-st_ai_image("A futuristic dashboard", provider="openai", size="1536x1024")
+# With provider/size overrides (use valid sizes for the target model)
+st_image(prompt="A futuristic dashboard", editable=True, name="dashboard",
+         provider="openai", ai_size="1536x1024")
 
-# Interactive widget — user types prompt in the browser
-st_ai_image_widget(default_prompt="A modern cloud architecture diagram")
+# Interactive editing — clicking the image opens the editor panel
+# (Prompt / AI / Edit / History tabs).
+st_image(prompt="A modern cloud architecture diagram",
+         editable=True, name="cloud_arch")
 
 # Programmatic — generate to file, then use st_image
 from streamtex import generate_image
@@ -452,31 +456,36 @@ Style: telegraphic keywords, bold colored accents.
 
 ---
 
-## Slides patterns (catalog)
+## Slide components (catalog)
 
-Patterns specifically designed for slide-based decks. Install with
-`stx patterns install --preset slides`.
+Components designed for slide-based decks ship in `streamtex-design`.
+Install the slides kit (bundles a coherent set + the `modern_dark` DS):
 
-| Pattern | Use case |
+```
+stx kit install streamtex-design:slides-modern-dark
+```
+
+| Component | Use case |
 |---|---|
-| `ptn_slide_heading` | Standard title row with optional tooltip (95/5 grid) |
-| `ptn_title_slide` | Cover slide (huge title + AI image + subtitle) |
-| `ptn_stat_hero` | Single oversized statistic with body and source |
-| `ptn_evidence_insight` | Stat + takeaways + source (composite) |
-| `ptn_exercise_flow` | Workshop exercise (briefing → action → debrief, 3 slides) |
-| `ptn_categorized_grid` | Multi-category card grid with named groups |
-| `ptn_takeaways` | 3–5 numbered key insights |
-| `ptn_callout` | Highlighted info/warning/critical/success box |
-| `ptn_card_grid` | Responsive grid of cards (taxonomies) |
-| `ptn_comparison_table` | Multi-column table with header and active rows |
-| `ptn_cite` | Source attribution footer |
-| `ptn_inline_emphasis` | Inline keyword/accent/highlight in mixed-style text |
+| `slide_heading` | Standard title row with optional tooltip (95/5 grid) |
+| `title_slide` | Cover slide (huge title + AI image + subtitle) |
+| `stat_hero` | Single oversized statistic with body and source |
+| `evidence_insight` | Stat + takeaways + source (composite) |
+| `exercise_flow` | Workshop exercise (briefing → action → debrief, 3 slides) |
+| `categorized_grid` | Multi-category card grid with named groups |
+| `takeaways` | 3–5 numbered key insights |
+| `callout` | Highlighted info/warning/error/success box |
+| `card_grid` | Responsive grid of cards (taxonomies) |
+| `comparison_table` | Multi-column table with header and active rows |
+| `cite` | Source attribution footer |
+| `inline_emphasis` | Inline keyword/accent/highlight in mixed-style text |
 
-When asking Claude to generate a slide, you can name a pattern:
+When asking Claude to generate a slide, you can name a component:
 *"create a slide that compares Cursor vs Claude Code, use the
-`ptn_comparison_table` pattern"*.
+`comparison_table` component"*.
 
-See `streamtex_cheatsheet_en.md` for the full pattern CLI reference.
+See `streamtex_cheatsheet_en.md` for the full reuse-architecture CLI
+reference.
 
 ---
 

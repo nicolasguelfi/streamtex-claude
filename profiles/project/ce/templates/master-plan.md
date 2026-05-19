@@ -59,7 +59,7 @@ toc:
         blocks:
           - name: bck_intro
             status: <planned | prototyped | produced | reviewed | fixed | done>
-            patterns: [<pattern_name>, ...]  # patterns applied to this block
+            components: [<component_name>, ...]  # components applied to this block
       # ...
 
 transverse_decisions:
@@ -72,12 +72,12 @@ transverse_decisions:
   spacing: <free text or structured config reference>
   active_guideline: <name or null>
 
-patterns:
-  # Mapping: pattern_name -> blocks using it. Source of truth for inter-iteration consistency.
+components:
+  # Mapping: component_name -> blocks using it. Source of truth for inter-iteration consistency.
   catalog_location: <the primary local pack (./mypack/components/) | other>
   applied:
-    - name: <pattern_name>
-      level: <draft | local | shared>  # draft=docs/solutions, local=catalog, shared=streamtex-design pack
+    - name: <component_name>
+      level: <draft | local | shared>  # draft=docs/solutions, local=primary local pack, shared=git/pypi pack
       blocks: [bck_..., bck_...]
       promoted_at: <YYYY-MM-DD or null>
 
@@ -196,7 +196,7 @@ l'utilisateur. La forme structurée est dans le YAML.>
 - ...
 
 **Notes de conception** :
-- <choix de blueprint, patterns applicables, contraintes visuelles>
+- <composants applicables, contraintes visuelles>
 
 **Propositions brutes de contenu** :
 
@@ -214,19 +214,19 @@ l'utilisateur. La forme structurée est dans le YAML.>
 ### Partie 2 — <Titre>
 <...>
 
-## Patterns visuels mobilisés
+## Composants visuels mobilisés
 
-<Liste en prose des patterns du catalogue utilisés, avec mention de leur
+<Liste en prose des composants du catalogue utilisés, avec mention de leur
 niveau (brouillon / local / partagé) et des blocs qui les consomment.>
 
-- `<pattern_name>` (local) — utilisé dans <bloc(s)>. <Notes éventuelles sur
+- `<component_name>` (local) — utilisé dans <bloc(s)>. <Notes éventuelles sur
   l'extrapolation appliquée>.
 
 ## Dette de cohérence
 
 <Cette section n'existe que si au moins une divergence est documentée.
 Chaque entrée résulte d'un refus de réconciliation ou de ré-application
-de pattern, capturé en QCM.>
+de composant, capturé en QCM.>
 
 - **<id>** (créée le <date>) — <description de la divergence>. Blocs
   concernés : <liste>. Résolution : <pendante / résolue le <date>>.

@@ -28,7 +28,7 @@ If `$ARGUMENTS` is empty or only `--help`, show the Help section.
 
 1. `.claude/references/coding_standards.md` — coding rules (single source of truth)
 2. `.claude/references/streamtex_cheatsheet_en.md` — syntax reference
-3. `.claude/designer/skills/block-blueprints.md` — 12 block templates
+3. `.claude/shared/skills/reuse-architecture.md` — pack/component vocabulary; block-tier catalog via `stx component list --granularity block`
 4. `.claude/designer/agents/project-architect.md` — architecture agent
 5. `.claude/designer/skills/style-conventions.md` — style naming rules
 6. The **template file** matching the chosen template (see Template resolution below)
@@ -45,7 +45,7 @@ Before generating blocks, search for real examples in the StreamTeX manuals:
    - Read matching blocks to study their `build()` function, `BlockStyles` patterns, and `show_code()` examples
    - Use these real examples as reference for structure, style naming, and API usage
    - Manual index: intro (text, grids, lists, images), advanced (export, PDF, diagrams, overlays), ai (AI images), deploy (Docker, CI), developer (architecture, testing)
-3. **If NOT found** — rely on cheatsheet and block-blueprints (no action needed)
+3. **If NOT found** — rely on cheatsheet and the component catalog (`stx component list`)
 
 ### Presentation-specific readings
 
@@ -177,22 +177,22 @@ Next steps:
   4. Use /stx-block:audit to check compliance
 ```
 
-### Step 5 — (Optional) Install patterns preset
+### Step 5 — (Optional) Install a streamtex-design kit
 
 After scaffolding, propose to the user:
 
-> Install a streamtex-design kit to bootstrap reusable design
-> primitives? Recommended for this project type: `<preset>`.
+> Install a streamtex-design kit to bootstrap reusable components and
+> a design system? Recommended for this project type: `<kit>`.
 >
 > ```bash
-> stx patterns install --preset <preset>
+> stx kit install streamtex-design:<kit>
 > ```
 
-Choose preset based on the template:
-- `--template project` → `core`
-- `--template presentation` → `slides`
-- `--template course` → `slides`
-- `--template collection` → `core`
+Choose kit based on the template:
+- `--template project` → `project-default`
+- `--template presentation` → `slides-modern-dark`
+- `--template course` → `course-default`
+- `--template collection` → `project-default`
 
 This is a SUGGESTION (the user MAY decline). Do not block project
 generation on this step.

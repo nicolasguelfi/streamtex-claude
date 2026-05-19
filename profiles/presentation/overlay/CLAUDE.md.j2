@@ -58,9 +58,9 @@ See `.claude/references/coding_standards.md` for the full reference. Key rules:
 - Style composition: `Style + Style`, `Style + string`, `Style - string`
 
 ### Media & Visual
-- `st_image(style, uri=)` — Image handling with base64 encoding
-- `st_ai_image(prompt, ...)` — AI image generation + display (requires `streamtex[ai]`)
-- `st_ai_image_widget(...)` — Interactive AI image generation widget
+- `st_image(style, uri=)` — Local / URL image handling with base64 encoding
+- `st_image(style, prompt=, editable=True, name=, provider=, ai_size=)` — AI image generation + editor panel (Prompt / AI / Edit / History tabs); requires `streamtex[ai]`
+- `generate_image(prompt, provider=...)` — Programmatic generation without rendering
 - `st_code(style, code=, language=)` — Code blocks with Pygments
 - `st_space(dir, amount)`, `st_br()` — Spacing
 - `st_mermaid(style, code)` — Mermaid diagrams
@@ -129,13 +129,14 @@ automatically) for the full mechanism.
 `/stx-validate`. The legacy `/stx-pattern:*` commands were removed in
 streamtex 0.7.x.
 
-## Presentation patterns recommendation
+## Presentation kit recommendation
 
-For a new presentation project, install the `slides` preset which
-includes everything needed for slide-based content:
+For a new presentation project, install the `slides-modern-dark` kit
+from `streamtex-design`, which bundles everything needed for slide-based
+content along with the `modern_dark` design system:
 
-    stx patterns install --preset slides
+    stx kit install streamtex-design:slides-modern-dark
 
-This brings: core/* (slide_heading, callout, card_grid, comparison_table,
-takeaways, cite, inline_emphasis) + slides/* (title_slide, stat_hero,
-evidence_insight, exercise_flow, categorized_grid).
+Components included: `slide_heading`, `title_slide`, `stat_hero`,
+`evidence_insight`, `exercise_flow`, `categorized_grid`, `takeaways`,
+`callout`, `card_grid`, `comparison_table`, `cite`, `inline_emphasis`.

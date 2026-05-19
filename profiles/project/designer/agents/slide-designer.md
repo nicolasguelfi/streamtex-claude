@@ -14,7 +14,7 @@ Read these files **in order** (mandatory):
 1. `.claude/designer/skills/slide-design-rules.md` — **primary reference** (grid system, dark theme, placeholders)
 2. `.claude/designer/skills/visual-design-rules.md` — base visual rules (applies where not overridden)
 3. `.claude/designer/skills/style-conventions.md` — style composition patterns
-4. `.claude/designer/skills/block-blueprints.md` — template catalog for common patterns
+4. `.claude/shared/skills/reuse-architecture.md` — pack/component vocabulary; block-tier components catalog via `stx component list --granularity block`
 5. `.claude/references/presentation_cheatsheet_en.md` — quick reference for commands, templates, patterns
 6. Target project's `custom/styles.py` — available palette and compositions
 7. Target project's `CLAUDE.md` — project-specific overrides and context
@@ -54,7 +54,7 @@ non-conflicting directives. Take the stricter constraint when they differ.
 ### Image Strategy
 - When user provides images: use them in L2 image cell
 - When NO image provided **and AI image generation is configured** (`AIImageConfig` set in book.py):
-  use `st_ai_image(prompt, ...)` to generate and display the image directly
+  use `st_image(prompt=..., editable=True, name=...)` to generate and display the image directly
 - When NO image provided **and AI generation is NOT configured**: insert **placeholder + generation prompt + filename suggestion**
 - For batch/scripted generation (e.g. Claude building a full presentation): use `generate_image(prompt)` then reference the saved file with `st_image(uri=path)`
 - Naming: `static/images/bck_{NN}_{description}.png` (manual) or auto-generated hash in `static/images/ai/` (AI)

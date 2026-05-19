@@ -15,7 +15,7 @@ Before designing a project, systematically read:
 
 1. `.claude/references/coding_standards.md` — coding rules
 2. `.claude/references/streamtex_cheatsheet_en.md` — syntax reference
-3. `.claude/designer/skills/block-blueprints.md` — block template catalog
+3. `.claude/shared/skills/reuse-architecture.md` — pack/component/DS/kit vocabulary; block-tier components: `stx component list --granularity block`
 4. `.claude/designer/skills/visual-design-rules.md` — visual design rules
 
 ## Design principles
@@ -71,39 +71,49 @@ or user request), integrate its principles into all design decisions:
 
 When proposing the project structure, note: "Design guideline: <name>" in the output.
 
-### Patterns infrastructure (project bootstrap)
+### Reuse infrastructure (project bootstrap)
 
 When architecting a new StreamTeX project:
 
-1. Choose a **patterns preset** based on the project type:
-   - Course / training / presentation → `slides`
-   - Documentation manual → `docs`
-   - Hub / collection → `core`
-2. Document the choice in the project's `stx.toml` under `[patterns]`.
-3. Run `stx patterns install --preset <name>` early in the bootstrap.
-4. Mention in the project's README which patterns are used and how to
-   update them.
+1. Choose a **kit** from `streamtex-design` based on the project type:
+   - Course / training → `streamtex-design:course-default`
+   - Slide deck / presentation → `streamtex-design:slides-modern-dark`
+   - Documentation manual → `streamtex-design:manual-default`
+   - Generic project / hub → `streamtex-design:project-default`
+2. Declare `streamtex-design` in `stx.toml` under `[[packs]] type="git"`
+   (or pass `--kit streamtex-design:<kit_name>` to `stx project new`).
+3. Run `stx kit install streamtex-design:<kit_name>` early in the
+   bootstrap to record the chosen DS and kit in `stx.toml`.
+4. Mention in the project's README which kit is used and how to
+   change it (`stx kit install <pack>:<other_kit>`).
 
 If the project has unique visual idioms, plan to **author
-project-specific patterns** under `projects/<X>/` in the central repo
-or `the active packs (see reuse-architecture skill)` locally.
+project-specific components** in the project's primary local pack
+(`./mypack/components/`) via `stx component new <name>`, then promote them
+to a shared pack with `stx component promote <name> --to <pack>` when
+stable (routes per Q12 — plain copy for primary_local, git PR for
+secondary_local_with_git and git_remote; PyPI destinations are refused).
 
-### Block-to-blueprint mapping
+### Block-to-component mapping
 
-When planning a project, associate each block with a blueprint:
+When planning a project, associate each block with a component from the
+installed packs. The default mapping below assumes `streamtex-design`:
 
-| Position in the project | Recommended blueprint |
-|------------------------|---------------------|
-| First block | 1 — Title |
-| Section start | 2 — Section Header |
-| Concept explanation | 3 — Text Content |
-| Comparison | 4 — Two-Column Comparison |
-| Illustration | 5 — Image + Text |
-| Technical demo | 6 — Code + Result |
-| Process / method | 7 — Timeline |
-| Key message | 8 — Quote |
-| Visual examples | 9 — Gallery |
-| Last block | 10 — Conclusion |
+| Position in the project | Recommended component |
+|------------------------|----------------------|
+| First block | `title_slide` |
+| Section start | `manual_section` or `slide_heading` |
+| Concept explanation | `composite_block` |
+| Comparison | `comparison_table` |
+| Illustration | `feature_walkthrough` |
+| Technical demo | `composite_block` + `st_code` |
+| Process / method | `exercise_flow` or `transition_gse` |
+| Key message | `cite` or `evidence_insight` |
+| Visual examples | `card_grid` |
+| Last block | `takeaways` |
+
+Run `stx component list` (or `stx component show <name>`) to verify the
+component is installed and inspect its docstring contract before using it.
 
 ## Anti-patterns
 
@@ -111,9 +121,9 @@ Systematically avoid:
 
 - **Too many blocks (>15)** -> split into a collection with sub-projects
 - **Blocks too long (>200 lines)** -> split into atomic sub-blocks
-- **No narrative thread** -> add transition blocks (Blueprint 2)
+- **No narrative thread** -> add transition components (`narrative_transition`, `transition_gse`)
 - **Everything in a single block** -> split by concept (1 block = 1 idea)
-- **No conclusion** -> always end with a Blueprint 10
+- **No conclusion** -> always end with a `takeaways` block
 - **Starting with details** -> always start with the general context
 
 ## Output format
@@ -126,11 +136,11 @@ Type: [presentation | documentation | collection]
 Audience: [auditorium | screen | reading]
 Blocks: N
 
- N.  Block name                   Blueprint  Description
- 1.  bck_title                    1          Title slide with...
- 2.  bck_intro                    3          Introduction to...
+ N.  Block name                   Component         Description
+ 1.  bck_title                    title_slide       Title slide with...
+ 2.  bck_intro                    composite_block   Introduction to...
  ...
- N.  bck_conclusion               10         Key points and...
+ N.  bck_conclusion               takeaways         Key points and...
 
 Features:
 - Pagination: [yes/no]

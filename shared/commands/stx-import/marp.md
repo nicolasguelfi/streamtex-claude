@@ -116,12 +116,24 @@ Execute each step in order. Each step is documented in `.claude/import-formats/m
   - `auto_marker_on_toc=1` in MarkerConfig
 - Verify: `python -c "import setup; import blocks"` (all blocks load)
 
-### Reverse pattern mapping (post-import)
+### Pack-specific refactoring (post-import)
 
-<!-- D19 (PLAN §18.9) — imports are pack-agnostic. Any refactor towards
-components of a specific pack belongs to a user-prepared custom artifact
-in `.claude/custom/skills/import-<pack>-mapping.md` or
-`.claude/custom/commands/refactor-<pack>/run.md`. -->
+The import flow above is intentionally **pack-agnostic** (decision D19 —
+PLAN §18.9): it produces standard `stx_write`/`st_block` code, not calls
+to `streamtex_design.components.*` or any other pack.
+
+To refactor an imported document towards a specific pack's components
+(e.g. replace ad-hoc title rows with `slide_heading`, ad-hoc callouts
+with `callout`), create a **user-prepared** artifact instead — do not
+extend this shared command:
+
+- `.claude/custom/skills/import-<pack>-mapping.md` — table mapping
+  ad-hoc structures to the target pack's components
+- `.claude/custom/commands/refactor-<pack>/run.md` — slash command
+  that applies the mapping to an imported project
+
+This keeps the shared `stx-import:marp` command neutral and the
+pack-specific knowledge co-located with the consumer that needs it.
 
 ## Post-import checklist
 

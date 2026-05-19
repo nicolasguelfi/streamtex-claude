@@ -52,11 +52,10 @@ See `.claude/references/coding_standards.md` for the full reference. Key rules:
 - Style composition: `Style + Style`, `Style + string`, `Style - string`
 
 ### Media & Visual
-- `st_image(style, uri=)` — Image handling with base64 encoding
-- `st_ai_image(prompt, ...)` — AI image generation + display (requires `streamtex[ai]`)
-- `st_image(style, uri=, editable=True, name=, prompt=)` — Unified image with editing panel (replaces st_ai_image for new code)
+- `st_image(style, uri=)` — Local / URL image handling with base64 encoding
+- `st_image(style, prompt=, editable=True, name=, provider=, ai_size=)` — AI image generation + editor panel (Prompt / AI / Edit / History tabs); requires `streamtex[ai]`
+- `generate_image(prompt, provider=...)` — Programmatic generation without rendering
 - `get_available_models(provider)` — List available AI models per provider
-- `st_ai_image_widget(...)` — Interactive AI image generation widget
 - `st_code(style, code=, language=)` — Code blocks with Pygments
 - `st_space(dir, amount)`, `st_br()` — Spacing
 - `st_slide_break()` — Presentation section break (styled rule + viewport spacer + hidden marker)

@@ -39,7 +39,8 @@ __init__.py (public API re-exports)
   |     config.py (AIImageConfig, set/get_ai_image_config — DI singleton)
   |     generate.py (generate_image, is_cached, _make_cache_key — file-based cache)
   |     providers/ (registry + OpenAI, Google Imagen 4, fal.ai adapters)
-  +-- ai_image.py (st_ai_image, st_ai_image_widget) -> ai/, image
+  |     history.py (save_image_version, list_image_versions, rollback_image)
+  +-- image.py (st_image — unified entry point; uri/prompt/editable=True) -> ai/, ai/history
   |
   +-- blocks.py (LazyBlockRegistry, ProjectBlockRegistry, static resolution) -> independent
   +-- block_helpers.py (BlockHelper, show_code/explanation/details, DI config) -> code, container, write, styles
@@ -102,10 +103,10 @@ Both `toc.py` and `marker.py` use module-level singleton registries:
 | **Infrastructure** | `blocks`, `block_helpers`, `utils`, `constants`, `enums` | DI, registries, enums |
 | **WIP** | `search` | Full-text search (not exported) |
 
-### 7. AI Image Generation (ai/, ai_image.py)
+### 7. AI Image Generation (ai/, image.py)
 
 3-layer architecture following the same DI pattern as GSheetConfig/LinkConfig:
-- **Presentation** (`ai_image.py`): `st_ai_image()`, `st_ai_image_widget()` — delegates to `st_image` for display
+- **Presentation** (`image.py`): unified `st_image()` — `uri=` for local/URL, `prompt=` + `editable=True` for AI mode; opens the editor panel (Prompt / AI / Edit / History tabs) on click
 - **Service** (`ai/generate.py`): `generate_image()`, `is_cached()` — file-based deterministic cache (hash of prompt+provider+size+quality+seed)
 - **Providers** (`ai/providers/`): Abstract base `AIImageProvider` + registry + 3 adapters (OpenAI, Google Imagen 4, fal.ai)
 

@@ -10,7 +10,7 @@
 4. **Report** missing images with:
    - Original reference path
    - Suggested generation prompt (from source comments or alt text)
-   - Suggested `st_ai_image_widget()` replacement
+   - Suggested `st_image(prompt=..., editable=True, name=...)` replacement
 
 ## Image URI Rule (CRITICAL)
 

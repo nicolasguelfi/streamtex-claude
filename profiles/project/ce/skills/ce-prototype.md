@@ -92,14 +92,14 @@ For each new composition that emerged from the pilot and is not yet in the catal
 *"Composition visuelle candidate à devenir un pattern nommé : <description>. La capturer dans le catalogue local ?"*
 
 Options:
-- `Oui, capturer dans le catalogue local (Recommandé)` — runs `/stx-component:new --from <pilot_block>` and writes to the primary local pack (`./mypack/components/`)
+- `Oui, capturer dans le catalogue local (Recommandé)` — runs `stx component new <name>` (extracting the visual idiom from `<pilot_block>` into the new component scaffold), writing to the primary local pack (`./mypack/components/`)
 - `Non, garder en code ad-hoc`
 - `Renommer / ajuster avant de capturer`
 - `Discutons-en`
 
-For each pattern captured, update `master-plan.yaml -> patterns.applied` with `level: local` and the pilot block in `blocks: [...]`.
+For each component captured, update `master-plan.yaml -> components.applied` with `level: local` and the pilot block in `blocks: [...]`.
 
-Multi-select aggregated pattern is used when several candidates are proposed at once (see `ce-conventions.md`).
+Multi-select aggregated component capture is used when several candidates are proposed at once (see `ce-conventions.md`).
 
 ### Phase 8: Write Prototype Report
 

@@ -16,8 +16,8 @@ The skill auto-detects whether PROTOTYPE is needed for the current iteration bas
 
 Before executing, read:
 1. `.claude/ce/skills/ce-prototype.md` — Full workflow
-2. `.claude/ce/skills/ce-conventions.md` — QCM format, paths, snapshot, patterns levels
-3. `docs/master-plan.yaml` and `docs/master-plan.md` — current scope and patterns mapping
+2. `.claude/ce/skills/ce-conventions.md` — QCM format, paths, snapshot, components levels
+3. `docs/master-plan.yaml` and `docs/master-plan.md` — current scope and components mapping
 4. The most recent plan in `docs/plans/` — increment objectives
 5. `stx component list` — available components from active packs
 

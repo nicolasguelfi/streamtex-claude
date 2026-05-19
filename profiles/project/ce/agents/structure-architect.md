@@ -15,7 +15,7 @@ Read these files:
 1. `.claude/ce/skills/ce-conventions.md` — QCM format, scope detection, decisions log.
 2. `docs/master-plan.yaml` (if present) — current TOC, transverse decisions, iteration history.
 3. `docs/master-plan.md` (if present) — narrative TOC, intentions, raw content drafts.
-4. `.claude/designer/skills/block-blueprints.md`
+4. `.claude/shared/skills/reuse-architecture.md` — pack/component vocabulary; block-tier components via `stx component list --granularity block`
 5. `.claude/designer/templates/` (the selected template)
 6. The audience profile (from audience-analyst agent)
 7. The content strategy report (from content-strategist agent)
@@ -38,8 +38,8 @@ Read these files:
    - Respect the chosen narrative angle's flow
    - When proposing block structure, consider the active guideline's preferred archetypes
      and map planned blocks to their expected archetype
-3. **Map content to blocks using blueprints catalog**:
-   - For each section, select appropriate block blueprints
+3. **Map content to blocks using the components catalog**:
+   - For each section, select appropriate components from the installed packs (`stx component list`)
    - Match source materials to blocks (which source feeds which block)
    - Assign block types: content, example, exercise, transition, summary
    - Estimate complexity per block (simple, medium, complex)
@@ -57,7 +57,7 @@ Read these files:
    - Total block count and complexity distribution
    - Estimated production effort per section
    - Critical path (what must be built first)
-7. **Map candidate patterns**: for each planned block, propose one or more patterns from the catalog (or mark as "ad-hoc" if no existing pattern fits). The mapping is written to `master-plan.yaml -> patterns.applied`.
+7. **Map candidate components**: for each planned block, propose one or more components from the catalog (or mark as "ad-hoc" if no existing component fits). The mapping is written to `master-plan.yaml -> components.applied`.
 8. **Present skeleton for validation**:
    - In interactive mode: present the skeleton and iterate with user feedback via QCM (`Approuver (Recommandé)` / `Réviser` / `Discutons-en`).
    - In batch mode: produce the full skeleton document.
@@ -83,12 +83,12 @@ Read these files:
 **Content type**: <theory / example / exercise / mixed>
 **Sources**: <source references from collect phase>
 
-| Block | Blueprint | Content Summary | Complexity | Source |
+| Block | Component | Content Summary | Complexity | Source |
 |-------|-----------|----------------|------------|--------|
-| bck_1_1_intro | content-intro | Introduction to topic X | Simple | New |
-| bck_1_1_concepts | content-theory | Core concepts A, B, C | Medium | file.md |
-| bck_1_1_example | code-demo | Working example of A | Medium | slides.pptx #5 |
-| bck_1_1_exercise | exercise-guided | Practice with concept A | Simple | New |
+| bck_1_1_intro | manual_section | Introduction to topic X | Simple | New |
+| bck_1_1_concepts | composite_block | Core concepts A, B, C | Medium | file.md |
+| bck_1_1_example | composite_block | Working example of A | Medium | slides.pptx #5 |
+| bck_1_1_exercise | exercise_flow | Practice with concept A | Simple | New |
 
 #### Section 1.2: <Title>
 (same structure)

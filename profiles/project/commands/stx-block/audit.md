@@ -123,7 +123,7 @@ For each block file, check:
 
 #### Marker visibility (ERROR)
 - [ ] Block contains at least one `st_write(...)` with `toc_lvl="1"` — required for sidebar and floating bar navigation (via `auto_marker_on_toc`). A block without any `toc_lvl` heading is invisible in all navigation panels.
-- [ ] If using `st_ai_image_widget()`, confirm no invalid kwargs are passed (`editable` is NOT a valid parameter — the widget is inherently interactive)
+- [ ] If using `st_image(prompt=..., editable=True, name=...)`, confirm `name=` is present (mandatory in the modern API for caching and version history) and `ai_size` is used instead of `size` for the image dimensions
 
 #### Pattern Compliance (if patterns defined)
 - [ ] If block uses `@pattern:` annotation, verify it follows the named pattern's recipe
@@ -137,9 +137,9 @@ When auditing a block:
 - If the block looks like an unannotated implementation of a known
   pattern (matches Visual + Structure), suggest adding the annotation
   and aligning with the pattern.
-- If a pattern is named in `# @pattern:` but doesn't exist in the
+- If a component is named in the block but doesn't exist in the
   catalog, flag it as a broken reference. Suggest `/stx-component:new` or
-  `stx patterns sync`.
+  `stx pack sync`.
 
 #### Guideline Compliance (if active guideline exists)
 

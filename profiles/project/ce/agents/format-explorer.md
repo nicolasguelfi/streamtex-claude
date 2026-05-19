@@ -8,7 +8,7 @@ Proposes document formats adapted to the content, audience, and context. Explore
 
 Read these files:
 1. .claude/designer/templates/ (all available StreamTeX templates)
-2. .claude/designer/skills/block-blueprints.md
+2. .claude/shared/skills/reuse-architecture.md — pack/component vocabulary; block-tier components via `stx component list --granularity block`
 3. The audience profile (from audience-analyst agent)
 4. The content strategy report (from content-strategist agent)
 5. `custom/design-guideline.md` + referenced guideline (if project has active guideline)
