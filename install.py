@@ -86,16 +86,19 @@ CATEGORY_PATHS = {
         "developer": "developer/skills",
         "presentation": "designer/presentation/skills",
         "ce": "ce/skills",
+        "pack-engineering": "pack-engineering/skills",
     },
     "agents": {
         "designer": "designer/agents",
         "developer": "developer/agents",
         "presentation": "designer/presentation/agents",
         "ce": "ce/agents",
+        "pack-engineering": "pack-engineering/agents",
     },
     "templates": {
         "designer": "designer/templates",
         "ce": "ce/templates",
+        "pack-engineering": "pack-engineering/templates",
     },
     "tools": {
         "designer": "designer/tools",
@@ -124,6 +127,8 @@ def _copy_tree(src: Path, dst: Path) -> int:
             rel = item.relative_to(src)
             target = dst / rel
             target.parent.mkdir(parents=True, exist_ok=True)
+            if target.exists():
+                target.chmod(0o644)
             shutil.copy2(item, target)
             count += 1
     return count
@@ -242,6 +247,8 @@ def install_profile(profile_name: str, target_dir: Path,
                     total_files += count
                 else:
                     dst_file = dst_dir / entry_name
+                    if dst_file.exists():
+                        dst_file.chmod(0o644)
                     shutil.copy2(src_entry, dst_file)
                     dst_file.chmod(0o444)
                     total_files += 1

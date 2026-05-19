@@ -344,6 +344,7 @@ def convert_skills(source_dir: Path, target_dir: Path,
         ("", source_dir / "developer" / "skills"),
         ("pres-", source_dir / "designer" / "presentation" / "skills"),
         ("ce-", source_dir / "ce" / "skills"),
+        ("pe-", source_dir / "pack-engineering" / "skills"),
     ]
 
     for prefix, skill_dir in skill_dirs:
@@ -372,6 +373,7 @@ def convert_agents(source_dir: Path, target_dir: Path,
         ("", source_dir / "developer" / "agents"),
         ("pres-", source_dir / "designer" / "presentation" / "agents"),
         ("ce-", source_dir / "ce" / "agents"),
+        ("pe-", source_dir / "pack-engineering" / "agents"),
     ]
 
     warning = (
@@ -405,6 +407,37 @@ def convert_agents(source_dir: Path, target_dir: Path,
             f"{agent_count} agent(s) converted to rules (lost: isolation, "
             "dedicated model, memory)"
         )
+
+
+def convert_guidelines(source_dir: Path, target_dir: Path,
+                       *, dry_run: bool, verbose: bool,
+                       report: ConversionReport) -> None:
+    """C12: guidelines/ -> .cursor/rules/guideline-*.mdc (Agent Requested)
+
+    Design guidelines are conceptually like skills — they describe a
+    visual/structural approach the agent should apply when relevant.
+    They are rendered as Agent-Requested rules so Cursor's agent can
+    pick them up when a matching task is described.
+    """
+    rules_dir = target_dir / "rules"
+
+    guideline_dirs = [
+        ("", source_dir / "designer" / "guidelines"),
+        ("pres-", source_dir / "designer" / "presentation" / "guidelines"),
+    ]
+
+    for prefix, gl_dir in guideline_dirs:
+        if not gl_dir.exists():
+            continue
+        for md_file in sorted(gl_dir.glob("*.md")):
+            content = md_file.read_text(encoding="utf-8")
+            slug = md_file.stem.replace("_", "-")
+            desc = extract_description(content)
+
+            mdc = wrap_mdc(content, description=desc, always_apply=False)
+            write_file(rules_dir / f"guideline-{prefix}{slug}.mdc", mdc,
+                        dry_run=dry_run, verbose=verbose, report=report)
+            report.rules_agent_requested += 1
 
 
 def convert_templates(source_dir: Path, target_dir: Path,
@@ -667,6 +700,7 @@ def main() -> None:
     convert_commands(source, target, **opts)         # C3
     convert_skills(source, target, **opts)           # C4/C5/C10
     convert_agents(source, target, **opts)           # C6/C11
+    convert_guidelines(source, target, **opts)       # C12
     convert_templates(source, target, **opts)        # C7
     convert_tools(source, target, **opts)            # C8
     convert_permissions(source, target, **opts)      # C9

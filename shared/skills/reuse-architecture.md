@@ -21,6 +21,38 @@ Read this skill whenever you:
 - Use any `/stx-pack:*`, `/stx-component:*`, `/stx-ds:*`, `/stx-kit:*`,
   `/stx-validate` slash command
 - Capture a new component in PROTOTYPE or promote one in INTEGRATE
+- Use any `/stx-pe:*` slash command (Pack Engineering operates entirely
+  on this architecture — see "Orchestrated evolution" below)
+
+## Orchestrated evolution (Pack Engineering)
+
+This skill covers the **static mechanics** of packs / components / design
+systems / kits. The **orchestrated lifecycle** for extracting, forking,
+refining, auditing, adopting, and publishing packs across N projects is
+the **Pack Engineering (PE)** module — accessed via `/stx-pe:*` slash
+commands and the single user-facing `pack-orchestrator` agent.
+
+Use PE when:
+
+- You have N projects with repeated visual idioms but no shared pack
+  yet → `/stx-pe:bootstrap`.
+- An upstream pack (e.g. `streamtex-design`) almost fits but lacks
+  domain-specific patterns → `/stx-pe:specialize`.
+- The active pack is in use and new idioms have emerged in recent blocks
+  → `/stx-pe:refine`.
+- You want a health audit (unused / duplicates / drift / bundle gaps)
+  → `/stx-pe:audit`.
+- You need to install a pack in projects without extraction
+  → `/stx-pe:adopt`.
+- The pack is mature enough to release with a semver tag and (optionally)
+  PyPI publish → `/stx-pe:publish`.
+
+PE writes its audit trail to `docs/pack-engineering/pack-master-plan.{yaml,md}`
+and per-phase reports under `docs/pack-engineering/<ts>/`. PE drives the
+deterministic `stx component / pack / kit / validate` CLI commands but
+adds the AI-assisted analysis + design + retrofit that those commands
+cannot perform deterministically. Full reference: `pe_cheatsheet_en.md`
+and `.claude/pack-engineering/skills/pe-conventions.md`.
 
 ## 1 — Vocabulary
 

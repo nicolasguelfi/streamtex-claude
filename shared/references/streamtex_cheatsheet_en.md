@@ -2391,6 +2391,30 @@ COLLECT → ASSESS → PLAN → PROTOTYPE → PRODUCE → REVIEW → FIX → COM
 
 3 pathways: **A** (import external), **B** (improve existing), **C** (create new).
 
+## Pack Engineering (stx-pe)
+
+Orchestrated lifecycle for extracting, forking, refining, auditing, adopting, and publishing reuse packs. Full reference: `pe_cheatsheet_en.md`.
+
+```
+DISCOVERY → DESIGN → IMPLEMENT → ADOPT → RETROFIT → AUDIT → PUBLISH
+    |          |                              |           ^         ^
+  [G1]       [G2]                          [G3/G4]      (auto)   (opt-in)
+```
+
+| Command | Description |
+|---------|-------------|
+| `/stx-pe:go [<projects>]` | Auto-detect sub-mode from prompt + workspace state |
+| `/stx-pe:bootstrap <projects>` | Extract a new pack from N projects |
+| `/stx-pe:specialize <upstream> <projects>` | Fork an upstream pack with domain extensions |
+| `/stx-pe:refine` | Incrementally enrich the active pack with new patterns |
+| `/stx-pe:audit <pack> [<projects>]` | Read-only pack health audit |
+| `/stx-pe:adopt <pack> <projects>` | Install pack in N projects without extraction |
+| `/stx-pe:publish <pack-path>` | Release a mature pack (semver + tag + optional PyPI) |
+
+Single user-facing agent: `pack-orchestrator`. Six invisible specialists (`pack-miner`, `pack-designer`, `pack-implementer`, `pack-retrofitter`, `pack-auditor`, `pack-publisher`). 4 fundamental gates G1–G4. Master plan at `docs/pack-engineering/pack-master-plan.{yaml,md}`.
+
+PE auto-routes from `/stx-ce:task` via 5 archetypes (PACK_BOOTSTRAP / SPECIALIZE / REFINE / AUDIT / ADOPT). PACK_PUBLISH is NOT auto-routed — release requires explicit `/stx-pe:publish`.
+
 ## Reuse architecture (packs / components / DS / kits)
 
 Reusable graphic design building blocks live in Python packs declared in

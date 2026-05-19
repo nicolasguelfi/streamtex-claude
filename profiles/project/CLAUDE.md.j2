@@ -182,6 +182,42 @@ Every user-facing decision is surfaced as a QCM with a single format:
 
 CE artifacts are stored under `docs/`: `collect/`, `assess/`, `plans/`, `prototypes/`, `reviews/`, `solutions/`, plus `master-plan.{yaml,md}` and `master-plan/archive/`. See `.claude/references/ce_cheatsheet_en.md` for the full command reference.
 
+## Workflows — stx-pe Pack Engineering
+
+The `stx-pe` commands provide an orchestrated lifecycle for extracting, forking, refining, auditing, adopting, and publishing **reuse packs** across N projects. Where `stx-ce` operates inside a single project, `stx-pe` operates across projects to create or evolve a shared pack.
+
+### Cycle (7 phases, 4 fundamental gates)
+
+```
+DISCOVERY -> DESIGN -> IMPLEMENT -> ADOPT -> RETROFIT -> AUDIT -> PUBLISH
+   |          |                              |           ^         ^
+ [G1]       [G2]                          [G3/G4]      (auto)   (opt-in)
+```
+
+### Single user-facing agent
+
+**`pack-orchestrator`** is the only PE agent that talks to the user. It auto-classifies the prompt into one of six sub-modes and delegates to six invisible specialists (`pack-miner`, `pack-designer`, `pack-implementer`, `pack-retrofitter`, `pack-auditor`, `pack-publisher`). You never need to know the specialists exist.
+
+### Commands
+
+1. **Auto-detect sub-mode** → `/stx-pe:go [<projects>]` (orchestrated cycle, sub-mode inferred from prompt + workspace state)
+2. **Extract a new pack** → `/stx-pe:bootstrap <projects>` (N projects → brand-new pack from scratch)
+3. **Fork an upstream** → `/stx-pe:specialize <upstream> <projects>` (upstream pack + N projects → domain fork)
+4. **Enrich active pack** → `/stx-pe:refine` (single project + new blocks → incremental capture)
+5. **Health audit** → `/stx-pe:audit <pack> [<projects>]` (read-only: unused / duplicates / bundle gaps / drift)
+6. **Wire pack into projects** → `/stx-pe:adopt <pack> <projects>` (install only, no extraction)
+7. **Release a mature pack** → `/stx-pe:publish <pack-path>` (semver + tag + optional PyPI; always gated by user QCM)
+
+### Auto-routing via /stx-ce:task
+
+You don't need to remember `/stx-pe:*`. Free-text prompts to `/stx-ce:task` auto-classify into 5 PACK_* archetypes that route to `pack-orchestrator`: `PACK_BOOTSTRAP`, `PACK_SPECIALIZE`, `PACK_REFINE`, `PACK_AUDIT`, `PACK_ADOPT`. `PACK_PUBLISH` is intentionally NOT auto-routed — publishing requires explicit `/stx-pe:publish`.
+
+### Master plan
+
+PE artifacts live under `docs/pack-engineering/`: `pack-master-plan.{yaml,md}` (state + narrative) and `<ts>/{discovery,design,retrofit-plan,retrofit-report,audit-report}.md` (per-phase reports). Decisions log entries: `mining_validated`, `design_approved`, `implementation_completed`, `adoption_completed`, `retrofit_validated`, `smoke_fail_resolved`, `audit_completed`, `publish_decided`.
+
+See `.claude/references/pe_cheatsheet_en.md` for the full command reference.
+
 ## Design Guidelines
 
 Projects can adopt a design guideline for consistent visual design:

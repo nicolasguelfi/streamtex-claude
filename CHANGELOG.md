@@ -8,6 +8,103 @@ Prior to this Changelog, changes are tracked in the git history of this reposito
 
 ## [Unreleased]
 
+## [0.3.0] — 2026-05-19 — Pack Engineering module
+
+Adds the **Pack Engineering (PE)** module : an orchestrated 7-step
+lifecycle (DISCOVERY → DESIGN → IMPLEMENT → ADOPT → RETROFIT → AUDIT
+→ PUBLISH) with 4 fundamental validation gates (G1-G4) for extracting,
+forking, refining, auditing, adopting, and publishing StreamTeX packs.
+
+### Added
+
+**Single user-facing agent** (`pack-orchestrator`) auto-classifies the
+user's prompt into one of six sub-modes :
+- `bootstrap` : N projects → brand-new pack from scratch.
+- `specialize` : upstream pack + N projects → domain-specific fork.
+- `refine` : active pack + new blocks → incremental enrichment.
+- `audit` : read-only pack health check.
+- `adopt` : install pack in projects without extraction.
+- `publish` : mature pack release (semver + tag + optional PyPI).
+
+**Six invisible specialist agents** delegated to by the orchestrator :
+`pack-miner`, `pack-designer`, `pack-implementer`, `pack-retrofitter`,
+`pack-auditor`, `pack-publisher`. Users never see their names.
+
+**Files added** (28 total) :
+
+- 8 PE skills in `profiles/project/pack-engineering/skills/` :
+  `pe-conventions.md`, `pe-go.md`, `pe-bootstrap.md`, `pe-specialize.md`,
+  `pe-refine.md`, `pe-audit.md`, `pe-adopt.md`, `pe-publish.md`.
+- 7 PE agents in `profiles/project/pack-engineering/agents/` :
+  `pack-orchestrator.md`, `pack-miner.md`, `pack-designer.md`,
+  `pack-implementer.md`, `pack-retrofitter.md`, `pack-auditor.md`,
+  `pack-publisher.md`.
+- 6 PE templates in `profiles/project/pack-engineering/templates/` :
+  `pack-master-plan.yaml`, `pack-master-plan.md`, `pe-discovery.md`,
+  `pe-design.md`, `pe-audit-report.md`, `pe-retrofit-plan.md`.
+- 7 PE commands in `profiles/project/commands/stx-pe/` :
+  `go.md`, `bootstrap.md`, `specialize.md`, `refine.md`, `audit.md`,
+  `adopt.md`, `publish.md`.
+
+### Changed
+
+- `profiles/project/manifest.toml` — adds `pack-engineering` entries
+  under `[skills]`, `[agents]`, `[templates]` ; adds `stx-pe` group
+  under `[commands]`.
+- `install.py` — extends `CATEGORY_PATHS` with `pack-engineering`
+  sub-categories so the installer copies the new files.
+- `profiles/project/ce/skills/ce-task.md` — adds 5 new archetypes
+  (`PACK_BOOTSTRAP`, `PACK_SPECIALIZE`, `PACK_REFINE`, `PACK_AUDIT`,
+  `PACK_ADOPT`) that auto-route from `/stx-ce:task` to
+  `pack-orchestrator`. `PACK_PUBLISH` is intentionally not routed
+  (publish requires explicit `/stx-pe:publish`).
+- `profiles/project/ce/skills/ce-go.md` — adds Step 0bis that detects
+  PE intent in the prompt and hands off to `pack-orchestrator` before
+  the main CE pipeline starts.
+
+### Ecosystem coherence pass
+
+After the initial PE module ship, an ecosystem-wide audit identified
+discoverability gaps. The following cross-references were added so PE is
+visible from every surface a user naturally consults:
+
+- `cursor/generate_cursor.py` — `pack-engineering/` sub-category added
+  to `skill_dirs` and `agent_dirs` (HIGH priority — without it, Cursor
+  users would get zero PE artifacts converted to `.mdc` rules even though
+  `install.py` copies them).
+- `shared/references/pe_cheatsheet_en.md` — new full PE reference
+  (commands + agents + gates + decisions-log entry types + semver policy),
+  parallel to `ce_cheatsheet_en.md`. Registered in
+  `profiles/project/manifest.toml [shared].references`.
+- `profiles/project/CLAUDE.md.j2` — new "Workflows — stx-pe Pack
+  Engineering" section parallel to the existing CE workflow section,
+  so every freshly-installed project surfaces PE in its generated
+  `CLAUDE.md`.
+- `shared/skills/reuse-architecture.md` — trigger list now includes
+  `/stx-pe:*`; new "Orchestrated evolution (Pack Engineering)" subsection
+  cross-references PE as the orchestrated counterpart to the static
+  reuse mechanics this skill covers.
+- `README.md` — tagline updated to "up to 38 slash commands" (15+14+7),
+  0.3.0 release callout, profile table updated for `project`, new
+  "stx-pe Commands (7)" section, `pack-orchestrator` added to the
+  Agents table.
+- `.github/workflows/validate.yml` — hardcoded skill/agent path mapping
+  updated to include `pack-engineering` (needed by the manifest
+  validation step).
+
+### Architectural notes
+
+- **PE lives in the shared project profile**, not `.claude/custom/`,
+  because pack engineering is a generic methodological feature of the
+  reuse architecture — like CE, import-as-method, or
+  deployment-as-method. User-specific bridges (e.g. project-pack
+  import mappings) still belong in `.claude/custom/`.
+- **Pack-side semver policy** : REMOVED → major, CHANGED → minor,
+  ADDED only → patch. Different from the library's "stay on 0.7.X"
+  rule — each user pack has its own version trajectory.
+- **PUBLISH never auto-runs** : even in autonomous mode, PyPI publish
+  requires explicit user QCM approval at Step 7.
+
 ## [0.2.0] — 2026-05-19 (Wave 3 Phase 5 — CE workflows refresh)
 
 Builds on the Wave 2 [Unreleased] section (Phase 4 infrastructure, kept

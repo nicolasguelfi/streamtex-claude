@@ -1,0 +1,64 @@
+# Pack master plan — structured state
+# Lives at docs/pack-engineering/pack-master-plan.yaml in the pilot project.
+# Append-only by convention (decisions_log, phases_completed) ;
+# replace-in-place for the mining/design/implementation/adoption/retrofit/audit
+# sections at their respective phase completion.
+
+plan_id: <pack-name>-<YYYY-MM-DD>          # e.g. shared-design-2026-05-19
+
+pack:
+  name: <name>                              # snake_case, no project-specific tokens
+  type: bootstrap | specialize | refine | audit
+  upstream: null                            # ref like "git:github.com/x/y@v1" if type=specialize
+  target_path: ../<pack-name>               # relative to pilot project root
+
+consumer_projects:
+  - path: ../proj-a                         # relative or absolute
+    blocks_count: 28                         # populated by pack-miner
+  - path: ../proj-b
+    blocks_count: 32
+
+phases_completed: []                         # append-only: phase-discovery, phase-design, …
+
+# Set by pack-miner ; read by pack-designer and pack-implementer.
+mining:
+  discovered_components: []                  # [{ name, granularity, occurrences, projects, source_signatures }]
+  rejected_candidates: []                    # [{ signature, reason }]
+
+# Set by pack-designer ; read by pack-implementer.
+design:
+  approved_components: []                    # [{ name, docstring_path, bundles_required, justification }]
+  rejected_designs: []                       # [{ name, reason }]
+  naming_conflicts_resolved: []              # [{ original_name, final_name, rationale }]
+
+# Set by pack-implementer.
+implementation:
+  scaffolded: []                             # [<name>] — `stx component new` succeeded
+  implemented: []                            # [<name>] — function body written
+  validated: []                              # [<name>] — `stx component validate` OK
+  failed: []                                 # [{ name, error_code, attempts }]
+
+# Set by pack-orchestrator at the ADOPT phase.
+adoption:
+  projects_adopted: []                       # [{ project_path, stx_toml_updated_at, kit_installed }]
+
+# Set by pack-retrofitter.
+retrofit:
+  blocks_rewritten: []                       # [{ project, block_file, component, smoke_ok }]
+  blocks_skipped: []                         # [{ project, block_file, reason }]
+  blocks_reverted: []                        # [{ project, block_file, error }]
+
+# Set by pack-auditor.
+audit:
+  unused: []                                 # [<component>] declared but not imported anywhere
+  duplicates: []                             # [{ a, b, overlap_pct, recommendation }]
+  conflicts: []                              # [{ name, packs: [a, b] }]
+  bundle_gaps: []                            # [{ component, missing_bundle }]
+
+# Append-only — see pe-conventions §4 for entry types.
+decisions_log: []
+#  - date: 2026-05-19T14:30:00Z
+#    entry: design_approved
+#    scope: bootstrap
+#    decision: "Approved 12 components ; rejected 3 (too project-specific)"
+#    rationale: "G2 QCM — option 'Tout valider' selected"
