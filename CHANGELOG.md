@@ -62,6 +62,36 @@ user's prompt into one of six sub-modes :
   PE intent in the prompt and hands off to `pack-orchestrator` before
   the main CE pipeline starts.
 
+### Ecosystem coherence pass
+
+After the initial PE module ship, an ecosystem-wide audit identified
+discoverability gaps. The following cross-references were added so PE is
+visible from every surface a user naturally consults:
+
+- `cursor/generate_cursor.py` — `pack-engineering/` sub-category added
+  to `skill_dirs` and `agent_dirs` (HIGH priority — without it, Cursor
+  users would get zero PE artifacts converted to `.mdc` rules even though
+  `install.py` copies them).
+- `shared/references/pe_cheatsheet_en.md` — new full PE reference
+  (commands + agents + gates + decisions-log entry types + semver policy),
+  parallel to `ce_cheatsheet_en.md`. Registered in
+  `profiles/project/manifest.toml [shared].references`.
+- `profiles/project/CLAUDE.md.j2` — new "Workflows — stx-pe Pack
+  Engineering" section parallel to the existing CE workflow section,
+  so every freshly-installed project surfaces PE in its generated
+  `CLAUDE.md`.
+- `shared/skills/reuse-architecture.md` — trigger list now includes
+  `/stx-pe:*`; new "Orchestrated evolution (Pack Engineering)" subsection
+  cross-references PE as the orchestrated counterpart to the static
+  reuse mechanics this skill covers.
+- `README.md` — tagline updated to "up to 38 slash commands" (15+14+7),
+  0.3.0 release callout, profile table updated for `project`, new
+  "stx-pe Commands (7)" section, `pack-orchestrator` added to the
+  Agents table.
+- `.github/workflows/validate.yml` — hardcoded skill/agent path mapping
+  updated to include `pack-engineering` (needed by the manifest
+  validation step).
+
 ### Architectural notes
 
 - **PE lives in the shared project profile**, not `.claude/custom/`,
