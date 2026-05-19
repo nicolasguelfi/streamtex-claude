@@ -62,7 +62,7 @@ Regardless of level, the QCM format is identical (see 1.1).
 | Review reports | `docs/reviews/YYYY-MM-DD-<name>-review.md` |
 | Solutions | `docs/solutions/<category>/YYYY-MM-DD-<topic>.md` |
 | Producer profile | `docs/solutions/producer-profile.md` |
-| Pattern catalog (local) | `.claude/custom/streamtex-patterns/` (default) or any `streamtex-patterns/` folder in the project |
+| Pattern catalog (local) | the primary local pack (`./mypack/components/`) (default) or any a git/pypi pack declared in stx.toml in the project |
 
 `YYYY-MM-DD-NNN` increments NNN per day, starting at 001, separately per artifact family.
 
@@ -144,8 +144,8 @@ Three levels of pattern maturity:
 | Level | Location | Promoted from | Promoted via |
 |---|---|---|---|
 | `draft` | `docs/solutions/style/patterns/` | extraction in PROTOTYPE or COMPOUND | automatic capture (no QCM at this step) |
-| `local` | `.claude/custom/streamtex-patterns/` | draft | QCM in PROTOTYPE (immediately) or COMPOUND |
-| `shared` | `streamtex-patterns` repo (PR via `gh`) | local | QCM in INTEGRATE |
+| `local` | the primary local pack (`./mypack/components/`) | draft | QCM in PROTOTYPE (immediately) or COMPOUND |
+| `shared` | `streamtex-design` pack (PR via `gh`) | local | QCM in INTEGRATE |
 
 The orchestrator never auto-promotes to `local` or `shared`. The user decides via QCM.
 
@@ -169,7 +169,7 @@ At the end of any CE skill or when the user signals end of session, propose a fi
 
 ## 11. PROTOTYPE vs PRODUCE boundary
 
-PROTOTYPE is concerned with **visual validation by example** and **pattern capture**. Its output is a small, validated set of pilot blocks plus an enriched local pattern catalog.
+PROTOTYPE is concerned with **visual validation by example** and **pattern capture**. Its output is a small, validated set of pilot blocks plus an enriched local components catalog.
 
 PRODUCE is concerned with **mass production at scale** of the increment's remaining blocks, applying the patterns validated in PROTOTYPE.
 

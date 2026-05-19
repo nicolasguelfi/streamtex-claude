@@ -37,7 +37,7 @@ All user interactions go through QCMs with: 1 option `(Recommandé)` + alternati
 | `/stx-ce:produce` | Execute the plan increment, apply mapped patterns |
 | `/stx-ce:review` | Multi-perspective review (5 agents) — read-only evaluation |
 | `/stx-ce:fix [--severity LEVEL]` | Fix findings + propose ré-application of new patterns to prior blocks |
-| `/stx-ce:compound` | Capitalize learnings + enrich local pattern catalog |
+| `/stx-ce:compound` | Capitalize learnings + enrich local components catalog |
 | `/stx-ce:integrate` | Route solutions + promote local patterns to shared catalog |
 | `/stx-ce:go` | Orchestrated cycle with contextual scope dialog and fundamental gates |
 | `/stx-ce:status` | Show CE cycle status from the master plan |
@@ -316,7 +316,7 @@ my-project/
 ## Patterns in the CE pipeline
 
 Patterns are graphic design primitives stored in the project's
-`.claude/custom/streamtex-patterns/` catalog. They participate in the
+the primary local pack (`./mypack/components/`) catalog. They participate in the
 CE pipeline at three points:
 
 - **PLAN** : the plan can declare which patterns will be used per
@@ -329,6 +329,6 @@ CE pipeline at three points:
   pattern conform to that pattern (no INVARIANT violation).
 
 If a pattern is missing from the catalog, propose
-`/stx-pattern:new` during PLAN/PRODUCE rather than improvising.
+`/stx-component:new` during PLAN/PRODUCE rather than improvising.
 
 See `streamtex_cheatsheet_en.md` for the pattern CLI/slash commands.

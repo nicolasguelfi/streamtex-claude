@@ -74,10 +74,10 @@ transverse_decisions:
 
 patterns:
   # Mapping: pattern_name -> blocks using it. Source of truth for inter-iteration consistency.
-  catalog_location: <.claude/custom/streamtex-patterns/ | other>
+  catalog_location: <the primary local pack (./mypack/components/) | other>
   applied:
     - name: <pattern_name>
-      level: <draft | local | shared>  # draft=docs/solutions, local=catalog, shared=streamtex-patterns repo
+      level: <draft | local | shared>  # draft=docs/solutions, local=catalog, shared=streamtex-design pack
       blocks: [bck_..., bck_...]
       promoted_at: <YYYY-MM-DD or null>
 

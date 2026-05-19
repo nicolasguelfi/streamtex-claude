@@ -75,7 +75,7 @@ For each slide reviewed:
   - Suggest adding the annotation and aligning to the pattern's code
     skeleton.
 - If a referenced pattern is missing from the catalog:
-  - Flag as a broken reference; suggest `/stx-pattern:new` or
+  - Flag as a broken reference; suggest `/stx-component:new` or
     `stx patterns sync`.
 
 ## Output Format

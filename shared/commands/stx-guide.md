@@ -77,7 +77,7 @@ pour fournir une reponse contextuelle.
 | `stx-cli` | Reference complete de toutes les commandes `stx` |
 | `release` | Workflow de release complet (dev : publier + propager) |
 | `update` | Mettre a jour son workspace (user : recevoir les mises a jour) |
-| `patterns` | Mecanisme streamtex-patterns : catalogue de design patterns reutilisables, repo central, install/update, slash commands |
+| `reuse` | Mecanisme reuse architecture (`streamtex 0.7.x`) : packs, components, design systems, kits ; voir `reuse-architecture` skill |
 
 ### Exemples de questions libres acceptees
 
@@ -106,7 +106,7 @@ pour fournir une reponse contextuelle.
 | `streamtex` | `nicolasguelfi/streamtex` | library | Librairie Python principale (PyPI) |
 | `streamtex-docs` | `nicolasguelfi/streamtex-docs` | docs | Manuels et documentation |
 | `streamtex-claude` | `nicolasguelfi/streamtex-claude` | claude | Profils Claude AI |
-| `streamtex-patterns` | `nicolasguelfi/streamtex-patterns` | patterns | Catalogue partage de design patterns graphiques (read by Claude) |
+| `streamtex-design` | `nicolasguelfi/streamtex-design` | reuse | Pack officiel reuse architecture (Python components, design systems, kits) |
 | `stx-ai4se` | `nicolasguelfi/stx-ai4se` | project | Projet presentation AI4SE |
 | `stx-html-example` | `nicolasguelfi/stx-html-example` | project | Projet exemple HTML |
 | `stx-modelsward` | `nicolasguelfi/stx-modelsward` | project | Projet MODELSWARD |
@@ -136,12 +136,13 @@ streamtex-dev/                  # Workspace root
       presentation/
       project/
     shared/references/
-  streamtex-patterns/           # Catalogue partage de design patterns
-    core/                       # patterns universels
-    slides/                     # patterns presentations/cours
-    docs/                       # patterns manuels
-    projects/<X>/               # patterns specifiques projet
-    presets/                    # recettes d'installation (.toml)
+  streamtex-design/             # Pack officiel (Python package)
+    streamtex_design/
+      components/               # ~30 components (primitive/composition/block)
+      design_systems/           # 3 DS (default, modern_dark, modern_light)
+      kits/                     # 4 kits (project/manual/course/slides)
+      _pack_manifest.toml       # PackManifest (format 0.1)
+    pyproject.toml              # declares streamtex.packs entry point
   projects/                     # Projets utilisateur
     stx-ai4se/
     stx-html-example/
@@ -183,10 +184,10 @@ streamtex-claude
   |
   +-- profiles --> installes dans chaque projet via `stx claude install`
 
-streamtex-patterns
+streamtex-design (pack)
   |
-  +-- consumed by projects via `stx patterns install --preset <name>`
-  +-- referenced via `[patterns].source` in stx.toml or pyproject.toml
+  +-- consumed by projects via `stx pack add github.com/.../streamtex-design`
+  +-- referenced via `[[packs]]` entries in stx.toml (cf. reuse-architecture skill)
 
 stx.toml
   |

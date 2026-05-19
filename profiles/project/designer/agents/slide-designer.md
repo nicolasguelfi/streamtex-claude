@@ -79,7 +79,7 @@ non-conflicting directives. Take the stricter constraint when they differ.
 
 Before designing or generating any slide:
 
-1. Read `.claude/custom/streamtex-patterns/_pattern_library.md` if it
+1. Read ``stx component list` (reuse-architecture skill)` if it
    exists. This is the catalog of named visual patterns available in
    the project.
 2. If the user names a pattern (e.g. "use stat_hero", "like grid_boston"),

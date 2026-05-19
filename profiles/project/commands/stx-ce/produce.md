@@ -64,7 +64,7 @@ Before executing, read:
 
 Before generating ANY block via `/stx-block:*` (which is what produce
 orchestrates), read:
-- `.claude/custom/streamtex-patterns/_pattern_library.md`
+- ``stx component list` (reuse-architecture skill)`
 - For each pattern referenced in the plan, read `<patterns-dir>/<name>.md`
   in full.
 

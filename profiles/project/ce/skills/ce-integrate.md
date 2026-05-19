@@ -1,6 +1,6 @@
 # CE Integrate
 
-Skill for the INTEGRATE phase of the Compound Engineering cycle. Routes capitalized solutions from `docs/solutions/` to their operational destinations: library issues, skill updates, documentation improvements, author custom rules, **and patterns promoted from the local catalog to the shared `streamtex-patterns` repository**.
+Skill for the INTEGRATE phase of the Compound Engineering cycle. Routes capitalized solutions from `docs/solutions/` to their operational destinations: library issues, skill updates, documentation improvements, author custom rules, **and patterns promoted from the local catalog to the shared `streamtex-design` packsitory**.
 
 Read `.claude/ce/skills/ce-conventions.md` before invoking any user-facing question.
 
@@ -28,7 +28,7 @@ For each unintegrated solution, determine the routing destination by analyzing i
 | References manuals, cheatsheets, documentation gaps, tutorials | **streamtex-docs** (docs) | `/stx-issue:docs` or `/stx-issue:feature` |
 | Is a project-specific coding rule, style convention, naming rule | **Author custom** (`.claude/custom/references/`) | Direct file update or creation |
 | Is a design pattern or guideline refinement | **Author guideline** (`custom/design-guideline.md`) | Direct file update |
-| Is a local pattern judged broadly reusable | **streamtex-patterns** (shared catalog) | PR via `gh` to the shared repo |
+| Is a local component judged broadly reusable | a shared **pack** (`streamtex-design` or another git/pypi pack declared in stx.toml) | `stx component promote <name> --to=<pack>` (PR via `gh` to the pack's repo) |
 
 For local patterns (loaded in Phase 1 step 4): the LLM judges in free text whether each pattern is suitable for shared promotion. Eligibility cues (non-exhaustive): the pattern was applied to ≥ 2 distinct block archetypes, its INVARIANTS are not project-specific, the description is portable.
 
@@ -90,15 +90,15 @@ For each validated integration:
 2. If the solution is a guideline refinement → update the relevant section
 3. Present the proposed change to the user before applying.
 
-#### 4d. Pattern Promotion to Shared Catalog (`streamtex-patterns` repo)
+#### 4d. Pattern Promotion to Shared Catalog (`streamtex-design` pack)
 
 For each pattern accepted for promotion in Phase 3:
 
-1. Locate the pattern file in `.claude/custom/streamtex-patterns/<name>.md`.
-2. Check out the `streamtex-patterns` repo (the user is expected to have it accessible — if not, surface a QCM proposing to clone it or skip).
+1. Locate the pattern file in `mypack/components/<name>.py`.
+2. Check out the `streamtex-design` pack (the user is expected to have it accessible — if not, surface a QCM proposing to clone it or skip).
 3. Create a branch `feat/promote-<pattern_name>-from-<project>`.
 4. Copy the pattern file into the appropriate preset folder (`core/`, `slides/`, `docs/`, or `projects/<X>/`) of the shared repo. The LLM judges the preset in free text based on the pattern's intent.
-5. Run `/stx-pattern:reindex` in the shared repo.
+5. Run `/stx-validate` in the shared repo.
 6. Commit and open a PR via `gh pr create` with the rationale in the body.
 7. Update `master-plan.yaml -> patterns.applied[*].level = shared` and `promoted_at = <date>` for this pattern.
 8. Record the PR URL in the corresponding entry.

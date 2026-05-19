@@ -21,7 +21,7 @@ It is skipped when the increment continues an already-validated visual territory
 1. Load `docs/master-plan.yaml` and `docs/master-plan.md`.
 2. Load the current plan increment from `docs/plans/` (most recent).
 3. Load the producer profile (`dialog_level`, favorite patterns, anti-patterns).
-4. Read the patterns catalog (`<catalog>/_pattern_library.md` and individual `<pattern>.md` files for any pattern listed in the plan).
+4. Read the components catalog (``stx component list` output` and individual `<component>.py` files for any pattern listed in the plan).
 5. Determine the increment scope from the master plan iterations entry.
 
 ### Phase 2: Select Pilot Block(s)
@@ -92,7 +92,7 @@ For each new composition that emerged from the pilot and is not yet in the catal
 *"Composition visuelle candidate à devenir un pattern nommé : <description>. La capturer dans le catalogue local ?"*
 
 Options:
-- `Oui, capturer dans le catalogue local (Recommandé)` — runs `/stx-pattern:new --from <pilot_block>` and writes to `.claude/custom/streamtex-patterns/`
+- `Oui, capturer dans le catalogue local (Recommandé)` — runs `/stx-component:new --from <pilot_block>` and writes to the primary local pack (`./mypack/components/`)
 - `Non, garder en code ad-hoc`
 - `Renommer / ajuster avant de capturer`
 - `Discutons-en`

@@ -621,7 +621,7 @@ See `.claude/designer/guidelines/_index.md` for the complete scoping system.
 
 ## Canonical pattern implementations
 
-The streamtex-patterns catalog provides reference implementations of
+The reuse-architecture catalog provides reference implementations of
 the rules described in this skill. When generating a slide, prefer
 applying one of these patterns rather than reimplementing the rules
 from scratch:

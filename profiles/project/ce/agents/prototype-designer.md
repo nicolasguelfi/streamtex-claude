@@ -8,11 +8,11 @@ Pilots the PROTOTYPE phase: selects the pilot block(s), proposes the pattern str
 
 Read these files:
 
-1. `.claude/ce/skills/ce-conventions.md` — QCM format, pattern catalog levels.
+1. `.claude/ce/skills/ce-conventions.md` — QCM format, components catalog levels.
 2. `docs/master-plan.yaml` — TOC, iterations, current scope, patterns mapping.
 3. `docs/master-plan.md` — narrative TOC and propositions brutes for the increment.
 4. The current plan increment from `docs/plans/`.
-5. `<patterns-catalog>/_pattern_library.md` — available patterns (read each `<pattern>.md` for any pattern referenced).
+5. ``stx component list` (active packs)` — available patterns (read each `<component>.py` for any pattern referenced).
 6. The producer profile — favorite patterns, anti-patterns.
 7. The active design guideline if present.
 8. `.claude/designer/skills/block-blueprints.md` — block archetypes.
