@@ -191,34 +191,39 @@ Projects can adopt a design guideline for consistent visual design:
 - **Combination**: `# @guideline: A + B` — A has priority, B complements
 - **Built-in**: `maximize-viewport`, `minimalist-visual`, `academic-structured`, `dense-informative`
 
-## StreamTeX Patterns (graphic design patterns)
+## Reuse architecture (packs, components, design systems, kits)
 
-If the project contains a `streamtex-patterns/` folder (default location:
-`.claude/custom/streamtex-patterns/`), it defines reusable graphic design
-patterns (named grids, callouts, hero stats, slide headings, etc.) that
-the user can invoke by name when creating or editing blocks.
+The project may declare one or more StreamTeX packs in its `stx.toml`
+(cf. PLAN §6.1). The reference pack is `streamtex-design`. Components
+are Python modules with a structured docstring (§4.1) and a
+`__component_meta__`. Kits glue a design system + a curated component
+list. See the `reuse-architecture` skill (loaded automatically).
 
 **Mandatory rules**:
-1. **Before generating or modifying any StreamTeX block**, read
-   `<patterns-dir>/_pattern_library.md` to know which patterns are available.
-2. When the user names a pattern in any prompt (e.g. *"use grid_boston"*,
-   *"like stat_hero"*), read the full `<patterns-dir>/<name>.md` file
-   **before** generating code.
-3. Strictly respect each pattern's `INVARIANTS` section. Adjust only within
-   `PARAMS`. Refuse anything matching `INTERDITS` and propose a new pattern
-   instead.
-4. The pattern's code skeleton is a **starting point** — adapt it to the
-   project's `custom/styles.py` and palette.
-5. If the user describes something that matches no existing pattern but is
-   reusable, suggest `/stx-pattern:new` to capture it.
+1. **Before generating or modifying any StreamTeX block**, run
+   `stx component list` (or read the `reuse-architecture` skill) to know
+   which components the active packs ship.
+2. When the user names a component (e.g. *"use callout"*, *"like
+   stat_hero"*), inspect it via `stx component show <name>` before
+   generating code — the docstring documents Visual / Structure /
+   Styling rules / Extrapolation rules (INVARIANTS / PARAMS / INTERDITS)
+   and the `bundles_required`.
+3. Strictly respect each component's `INVARIANTS` section. Adjust only
+   within `PARAMS`. Refuse anything matching `INTERDITS` and capture a
+   new component instead (via `stx component new` in `mypack/`).
+4. The component's code skeleton is a **starting point** — adapt it to
+   the project's `custom/styles.py` and the active design system.
+5. If the user describes something that matches no existing component
+   but is reusable, suggest `stx component new <name>` to capture it
+   into the **primary local pack** (PROTOTYPE / Phase 7).
 
-**Difference with blueprints**:
-- A **blueprint** = a complete block type (`title`, `conclusion`, `exercise`).
-- A **pattern** = a reusable composition primitive used inside a block
-  (`grid_boston`, `callout_critical`, `ptn_slide_heading`).
+**Granularity tag** (cf. `reuse-architecture` skill):
+- `primitive` (callout, slide_heading, …)
+- `composition` (card_grid, takeaways, …)
+- `block` (title_slide, manual_section, …)
 
-A block can combine: 1 blueprint × N patterns × style conventions.
+A block can compose: blocks × compositions × primitives × free Python.
 
-**Commands**: `/stx-pattern:list` `/stx-pattern:show <name>`
-`/stx-pattern:new` `/stx-pattern:reindex` `/stx-pattern:validate`.
-See the `pattern-library` skill for the full mechanism.
+**Commands**: `/stx-pack`, `/stx-component`, `/stx-ds`, `/stx-kit`,
+`/stx-validate`, `/stx-new`. See the `reuse-architecture` skill for the
+full mechanism.

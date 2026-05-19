@@ -281,10 +281,11 @@ Historical artifacts may use `kebab-case` (e.g. `stat-hero`,
 mapped to the canonical pattern name (e.g. `ptn_stat_hero`,
 `ptn_comparison_table`).
 
-The annotation enables tooling like `stx patterns audit` to detect
-drift between the catalog and the code, and to suggest patterns when a
-block matches one. See the `pattern-library` skill for the catalog and
-mechanism.
+The reuse architecture (PLAN §6.2, `streamtex 0.7.x`) replaces this
+mechanism: components are Python modules in installed packs, discovered
+via the `streamtex.packs` entry point. See the `reuse-architecture` skill
+for the catalog and mechanism, and the `stx validate` aggregate command
+for drift detection.
 
 ## 9. Style System
 

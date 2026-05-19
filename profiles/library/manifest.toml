@@ -16,5 +16,5 @@ extends = "project"
 developer = ["architecture.md", "coherence-checks.md"]
 
 [shared]
-commands = ["stx-coherence", "stx-pattern"]
-skills = ["pattern-library.md"]
+commands = ["stx-coherence", "stx-pack", "stx-component", "stx-ds", "stx-kit", "stx-validate"]
+skills = ["reuse-architecture.md"]

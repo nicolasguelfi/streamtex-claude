@@ -65,18 +65,10 @@ A Markdown report printed to the user (not saved to file) with:
 4. **Issues summary** — counts of each issue type across all blocks
 5. **Recommended action** — suggested `--mode` and `--profile` for `/stx-import:marp`
 
-### Pattern coverage estimate
+<!-- Removed (D19 / PLAN §18.9): the pack-agnostic import flow does not
+attempt automatic reuse-mapping. Pack-specific refactor heuristics live
+in user-prepared custom artifacts (`.claude/custom/skills/import-<pack>-mapping.md`). -->
 
-In the audit report, include a **pattern coverage** section:
-
-- For each slide / block in the source, suggest which pattern from the
-  catalog it corresponds to (best match).
-- Compute a coverage % : how many slides match a known pattern.
-- Flag slides that DON'T match any pattern as "ad-hoc — consider
-  /stx-pattern:new if reusable".
-
-This helps the user decide which patterns to install before importing
-(better preset = better imports).
 
 ## Rules
 

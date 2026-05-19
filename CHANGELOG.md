@@ -8,6 +8,52 @@ Prior to this Changelog, changes are tracked in the git history of this reposito
 
 ## [Unreleased]
 
+### Added (Wave 2 Phase 4 — non-CE infrastructure for `streamtex 0.7.x` reuse architecture)
+- **`shared/skills/reuse-architecture.md`** (~150 lines) — single source of
+  truth for the new vocabulary (pack / component / design system / kit),
+  discovery, error codes (PR/PV/CV/DV/KV/BV), `stx.toml` schema, and
+  `__component_meta__` schema (PLAN §10 Phase 4, Q10 option b).
+- **6 new `/shared/commands/` directories**: `stx-pack/`, `stx-component/`,
+  `stx-ds/`, `stx-kit/`, `stx-validate/`, `stx-new/`. Each contains a
+  `run.md` that pre-reads `reuse-architecture.md` and delegates to the
+  new CLI surface (`stx pack/component/ds/kit/validate`, MIG-2).
+- Manifests updated (4 profiles: project, library, documentation,
+  presentation) — `pattern-library.md` skill replaced by
+  `reuse-architecture.md`; `stx-pattern` shared command group replaced
+  by `stx-pack/component/ds/kit/validate/new`.
+- `CLAUDE.md.j2` rewritten in `profiles/project/`, `library/overlay/`,
+  `documentation/overlay/`, `presentation/overlay/` — "StreamTeX
+  Patterns" section replaced by "Reuse architecture (packs, components,
+  design systems, kits)" with rules pointing at `stx component show` /
+  `stx component new`.
+
+### Changed
+- `shared/references/coding_standards.md` — pattern-library mechanism
+  reference updated to reuse-architecture.
+- `shared/commands/stx-coherence/audit.md` — legacy `patterns` scope
+  (checks P1-P4 / 46-49) replaced by a `reuse` scope deferring to
+  `stx validate` and documenting the new error code families.
+- `shared/commands/stx-guide.md` — Section 4h "Patterns graphiques"
+  rewritten as Section 4h "Reuse architecture"; the slash-command table
+  now lists the six new commands.
+- `shared/commands/stx-import/{html,marp}.md` — "Phase 4: Reverse
+  pattern mapping" removed (D19 / PLAN §18.9 — imports stay pack-
+  agnostic). `html-audit.md` and `marp-analyze.md`: "Pattern coverage
+  estimate" sections removed.
+
+### Removed
+- `shared/skills/pattern-library.md` (legacy markdown-catalog skill).
+- `shared/commands/stx-pattern/` (5 files: list/show/new/reindex/validate).
+
+### Notes (Phase 5 follow-up — Wave 3)
+- `shared/references/streamtex_cheatsheet_en.md` and `ce_cheatsheet_en.md`
+  still contain historical mentions of `streamtex-patterns` /
+  `/stx-pattern:*` inside reference tables. They will be rewritten in
+  Phase 5 alongside the CE workflow refresh. The active commands and
+  active skills already point at the new architecture.
+- `profiles/project/designer/` (11 files) and `profiles/project/ce/`
+  (in-scope of Phase 5) are intentionally untouched in this wave.
+
 ## [0.1.0] — 2026-05-14
 
 ### Added
