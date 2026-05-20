@@ -32,7 +32,7 @@ Parse `$ARGUMENTS` as: `<block_name>`
    - [ ] No raw HTML/CSS strings in Python code
    - [ ] Images renamed and referenced correctly
    - [ ] Inline mixed-style text uses ONE `st_write()` with tuples
-   - [ ] Links include font-size when HTML shows text > 12pt
+   - [ ] Links include font-size when HTML shows text > 12pt — use the nearest indexed-scale palier (`s.text_*`); see `import-formats/html/conventions.md`
    - [ ] Tables use `st_grid()` with `cell_styles`
    - [ ] Lists use `st_list()` (not hardcoded bullets)
    - [ ] Line breaks use `st_br()`

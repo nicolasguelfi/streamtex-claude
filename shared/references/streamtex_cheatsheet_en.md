@@ -521,15 +521,36 @@ s.text.sizes.size(20, "custom_20pt")   # Factory method
 
 ## Indexed responsive font scale (recommended for new blocks)
 
-A 29-palier scale, responsive across desktop/tablet/mobile, with three
-access modes:
+A 29-palier scale derived from a **single base** (`base_pt_desktop`,
+default 18pt) and 29 adimensional ratios per curve. Tablet = desktop ×
+0.85, mobile = desktop × 0.70. All curves share the same base palier.
+
+### Tailwind aliases (v2 — rebased so `s.text_base` = idx_7 = 18pt)
+
+| Alias | Palier | pt @ base 18 | px @ 96 DPI | Use case |
+|---|---|---|---|---|
+| `s.text_xs` | 5 | 14pt | 18.7px | caption, annotation (floor) |
+| `s.text_sm` | 6 | 16pt | 21.3px | secondary body |
+| `s.text_base` | 7 | 18pt | 24px | primary body (= BASE) |
+| `s.text_lg` | 8 | 20pt | 26.7px | lead body |
+| `s.text_xl` | 9 | 22pt | 29.3px | subhead |
+| `s.text_2xl` | 10 | 24pt | 32px | section title |
+| `s.text_3xl` | 11 | 28pt | 37.3px | larger title |
+| `s.text_4xl` | 12 | 32pt | 42.7px | display |
+| `s.text_5xl` | 13 | 36pt | 48px | hero |
+| `s.text_6xl` | 15 | 48pt | 64px | big hero |
+| `s.text_7xl` | 16 | 60pt | 80px | giant |
+| `s.text_8xl` | 17 | 72pt | 96px | huge |
+| `s.text_9xl` | 19 | 128pt | 170.7px | display 1 |
+
+### Three access modes
 
 ```python
 from streamtex import StxStyles as s
 
 # 1) Tailwind-style aliases (most readable)
 st_write(s.text_xs,   "Caption text")
-st_write(s.text_base, "Body text")
+st_write(s.text_base, "Body text")          # primary body (idx_7 = 18pt)
 st_write(s.text_xl,   "Lead paragraph")
 st_write(s.text_3xl,  "Section heading")
 st_write(s.text_7xl,  "Hero title")
@@ -542,8 +563,9 @@ for level in range(4):
 st_write(s.idx_6, "Specific palier")
 ```
 
-The scale is **responsive** — values change automatically at 1024px and
-480px breakpoints. To override per document:
+### Per-document override (the recommended way)
+
+Change the **base** in one place; every palier follows proportionally:
 
 ```python
 from streamtex import st_book, ScaleConfig, ScaleCurve
@@ -551,12 +573,27 @@ from streamtex import st_book, ScaleConfig, ScaleCurve
 st_book(
     [blocks...],
     scale=ScaleConfig(
-        curve=ScaleCurve.WORD_PROCESSOR,  # default — also GEOMETRIC / BODY_CENTRIC / BELL
-        count=20,                          # or 29 for the full scale
+        base_pt_desktop=24,                # auditorium projection
+        curve=ScaleCurve.WORD_PROCESSOR,   # default — also GEOMETRIC / BODY_CENTRIC / BELL
+        tablet_scale=0.85,                 # default
+        mobile_scale=0.70,                 # default
+        count=29,                          # default — full scale
     ),
 )
 ```
 
+### Recommended `base_pt_desktop` per audience
+
+| Audience | base_pt_desktop | Rationale |
+|---|---|---|
+| Screen viewing (default) | 18 | text_base = 18pt = 24px |
+| Documentation / reading | 18 | Same as screen |
+| Auditorium projection | 24 | text_base = 32px, visible at distance |
+| Workshop interactive | 20–22 | Slightly larger for shared screens |
+| Dense / data-heavy | 16 | Still ≥ floor (18.67px) |
+| Minimalist generous | 20–22 | Generous whitespace + larger type |
+
+**Never override individual paliers** — change `base_pt_desktop` once.
 Out-of-range indices clamp silently: `s.scale[-1]` → `s.scale[0]`,
 `s.scale[100]` → `s.scale[count-1]`.
 

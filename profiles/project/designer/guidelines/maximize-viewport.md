@@ -19,7 +19,10 @@ isn't big enough.
 
 ### P1 — Content expands to fill the viewport
 
-Typography is the primary space-filling lever. Adjust font size FIRST.
+Typography is the primary space-filling lever. Use
+`ScaleConfig(base_pt_desktop=X)` to shift everything uniformly per
+deck; reserve per-block `s.scale[N]` overrides for fine-tuning a
+single slide.
 - Few words → giant fonts, centered in full viewport
 - Many words → smaller fonts but distributed to fill the full vertical space
 - NEVER leave the bottom 30% of a slide empty

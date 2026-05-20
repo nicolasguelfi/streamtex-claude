@@ -134,16 +134,17 @@ _BAR_COLOR = "#6C9AEF"
 
 class BlockStyles:
     """Local styles for the survey chart block."""
-    title = s.Large + s.bold
-    body_accent = s.Large + s.project.colors.accent + s.bold
-    source = s.large + s.project.colors.muted + s.italic
-    caption = s.large + s.project.colors.muted
-    caption_bold = s.large + s.project.colors.muted + s.bold
+    # Primary recommendation: indexed scale (legacy s.large / s.Large still valid)
+    title = s.text_4xl + s.bold
+    body_accent = s.text_4xl + s.project.colors.accent + s.bold
+    source = s.text_2xl + s.project.colors.muted + s.italic
+    caption = s.text_2xl + s.project.colors.muted
+    caption_bold = s.text_2xl + s.project.colors.muted + s.bold
     card = s.project.containers.card
 
     # Question box (highlight/amber callout)
     question_box = s.project.containers.callout_highlight
-    question_text = s.Large + s.project.colors.highlight
+    question_text = s.text_4xl + s.project.colors.highlight
 
     # Bar chart CSS (st_html — 48px for projection readability)
     bar_label_css = f"color:{_MUTED};font-size:48px;white-space:nowrap;"

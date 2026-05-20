@@ -20,7 +20,7 @@ Read these files **in order** (mandatory):
 
 ### Visual Impact
 - **Keywords only** — max 5–7 words per bullet, max 3 bullets per section
-- **Large fonts** — body at `s.Large` (48pt), titles at `s.Huge` (96pt)+
+- **Large fonts** — set `ScaleConfig(base_pt_desktop=24)` in `book.py`. `s.text_base` then renders at 24pt (effective 32px), visible at projection distance. Titles use `s.text_7xl` (palier 16, 80pt @ base 24).
 - **High contrast** — never use `muted`/`subtle` on body text
 - **Generous spacing** — `st_space(size=4)` between major sections
 
@@ -62,7 +62,7 @@ Never use numeric prefixes (`bck_01_title.py`). Order is defined in `st_book([..
 ## Anti-Patterns (NEVER Do These)
 
 1. **Sentences as bullets** — use keyword phrases (5–7 words)
-2. **Small fonts** — `s.medium` (16pt) or `s.big` (24pt) for content — invisible at distance
+2. **Small fonts** — paliers below `s.text_base` for content. Use `ScaleConfig(base_pt_desktop=24)` so `s.text_base` renders at 24pt (32px) — visible at projection distance. Per-block downsizes invalidate the audience tuning.
 3. **Muted body text** — `s.project.colors.muted` on main content
 4. **Dense slides** — more than 3 bullets or 2 ideas per section
 5. **Helper boxes** — `show_explanation()`, `show_details()` on presentation slides

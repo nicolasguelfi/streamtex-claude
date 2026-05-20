@@ -54,7 +54,7 @@ Read these files:
    - PageLayout (width%, zoom%) appropriate for target device in each profile
 7. **Presentation mode checks** (if applicable):
    - Projection readability: text readable at 10-20 meters
-   - Minimum font size: 24px for body, 32px+ for titles
+   - Minimum palier 7 (`s.text_base`) for body, palier 11+ (`s.text_3xl`) for titles. With `base_pt_desktop=24`, these become 32px / 37.3px respectively. Palier-based criteria stay correct independent of the deck's chosen base.
    - Maximum content per slide: 6-8 lines of text, one main idea
    - Visual impact: key messages visually prominent
    - Animation/transition appropriateness
@@ -99,7 +99,7 @@ Read these files:
 | # | Severity | Block | Visual Issue | Rule Violated | Suggested Fix |
 |---|----------|-------|-------------|---------------|---------------|
 | 1 | CRITICAL | bck_2_1 | Text contrast ratio 2.1:1 on blue background | WCAG AA (4.5:1 min) | Change text to white or lighten background |
-| 2 | MAJOR | bck_1_3 | Body text at 12px | Min 16px body text | Update font-size in BlockStyles |
+| 2 | MAJOR | bck_1_3 | Body text at 12px (at default base 18; multiply by your `base_pt_desktop / 18` ratio for non-default decks) | Min palier 7 (`s.text_base`) for body | Use `s.text_base` or raise the deck's `base_pt_desktop` |
 | 3 | MAJOR | bck_3_2 | Inconsistent heading color (blue vs green) | Color consistency | Standardize to primary heading color |
 | 4 | MINOR | bck_1_1 | Image slightly pixelated at current size | Asset quality | Replace with higher resolution version |
 | 5 | SUGGESTION | bck_2_3 | Could use visual separator between sections | Layout quality | Add horizontal rule or spacing |
@@ -111,7 +111,7 @@ Read these files:
 | Element | Consistent? | Variations Found | Recommendation |
 |---------|-------------|------------------|----------------|
 | Heading colors | No | Blue (#1a73e8) in Part 1, Green (#34a853) in Part 2 | Standardize to blue |
-| Body font size | Yes | 16px throughout | OK |
+| Body font size | Yes | `s.text_base` throughout (16px at default base; multiply by `base_pt_desktop / 18` for non-default decks) | OK |
 | Code block style | No | Dark theme in 1.2, light theme in 2.1 | Standardize to dark theme |
 | Spacing between blocks | Partial | 2rem in most, 1rem in Part 3 | Standardize to 2rem |
 

@@ -14,9 +14,13 @@ StreamTeX collection hub — a multi-project aggregator.
 | Sidebar | `initial_sidebar_state="expanded"` |
 | Banner | no |
 | Marker | no |
-| Body font | `s.text_lg` (palier 5, ≈14pt desktop responsive) |
-| Title font | `s.text_7xl` (palier 16, ≈60pt desktop responsive) |
-| Hero font | `s.text_9xl` (palier 19, ≈128pt desktop responsive) |
+| Body font | `s.text_base` (palier 7, defaults to `base_pt_desktop` = 18pt) |
+| Title font | `s.text_5xl` (palier 13, 36pt @ default base) |
+| Hero font | `s.text_9xl` (palier 19, 128pt @ default base) |
+
+> Per-document override: `st_book(scale=ScaleConfig(base_pt_desktop=...))`
+> shifts every palier proportionally — never override individual paliers.
+> See `modular-design-philosophy` for the audience → base table.
 
 ### Design System Pack (recommended for any non-trivial project)
 

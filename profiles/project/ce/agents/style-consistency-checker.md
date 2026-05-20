@@ -48,6 +48,7 @@ Read these files:
    - Check style naming follows guideline patterns (if specified)
    - Check container patterns align with guideline directives
    - Check font size ranges respect guideline calibration
+   - **Scale config check**: verify the project uses `ScaleConfig(base_pt_desktop=X)` if its body size differs from default 18pt; flag inline per-block font-size overrides as inconsistent with the scale system
 7. **Pattern consistency check** (if project has named patterns):
    - Blocks with `@pattern:` annotations must follow the referenced pattern's recipe
    - Similar-looking components across blocks should reference the same pattern

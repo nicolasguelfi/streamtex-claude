@@ -16,7 +16,7 @@ No Markdown syntax may appear in strings passed to StreamTeX functions.
 - **Telegraphic style:** keywords, not full sentences
 - **Slide breaks:** `st_slide_break(marker_label="...")` BEFORE every slide (except first)
 - **No helper boxes:** No `show_explanation()`, `show_details()`
-- **BlockStyles:** Use `s.project.slide.*` (64pt headline, 48pt body)
+- **BlockStyles:** Use `s.project.slide.*` mapped to indexed paliers (headline ≈ `s.text_7xl`, body ≈ `s.text_4xl`); for projection prefer `ScaleConfig(base_pt_desktop=24)` in `book.py` over upsizing individual paliers.
 
 ### document profile
 

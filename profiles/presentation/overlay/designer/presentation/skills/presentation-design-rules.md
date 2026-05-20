@@ -38,32 +38,43 @@ st_write(bs.body, "+8% vs 2023")
 Audience at 10–20 m needs large text, but sizes must stay **proportional**
 so that the full slide fits on one screen.
 
-| Element | Size | StreamTeX style | Notes |
-|---|---|---|---|
-| Course title | 96pt | `s.Huge` / `s.project.titles.course_title` | Title slide only |
-| Section titles | 80pt | `s.huge` / project section title | Page headings |
-| Subtitles | 48pt bold | `s.Large + s.bold` | |
-| Body text | 48pt | `s.Large` | Main readable content |
-| Attribution/source | 32pt | `s.large` | Footers, sources |
-| Caption/footer | 32pt | `s.large` | |
+> **v2 architecture**: pick `base_pt_desktop=24` for projection in
+> `book.py`. Every palier in the 29-palier scale scales up uniformly.
+> Legacy tokens shown in the rightmost column remain valid for
+> existing decks.
 
-> **Giant (128pt) and GIANT (196pt) are exceptional** — use only for
-> single-word decorative elements (e.g. a number, an icon label).
-> Never use them for multi-word titles: they overflow the viewport.
+| Element | Indexed alias (primary) | Palier | pt @ base 18 | pt @ base 24 (projection) | Legacy equivalent |
+|---|---|---|---|---|---|
+| Course title | `s.text_8xl` | 17 | 72pt | 96pt | `s.Huge` |
+| Section titles | `s.text_7xl` | 16 | 60pt | 80pt | `s.huge` |
+| Subtitles | `s.text_6xl + s.bold` | 15 | 48pt | 64pt | `s.Large + s.bold` |
+| Body text | `s.text_base` | 7 | 18pt | 24pt | `s.big` (also valid: `s.Large` for legacy) |
+| Attribution/source | `s.text_xs` | 5 | 14pt | 18.7pt | `s.medium` |
+| Caption/footer | `s.text_xs` | 5 | 14pt | 18.7pt | `s.medium` |
 
-> **Override**: base `visual-design-rules.md` uses `s.large` (32pt) for body.
-> In presentation mode, body is `s.Large` (48pt) minimum.
+> **Giant paliers (`s.text_9xl` and `s.scale[27]`) are exceptional** —
+> use only for single-word decorative elements (e.g. a number, an icon
+> label). Never use them for multi-word titles: they overflow the
+> viewport.
+
+> **Recommended setup**: `st_book([...], scale=ScaleConfig(base_pt_desktop=24))`
+> in `book.py`. With this base, `s.text_base` renders at 24pt (32px) —
+> the readable body size for projection. Avoid hand-tuning individual
+> paliers; the WORD_PROCESSOR curve already balances the scale.
 
 ### WRONG
 ```python
-st_write(s.large, "Key takeaway")       # 32pt — too small at distance
-st_write(s.medium, "Source: Survey 2024") # 16pt — invisible
+st_write(s.text_xs, "Key takeaway")       # palier 5 — too small for body
 ```
 
 ### CORRECT
 ```python
-st_write(s.Large, "Key takeaway")        # 48pt — readable at distance
-st_write(s.large, "Source: Survey 2024")  # 32pt — acceptable for attribution
+# In book.py:
+st_book([...], scale=ScaleConfig(base_pt_desktop=24))
+
+# In bck_*.py:
+st_write(s.text_base, "Key takeaway")     # palier 7 — 24pt @ base 24 = 32px
+st_write(s.text_xs, "Source: Survey 2024")  # palier 5 — caption / attribution
 ```
 
 ---

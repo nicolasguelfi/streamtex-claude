@@ -26,7 +26,7 @@
 | `--color-primary` | `ColorsCustom.primary` |
 | `--color-bg` | Background in `themes.py` |
 | `--color-text` | Default text color |
-| `font-size: Xpx` | Closest `Text.sizes.*` or `Style("font-size: Xpt;")` |
+| `font-size: Xpx` | Nearest palier in `s.scale[]` — use `compute_scale(ScaleConfig())` to get the lookup table; legacy `Text.sizes.*` fallback for existing themes |
 | `font-weight: bold` | `Text.weights.bold_weight` |
 | `text-align: center` | `Text.alignments.center_align` |
 | `font-style: italic` | `Text.decors.italic_text` |
@@ -52,4 +52,4 @@ python -c "from streamtex.styles import Text; print(dir(Text.decors))"
 
 - Dark theme is default — adapt light-theme source colors for dark backgrounds
 - Never hardcode black/white — use theme-aware styles
-- For custom font sizes not in `Text.sizes.*`, use `Style("font-size: Xpt;", "size_Xpt")`
+- For custom font sizes outside the 29-palier scale, prefer raising/lowering the deck's `ScaleConfig(base_pt_desktop=X)` over inline `Style("font-size: Xpt;")` overrides; legacy `Text.sizes.*` and inline overrides remain valid for one-off cases

@@ -2,6 +2,13 @@
 
 Condensed API reference. For full details, see `documentation/streamtex_cheatsheet_en.md`.
 
+> Examples below use the indexed scale (`s.text_base`, `s.text_2xl`,
+> etc.). If you are maintaining an existing project that uses the
+> legacy tokens (`s.large`, `s.huge`, `s.medium`, ...), keep them.
+> For new code, prefer the indexed scale + a single
+> `ScaleConfig(base_pt_desktop=...)` per deck. See
+> `modular-design-philosophy` for the translation table.
+
 ## Essential Imports (every block file)
 
 ```python
@@ -33,15 +40,15 @@ def build():
 
 ```python
 # Simple text
-st_write(s.large, "Hello world")
+st_write(s.text_base, "Hello world")
 
 # Inline mixed styles (ONE call with tuples)
-st_write(s.large,
+st_write(s.text_base,
          "Normal ", (s.bold, "bold"), " and ",
          (s.italic + s.project.colors.primary, "styled"), " text.")
 
 # With link
-st_write(s.large, "See ", (s.project.colors.primary + s.large, "docs", "https://..."), ".")
+st_write(s.text_base, "See ", (s.project.colors.primary + s.text_base, "docs", "https://..."), ".")
 
 # TOC registration
 st_write(bs.heading, "Section Title", tag=t.div, toc_lvl="1")
@@ -53,11 +60,11 @@ st_write(bs.sub, "Subsection", toc_lvl="+1")
 ```python
 # Vertical stacking container
 with st_block(style):
-    st_write(s.large, "Inside a block")
+    st_write(s.text_base, "Inside a block")
 
 # Horizontal inline container
 with st_span(style):
-    st_write(s.large, "Inline content")
+    st_write(s.text_base, "Inline content")
 ```
 
 ## Grid Layout — `st_grid()`
@@ -65,14 +72,14 @@ with st_span(style):
 ```python
 # Equal columns
 with st_grid(cols=3) as g:
-    with g.cell(): st_write(s.large, "Col 1")
-    with g.cell(): st_write(s.large, "Col 2")
-    with g.cell(): st_write(s.large, "Col 3")
+    with g.cell(): st_write(s.text_base, "Col 1")
+    with g.cell(): st_write(s.text_base, "Col 2")
+    with g.cell(): st_write(s.text_base, "Col 3")
 
 # CSS template columns
 with st_grid(cols="1fr 2fr") as g:
-    with g.cell(): st_write(s.large, "Narrow")
-    with g.cell(): st_write(s.large, "Wide")
+    with g.cell(): st_write(s.text_base, "Narrow")
+    with g.cell(): st_write(s.text_base, "Wide")
 
 # Per-cell styling with StyleGrid
 styled = (
@@ -86,11 +93,11 @@ with st_grid(cols=2, cell_styles=styled) as g:
 ## Lists — `st_list()`
 
 ```python
-with st_list(list_type=lt.unordered, li_style=s.large) as l:
+with st_list(list_type=lt.unordered, li_style=s.text_base) as l:
     with l.item(): st_write("Item A")
     with l.item():
         st_write("Item B")
-        with st_list(li_style=s.medium) as l2:  # nested
+        with st_list(li_style=s.text_xs) as l2:  # nested
             with l2.item(): st_write("Sub-item B.1")
 
 with st_list(list_type=lt.ordered) as l:
@@ -163,7 +170,7 @@ st_br()                   # Minimal line break
 with st_overlay() as o:
     st_image(uri="background.png", width="800px", height="300px")
     with o.layer(top=120, left=250):
-        st_write(s.bold + s.Large, "Overlaid text")
+        st_write(s.bold + s.text_4xl, "Overlaid text")
 ```
 
 ## Block Inclusion — `st_include()`
@@ -176,10 +183,11 @@ st_include(block_file_module=blocks.sub_block)
 ## Style System
 
 ```python
-# Built-in styles: s.bold, s.italic, s.large, s.Large, s.huge, s.center_txt, ...
+# Built-in styles: s.bold, s.italic, s.text_base, s.text_4xl, s.text_7xl, s.center_txt, ...
+# (legacy aliases s.large, s.Large, s.huge etc. remain valid)
 
 # Compose with +
-title = s.bold + s.Large + s.project.colors.primary
+title = s.bold + s.text_4xl + s.project.colors.primary
 
 # Remove with -
 no_bold = title - s.bold
@@ -188,7 +196,7 @@ no_bold = title - s.bold
 custom = ns("border-left: 4px solid blue; padding: 8px;")
 
 # Named themed style (supports dark mode)
-named = Style.create(s.bold + s.Large, "my_title")
+named = Style.create(s.bold + s.text_4xl, "my_title")
 
 # Project palette: s.project.colors.*, s.project.titles.*, s.project.containers.*
 ```

@@ -14,10 +14,14 @@ Standard StreamTeX project for screen viewing.
 | Sidebar | `initial_sidebar_state="expanded"` |
 | Banner | `BannerConfig.full()` |
 | Marker | `MarkerConfig(auto_marker_on_toc=1, show_nav_ui=True)` |
-| Body font | `s.text_lg` (palier 5, ≈14pt desktop responsive) |
-| Title font | `s.text_7xl` (palier 16, ≈60pt desktop responsive) |
-| Hero font | `s.text_9xl` (palier 19, ≈128pt desktop responsive) |
+| Body font | `s.text_base` (palier 7, defaults to `base_pt_desktop` = 18pt; 24px @ 96 DPI) |
+| Title font | `s.text_5xl` (palier 13, 36pt @ default base) |
+| Hero font | `s.text_9xl` (palier 19, 128pt @ default base) |
 | Max blocks | 15 |
+
+> Per-document override: `st_book(scale=ScaleConfig(base_pt_desktop=...))`
+> shifts every palier proportionally — never override individual paliers.
+> See `modular-design-philosophy` for the audience → base table.
 
 ### Design System Pack (recommended for any non-trivial project)
 

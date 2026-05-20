@@ -1,5 +1,10 @@
 # Style Conventions for StreamTeX Slides
 
+> **Font sizes**: see `modular-design-philosophy` for the authoritative
+> scale guidance. Default vocabulary = `s.text_*` aliases; tune overall
+> size via `base_pt_desktop` (one `st_book(scale=ScaleConfig(...))`
+> call), **never** per-palier overrides.
+
 ## Style Composition
 
 - Use `+` to combine styles: `s.bold + s.large + s.text.colors.blue`

@@ -51,11 +51,19 @@ Choose based on the project type:
 
 ### Text sizing
 
-| Audience | Body text | Titles | Code |
-|----------|-----------|--------|------|
-| Auditorium (projection) | `s.Large` (48pt) min | `s.huge` (80pt) | 20pt |
-| Screen (individual) | `s.large` (32pt) | `s.huge` (80pt) | 18pt |
-| Documentation (reading) | `s.large` (32pt) | `s.Large` (48pt) | 16pt |
+> **v2 architecture**: pick `base_pt_desktop` for the audience, then use
+> the indexed scale aliases. See `modular-design-philosophy` for the
+> full table. Never override individual paliers.
+
+| Audience | Recommended `base_pt_desktop` | Body (alias) | Title (alias) | Notes |
+|---|---|---|---|---|
+| Auditorium projection | 24 | `s.text_base` (→ 24pt effective) | `s.text_7xl` | Projection at distance |
+| Screen viewing | 18 (default) | `s.text_base` | `s.text_5xl` | Individual reader |
+| Documentation reading | 18 | `s.text_base` | `s.text_4xl` | Long-form |
+| Dense / data-heavy | 16 | `s.text_base` (→ 16pt effective) | `s.text_3xl` | Compact |
+
+Code blocks use the responsive CSS variable `--stx-code-size` and need
+no per-audience override.
 
 ### Design Guideline Integration
 

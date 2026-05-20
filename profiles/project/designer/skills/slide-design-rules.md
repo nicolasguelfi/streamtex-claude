@@ -189,18 +189,28 @@ keyword = s.bold + s.project.colors.accent
 
 ## Rule 5 — Font Size Hierarchy
 
-| Element | Min size | StreamTeX style | Notes |
-|---|---|---|---|
-| Slide title (L1) | 48pt | `s.Large` or `s.huge` | Depends on text length |
-| Body text (L2) | 24pt | `s.big` minimum | Default target: `s.large` (32pt) |
-| List items | 24pt | `s.big` minimum | Prefer `s.large` (32pt) |
-| Question (L3) | 24pt | `s.big + s.italic` | Stylized for transition |
-| Keywords emphasis | same as body | `s.bold + s.project.colors.accent` | Same size, colored + bold |
+> **v2 architecture**: primary recommendation = indexed scale + a single
+> `base_pt_desktop` per deck. See `modular-design-philosophy` for the
+> authoritative legacy→indexed table.
 
-> **Minimum absolute**: 24pt (`s.big`). In rare cases with dense content, 18pt is acceptable
-> but should be avoided. If content requires 18pt, consider **splitting the slide**.
+| Element | Indexed (primary) | Palier | Legacy equivalent | Notes |
+|---|---|---|---|---|
+| Slide title (L1) | `s.text_6xl` or `s.text_7xl` | 15 / 16 | `s.Large` / `s.huge` | Depends on text length |
+| Body text (L2) | `s.text_2xl` (default) or `s.text_base` (with base=24) | 10 / 7 | `s.large` / `s.big` | Default target: 24pt effective |
+| List items | `s.text_2xl` (default) | 10 | `s.large` | Prefer 32pt effective via base=24 |
+| Question (L3) | `s.text_2xl + s.italic` | 10 | `s.big + s.italic` | Stylized for transition |
+| Keywords emphasis | same as body | — | `s.bold + s.project.colors.accent` | Same size, colored + bold |
 
-> **Preferred default**: 32pt (`s.large`) for body text when space allows.
+> **Minimum palier**: idx_7 (`s.text_base`) = 18pt at default base.
+> In dense content cases, idx_6 (`s.text_sm` = 16pt) is acceptable but
+> should be avoided; consider **splitting the slide** instead.
+
+> **Preferred default**: `s.text_2xl` (palier 10) for body text — 24pt at
+> base 18, 32pt at base 24.
+
+> **Projection / auditorium**: prefer
+> `st_book(scale=ScaleConfig(base_pt_desktop=24))` to scale up the
+> entire 29-palier system uniformly, rather than per-block overrides.
 
 ---
 
@@ -580,12 +590,16 @@ for sans-serif fonts.
 
 ### Reference table
 
+Values shown at the default `base_pt_desktop=18`. For projection
+(`base_pt_desktop=24`), multiply every width by 24/18 = 1.33.
+
 | Font | 5 chars (e.g., "Day 1") | 8 chars (e.g., "Mastering") | 12 chars (e.g., "Requirements") |
 |------|------------------------|----------------------------|-------------------------------|
-| `s.large` (32pt ≈ 43px) | ~160px | ~240px | ~340px |
-| `s.Large` (48pt ≈ 64px) | ~220px | ~340px | ~490px |
-| `s.huge` (64pt ≈ 85px) | ~290px | ~440px | ~640px |
-| `s.Huge` (80pt ≈ 107px) | ~350px | ~550px | ~800px |
+| `s.text_2xl` (24pt ≈ 32px, legacy `s.large`) | ~120px | ~185px | ~260px |
+| `s.text_4xl` (32pt ≈ 43px, legacy `s.Large`) | ~160px | ~240px | ~340px |
+| `s.text_6xl` (48pt ≈ 64px, legacy `s.LARGE`) | ~220px | ~340px | ~490px |
+| `s.text_7xl` (60pt ≈ 80px, legacy `s.huge`) | ~280px | ~430px | ~610px |
+| `s.text_8xl` (72pt ≈ 96px, legacy `s.Huge`) | ~330px | ~510px | ~740px |
 
 *Values include ~30px padding. Actual results vary by font and character mix.*
 

@@ -146,3 +146,12 @@ A single file `design.md` per the template. No other output.
 > hardcoded `Npx`. The indexed scale (`s.text_*` / `s.scale[N]`) is the
 > default font sizing vocabulary; pack bundles MUST reference the CSS
 > variable so consumers retain responsive sizing.
+
+> **Fallback values match WORD_PROCESSOR desktop @ base 18**: When
+> choosing a fallback in `var(--stx-scale-K, fallback_pt)`, use the
+> WORD_PROCESSOR curve desktop value at palier K. This ensures graceful
+> degradation if the streamtex stylesheet fails to load. The fallback
+> values are documented in `streamtex.styles.text.Sizes.idx_N` Python
+> objects. Consumers using a non-default `ScaleConfig.base_pt_desktop`
+> still get the correct sizing at runtime via the CSS variable; the
+> fallback is only used in the (rare) loading-failure case.

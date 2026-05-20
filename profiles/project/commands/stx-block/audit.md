@@ -97,15 +97,15 @@ For each block file, check:
 #### Visual design (ERROR)
 - [ ] `build()` wraps content in `with st_block(s.center_txt):`
 - [ ] Main heading uses `tag=t.div, toc_lvl="1"`
-- [ ] Body text uses appropriate font size for audience
+- [ ] Body text uses `s.text_base` or `s.text_lg` (NEVER `s.text_xs` for body); deck's `ScaleConfig(base_pt_desktop=...)` is set per audience (see `modular-design-philosophy`)
 - [ ] Multi-line text blocks use `"""\..."""` (auto-dedented)
 - [ ] No string concatenation in `st_write()` calls
 - [ ] `st_space("v", 2)` between sections, `st_space("v", 1)` within
 - [ ] Section structure follows canonical order
 
 #### Presentation-specific (CRITICAL — only when presentation rules apply)
-- [ ] Body text uses `s.Large` (48pt) or above
-- [ ] Section titles use `s.Huge` (96pt) or `s.huge` (80pt)
+- [ ] Body text uses `s.text_4xl` (palier 12, 32pt @ default base) or larger — OR uses `base_pt_desktop=24` with `s.text_base` (effective 24pt = 32px)
+- [ ] Section titles use `s.text_5xl` (palier 13) or `s.text_7xl` (palier 16)
 - [ ] No bullet exceeds 7 words, no section has more than 3 bullets
 - [ ] No `muted`/`subtle` color on body text
 - [ ] No image below 400px width

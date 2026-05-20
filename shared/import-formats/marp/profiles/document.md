@@ -11,22 +11,26 @@
 
 ## Typography
 
-| Element | Size | Style reference |
-|---|---|---|
-| Block title | palier 16, responsive | `s.text_7xl + s.bold + s.center_txt` |
-| Section title | palier 12, responsive | `s.text_3xl + s.bold + ColorsCustom.accent` |
-| Body text | palier 5, responsive | `s.text_lg` |
-| Keywords | palier 5 bold + accent | `s.bold + ColorsCustom.accent + s.text_lg` |
-| Caption / source | palier 2, responsive | `s.text_xs + ColorsCustom.muted` |
-| Code blocks | responsive | default `st_code()` |
+| Element | Palier | Style reference | pt @ default base 18 |
+|---|---|---|---|
+| Block title | 16 | `s.text_7xl + s.bold + s.center_txt` | 60pt |
+| Section title | 11 | `s.text_3xl + s.bold + ColorsCustom.accent` | 28pt |
+| Body text | 7 (BASE) | `s.text_base` | 18pt |
+| Keywords | 7 bold + accent | `s.bold + ColorsCustom.accent + s.text_base` | 18pt |
+| Caption / source | 5 | `s.text_xs + ColorsCustom.muted` | 14pt (floor) |
+| Code blocks | responsive | default `st_code()` | — |
 
-Marp → StreamTeX mapping (legacy → indexed scale):
+> Per-document override: `st_book(scale=ScaleConfig(base_pt_desktop=...))`
+> shifts every palier proportionally. Default base 18 is recommended for
+> document/reading profile.
+
+Marp → StreamTeX mapping (legacy → indexed scale, v2):
 
 | Marp default | Legacy token | Indexed-scale recommendation |
 |---|---|---|
-| Marp default body | `s.large` (32pt) | `s.text_lg` (palier 5, responsive) |
-| Marp `<h1>` | `s.huge` (80pt) | `s.text_7xl` (palier 16, responsive) |
-| Marp `<h2>` | `s.Large` (48pt) | `s.text_4xl` (palier 13, responsive) |
+| Marp default body | `s.large` (32pt) | `s.text_base` (palier 7 = BASE, 18pt) |
+| Marp `<h1>` | `s.huge` (80pt) | `s.text_7xl` (palier 16, 60pt) |
+| Marp `<h2>` | `s.Large` (48pt) | `s.text_6xl` (palier 15, 48pt) |
 
 ## Content Rules
 

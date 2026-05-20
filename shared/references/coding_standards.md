@@ -366,6 +366,14 @@ across all consumers.
 Legacy `s.medium`/`s.large`/etc. tokens remain valid; use them only
 when matching an existing block file's existing style.
 
+**Updated 0.7.6**: `s.text_base` now resolves to the BASE palier
+(idx_7 = 18pt by default). Smaller aliases (`s.text_xs`, `s.text_sm`)
+resolve to paliers ≥ 14pt = 18.67px desktop, automatically respecting
+the ≥ 18px content floor. Per-document base override via
+`st_book(scale=ScaleConfig(base_pt_desktop=X))`. See the
+`modular-design-philosophy` skill for the authoritative legacy→indexed
+translation table and the audience → `base_pt_desktop` recommendations.
+
 ## 10. Running the App
 ```bash
 # Single project (from project directory)

@@ -112,7 +112,7 @@ at their own pace during exercises.
 
 ## Constraints (absolute)
 
-- No font below 24pt (`s.big`)
+- No font below palier 7 (`s.text_base`); recommended `base_pt_desktop=20-22` for workshop shared screens. See `auditorium-projection` for stricter projection-distance settings.
 - Code blocks: complete and runnable — no pseudocode
 - Exercise slides: must include objective + steps + expected outcome
 - Maximum 2 theory slides before an exercise

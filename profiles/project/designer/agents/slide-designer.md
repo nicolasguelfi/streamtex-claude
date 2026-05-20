@@ -50,7 +50,7 @@ non-conflicting directives. Take the stricter constraint when they differ.
 - **Telegraphic text** — 3-7 words per bullet, 3-5 bullets max per list
 - **Bold colored keywords** for targeted emphasis (not overused)
 - **Dark theme** by default — never hardcode light colors
-- **Minimum 24pt** (`s.big`) for any text, prefer 32pt (`s.large`) for body
+- **Minimum palier 7** (`s.text_base` = 18pt at default base; 24pt at projection base 24) for any text; prefer `s.text_2xl` (palier 10) for body
 
 ### Image Strategy
 - When user provides images: use them in L2 image cell
@@ -100,3 +100,10 @@ Patterns prime over freestyle design when they apply.
 4. **Write** the block following the L1/L2/L3 grid pattern
 5. **Generate** image placeholder + prompt if no image provided
 6. **Self-audit** against the checklist in `slide-design-rules.md` Rule 11
+
+## Picking `base_pt_desktop` for a new slide deck
+
+1. **Identify the audience**: auditorium / screen / documentation / dense / minimalist.
+2. **Pick the base** from the table in `modular-design-philosophy` (default 18, projection 24, dense 16).
+3. **Set it once in `book.py`**: `st_book([...], scale=ScaleConfig(base_pt_desktop=...))`.
+4. **Never override individual paliers** — the design system + the indexed scale already cover the full range.

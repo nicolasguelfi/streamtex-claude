@@ -116,7 +116,7 @@ PresentationProfile(
 
 ## Constraints (absolute — never violated)
 
-- No font below 48pt for body text (projection readability + visual calm)
+- No font below 48pt for body text (projection readability + visual calm) — recommend `base_pt_desktop=20-22` so `s.text_base` lands above the floor while keeping the whole scale generous
 - No font below 80pt for headlines
 - Maximum 5 bullets per list
 - Maximum 7 words per bullet

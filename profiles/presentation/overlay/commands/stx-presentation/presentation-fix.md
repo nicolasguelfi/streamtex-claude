@@ -16,14 +16,14 @@ Fix the block file specified by $ARGUMENTS. If no argument given, ask the user w
 
 Apply these transformations in order:
 
-### 1. Small Body Fonts → `s.Large` (48pt)
-- `s.medium` → `s.Large`
-- `s.big` → `s.Large`
-- `s.large` (when used as body) → `s.Large`
+### 1. Small Body Fonts → `s.text_base` + `ScaleConfig(base_pt_desktop=24)`
+- Preferred fix: set `scale=ScaleConfig(base_pt_desktop=24)` in `st_book(...)` so `s.text_base` renders at 24pt = 32px (visible at projection).
+- Per-block legacy fallback: `s.medium` / `s.big` / `s.large` on body → `s.text_4xl` (palier 12, 32pt @ default base).
 
-### 2. Small Title Fonts → `s.Huge` (96pt)+
-- `s.Large` on main titles → `s.Huge` or project title style
-- `s.large` on titles → `s.Huge`
+### 2. Small Title Fonts → `s.text_7xl` (palier 16) or `s.text_8xl` (palier 17)
+- `s.Large` on main titles → `s.text_7xl` (60pt @ base 18; 80pt @ base 24)
+- `s.large` on titles → `s.text_7xl`
+- For projection at distance, prefer raising the deck's `base_pt_desktop` rather than upsizing each title individually.
 
 ### 3. Long Text → Keywords
 - Sentences → 5–7 word keyword phrases
