@@ -18,9 +18,9 @@ st_write(s.large,
 
 ### CORRECT
 ```python
-st_write(s.large, "This is a short line")
+st_write(s.text_base, "This is a short line")
 st_br()
-st_write(s.large, "that reads well on a slide.")
+st_write(s.text_base, "that reads well on a slide.")
 ```
 
 ## 2. Multi-line Text Blocks
@@ -39,17 +39,25 @@ show_explanation("""\
 
 ## 3. Font Size Hierarchy
 
-| Level | Size | Usage |
-|-------|------|-------|
-| GIANT (196pt) | `s.GIANT` | Decorative only |
-| huge (80pt) | `s.huge` | Course title |
-| Large (48pt) | `s.Large` | Section title |
-| large (32pt) | `s.large` | Body text, explanations |
-| big (24pt) | `s.big` | Secondary text |
-| medium (16pt) | `s.medium` | Small annotations |
-| Code | Responsive (18pt) | `st_code()` via `--stx-code-size` variable |
+> Primary recommendation = indexed scale (v2 — `s.text_base` rebased to
+> idx_7 = 18pt). See `modular-design-philosophy` for the full
+> legacy→indexed translation. Tune overall size via
+> `ScaleConfig.base_pt_desktop`.
 
-- All body text in slides uses `s.large` (32pt).
+| Indexed alias (primary) | Default pt @ base 18 | Legacy equivalent | Use case |
+|---|---|---|---|
+| `s.text_9xl` | 128pt | `s.giant` | Decorative display |
+| `s.text_8xl` | 72pt | `s.Huge` | Course / book title |
+| `s.text_7xl` | 60pt | `s.huge` | Section heading |
+| `s.text_6xl` | 48pt | `s.LARGE` | Page heading |
+| `s.text_5xl` | 36pt | (between Large and huge) | Subsection |
+| `s.text_4xl` | 32pt | `s.Large` | Subheading |
+| `s.text_2xl` | 24pt | `s.large` | Strong emphasis |
+| `s.text_base` | 18pt | `s.big` | Body text (= BASE) |
+| `s.text_xs` | 14pt | `s.medium` | Small annotation (floor) |
+| Code | Responsive (18pt) | `st_code()` via `--stx-code-size` variable | — |
+
+- All body text in slides uses `s.text_2xl` (palier 10, 24pt at base 18; or use `base_pt_desktop=24` for 32pt effective).
 - All label styles (explanation, details, tip, warning) use 32pt.
 - Code blocks use the responsive CSS variable `--stx-code-size` (desktop 18pt, tablet 14pt, mobile 11pt).
 - Use `wrap=True` for JSON/logs where alignment doesn't matter; keep `wrap=False` (default) for aligned code.
@@ -72,12 +80,12 @@ st_space("v", 1)
 
 # 3. Code box (syntax-highlighted)
 show_code("""\
-    st_write(s.large, "Example code")
+    st_write(s.text_base, "Example code")
 """)
 st_space("v", 1)
 
 # 4. Live rendering
-st_write(s.large, "Example code")
+st_write(s.text_base, "Example code")
 st_space("v", 2)
 
 # 5. Optional: details box (defaults & tips)
@@ -103,9 +111,9 @@ show_details("""\
 with st_block(s.project.containers.bad_callout):
     st_write(bs.wrong_label, "WRONG:")
     st_space("v", 1)
-    st_write(s.large, "Explanation line 1.")
+    st_write(s.text_base, "Explanation line 1.")
     st_br()
-    st_write(s.large, "Explanation line 2.")
+    st_write(s.text_base, "Explanation line 2.")
     st_space("v", 1)
     show_code_inline("""\
         # the wrong code here

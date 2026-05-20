@@ -75,7 +75,7 @@ def test_style_add():
 def test_st_block_nesting():
     with patch("streamtex.container.st.html") as mock_html:
         with st_block(s.bold):
-            st_write(s.large, "Inside")
+            st_write(s.text_lg, "Inside")
         # Verify the block wrapper was rendered
         calls = mock_html.call_args_list
         # First call: block open, second: content, third: block close

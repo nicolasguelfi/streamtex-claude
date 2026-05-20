@@ -14,9 +14,43 @@ Standard StreamTeX project for screen viewing.
 | Sidebar | `initial_sidebar_state="expanded"` |
 | Banner | `BannerConfig.full()` |
 | Marker | `MarkerConfig(auto_marker_on_toc=1, show_nav_ui=True)` |
-| Body font | `s.large` (32pt) |
-| Title font | `s.huge` (80pt) |
+| Body font | `s.text_base` (palier 7, defaults to `base_pt_desktop` = 18pt; 24px @ 96 DPI) |
+| Title font | `s.text_5xl` (palier 13, 36pt @ default base) |
+| Hero font | `s.text_9xl` (palier 19, 128pt @ default base) |
 | Max blocks | 15 |
+
+> Per-document override: `st_book(scale=ScaleConfig(base_pt_desktop=...))`
+> shifts every palier proportionally — never override individual paliers.
+> See `modular-design-philosophy` for the audience → base table.
+
+### Design System Pack (recommended for any non-trivial project)
+
+For any project beyond a single block, scaffold a project-specific
+design system pack at init:
+
+```bash
+stx project new <name> --kit streamtex_design:project-default
+# Creates ./mypack/ as the primary local pack
+
+stx ds new default --pack mypack
+# Creates ./mypack/design_systems/default.py
+
+# Edit ./mypack/design_systems/default.py to declare the project's
+# visual identity (colors, callouts, titles, body)
+```
+
+Then in `book.py`:
+
+```python
+from mypack.design_systems.default import DesignSystem as ProjectDS
+from streamtex import st_book
+
+st_book([...], design_system=ProjectDS())
+```
+
+This puts reusable styles in the pack (versionable, scope-able,
+testable). Per-block specifics go in `BlockStyles` inside each block
+file. See the `modular-design-philosophy` skill for the decision tree.
 
 ### Design Guideline (Optional)
 

@@ -34,7 +34,7 @@ Parse `$ARGUMENTS` as: `[BLOCK_NAME | FILE_PATH]`
    - Enumerate EVERY `color`, `background-color`, `border-color`, `text-decoration-color` value
    - List all hex/rgb values found
    - For each: map to StreamTeX style OR classify as "default/theme — not migrated" with justification
-4. **Detect Formatting**: Bold (`font-weight: 700`) -> `s.bold`, Italic -> `s.italic`
+4. **Detect Formatting**: Bold (`font-weight: 700`) -> `s.bold`, Italic -> `s.italic`. Font sizes map to the nearest indexed-scale palier (`s.text_*`); see `import-formats/html/conventions.md`.
 5. **Identify Containers**: Tables -> `stx.st_grid()`, bullet lists -> `stx.st_list()`
 6. **Style Consolidation**: Group identical computed styles under ONE generic `BlockStyles` name (English)
 

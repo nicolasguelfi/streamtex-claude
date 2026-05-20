@@ -9,6 +9,8 @@ for visual design compliance and pedagogical completeness.
 
 1. Read `.claude/designer/skills/visual-design-rules.md` (mandatory)
 2. Read `.claude/designer/skills/style-conventions.md` (mandatory)
+3. Read `.claude/shared/skills/reuse-architecture.md` (mandatory)
+4. Read `.claude/shared/skills/modular-design-philosophy.md` (mandatory)
 
 ## Review Checklist
 
@@ -23,7 +25,8 @@ for visual design compliance and pedagogical completeness.
 ### Visual Quality (mandatory)
 - [ ] No text line exceeds ~45 visible characters
 - [ ] No multi-arg string concatenation in `st_write()`
-- [ ] Body text uses `s.large` (32pt), not `s.big` (24pt)
+- [ ] Body text uses palier ≥ 7 (`s.text_base` or larger; legacy `s.large` still acceptable on existing code)
+- [ ] **ScaleConfig.base_pt_desktop set for non-default audiences**: If the project's target audience is auditorium, projection, dense data, or minimalist, verify the book.py sets `scale=ScaleConfig(base_pt_desktop=X)` per the table in `modular-design-philosophy`
 - [ ] `st_space("v", 2)` between major sections
 - [ ] `st_space("v", 1)` between elements within sections
 
@@ -77,6 +80,21 @@ For each slide reviewed:
 - If a referenced component is missing from the catalog:
   - Flag as a broken reference; suggest `/stx-component:new` or
     `stx pack sync`.
+
+### New review criterion: pack-first compliance
+
+When reviewing a slide block, check:
+
+- Are styles used in 2+ blocks defined in the project's design pack
+  (./mypack/design_systems/) rather than `custom/styles.py`?
+- Are font sizes using the indexed scale (`s.text_*` / `s.scale[N]`)
+  or, at minimum, a responsive token (`s.medium`/`s.large`)?
+  Per-document size is tuned via `ScaleConfig(base_pt_desktop=X)` —
+  per-block hand-tuned paliers should be flagged as inconsistent.
+- If hardcoded `font-size: Npx` is present, flag as a bug (must use
+  responsive token).
+
+These criteria apply to NEW code; existing legacy code is grandfathered.
 
 ## Output Format
 

@@ -15,8 +15,9 @@ Audit the block file specified by $ARGUMENTS. If no argument given, ask the user
 
 ### CRITICAL (must fix before presenting)
 
-1. **Font size — body text**: All body content uses `s.Large` (48pt) or above. `s.medium`, `s.big`, `s.large` on body = CRITICAL.
-2. **Font size — titles**: Section titles use `s.Huge` (96pt) or project title styles. `s.Large` on main titles = CRITICAL.
+1. **Font size — body text**: Body uses `s.text_4xl` (palier 12 = 32pt @ base 18) or larger, OR uses `base_pt_desktop=24` with `s.text_base` (effective 24pt = 32px). Paliers below 7 (`s.text_xs`/`s.text_sm`) on body = CRITICAL.
+2. **Font size — titles**: Section titles use `s.text_7xl` (palier 16) or `s.text_8xl` (palier 17). Titles below palier 13 on main slides = CRITICAL.
+2b. **ScaleConfig present**: For projection audiences, `book.py` should set `scale=ScaleConfig(base_pt_desktop=24)`. Missing for stated projection audience = ERROR.
 3. **Keywords only**: No bullet exceeds 7 words. No section has more than 3 bullets.
 4. **High contrast**: No `muted` or `subtle` color on body text (only on attribution/source).
 5. **Image sizing**: No image below 400px width (except logos).
@@ -37,7 +38,7 @@ Audit the block file specified by $ARGUMENTS. If no argument given, ask the user
 
 11. **Spacing consistency**: Inconsistent spacing between similar elements = WARNING.
 12. **Style reuse**: Repeated inline style compositions instead of `BlockStyles` class = WARNING.
-13. **Attribution placement**: Source/footer text above `s.large` (32pt) = WARNING (too prominent).
+13. **Attribution placement**: Source/footer text larger than palier 7 (`s.text_base`) = WARNING (too prominent).
 14. **Density > 60%**: Slide content occupies more than 60% of the viewport surface = WARNING.
 15. **Images with px**: Images sized with `px` instead of `%` or `vh` units = WARNING.
 16. **Too many bullets**: More than 3 bullets in a fullscreen slide = WARNING.

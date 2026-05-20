@@ -1,5 +1,10 @@
 # Style Conventions for StreamTeX Slides
 
+> **Font sizes**: see `modular-design-philosophy` for the authoritative
+> scale guidance. Default vocabulary = `s.text_*` aliases; tune overall
+> size via `base_pt_desktop` (one `st_book(scale=ScaleConfig(...))`
+> call), **never** per-palier overrides.
+
 ## Style Composition
 
 - Use `+` to combine styles: `s.bold + s.large + s.text.colors.blue`
@@ -7,11 +12,24 @@
 - Use `Style.create(composed, "style_id")` for themed styles.
 - Use `ns("css-property: value;")` only for one-off inline styles.
 
-## Naming
+## Style Storage (pack-first)
 
-- All custom styles go in `custom/styles.py`.
+Reusable styles belong in a **pack**, not in `custom/styles.py`. The
+legacy `custom/styles.py` mechanism is supported for backward
+compatibility, but new projects should prefer the pack-first layout.
+
+| Style scope | Location | Example |
+|---|---|---|
+| Used by 2+ blocks of THIS project | `./mypack/design_systems/default.py` + `./mypack/components/` | Color palette, project-wide CTA |
+| Used by 1 block only | `BlockStyles` class inside the block file | Block-specific spacing variant |
+| Used across multiple projects | Upstream pack (`streamtex-design` or domain pack) | `callout`, `comparison_table` |
+
+Naming conventions:
 - Use **English-only** names (no French, no abbreviations).
 - Follow the existing naming pattern: `colors.primary_blue`, `containers.good_callout`.
+- New projects: extend the pack's `design_systems/default.py` with project bundles.
+
+See the `modular-design-philosophy` skill for the full decision tree.
 
 ## BlockStyles Class
 

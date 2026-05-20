@@ -128,8 +128,9 @@ PresentationProfile(
 
 ## Constraints (absolute — never violated)
 
-- No font below 24pt (`s.big`) — absolute minimum for projection
-- Preferred body font: 24-32pt depending on content volume
+- No font below palier 7 (`s.text_base`) — absolute minimum for projection
+- Preferred body: `s.text_base` to `s.text_2xl` depending on content volume
+- **Recommend `base_pt_desktop=16`** for dense documents — `s.text_base` becomes 16pt = 21.3px, still above the readable floor; the entire scale compresses proportionally
 - Maximum 3 nesting levels (title > item > sub-item)
 - Tables: maximum 6 columns, readable cell content
 - Code blocks: syntax highlighting mandatory, line numbers on

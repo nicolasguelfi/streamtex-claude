@@ -1027,7 +1027,17 @@ StyleGrid(css_grid)            # Matrice de styles pour cellules de grids/tables
 s.bold, s.italic, s.center_txt          # Style de base
 s.GIANT, s.Huge, s.LARGE, s.Large       # Tailles rapides (196pt..32pt)
 s.large, s.big, s.medium, s.small       # (24pt..6pt)
+
+# Echelle indexee responsive (recommandee pour nouveau code)
+s.text_xs, s.text_base, s.text_lg       # Alias Tailwind (palier 0..28)
+s.text_3xl, s.text_7xl, s.text_9xl      # Titres, hero
+s.scale[N]                              # Acces dynamique (N=0..28, clamped)
+s.idx_5                                 # Acces direct (autocomplete)
 ```
+
+- **Tailles de police** → voir la skill `indexed-font-scale` (ou
+  `streamtex_cheatsheet_en.md` pour l'API). Pour les nouveaux blocks,
+  preferer `s.text_xs` … `s.text_9xl`.
 
 ### Creer un style personnalise
 

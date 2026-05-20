@@ -146,6 +146,44 @@ def build():
 
 > **Rule**: Never go below 24pt. If content needs smaller, split the slide.
 
+## Font scale (presentations)
+
+For new presentation projects, use the indexed responsive scale. With
+the v2 architecture, **every palier derives from a single base**;
+prefer `base_pt_desktop=24` for projection rather than per-element
+overrides.
+
+| Element | Recommended token | Palier | pt @ base 18 | pt @ base 24 (projection) |
+|---|---|---|---|---|
+| Caption | `s.text_xs` | 5 | 14pt | 18.67pt |
+| Body | `s.text_base` | 7 | 18pt | 24pt |
+| Lead body | `s.text_lg` | 8 | 20pt | 26.67pt |
+| Subtitle | `s.text_4xl` | 12 | 32pt | 42.67pt |
+| Slide title | `s.text_7xl` | 16 | 60pt | 80pt |
+| Hero | `s.text_9xl` | 19 | 128pt | 170.67pt |
+
+### Per-presentation base = 24 (recommended)
+
+For auditorium / projection audiences, override the BASE once in
+`book.py`; every palier scales proportionally:
+
+```python
+from streamtex import st_book, ScaleConfig, ScaleCurve
+
+st_book(
+    [...slides...],
+    scale=ScaleConfig(
+        base_pt_desktop=24,                 # projection-tuned base
+        curve=ScaleCurve.WORD_PROCESSOR,    # default
+    ),
+)
+```
+
+The legacy `s.huge`/`s.Large`/etc. tokens above remain valid for
+existing presentations (see the legacy-to-indexed translation table in
+`modular-design-philosophy`). The indexed scale + `base_pt_desktop` is
+the recommended path for new presentations.
+
 ---
 
 ## 5. Dark Theme Defaults

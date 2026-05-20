@@ -28,7 +28,7 @@ For every HTML import, enumerate ALL non-default colors:
 | `text-align: center` | `s.center_txt` |
 | `color: #RRGGBB` | `ColorsCustom.name` in `custom/styles.py` |
 | `background-color: #RRGGBB` | `BackgroundsCustom.name` |
-| `font-size: Xpx` | Closest `Text.sizes.*` |
+| `font-size: Xpx` | Nearest palier in the indexed scale (`s.text_xs`/`s.text_sm`/`s.text_base`/`s.text_lg`/`s.text_xl`/`s.text_2xl`/.../`s.text_9xl`). Use `compute_scale(ScaleConfig())` to inspect the lookup. Legacy `Text.sizes.*` fallback remains valid for existing themes. |
 
 ## 3. Component Mapping
 

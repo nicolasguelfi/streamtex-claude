@@ -53,7 +53,7 @@ project's `custom/styles.py` and palette, not a copy-paste.
    - No line of visible text exceeds ~45 characters
    - Every live rendering has a preceding `show_code()`
    - All multi-line text blocks use `"""\..."""`
-   - Body text uses `s.large` (32pt)
+   - Body text uses `s.text_base` (palier 7) — or the deck's `ScaleConfig(base_pt_desktop=X)` if non-default audience
    - No concatenated multi-string `st_write()` calls
    - Follows active design guideline principles (if guideline active)
    - `# @guideline: <name>` annotation present at top of file
@@ -63,4 +63,4 @@ project's `custom/styles.py` and palette, not a copy-paste.
 - Follow ALL rules from `.claude/designer/skills/visual-design-rules.md`
 - No raw HTML/CSS strings
 - Use `st_write()` + `st_br()` for multi-line text, not string concatenation
-- Use `s.large` for all body text
+- Use `s.text_base` (indexed scale) for all body text — legacy `s.large` remains valid on existing decks

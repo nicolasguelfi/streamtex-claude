@@ -29,7 +29,7 @@ Parse `$ARGUMENTS` as: `<block_name>`
 
 3. **Read import rules**: Both shared conventions and HTML-specific conventions.
 
-4. **Analyze**: Extract colors, font sizes, layout patterns from the HTML.
+4. **Analyze**: Extract colors, font sizes, layout patterns from the HTML. Font sizes map to the nearest indexed-scale palier (`s.text_*`); see `import-formats/html/conventions.md`.
 
 5. **Determine family**: If block name starts with `bckcp_` → use `s.project.doc.*` styles. Otherwise → use `s.project.pres.*` styles.
 

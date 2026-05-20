@@ -333,6 +333,47 @@ with st_grid(cols=2, grid_style=grid_gap):
 - Supported functions: `st_code`, `st_mermaid`, `st_plantuml`, `st_tikz`, `st_graphviz`, `st_markdown`
 - Example: `stx.st_mermaid(file="diagrams/flowchart.mmd", height=500)`
 
+### Style storage hierarchy (pack-first)
+
+Reusable visual artefacts belong in a pack, not in the project's
+`custom/styles.py`. For any style/component that will be used by **two
+or more blocks**:
+
+- **Project-specific identity** (color palette, callout variants,
+  document-wide compositions) → the project's local design pack
+  (`./mypack/design_systems/default.py` + components).
+- **Cross-project, universal** (callout, comparison_table, etc.) →
+  upstream `streamtex-design` pack or a domain pack you maintain.
+- **Single-block variant or one-off** → `BlockStyles` class inside the
+  block file.
+
+The legacy `custom/styles.py` mechanism remains supported for backward
+compatibility, but new projects should prefer the pack-first layout.
+See the `modular-design-philosophy` skill for the full decision tree.
+
+### Font scale: prefer the indexed scale for new code
+
+For new block code (post-2026-05), use the **indexed responsive scale**:
+
+- Tailwind aliases (`s.text_xs` … `s.text_9xl`) for readable code.
+- Subscript (`s.scale[N]`) for dynamic indices.
+- Direct attribute (`s.idx_N`) for IDE autocomplete.
+
+Pack design systems MUST use `var(--stx-scale-K, fallback_pt)` rather
+than hardcoded `font-size: Npx`. This keeps responsive sizing intact
+across all consumers.
+
+Legacy `s.medium`/`s.large`/etc. tokens remain valid; use them only
+when matching an existing block file's existing style.
+
+**Updated 0.7.6**: `s.text_base` now resolves to the BASE palier
+(idx_7 = 18pt by default). Smaller aliases (`s.text_xs`, `s.text_sm`)
+resolve to paliers ≥ 14pt = 18.67px desktop, automatically respecting
+the ≥ 18px content floor. Per-document base override via
+`st_book(scale=ScaleConfig(base_pt_desktop=X))`. See the
+`modular-design-philosophy` skill for the authoritative legacy→indexed
+translation table and the audience → `base_pt_desktop` recommendations.
+
 ## 10. Running the App
 ```bash
 # Single project (from project directory)

@@ -6,7 +6,61 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 Prior to this Changelog, changes are tracked in the git history of this repository (see `git log` on `main`).
 
+## [0.3.1] — 2026-05-20 — v2 relative-scale doctrine across all AI artifacts
+
+### Added
+
+- **Authority rule** in `shared/skills/modular-design-philosophy.md`:
+  legacy-to-indexed translation table, "never override individual
+  paliers" rule, ScaleConfig knob priority order, and audience →
+  `base_pt_desktop` recommendation table. Read FIRST by all
+  designer/reviewer/pack-designer agents.
+
+### Changed
+
+- 51 AI-control artifacts updated to recommend the v2 indexed scale +
+  `ScaleConfig.base_pt_desktop` override as the primary path. Legacy
+  tokens (`s.medium`/`s.large`/etc.) remain valid but no longer
+  recommended as primary.
+- Audience-specific defaults codified across all relevant artifacts:
+  - Presentations (auditorium): `base_pt_desktop=24`
+  - Screen viewing: `base_pt_desktop=18` (default)
+  - Documentation: `base_pt_desktop=18`
+  - Dense / data-heavy: `base_pt_desktop=16`
+  - Minimalist generous: `base_pt_desktop=20-22`
+- Audit/review agents (`slide-reviewer`, `visual-reviewer`,
+  `style-consistency-checker`, `presentation-audit`) now express
+  font-size criteria in palier-index terms (base-independent), so
+  audits remain correct regardless of the project's chosen base.
+
+### Migration
+
+For existing projects, no action required. The `s.large`/`s.huge`/etc.
+tokens continue to work. Migration to the indexed scale + base_pt
+is recommended for new projects only.
+
 ## [Unreleased]
+
+### Added
+
+- New skill: `shared/skills/modular-design-philosophy.md` — codifies
+  the pack-first design doctrine + indexed-scale guidance.
+- Cheatsheet: new "Indexed responsive font scale" section in
+  `shared/references/streamtex_cheatsheet_en.md` mirroring the
+  streamtex-docs cheatsheet.
+
+### Changed
+
+- `shared/references/coding_standards.md` extended with a
+  "Style storage hierarchy (pack-first)" section and a
+  "Font scale: prefer the indexed scale" section.
+- `shared/references/presentation_cheatsheet_en.md` gained a
+  "Font scale (presentations)" section with indexed-scale ↔ legacy mapping.
+- 10+ artifacts (skills, agents, templates, import format) updated to
+  recommend the indexed font scale and pack-first storage, with
+  legacy tokens kept valid as backward-compatibility fallbacks.
+- 3 CLAUDE.md.j2 overlays (library / documentation / presentation)
+  cross-reference the new `modular-design-philosophy` skill.
 
 ## [0.3.0] — 2026-05-19 — Pack Engineering module
 

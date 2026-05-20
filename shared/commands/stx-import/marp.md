@@ -74,9 +74,15 @@ Execute each step in order. Each step is documented in `.claude/import-formats/m
 - **Ask user for confirmation** before proceeding
 
 ### Step 2 — Migrate theme (`steps/02-theme-migrate.md`)
-- Read the active profile for font sizes and style names
-- **slides:** Generate `SlideStylesCustom` (64pt headline, 48pt body)
-- **document:** Generate `DocumentStylesCustom` (48pt headline, 24pt body)
+- Read the active profile for font sizes and style names. The converter
+  produces **indexed-scale tokens** (`s.text_*`), picking the nearest
+  palier; legacy `Text.sizes.*` fallback only when no palier matches.
+- **slides:** Generate `SlideStylesCustom` mapped to indexed paliers
+  (headline ≈ `s.text_7xl`, body ≈ `s.text_4xl`); recommend
+  `ScaleConfig(base_pt_desktop=24)` in `book.py` for projection.
+- **document:** Generate `DocumentStylesCustom` mapped to indexed
+  paliers (headline ≈ `s.text_6xl`, body ≈ `s.text_base`); default
+  `base_pt_desktop=18`.
 - Convert Marp CSS theme colors to `custom/styles.py` and `custom/themes.py`
 - **CRITICAL:** Use correct API names (`Text.alignments.center_align`, `Text.decors.italic_text`)
 - Verify with: `python -c "from custom.styles import Styles"`

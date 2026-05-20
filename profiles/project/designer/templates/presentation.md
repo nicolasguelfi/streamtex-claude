@@ -14,9 +14,46 @@ StreamTeX presentation optimized for live projection at 10-20m distance.
 | Sidebar | `initial_sidebar_state="expanded"` |
 | Banner | `BannerConfig.full()` |
 | Marker | `MarkerConfig(auto_marker_on_toc=1, show_nav_ui=True)` — PageUp/PageDown |
-| Body font | `s.Large` (48pt) — **mandatory minimum** |
-| Title font | `s.Huge` (96pt) |
+| `base_pt_desktop` | **24** (projection — every palier scales up uniformly) |
+| Body font | `s.text_base` (palier 7, 24pt @ base 24 = 32px) |
+| Title font | `s.text_7xl` (palier 16, 80pt @ base 24) |
+| Hero font | `s.text_9xl` (palier 19, 170pt @ base 24) |
 | Max blocks | 15 |
+
+> **Recommended config**:
+> `st_book([...], scale=ScaleConfig(base_pt_desktop=24))` — projection
+> at distance. Every palier in the 29-palier scale shifts proportionally
+> (do NOT override individual paliers). See
+> `modular-design-philosophy` for the full audience → base table.
+
+### Design System Pack (recommended for any non-trivial project)
+
+For any project beyond a single block, scaffold a project-specific
+design system pack at init:
+
+```bash
+stx project new <name> --kit streamtex_design:project-default
+# Creates ./mypack/ as the primary local pack
+
+stx ds new default --pack mypack
+# Creates ./mypack/design_systems/default.py
+
+# Edit ./mypack/design_systems/default.py to declare the project's
+# visual identity (colors, callouts, titles, body)
+```
+
+Then in `book.py`:
+
+```python
+from mypack.design_systems.default import DesignSystem as ProjectDS
+from streamtex import st_book
+
+st_book([...], design_system=ProjectDS())
+```
+
+This puts reusable styles in the pack (versionable, scope-able,
+testable). Per-block specifics go in `BlockStyles` inside each block
+file. See the `modular-design-philosophy` skill for the decision tree.
 
 ## Additional rules
 
@@ -36,8 +73,8 @@ Recommended for presentations: `maximize-viewport` or `minimalist-visual`.
 
 ## Presentation-specific constraints
 
-- **Body text**: `s.Large` (48pt) minimum — `s.large` (32pt) is too small for projection
-- **Titles**: `s.Huge` (96pt) for main titles, `s.huge` (80pt) for section titles
+- **Body text**: with the recommended `base_pt_desktop=24`, `s.text_base` renders at 24pt (32px) — visible at projection distance. Avoid `s.text_xs` for body.
+- **Titles**: `s.text_8xl` (palier 17, 96pt @ base 24) for main titles, `s.text_7xl` (palier 16, 80pt @ base 24) for section titles
 - **Keywords only**: 5-7 words per bullet, max 3 bullets per section
 - **No helper boxes**: `show_explanation()`, `show_details()`, `show_code()` are forbidden
 - **High contrast**: Never use `muted`/`subtle` on body text

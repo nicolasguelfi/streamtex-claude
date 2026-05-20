@@ -138,7 +138,7 @@ If the mode is ambiguous, state what you detected and ask for confirmation.
 ### Presentation-aware generation
 
 If the project has presentation skills (`.claude/designer/presentation/` exists or profile is `presentation`):
-- Use `s.Large` (48pt) for body text instead of `s.large` (32pt)
+- Use `ScaleConfig(base_pt_desktop=24)` in `book.py` so `s.text_base` renders at 24pt (= 32px, visible at projection distance)
 - Apply L1/L2/L3 grid structure from `slide-design-rules.md`
 - Keyword-driven text (3-7 words/bullet, max 3-5 bullets)
 - No helper boxes (`show_explanation`, `show_details`, `show_code`)
@@ -152,7 +152,7 @@ If the project has presentation skills (`.claude/designer/presentation/` exists 
 1. **Read current state**: `book.py`, `custom/styles.py`, `custom/themes.py`, `.streamlit/config.toml`
 2. **Identify changes**: Parse the description for customization domains:
    - **Theme/colors**: palette, dark/light, accent colors
-   - **Typography**: font sizes, audience change (screen ↔ auditorium)
+   - **Typography**: `ScaleConfig.base_pt_desktop` in `book.py` (audience change: screen ↔ auditorium ↔ dense). NEVER hand-edit individual paliers.
    - **Navigation**: TOC, pagination, banner, marker
    - **Features**: export, inspector, zoom, collection mode
 3. **Propose a diff**: Show what will change, which files, how many blocks affected

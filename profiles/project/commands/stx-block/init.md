@@ -82,7 +82,7 @@ Extract from `<description>` + template defaults:
 - **Number of sections/slides**: N (from description or template default)
 - **Visual theme**: dark | light | custom
 - **Features**: TOC, pagination, banner, export, interactivity
-- **Target audience**: auditorium (`s.Large` min) | screen (`s.large`)
+- **Target audience** → `base_pt_desktop` (set once in `book.py`): auditorium (24) | screen (18, default) | dense (16) | minimalist (20-22)
 - **Color palette**: from description or template default
 
 If information is missing, use the template's defaults. If no template defaults exist, use:
@@ -201,9 +201,11 @@ generation on this step.
 
 - All blocks follow the `BlockStyles` + `build()` pattern
 - Style names are in English (`style-conventions.md`)
-- Text sizes respect the target audience:
-  - Auditorium: `s.Large` (48pt) minimum for body text
-  - Screen: `s.large` (32pt) for body text
+- Text sizes are tuned **once per deck** via `st_book(scale=ScaleConfig(base_pt_desktop=...))`, then every palier follows proportionally:
+  - Auditorium: `base_pt_desktop=24` (body `s.text_base` → 24pt effective, 32px)
+  - Screen: `base_pt_desktop=18` (default, body `s.text_base` → 18pt = 24px)
+  - Dense / data: `base_pt_desktop=16`
+  - Minimalist / generous: `base_pt_desktop=20-22`
 - Each block has a `toc_lvl` for the table of contents
 - Content is structured placeholder (no Lorem Ipsum)
 - Block filenames use semantic names: `bck_title.py`, `bck_intro.py`, etc. (no numbered prefixes)

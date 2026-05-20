@@ -90,13 +90,19 @@ After applying:
 
 ### Block fixes
 
-#### Font size corrections
-| Found | Fix (screen) | Fix (presentation) |
-|-------|-------------|-------------------|
-| `s.medium` on body | `s.large` | `s.Large` |
-| `s.big` on body | `s.large` | `s.Large` |
-| `s.large` on titles | `s.huge` | `s.Huge` |
-| `s.Large` on main titles | `s.huge` | `s.Huge` |
+#### Font size corrections (indexed scale — recommended)
+
+| Found | Fix (legacy fallback) | Fix (recommended) |
+|-------|-----------------------|-------------------|
+| `s.medium` on body | `s.text_xs` (legacy fallback) | `s.text_base` (recommended) |
+| `s.big` on body | `s.text_base` | `s.text_lg` |
+| `s.large` on titles | `s.text_4xl` | `s.text_5xl` |
+| `s.Large` on main titles | `s.text_5xl` | `s.text_7xl` |
+
+> For projection audiences, prefer setting
+> `ScaleConfig(base_pt_desktop=24)` in `book.py` rather than upsizing
+> per block. See `modular-design-philosophy` for the audience → base
+> table.
 
 #### Text style corrections
 | Found | Fix |

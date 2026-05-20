@@ -22,7 +22,7 @@ Each slide follows a **3-zone layout**:
 
 | Zone | Level | Content |
 |------|-------|---------|
-| Title | L1 | Section heading (`s.Huge` or `s.huge`) |
+| Title | L1 | Section heading — `s.text_7xl` (palier 16, 60pt @ base 18 — or 80pt @ base 24 for projection) |
 | Content | L2 | Grid-based content (`st_grid`) |
 | Footer | auto | Managed by `PresentationConfig(footer=True)` — never manual |
 

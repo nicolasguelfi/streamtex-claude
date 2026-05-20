@@ -34,12 +34,33 @@ The user describes the desired customization changes. Examples:
 
 ### 2. Typography
 
-**Affected files**: `custom/styles.py`, all blocks
+**Affected files**: `custom/styles.py`, `book.py`
 
-- Font sizes: screen (`s.large` body) vs auditorium (`s.Large` body)
-- Title hierarchy: `s.huge` > `s.Large` > `s.large`
+- **Body text**: prefer `s.text_base` for primary body, `s.text_lg` for lead body
+- **Title hierarchy**: `s.text_7xl` > `s.text_6xl` > `s.text_4xl`
 - Bullet style in lists
-- Custom font (if requested)
+- Custom font family (if requested)
+
+### 2a. Customize `base_pt_desktop` (recommended over per-block overrides)
+
+To change overall sizing for the deck, edit `book.py` once:
+
+```python
+st_book([...], scale=ScaleConfig(base_pt_desktop=24))   # projection
+```
+
+Every palier in the 29-palier scale follows proportionally — never
+override individual paliers. Audience → base table in
+`modular-design-philosophy`:
+
+| Audience | base_pt_desktop |
+|---|---|
+| Screen viewing (default) | 18 |
+| Documentation / reading | 18 |
+| Auditorium projection | 24 |
+| Workshop interactive | 20-22 |
+| Dense / data-heavy | 16 |
+| Minimalist generous | 20-22 |
 
 ### 3. Navigation
 

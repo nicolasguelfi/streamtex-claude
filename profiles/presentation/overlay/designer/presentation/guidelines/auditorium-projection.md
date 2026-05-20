@@ -20,9 +20,17 @@ is your enemy — it washes out colors and blurs fine details.
 ### P1 — Readability at 20 meters
 
 Font sizes are dramatically larger than screen-reading defaults.
-- Minimum body text: 48pt (`s.Large`)
-- Minimum headlines: 80pt (`s.Huge`)
-- Preferred body: 64pt (`s.huge`) when content allows
+**Recommended setup**: `st_book([...], scale=ScaleConfig(base_pt_desktop=24))`
+in `book.py`. With this base, every palier in the 29-palier scale
+shifts proportionally — no per-block overrides needed.
+
+- Minimum body text: palier 12 (`s.text_4xl`) — 32pt @ default base
+- **OR** keep `s.text_base` and rely on `base_pt_desktop=24`
+  (effective 24pt = 32px at 96 DPI)
+- Preferred body: `s.text_base` with `base_pt_desktop=24` (effective
+  32px = 24pt at 96 DPI), or `s.text_4xl` with default base (32pt)
+- Minimum headlines: palier 16 (`s.text_7xl`) — 60pt @ default base,
+  80pt @ base 24
 - No fine details, thin lines, or small annotations
 
 ### P2 — Maximum contrast

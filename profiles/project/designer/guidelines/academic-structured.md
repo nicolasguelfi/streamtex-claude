@@ -117,8 +117,8 @@ PresentationProfile(
 
 ## Constraints (absolute — never violated)
 
-- No font below 24pt (body) — `s.big` minimum
-- Preferred body font: 32pt (`s.large`)
+- No font below palier 7 (`s.text_base` = 18pt at default base; 24pt at projection base 24)
+- Preferred body: `s.text_base` (default 18pt; use `ScaleConfig(base_pt_desktop=20)` for slightly larger)
 - Maximum 7 bullets per list (5 preferred)
 - Maximum 12 words per bullet (10 preferred)
 - Every technical term bold-highlighted on first use
