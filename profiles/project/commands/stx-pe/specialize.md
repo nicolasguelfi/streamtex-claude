@@ -17,7 +17,7 @@ Arguments: $ARGUMENTS
 Forces the **specialize** sub-mode of `/stx-pe:go` : take an existing upstream pack that almost fits but lacks domain-specific patterns, and produce a fork-pack that EXTENDS it without overriding upstream components.
 
 Use specialize when :
-- You have an upstream pack as a starting point (e.g. `streamtex-design`).
+- You have an upstream pack as a starting point (e.g. `streamtex-pack-design`).
 - Your N projects share patterns NOT covered by upstream.
 - You want to preserve upstream as a dependency (not vendoring it).
 
@@ -25,9 +25,9 @@ The cycle clones the upstream, rewrites `pyproject.toml` / `_pack_manifest.toml`
 
 ## Examples
 
-- `/stx-pe:specialize git:github.com/streamtex/streamtex-design@v0.4 projects/manual-a projects/manual-b`
-- `/stx-pe:specialize pypi:streamtex-design@^0.4 --fork-name design-edu projects/*`
-- `/stx-pe:specialize ../streamtex-design --pr-upstream streamtex/streamtex-design projects/*`
+- `/stx-pe:specialize git:github.com/nicolasguelfi/streamtex-packs@pack-design-v0.2.4#subdirectory=streamtex-pack-design projects/manual-a projects/manual-b`
+- `/stx-pe:specialize pypi:streamtex-pack-design@^0.2 --fork-name design-edu projects/*`
+- `/stx-pe:specialize ../streamtex-pack-design --pr-upstream nicolasguelfi/streamtex-packs projects/*`
 
 ## Required Readings
 

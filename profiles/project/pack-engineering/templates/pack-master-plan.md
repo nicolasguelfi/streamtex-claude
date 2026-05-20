@@ -60,7 +60,7 @@
 <Things that need user decision but not via QCM gate.>
 
 - [ ] Should `<comp-X>` and `<comp-Y>` be merged ? They overlap on `<aspect>`.
-- [ ] DS bundle `<bundle>` is required by N components but not yet in `streamtex-design.default` — propose to upstream ?
+- [ ] DS bundle `<bundle>` is required by N components but not yet in `streamtex-pack-design.default` — propose to upstream ?
 
 ## 5. Decisions log (narrative)
 
@@ -71,4 +71,4 @@
 Accepted 12 candidates out of 18 discovered. Rejected 6 :
 - 2 were 1-occurrence singletons (below threshold).
 - 3 were project-specific (used proj-a's accent color directly — should be a project style override, not a pack component).
-- 1 was indistinguishable from `streamtex-design:callout` (the system flagged duplicate ; no need to re-create).
+- 1 was indistinguishable from `streamtex-pack-design:callout` (the system flagged duplicate ; no need to re-create).

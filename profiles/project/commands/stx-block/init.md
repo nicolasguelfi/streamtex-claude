@@ -177,15 +177,15 @@ Next steps:
   4. Use /stx-block:audit to check compliance
 ```
 
-### Step 5 — (Optional) Install a streamtex-design kit
+### Step 5 — (Optional) Install a streamtex-pack-design kit
 
 After scaffolding, propose to the user:
 
-> Install a streamtex-design kit to bootstrap reusable components and
+> Install a streamtex-pack-design kit to bootstrap reusable components and
 > a design system? Recommended for this project type: `<kit>`.
 >
 > ```bash
-> stx kit install streamtex-design:<kit>
+> stx kit install streamtex-pack-design:<kit>
 > ```
 
 Choose kit based on the template:

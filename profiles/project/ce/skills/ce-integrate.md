@@ -1,6 +1,6 @@
 # CE Integrate
 
-Skill for the INTEGRATE phase of the Compound Engineering cycle. Routes capitalized solutions from `docs/solutions/` to their operational destinations: library issues, skill updates, documentation improvements, author custom rules, **and components promoted from the local pack to a shared pack (e.g. `streamtex-design`)**.
+Skill for the INTEGRATE phase of the Compound Engineering cycle. Routes capitalized solutions from `docs/solutions/` to their operational destinations: library issues, skill updates, documentation improvements, author custom rules, **and components promoted from the local pack to a shared pack (e.g. `streamtex-pack-design`)**.
 
 Read `.claude/ce/skills/ce-conventions.md` before invoking any user-facing question.
 
@@ -28,7 +28,7 @@ For each unintegrated solution, determine the routing destination by analyzing i
 | References manuals, cheatsheets, documentation gaps, tutorials | **streamtex-docs** (docs) | `/stx-issue:docs` or `/stx-issue:feature` |
 | Is a project-specific coding rule, style convention, naming rule | **Author custom** (`.claude/custom/references/`) | Direct file update or creation |
 | Is a design pattern or guideline refinement | **Author guideline** (`custom/design-guideline.md`) | Direct file update |
-| Is a local component judged broadly reusable | a shared **pack** (`streamtex-design` or another git/pypi pack declared in stx.toml) | `stx component promote <name> --to=<pack>` (PR via `gh` to the pack's repo) |
+| Is a local component judged broadly reusable | a shared **pack** (`streamtex-pack-design` or another git/pypi pack declared in stx.toml) | `stx component promote <name> --to=<pack>` (PR via `gh` to the pack's repo) |
 
 For local patterns (loaded in Phase 1 step 4): the LLM judges in free text whether each pattern is suitable for shared promotion. Eligibility cues (non-exhaustive): the pattern was applied to ≥ 2 distinct block archetypes, its INVARIANTS are not project-specific, the description is portable.
 
@@ -95,7 +95,7 @@ For each validated integration:
 For each component accepted for promotion in Phase 3:
 
 1. Locate the component file in `mypack/components/<name>.py`.
-2. Identify the target pack from the routing decision (e.g. `streamtex-design` or another git/pypi pack already declared in `stx.toml`).
+2. Identify the target pack from the routing decision (e.g. `streamtex-pack-design` or another git/pypi pack already declared in `stx.toml`).
 3. Run `stx component promote <name> --to <pack>` from the project root. The CLI handles the branch creation, file copy into the pack's `components/` directory, optional commit, and PR opening (cf. `component_cmd.py promote` for the exact behaviour — note that PyPI destinations are refused with `PR001`).
 4. Run `stx validate` (or `stx component validate <name>`) inside the target pack to confirm the contract still holds.
 5. Update `master-plan.yaml -> components.applied[*].level = shared` and `promoted_at = <date>` for this component.

@@ -343,7 +343,7 @@ or more blocks**:
   document-wide compositions) → the project's local design pack
   (`./mypack/design_systems/default.py` + components).
 - **Cross-project, universal** (callout, comparison_table, etc.) →
-  upstream `streamtex-design` pack or a domain pack you maintain.
+  upstream `streamtex-pack-design` pack or a domain pack you maintain.
 - **Single-block variant or one-off** → `BlockStyles` class inside the
   block file.
 

@@ -81,7 +81,7 @@ Each chapter follows the pattern:
 - **Summary** — use `takeaways`: key takeaways from all chapters
 - **Next steps** — use `composite_block`: references, further reading, assignments
 
-## Component mapping (default streamtex-design pack)
+## Component mapping (default streamtex-pack-design pack)
 
 | Chapter element | Component | Notes |
 |----------------|-----------|-------|

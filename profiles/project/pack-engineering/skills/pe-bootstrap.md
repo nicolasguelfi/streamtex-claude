@@ -69,7 +69,7 @@ The QCM phrasing in Step 0 is adapted :
 - `--min-occurrences 2` (passed to pack-miner).
 - `--min-projects 2`.
 - `--dedup-against-packs true` (pack-miner skips clusters already covered
-  by `streamtex-design` if installed).
+  by `streamtex-pack-design` if installed).
 - DS scaffolded with 5 minimal bundles : `colors`, `titles`, `body`,
   `callouts`, `card_grid` (enough for the most common components).
 - Initial kit `recommended` containing the top-5 components by usage count.

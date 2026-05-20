@@ -47,7 +47,7 @@ them all.>
 
 | Name | Packs colliding | Resolution recommended |
 |---|---|---|
-| `callout` | `streamtex-design`, `our-fork` | Document `[resolution] prefer = ["our-fork", "streamtex-design"]` in each consumer project's `stx.toml`. |
+| `callout` | `streamtex-pack-design`, `our-fork` | Document `[resolution] prefer = ["our-fork", "streamtex-pack-design"]` in each consumer project's `stx.toml`. |
 
 ## 6. Per-component usage map
 

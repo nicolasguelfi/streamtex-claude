@@ -2497,7 +2497,7 @@ PE auto-routes from `/stx-ce:task` via 5 archetypes (PACK_BOOTSTRAP / SPECIALIZE
 
 Reusable graphic design building blocks live in Python packs declared in
 `stx.toml`. A pack can be a project sub-folder (primary local), a local
-path elsewhere, or a git repository. The default `streamtex-design`
+path elsewhere, or a git repository. The default `streamtex-pack-design`
 pack ships 18 components, 3 design systems, and 4 kits.
 
 ### CLI

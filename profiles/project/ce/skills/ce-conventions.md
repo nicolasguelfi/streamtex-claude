@@ -145,7 +145,7 @@ Three levels of pattern maturity:
 |---|---|---|---|
 | `draft` | `docs/solutions/style/patterns/` | extraction in PROTOTYPE or COMPOUND | automatic capture (no QCM at this step) |
 | `local` | the primary local pack (`./mypack/components/`) | draft | QCM in PROTOTYPE (immediately) or COMPOUND |
-| `shared` | `streamtex-design` pack (PR via `gh`) | local | QCM in INTEGRATE |
+| `shared` | `streamtex-pack-design` pack (PR via `gh`) | local | QCM in INTEGRATE |
 
 The orchestrator never auto-promotes to `local` or `shared`. The user decides via QCM.
 

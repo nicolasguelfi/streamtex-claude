@@ -101,7 +101,7 @@ pour fournir une reponse contextuelle.
 | `streamtex` | `nicolasguelfi/streamtex` | library | Librairie Python principale (PyPI) |
 | `streamtex-docs` | `nicolasguelfi/streamtex-docs` | docs | Manuels et documentation |
 | `streamtex-claude` | `nicolasguelfi/streamtex-claude` | claude | Profils Claude AI |
-| `streamtex-design` | `nicolasguelfi/streamtex-design` | reuse | Pack officiel reuse architecture (Python components, design systems, kits) |
+| `streamtex-pack-design` | `nicolasguelfi/streamtex-packs` (subdir `streamtex-pack-design`) | reuse | Pack officiel reuse architecture (Python components, design systems, kits) |
 | `stx-ai4se` | `nicolasguelfi/stx-ai4se` | project | Projet presentation AI4SE |
 | `stx-html-example` | `nicolasguelfi/stx-html-example` | project | Projet exemple HTML |
 | `stx-modelsward` | `nicolasguelfi/stx-modelsward` | project | Projet MODELSWARD |
@@ -131,7 +131,7 @@ streamtex-dev/                  # Workspace root
       presentation/
       project/
     shared/references/
-  streamtex-design/             # Pack officiel (Python package)
+  streamtex-pack-design/        # Pack officiel (Python package, subdir of streamtex-packs monorepo)
     streamtex_design/
       components/               # ~30 components (primitive/composition/block)
       design_systems/           # 3 DS (default, modern_dark, modern_light)
@@ -179,9 +179,9 @@ streamtex-claude
   |
   +-- profiles --> installes dans chaque projet via `stx claude install`
 
-streamtex-design (pack)
+streamtex-pack-design (pack, in streamtex-packs monorepo)
   |
-  +-- consumed by projects via `stx pack add github.com/.../streamtex-design`
+  +-- consumed by projects via `stx pack add github.com/.../streamtex-packs#subdirectory=streamtex-pack-design`
   +-- referenced via `[[packs]]` entries in stx.toml (cf. reuse-architecture skill)
 
 stx.toml
@@ -1471,7 +1471,7 @@ configuration DNS/SSL, securisation et mise a l'echelle.
 Le catalogue de design est exposé par la **reuse architecture** : packs
 Python distribués via les entry points PEP 621 `streamtex.packs`,
 exposant components, design systems, CLI templates, project blueprints
-et kits. Le pack officiel est `streamtex-design`. La skill centrale est
+et kits. Le pack officiel est `streamtex-pack-design`. La skill centrale est
 `reuse-architecture`.
 
 ### Architecture
@@ -1488,7 +1488,7 @@ et kits. Le pack officiel est `streamtex-design`. La skill centrale est
 
 ```bash
 # Ajouter le pack officiel
-stx pack add github.com/nicolasguelfi/streamtex-design --rev v0.1.0
+stx pack add github.com/nicolasguelfi/streamtex-packs#subdirectory=streamtex-pack-design --rev pack-design-v0.2.4
 
 # Inventorier
 stx pack list [--trace]
@@ -1635,7 +1635,7 @@ stx validate
 | Publier sur PyPI (CI) | `gh release create vX.Y.Z` (OIDC) |
 | Generer stubs bib | `stx bib generate-stubs refs.bib` |
 | Lancer un projet | `stx run` |
-| Reuse — installer un kit | `stx kit install streamtex-design:slides-modern-dark` |
+| Reuse — installer un kit | `stx kit install streamtex-pack-design:slides-modern-dark` |
 | Reuse — synchroniser les packs | `stx pack sync` |
 | Reuse — lister les packs + état | `stx pack list` |
 | Reuse — valider (errors/warnings) | `stx validate [--strict]` |

@@ -35,7 +35,7 @@ Use PE when:
 
 - You have N projects with repeated visual idioms but no shared pack
   yet → `/stx-pe:bootstrap`.
-- An upstream pack (e.g. `streamtex-design`) almost fits but lacks
+- An upstream pack (e.g. `streamtex-pack-design`) almost fits but lacks
   domain-specific patterns → `/stx-pe:specialize`.
 - The active pack is in use and new idioms have emerged in recent blocks
   → `/stx-pe:refine`.
@@ -118,15 +118,16 @@ primary = true
 
 [[packs]]
 type = "git"
-name = "streamtex-design"
-ref = "github.com/nicolasguelfi/streamtex-design"
-rev = "v0.1.0"
+name = "streamtex-pack-design"
+ref = "github.com/nicolasguelfi/streamtex-packs"
+rev = "pack-design-v0.2.4"
+subdirectory = "streamtex-pack-design"
 
 [design_system]
 ref = "default"          # name resolved against the active packs
 
 [resolution]
-prefer = ["mypack", "streamtex-design"]   # sort order, not a filter
+prefer = ["mypack", "streamtex-pack-design"]   # sort order, not a filter
 
 [kit]
 ref = "streamtex_design:project-default"
@@ -173,6 +174,6 @@ INTEGRATE promotion (§8.3) has four destinations (Q12):
 
 - `streamtex/documentation/maintenance/reuse-architecture/PLAN.md` —
   authoritative spec (3888 lines).
-- `streamtex-design` repo — the official reference pack.
+- `streamtex-pack-design` (in `streamtex-packs` monorepo) — the official reference pack.
 - CLI: `stx pack --help`, `stx component --help`, `stx ds --help`,
   `stx kit --help`, `stx validate --help`.

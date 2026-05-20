@@ -23,9 +23,9 @@ If existing blocks should be rewritten to use the new pack, use `--retrofit` (es
 
 ## Examples
 
-- `/stx-pe:adopt ../streamtex-design projects/manual-a projects/manual-b`
-- `/stx-pe:adopt pypi:streamtex-design@^0.4 --kit recommended projects/*`
-- `/stx-pe:adopt git:streamtex/streamtex-design@v0.5 --retrofit projects/manual-a`
+- `/stx-pe:adopt ../streamtex-pack-design projects/manual-a projects/manual-b`
+- `/stx-pe:adopt pypi:streamtex-pack-design@^0.2 --kit recommended projects/*`
+- `/stx-pe:adopt git:nicolasguelfi/streamtex-packs@pack-design-v0.2.4#subdirectory=streamtex-pack-design --retrofit projects/manual-a`
 
 ## Required Readings
 

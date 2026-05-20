@@ -73,7 +73,7 @@ according to **scope of reuse**:
 
 | Scope | Layer | Where it lives | Example |
 |---|---|---|---|
-| Cross-project, universal | Upstream pack | `streamtex-design` or a domain pack | `callout`, `comparison_table` |
+| Cross-project, universal | Upstream pack | `streamtex-pack-design` or a domain pack | `callout`, `comparison_table` |
 | Project-wide identity | Project pack | `./mypack/design_systems/default.py` + `./mypack/components/` | Project's color palette, custom CTA card |
 | Single-block, one-off | Block-local | `BlockStyles` class inside the block file | A specific spacing variant for this block only |
 
@@ -95,7 +95,7 @@ When you find yourself writing a style or component, ask:
                                NO            YES
                                 │             │
                        Project design pack   Upstream pack
-                       (./mypack/design_systems/)  (streamtex-design or domain)
+                       (./mypack/design_systems/)  (streamtex-pack-design or domain)
 ```
 
 ## Font scale: modular vocabulary

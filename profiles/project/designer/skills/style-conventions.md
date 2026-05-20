@@ -22,7 +22,7 @@ compatibility, but new projects should prefer the pack-first layout.
 |---|---|---|
 | Used by 2+ blocks of THIS project | `./mypack/design_systems/default.py` + `./mypack/components/` | Color palette, project-wide CTA |
 | Used by 1 block only | `BlockStyles` class inside the block file | Block-specific spacing variant |
-| Used across multiple projects | Upstream pack (`streamtex-design` or domain pack) | `callout`, `comparison_table` |
+| Used across multiple projects | Upstream pack (`streamtex-pack-design` or domain pack) | `callout`, `comparison_table` |
 
 Naming conventions:
 - Use **English-only** names (no French, no abbreviations).

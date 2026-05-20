@@ -25,11 +25,11 @@ Steps :
 
 ## Examples
 
-- `/stx-pe:publish ../streamtex-design` — Auto-computed bump, QCM for target
-- `/stx-pe:publish --bump minor ../streamtex-design` — Force minor bump
-- `/stx-pe:publish --target tag ../streamtex-design` — Tag only, skip PyPI
-- `/stx-pe:publish --pr-upstream streamtex/streamtex-design ../design-edu`
-- `/stx-pe:publish --dry-run ../streamtex-design` — Preview the bump + changelog
+- `/stx-pe:publish ../streamtex-pack-design` — Auto-computed bump, QCM for target
+- `/stx-pe:publish --bump minor ../streamtex-pack-design` — Force minor bump
+- `/stx-pe:publish --target tag ../streamtex-pack-design` — Tag only, skip PyPI
+- `/stx-pe:publish --pr-upstream streamtex/streamtex-packs ../design-edu`
+- `/stx-pe:publish --dry-run ../streamtex-pack-design` — Preview the bump + changelog
 
 ## Required Readings
 

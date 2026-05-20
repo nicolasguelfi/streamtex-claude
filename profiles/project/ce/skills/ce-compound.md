@@ -92,7 +92,7 @@ Run 5 analysis perspectives sequentially to extract knowledge from the cycle.
 This phase complements the patterns already captured at the local level during PROTOTYPE. COMPOUND catches **emergent patterns** that appeared during PRODUCE without going through PROTOTYPE.
 
 1. Scan all blocks produced or modified during this iteration for **emergent compositions** that appear ≥ 2 times across blocks but are not yet in the catalog.
-2. For each candidate, the **learnings-researcher** agent checks if a similar pattern already exists in the primary local pack (`./mypack/components/`) (local) or in the shared `streamtex-design` pack.
+2. For each candidate, the **learnings-researcher** agent checks if a similar pattern already exists in the primary local pack (`./mypack/components/`) (local) or in the shared `streamtex-pack-design` pack.
 3. Surface a multi-select QCM listing the candidates:
 
    *"<N> compositions visuelles émergentes détectées. Recommandé : capturer toutes celles marquées (✓). Que faites-vous ?"*

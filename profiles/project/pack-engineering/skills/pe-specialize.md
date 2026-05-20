@@ -1,7 +1,7 @@
 # PE Specialize
 
 Sub-mode skill for the **specialize** scenario : take an existing upstream
-pack (e.g. `streamtex-design`) and produce a fork-pack that EXTENDS it
+pack (e.g. `streamtex-pack-design`) and produce a fork-pack that EXTENDS it
 with domain-specific components extracted from N projects, while
 preserving the upstream as a dependency.
 
@@ -15,8 +15,8 @@ upstream and adds what's missing — without overriding the upstream's
 existing components.
 
 Triggers (from `ce-task.md` PACK_SPECIALIZE archetype or `/stx-pe:specialize`) :
-- "specialize streamtex-design for projects A B C"
-- "fork streamtex-design with our extensions"
+- "specialize streamtex-pack-design for projects A B C"
+- "fork streamtex-pack-design with our extensions"
 - "étendre <pack> avec nos composants"
 
 ## Inputs

@@ -83,14 +83,14 @@ When proposing the project structure, note: "Design guideline: <name>" in the ou
 
 When architecting a new StreamTeX project:
 
-1. Choose a **kit** from `streamtex-design` based on the project type:
-   - Course / training → `streamtex-design:course-default`
-   - Slide deck / presentation → `streamtex-design:slides-modern-dark`
-   - Documentation manual → `streamtex-design:manual-default`
-   - Generic project / hub → `streamtex-design:project-default`
-2. Declare `streamtex-design` in `stx.toml` under `[[packs]] type="git"`
-   (or pass `--kit streamtex-design:<kit_name>` to `stx project new`).
-3. Run `stx kit install streamtex-design:<kit_name>` early in the
+1. Choose a **kit** from `streamtex-pack-design` based on the project type:
+   - Course / training → `streamtex-pack-design:course-default`
+   - Slide deck / presentation → `streamtex-pack-design:slides-modern-dark`
+   - Documentation manual → `streamtex-pack-design:manual-default`
+   - Generic project / hub → `streamtex-pack-design:project-default`
+2. Declare `streamtex-pack-design` in `stx.toml` under `[[packs]] type="git"`
+   (or pass `--kit streamtex-pack-design:<kit_name>` to `stx project new`).
+3. Run `stx kit install streamtex-pack-design:<kit_name>` early in the
    bootstrap to record the chosen DS and kit in `stx.toml`.
 4. Mention in the project's README which kit is used and how to
    change it (`stx kit install <pack>:<other_kit>`).
@@ -105,7 +105,7 @@ secondary_local_with_git and git_remote; PyPI destinations are refused).
 ### Block-to-component mapping
 
 When planning a project, associate each block with a component from the
-installed packs. The default mapping below assumes `streamtex-design`:
+installed packs. The default mapping below assumes `streamtex-pack-design`:
 
 | Position in the project | Recommended component |
 |------------------------|----------------------|

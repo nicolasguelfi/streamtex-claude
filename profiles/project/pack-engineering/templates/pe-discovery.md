@@ -39,7 +39,7 @@ consumer projects ; 3 in a single project but with high reuse density
 |---|---|
 | `st_write × 1` | Triviality threshold (no structural elements) |
 | `st_block(bs.warning_proj_a)` | Project-specific token in style name |
-| `st_block(bs.callout)` matching streamtex-design:callout | Duplicate of already-installed pack |
+| `st_block(bs.callout)` matching streamtex-pack-design:callout | Duplicate of already-installed pack |
 
 ## 4. Already-covered (deduplicated against installed packs)
 
@@ -50,7 +50,7 @@ explicitly at the G1 gate.>
 
 | Candidate | Already in pack | Component | Action recommended |
 |---|---|---|---|
-| (signature X) | streamtex-design | callout | Skip — reuse upstream. Add `[resolution] prefer = ["streamtex-design"]` if not already set. |
+| (signature X) | streamtex-pack-design | callout | Skip — reuse upstream. Add `[resolution] prefer = ["streamtex-pack-design"]` if not already set. |
 
 ## 5. Naming suggestions per candidate
 

@@ -6,6 +6,33 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 Prior to this Changelog, changes are tracked in the git history of this repository (see `git log` on `main`).
 
+## [0.3.2] — 2026-05-20 — Pack naming convention `streamtex-pack-{name}`
+
+### Changed
+
+- All artifacts referencing pack names updated to the new convention:
+  - `streamtex-design` (pip / repo name) → `streamtex-pack-design`
+  - `streamtex-manuals` (pip / repo name) → `streamtex-pack-manuals`
+- Pack references now point to the `streamtex-packs` monorepo:
+  `git+https://github.com/nicolasguelfi/streamtex-packs.git@{tag}#subdirectory={pack}`
+  with prefixed tags per pack (`pack-design-v0.2.4`, `pack-manuals-v0.1.0`).
+- License of packs in the ecosystem: BUSL-1.1 (was MIT for individual packs;
+  now aligned with the streamtex library).
+- Python module names (`streamtex_design`, `streamtex_manuals`) PRESERVED
+  → all `from streamtex_design.components import ...` imports work
+  unchanged in user code.
+
+### Migration
+
+For existing projects, update `pyproject.toml`:
+
+```diff
+- "streamtex-design @ git+https://github.com/nicolasguelfi/streamtex-design.git@v0.2.3"
+- "streamtex-manuals"
++ "streamtex-pack-design  @ git+https://github.com/nicolasguelfi/streamtex-packs.git@pack-design-v0.2.4#subdirectory=streamtex-pack-design"
++ "streamtex-pack-manuals @ git+https://github.com/nicolasguelfi/streamtex-packs.git@pack-manuals-v0.1.0#subdirectory=streamtex-pack-manuals"
+```
+
 ## [0.3.1] — 2026-05-20 — v2 relative-scale doctrine across all AI artifacts
 
 ### Added

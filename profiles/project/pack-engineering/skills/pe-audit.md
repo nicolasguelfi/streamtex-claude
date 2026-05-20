@@ -24,7 +24,7 @@ cycle.
 ## Inputs
 
 - `<pack>` (mandatory) : pack ref or path. May be local path
-  (`../streamtex-design`) or remote ref (`git:url@rev`).
+  (`../streamtex-pack-design`) or remote ref (`git:url@rev`).
 - `<projects>` (optional) : list of consumer projects to widen the
   audit's scope (usage statistics, drift detection). If omitted, auto-
   detect all projects in cwd's workspace whose `stx.toml` declares the

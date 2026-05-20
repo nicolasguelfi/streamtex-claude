@@ -124,7 +124,7 @@ def <component_name>(*, design_system, title, body, kind="info"):
 
 | Original cluster name | Conflict with | Final name | Rationale |
 |---|---|---|---|
-| `callout` | `streamtex-design:callout` | `domain_callout` | The fork's variant uses a different palette and adds a `severity` PARAM not present upstream. |
+| `callout` | `streamtex-pack-design:callout` | `domain_callout` | The fork's variant uses a different palette and adds a `severity` PARAM not present upstream. |
 
 ## 4. Rejected designs
 
@@ -135,7 +135,7 @@ satisfy with available DS bundles.>
 | Candidate | Reason |
 |---|---|
 | `proj_a_hero` | Too project-specific (depended on `bs.proj_a_accent` — should be a project style override). |
-| `tiny_note` | Indistinguishable from existing `streamtex-design:cite` after contract analysis. |
+| `tiny_note` | Indistinguishable from existing `streamtex-pack-design:cite` after contract analysis. |
 
 ## 5. Bundle coverage matrix
 

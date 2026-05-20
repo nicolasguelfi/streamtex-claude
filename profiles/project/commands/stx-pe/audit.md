@@ -26,8 +26,8 @@ This sub-mode is also auto-run by bootstrap and specialize at Step 6 ; the stand
 
 ## Examples
 
-- `/stx-pe:audit ../streamtex-design` — Audit local pack, auto-detect consumers
-- `/stx-pe:audit git:streamtex-design@v0.4 projects/*` — Audit remote pack against projects
+- `/stx-pe:audit ../streamtex-pack-design` — Audit local pack, auto-detect consumers
+- `/stx-pe:audit git:streamtex-pack-design@pack-design-v0.2.4 projects/*` — Audit remote pack against projects
 - `/stx-pe:audit --minimal ../my-pack` — Quick audit, no drift section
 - `/stx-pe:audit --no-followup ../my-pack` — Audit report only, no QCM at the end
 

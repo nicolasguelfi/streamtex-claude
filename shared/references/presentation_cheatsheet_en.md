@@ -496,11 +496,11 @@ Style: telegraphic keywords, bold colored accents.
 
 ## Slide components (catalog)
 
-Components designed for slide-based decks ship in `streamtex-design`.
+Components designed for slide-based decks ship in `streamtex-pack-design`.
 Install the slides kit (bundles a coherent set + the `modern_dark` DS):
 
 ```
-stx kit install streamtex-design:slides-modern-dark
+stx kit install streamtex-pack-design:slides-modern-dark
 ```
 
 | Component | Use case |
