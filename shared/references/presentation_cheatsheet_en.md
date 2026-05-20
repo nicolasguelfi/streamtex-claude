@@ -146,6 +146,28 @@ def build():
 
 > **Rule**: Never go below 24pt. If content needs smaller, split the slide.
 
+## Font scale (presentations)
+
+For new presentation projects, use the indexed responsive scale:
+
+| Element | Recommended token | Legacy equivalent |
+|---|---|---|
+| Caption | `s.text_xs` | `s.medium` |
+| Body | `s.text_lg` | `s.large` |
+| Subtitle | `s.text_4xl` | `s.huge` (smaller) |
+| Slide title | `s.text_7xl` | `s.huge` |
+| Hero | `s.text_9xl` | `s.GIANT` |
+
+Per-presentation override:
+
+```python
+st_book([...], scale=ScaleConfig(curve=ScaleCurve.WORD_PROCESSOR, count=20))
+```
+
+The legacy `s.huge`/`s.Large`/etc. tokens above remain valid for
+existing presentations — the indexed scale is the recommendation for
+new code.
+
 ---
 
 ## 5. Dark Theme Defaults

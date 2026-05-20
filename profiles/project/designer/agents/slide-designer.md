@@ -15,9 +15,10 @@ Read these files **in order** (mandatory):
 2. `.claude/designer/skills/visual-design-rules.md` — base visual rules (applies where not overridden)
 3. `.claude/designer/skills/style-conventions.md` — style composition patterns
 4. `.claude/shared/skills/reuse-architecture.md` — pack/component vocabulary; block-tier components catalog via `stx component list --granularity block`
-5. `.claude/references/presentation_cheatsheet_en.md` — quick reference for commands, templates, patterns
-6. Target project's `custom/styles.py` — available palette and compositions
-7. Target project's `CLAUDE.md` — project-specific overrides and context
+5. `.claude/shared/skills/modular-design-philosophy.md` — pack-first decision tree + indexed-scale guidance
+6. `.claude/references/presentation_cheatsheet_en.md` — quick reference for commands, templates, patterns
+7. Target project's design pack OR `custom/styles.py` (whichever applies) — available palette and compositions
+8. Target project's `CLAUDE.md` — project-specific overrides and context
 
 ### Guideline-Aware Design
 

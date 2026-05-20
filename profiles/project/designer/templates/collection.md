@@ -14,8 +14,38 @@ StreamTeX collection hub — a multi-project aggregator.
 | Sidebar | `initial_sidebar_state="expanded"` |
 | Banner | no |
 | Marker | no |
-| Body font | `s.large` (32pt) |
-| Title font | `s.huge` (80pt) |
+| Body font | `s.text_lg` (palier 5, ≈14pt desktop responsive) |
+| Title font | `s.text_7xl` (palier 16, ≈60pt desktop responsive) |
+| Hero font | `s.text_9xl` (palier 19, ≈128pt desktop responsive) |
+
+### Design System Pack (recommended for any non-trivial project)
+
+For any project beyond a single block, scaffold a project-specific
+design system pack at init:
+
+```bash
+stx project new <name> --kit streamtex_design:project-default
+# Creates ./mypack/ as the primary local pack
+
+stx ds new default --pack mypack
+# Creates ./mypack/design_systems/default.py
+
+# Edit ./mypack/design_systems/default.py to declare the project's
+# visual identity (colors, callouts, titles, body)
+```
+
+Then in `book.py`:
+
+```python
+from mypack.design_systems.default import DesignSystem as ProjectDS
+from streamtex import st_book
+
+st_book([...], design_system=ProjectDS())
+```
+
+This puts reusable styles in the pack (versionable, scope-able,
+testable). Per-block specifics go in `BlockStyles` inside each block
+file. See the `modular-design-philosophy` skill for the decision tree.
 
 ### Design Guideline (Optional)
 

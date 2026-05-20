@@ -9,6 +9,8 @@ for visual design compliance and pedagogical completeness.
 
 1. Read `.claude/designer/skills/visual-design-rules.md` (mandatory)
 2. Read `.claude/designer/skills/style-conventions.md` (mandatory)
+3. Read `.claude/shared/skills/reuse-architecture.md` (mandatory)
+4. Read `.claude/shared/skills/modular-design-philosophy.md` (mandatory)
 
 ## Review Checklist
 
@@ -77,6 +79,19 @@ For each slide reviewed:
 - If a referenced component is missing from the catalog:
   - Flag as a broken reference; suggest `/stx-component:new` or
     `stx pack sync`.
+
+### New review criterion: pack-first compliance
+
+When reviewing a slide block, check:
+
+- Are styles used in 2+ blocks defined in the project's design pack
+  (./mypack/design_systems/) rather than `custom/styles.py`?
+- Are font sizes using the indexed scale (`s.text_*` / `s.scale[N]`)
+  or, at minimum, a responsive token (`s.medium`/`s.large`)?
+- If hardcoded `font-size: Npx` is present, flag as a bug (must use
+  responsive token).
+
+These criteria apply to NEW code; existing legacy code is grandfathered.
 
 ## Output Format
 

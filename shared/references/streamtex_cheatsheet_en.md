@@ -519,6 +519,47 @@ s.small     # 8pt      s.tiny      # 4pt
 s.text.sizes.size(20, "custom_20pt")   # Factory method
 ```
 
+## Indexed responsive font scale (recommended for new blocks)
+
+A 29-palier scale, responsive across desktop/tablet/mobile, with three
+access modes:
+
+```python
+from streamtex import StxStyles as s
+
+# 1) Tailwind-style aliases (most readable)
+st_write(s.text_xs,   "Caption text")
+st_write(s.text_base, "Body text")
+st_write(s.text_xl,   "Lead paragraph")
+st_write(s.text_3xl,  "Section heading")
+st_write(s.text_7xl,  "Hero title")
+
+# 2) Subscript (dynamic, for loops)
+for level in range(4):
+    st_write(s.scale[12 - level * 2], f"H{level+1} heading")
+
+# 3) Direct attribute (autocomplete-friendly)
+st_write(s.idx_6, "Specific palier")
+```
+
+The scale is **responsive** — values change automatically at 1024px and
+480px breakpoints. To override per document:
+
+```python
+from streamtex import st_book, ScaleConfig, ScaleCurve
+
+st_book(
+    [blocks...],
+    scale=ScaleConfig(
+        curve=ScaleCurve.WORD_PROCESSOR,  # default — also GEOMETRIC / BODY_CENTRIC / BELL
+        count=20,                          # or 29 for the full scale
+    ),
+)
+```
+
+Out-of-range indices clamp silently: `s.scale[-1]` → `s.scale[0]`,
+`s.scale[100]` → `s.scale[count-1]`.
+
 ### Text Wrapping
 
 ```python

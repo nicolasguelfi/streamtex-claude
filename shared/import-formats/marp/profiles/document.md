@@ -13,12 +13,20 @@
 
 | Element | Size | Style reference |
 |---|---|---|
-| Block title | 48pt (Large) | `s.Large + s.bold + s.center_txt` |
-| Section title | 32pt (large) | `s.large + s.bold + ColorsCustom.accent` |
-| Body text | 24pt (big) | `s.big` |
-| Keywords | 24pt bold + accent | `s.bold + ColorsCustom.accent + s.big` |
-| Caption / source | 16pt (medium) | `s.medium + ColorsCustom.muted` |
+| Block title | palier 16, responsive | `s.text_7xl + s.bold + s.center_txt` |
+| Section title | palier 12, responsive | `s.text_3xl + s.bold + ColorsCustom.accent` |
+| Body text | palier 5, responsive | `s.text_lg` |
+| Keywords | palier 5 bold + accent | `s.bold + ColorsCustom.accent + s.text_lg` |
+| Caption / source | palier 2, responsive | `s.text_xs + ColorsCustom.muted` |
 | Code blocks | responsive | default `st_code()` |
+
+Marp → StreamTeX mapping (legacy → indexed scale):
+
+| Marp default | Legacy token | Indexed-scale recommendation |
+|---|---|---|
+| Marp default body | `s.large` (32pt) | `s.text_lg` (palier 5, responsive) |
+| Marp `<h1>` | `s.huge` (80pt) | `s.text_7xl` (palier 16, responsive) |
+| Marp `<h2>` | `s.Large` (48pt) | `s.text_4xl` (palier 13, responsive) |
 
 ## Content Rules
 

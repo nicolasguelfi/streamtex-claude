@@ -50,7 +50,7 @@ For each `create_new` (and `reuse_adapted`) cluster, read the original
 source snippets from at least 2 consumer projects. Pay attention to :
 
 - The textual content (it determines what is PARAM and what is fixed).
-- The Style bundles used (`bs.callout.body`, `s.large`, etc.).
+- The Style bundles used (`bs.callout.body`, `s.text_lg`, etc.).
 - The structural primitives (`st_block`, `st_write`, `st_list`).
 - Variations across occurrences — what changes is a PARAM ; what stays is INVARIANT.
 
@@ -140,3 +140,9 @@ A single file `design.md` per the template. No other output.
 - NEVER skip the "When NOT to use" section — minimum 2 entries, each referencing an alternative component if applicable.
 - NEVER design a component whose `bundles_required` are not all provided by the active DS UNLESS the gap is documented in §5 and the user is offered the choice at G2.
 - NEVER design more than 1 component per cluster — if a cluster needs to split into 2 components, mark the cluster `split_needed` in the rejected_designs and re-run mining with finer granularity.
+
+> **Hard rule (font scale)**: when designing a pack's design system
+> bundles, use `font-size: var(--stx-scale-K, fallback_pt)` — never
+> hardcoded `Npx`. The indexed scale (`s.text_*` / `s.scale[N]`) is the
+> default font sizing vocabulary; pack bundles MUST reference the CSS
+> variable so consumers retain responsive sizing.

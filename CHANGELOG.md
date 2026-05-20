@@ -8,6 +8,27 @@ Prior to this Changelog, changes are tracked in the git history of this reposito
 
 ## [Unreleased]
 
+### Added
+
+- New skill: `shared/skills/modular-design-philosophy.md` — codifies
+  the pack-first design doctrine + indexed-scale guidance.
+- Cheatsheet: new "Indexed responsive font scale" section in
+  `shared/references/streamtex_cheatsheet_en.md` mirroring the
+  streamtex-docs cheatsheet.
+
+### Changed
+
+- `shared/references/coding_standards.md` extended with a
+  "Style storage hierarchy (pack-first)" section and a
+  "Font scale: prefer the indexed scale" section.
+- `shared/references/presentation_cheatsheet_en.md` gained a
+  "Font scale (presentations)" section with indexed-scale ↔ legacy mapping.
+- 10+ artifacts (skills, agents, templates, import format) updated to
+  recommend the indexed font scale and pack-first storage, with
+  legacy tokens kept valid as backward-compatibility fallbacks.
+- 3 CLAUDE.md.j2 overlays (library / documentation / presentation)
+  cross-reference the new `modular-design-philosophy` skill.
+
 ## [0.3.0] — 2026-05-19 — Pack Engineering module
 
 Adds the **Pack Engineering (PE)** module : an orchestrated 7-step
