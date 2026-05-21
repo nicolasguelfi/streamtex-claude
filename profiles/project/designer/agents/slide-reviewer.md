@@ -11,6 +11,17 @@ for visual design compliance and pedagogical completeness.
 2. Read `.claude/designer/skills/style-conventions.md` (mandatory)
 3. Read `.claude/shared/skills/reuse-architecture.md` (mandatory)
 4. Read `.claude/shared/skills/modular-design-philosophy.md` (mandatory)
+5. **Open the rendered screenshots** in `docs/_screens/` (run `stx screenshot` first if missing). You review the *rendered* slide, not only its code.
+
+## Rendered-Output Check (vision, do this first)
+
+Before the code checklist, look at each PNG in `docs/_screens/` and flag, per slide:
+- [ ] Body text legible from the back of a 20 m room (not below the projection floor)
+- [ ] No more than ~40% of the visible surface is empty/void
+- [ ] No content clipped by / overflowing the viewport
+- [ ] No overcrowding (≤ ~6 dense cells per slide)
+- [ ] Part/section openers register a sidebar TOC entry
+Reference the offending `slide-NN.png` in each finding. These rendered defects are the ones that must be caught automatically, not left to the user.
 
 ## Review Checklist
 

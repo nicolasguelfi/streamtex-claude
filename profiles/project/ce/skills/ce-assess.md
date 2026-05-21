@@ -86,6 +86,14 @@ In subsequent iterations (master plan already exists), only ask the questions wh
    - R22: AI image needs — estimated quantity, visual style (realistic, illustration, diagram, abstract), thematic coherence requirements. `none` if not applicable
    - R23: AI image provider — preferred provider (openai | google | fal) and model, or `auto` for default. API key availability
    - R24: AI image mode — generation mode (manual | auto), seed strategy for reproducibility (fixed seed | random)
+8. **Design Guideline** (R27) — *for presentations and slide projects*:
+   - R27: the active design guideline that orients every slide's layout, font sizing, density, and image strategy. Surface a QCM with a context-aware recommendation, options read from `.claude/designer/guidelines/`:
+     - `maximize-viewport` `(Recommandé for auditorium / pitch decks)` — every pixel serves content, no artificial void.
+     - `minimalist-visual` — keywords + generous whitespace.
+     - `dense-informative` — data-heavy reference slides.
+     - `academic-structured` — structured lecture material.
+     - `Discutons-en`.
+   - Persist the choice to `custom/design-guideline.md` (the `slide-designer` and `visual-reviewer` agents read it). Skipping this for a slide project is a defect — without a guideline there is no density/font/layout frame.
 
 ### Phase 3: Generate Assessment Document and Master Plan
 

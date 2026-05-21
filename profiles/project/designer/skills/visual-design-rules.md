@@ -1,26 +1,39 @@
-# Visual Design Rules for StreamTeX Slides
+# Visual Design Rules — Neutral Base (all document types)
 
-These rules apply to ALL block files in a StreamTeX presentation project.
-They are the source of truth for visual quality.
+These are the **format-agnostic** visual rules. They apply to **every**
+StreamTeX block file, regardless of document type. They are the minimum
+baseline for visual quality.
 
-## 1. Line Length & Readability
+**This is the base layer.** It is always read together with the **format
+overlay** for the document's `identity.type` (which *extends and may tighten*
+these rules — never loosens them):
 
-- **Max ~45 characters per visible line** on slides.
+| `identity.type` | Format overlay to read after this file |
+|---|---|
+| `presentation` | `slide-design-rules.md` (16:9, no-scroll, L1/L2/L3 grid, projection font floor, telegraphic) |
+| `manual`, `report` | `web-document-design-rules.md` (reading flow, scroll OK, content idioms) |
+| `course` | `course-design-rules.md` (= web-document overlay + pedagogy) |
+| `collection` | `web-document-design-rules.md` for the hub; each sub-project uses its own type |
+
+## 1. Text emission & line breaks
+
 - Each `st_write()` creates a **separate HTML block** (new line).
 - Use `st_br()` between `st_write()` calls for minimal breaks within a section.
 - NEVER concatenate long text via multiple string args in one `st_write()`.
+- *Maximum visible line length is set by the format overlay* (e.g. ~45 chars on
+  slides; longer is acceptable in reading documents).
 
 ### WRONG
 ```python
 st_write(s.large,
-         "This is a very long line that will overflow the slide and look bad.")
+         "This is a very long line that will overflow and look bad.")
 ```
 
 ### CORRECT
 ```python
 st_write(s.text_base, "This is a short line")
 st_br()
-st_write(s.text_base, "that reads well on a slide.")
+st_write(s.text_base, "that reads well.")
 ```
 
 ## 2. Multi-line Text Blocks
@@ -57,68 +70,18 @@ show_explanation("""\
 | `s.text_xs` | 14pt | `s.medium` | Small annotation (floor) |
 | Code | Responsive (18pt) | `st_code()` via `--stx-code-size` variable | — |
 
-- All body text in slides uses `s.text_2xl` (palier 10, 24pt at base 18; or use `base_pt_desktop=24` for 32pt effective).
-- All label styles (explanation, details, tip, warning) use 32pt.
+- **The body-text floor is set by the format overlay** (e.g. slides require a larger floor for projection — see `slide-design-rules.md`). Never go below `s.text_xs` (palier, 14pt) anywhere.
 - Code blocks use the responsive CSS variable `--stx-code-size` (desktop 18pt, tablet 14pt, mobile 11pt).
 - Use `wrap=True` for JSON/logs where alignment doesn't matter; keep `wrap=False` (default) for aligned code.
 
-## 4. Canonical Section Structure
+## 4. Content idioms (documentation / teaching) — see format overlay
 
-Every subsection follows this exact order:
-
-```python
-# 1. Subtitle with TOC registration
-st_write(bs.sub, "Feature Name", toc_lvl="+1")
-st_space("v", 1)
-
-# 2. Explanation box (what & why)
-show_explanation("""\
-    What this feature does.
-    Why you would use it.
-""")
-st_space("v", 1)
-
-# 3. Code box (syntax-highlighted)
-show_code("""\
-    st_write(s.text_base, "Example code")
-""")
-st_space("v", 1)
-
-# 4. Live rendering
-st_write(s.text_base, "Example code")
-st_space("v", 2)
-
-# 5. Optional: details box (defaults & tips)
-show_details("""\
-    Default: param=value.
-    Additional tips about this feature.
-""")
-```
-
-## 5. Every Example Must Have Code
-
-- **Every live rendering** must be preceded by a `show_code()` call.
-- The code shown must match or represent the rendering below it.
-- Only exceptions: headings, subtitles, spacers, helper calls.
-
-## 6. WRONG/CORRECT Boxes
-
-- Always explain **WHY** the WRONG code is wrong.
-- Use `st_write()` + `st_br()` for the explanation, NOT concatenation.
-- Then show the code with `show_code_inline()`.
-
-```python
-with st_block(s.project.containers.bad_callout):
-    st_write(bs.wrong_label, "WRONG:")
-    st_space("v", 1)
-    st_write(s.text_base, "Explanation line 1.")
-    st_br()
-    st_write(s.text_base, "Explanation line 2.")
-    st_space("v", 1)
-    show_code_inline("""\
-        # the wrong code here
-    """)
-```
+The canonical "explain → show code → render → detail" section structure, the
+"every live rendering is preceded by `show_code()`" rule, and the
+WRONG/CORRECT box pattern are **documentation / teaching idioms**. They live in
+the overlays that need them (`web-document-design-rules.md`,
+`course-design-rules.md`), not here — a telegraphic presentation slide must
+**not** follow them. Read your format overlay for the applicable content idioms.
 
 ## 7. Default Parameter Values
 

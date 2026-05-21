@@ -34,6 +34,7 @@ If `$ARGUMENTS` is empty or only `--help`, show the Help section.
 6. The **template file** matching the chosen template (see Template resolution below)
 7. Existing `book.py` (if the project has already been scaffolded)
 8. `.claude/designer/guidelines/_index.md` — available design guidelines catalog
+9. `.claude/shared/skills/authoring-gate.md` — the mandatory contract for authoring block **content**. `init` scaffolds the project (structure via `project-architect`, template, guideline selection); any block content it then generates is authored **through the gate**, which routes to the designer specialization for the chosen template's document type (`slide-designer` / `web-document-designer` / `course-designer`).
 
 ### Documentation lookup (recommended)
 

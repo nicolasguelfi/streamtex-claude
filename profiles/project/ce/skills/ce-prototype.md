@@ -61,21 +61,27 @@ Options:
 
 For each pilot block:
 
-1. Create the block using `/stx-block:new` (or `/stx-block:slide-new` for presentations).
-2. Apply the validated patterns from Phase 3, adapting code skeletons to the project's `custom/styles.py` and palette.
+1. Scaffold the block with `/stx-block:new` (or `/stx-block:slide-new` for presentations).
+2. **Author the block through the `authoring-gate` skill** (`.claude/shared/skills/authoring-gate.md`) — never freehand. The gate resolves the plan, the design rules + designer specialization **for this document's `identity.type`** (slide-designer / web-document-designer / course-designer), and the component to apply, then delegates authoring to that specialization with the patterns validated in Phase 3. This is identical for every document type — only the resolved overlay/agent differ.
 3. Use the `Propositions brutes` from `master-plan.md` for the pilot's section as initial content.
 4. Run `/stx-block:audit --target <block>` to verify structural correctness.
 5. Update `master-plan.yaml -> toc[*].sections[*].blocks[*].status` to `prototyped`.
 
-### Phase 5: Local Visual Review
+### Phase 5: Automated Visual Gate (capture + vision review) — MANDATORY
 
-Run the **visual-reviewer** agent on the pilot block(s) only. Produce a focused findings list. No global review here — this is a fast local check.
+A `ruff`/import smoke-test is **not** a visual validation. Before involving the user, validate what actually renders:
+
+1. **Capture** — run `stx screenshot` to render the pilot block(s) to PNGs in `docs/_screens/` (full-page + per-`.stx-block`). If Chromium is missing, run `uv run playwright install chromium` (auto-installed by `stx install`).
+2. **Vision review** — invoke the `visual-reviewer` (or `slide-reviewer` for slide projects) agent. It opens the PNGs and auto-detects, per slide, the defects that must never reach the user: unreadable fonts (projection floor), > ~40% empty viewport, content overflow/clipping, overcrowding (> ~6 dense cells), missing TOC entries, missing part-intros.
+3. **Self-correct loop** — for every auto-detected defect, fix it (re-invoke `slide-designer`) and **re-capture**. Iterate until the rendered pilots are clean. Only auto-detectable defects are gated here; subjective/editorial calls go to the user in Phase 6.
+
+This phase is never skipped — not even in `dialog_level: minimal` and not in autonomous / `/remote-control` runs (there the agent's vision review *replaces* the human eye, it does not bypass the gate).
 
 ### Phase 6: User Validation
 
-Surface QCM:
+The pilot has already passed the automated visual gate (Phase 5). Present the captured screenshots (`docs/_screens/`) and the vision-review summary, then surface QCM — the user now judges only the *subjective/editorial* choices (tone, palette, message density), not the mechanical defects already caught:
 
-*"Bloc pilote produit. Visualisez le rendu et confirmez les choix visuels."*
+*"Bloc pilote produit et validé visuellement (auto-revue : <n défauts corrigés>). Voici le rendu (docs/_screens/). Confirmez les choix éditoriaux."*
 
 Options:
 - `Valider et continuer (Recommandé)`

@@ -125,6 +125,10 @@ For each block file, check:
 - [ ] Block contains at least one `st_write(...)` with `toc_lvl="1"` — required for sidebar and floating bar navigation (via `auto_marker_on_toc`). A block without any `toc_lvl` heading is invisible in all navigation panels.
 - [ ] If using `st_image(prompt=..., editable=True, name=...)`, confirm `name=` is present (mandatory in the modern API for caching and version history) and `ai_size` is used instead of `size` for the image dimensions
 
+#### Reuse & trinity (WARNING)
+- [ ] Block applies at least one component/pattern (pack or local `mypack/`), **or** carries an explicit one-off justification comment. A block authored entirely from scratch with no component and no justification is flagged (safety net for the `authoring-gate` component-resolution step).
+- [ ] For slide/document projects, the project has a resolved design guideline (`custom/design-guideline.md` or a `# @guideline:` annotation). A design-bearing project with no guideline is flagged.
+
 #### Pattern Compliance (if patterns defined)
 - [ ] If block uses `@pattern:` annotation, verify it follows the named pattern's recipe
 

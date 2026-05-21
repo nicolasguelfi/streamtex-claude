@@ -2,6 +2,16 @@ Create a new slide (block file) for a StreamTeX presentation project.
 
 Arguments: $ARGUMENTS (slide name and description, e.g. "bck_zoom - Zoom controls demo")
 
+## Authoring gate (MANDATORY before authoring content)
+
+When this command authors real slide **content** (not just an empty scaffold),
+run the **`authoring-gate`** skill first
+(`.claude/shared/skills/authoring-gate.md`). It enforces the trinity — plan +
+design rules/agent (here the `presentation` overlay → `slide-designer`) +
+component resolution — then delegates authoring. The steps below are the
+scaffolding mechanics the gate relies on; do not bypass it to write content
+freehand.
+
 ## Steps
 
 ### Step 0 — Read pattern catalog (MANDATORY)

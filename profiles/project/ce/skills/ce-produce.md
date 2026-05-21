@@ -1,6 +1,6 @@
 # CE Produce
 
-Skill for the PRODUCE phase of the Compound Engineering cycle. Execute the plan increment item by item, creating, importing, or improving content as specified. This phase is **command-driven** — it delegates to `/stx-block:*`, `/stx-import:*`, `/stx-export:*`, and `/stx-deploy:*` commands rather than using standalone agents.
+Skill for the PRODUCE phase of the Compound Engineering cycle. Execute the plan increment item by item, creating, importing, or improving content as specified. This phase is **command-driven for lifecycle operations** — it delegates to `/stx-block:*`, `/stx-import:*`, `/stx-export:*`, and `/stx-deploy:*` for scaffolding, audit, fix, export and deploy. **Block authoring itself goes through the `authoring-gate` skill** (`.claude/shared/skills/authoring-gate.md`), which enforces the trinity (plan + design rules/agent + component) and delegates to the designer specialization for the document's `identity.type` (`slide-designer` / `web-document-designer` / `course-designer`) — never author blocks freehand, for any document type.
 
 Consults the master plan for components to apply (`components.applied[*].blocks` mapping). Updates per-block statuses in `master-plan.yaml -> toc` as production progresses.
 
@@ -56,9 +56,9 @@ Process each plan item according to its type. After each item:
 
 #### CREATE Items
 
-1. Create the block using `/stx-block:new` or `/stx-block:slide-new` as appropriate.
+1. Scaffold the block with `/stx-block:new` or `/stx-block:slide-new` as appropriate.
 2. Read the section's `Propositions brutes` from `master-plan.md` — use it as the starting content for the block.
-3. Write content according to the plan's content outline for this section.
+3. Write content according to the plan's content outline by running the **`authoring-gate`** (`.claude/shared/skills/authoring-gate.md`): it resolves the plan, the design rules + designer specialization for this `identity.type`, and the component to apply, then delegates authoring to that specialization. Never write the block freehand.
 4. **Apply mapped components**: for each component listed in `master-plan.yaml -> components.applied` for this block, read the full component module from its pack and respect its INVARIANTS / PARAMS / INTERDITS. Adapt the call to the project's design system.
 5. Apply styles as specified in the plan's design section.
 6. Integrate assets (images, diagrams, code samples) as listed in the plan.
@@ -88,8 +88,10 @@ Process each plan item according to its type. After each item:
    - Check visual coherence between AI-generated images (consistent style across blocks)
    - Verify image cache is populated (no redundant regenerations)
    - Confirm seeds are set where reproducibility was specified in the plan
-5. Perform a preview check to ensure the document renders as expected.
-6. If audit reveals critical issues, fix them before proceeding.
+5. **Rendered visual check (vision)** — run `stx screenshot` and have the `visual-reviewer` / `slide-reviewer` agent inspect `docs/_screens/` for the auto-detectable defects (unreadable fonts, > ~40% empty viewport, overflow, overcrowding, missing TOC entries / part-intros). Fix any found before proceeding. This is not optional for slide projects.
+6. If audit or the visual check reveals critical issues, fix them before proceeding.
+
+**Anti-amplification rule**: when producing many slides, never author the whole batch before looking at a render. Capture + vision-review every ~10 blocks (or after the first 2-3 if the visual baseline was not validated in PROTOTYPE). Producing N slides on an unvalidated baseline replicates the same defect N times — exactly the GSE-ODOO failure. Do not parallelize slide authoring across sub-agents until one rendered batch has passed the visual gate.
 
 ### Phase 4: Deliver
 

@@ -63,6 +63,19 @@ Routing :
 
 Read `.claude/pack-engineering/skills/pe-conventions.md` + `.claude/pack-engineering/agents/pack-orchestrator.md` before delegating.
 
+### Step 0ter: Inventory Specialized Artefacts (mandatory)
+
+`/stx-ce:go` is an **orchestrator, not a monolithic executor**. Before producing any content, take stock of the specialized artefacts shipped in `.claude/` and delegate to them — do **not** execute design/production work freehand (the GSE-ODOO failure: 50 slides authored without ever opening `slide-designer`, scored 0/20).
+
+1. Run `find .claude -type f -name '*.md'` (or read the role directories) and note what exists under `.claude/<role>/{agents,skills,guidelines,templates}/` and `.claude/references/`.
+2. Map the work of this cycle to the available specialists:
+   - **`authoring-gate`** (`.claude/shared/skills/authoring-gate.md`) is the single entry point for writing **any** block: it enforces the trinity (plan + design rules/agent + component) and delegates to the designer specialization for the document's `identity.type` — **`slide-designer`** (presentation), **`web-document-designer`** (manual/report/collection hub), or **`course-designer`** (course). All extend the **`document-designer`** umbrella contract. This holds for every document type, not just slides.
+   - **`visual-reviewer` / `slide-reviewer`** (agents) run the screenshot + vision gate (all document types).
+   - **`prototype-designer`** (agent) selects pilots and the pattern strategy in PROTOTYPE.
+   - A **design guideline** (`maximize-viewport`, `minimalist-visual`, `dense-informative`, `academic-structured`) is selected at ASSESS and persisted to `custom/design-guideline.md`.
+   - CE **templates** (`master-plan`, `prototype-report`, `review-report`, …) are used verbatim, not reinvented.
+3. If a specialist exists for a task, invoke it. Authoring a block yourself instead of through `authoring-gate` / the designer specialization is a defect, not a shortcut — for any document type.
+
 ### Internal Flags (not exposed in default flow)
 
 The following flags remain implemented but are inferred from dialogue rather than typed by the user. Power users may still pass them directly:

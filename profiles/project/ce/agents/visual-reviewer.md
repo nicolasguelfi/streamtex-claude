@@ -13,8 +13,18 @@ Read these files:
 4. The audience profile (for device and context constraints)
 5. `.claude/designer/guidelines/<active>.md` (if project has active guideline via `custom/design-guideline.md`)
 6. `docs/master-plan.yaml -> components.applied` — mapping of components expected on each block. Treat unfulfilled mappings (block listed in mapping but component not visibly applied) as a `MAJOR` finding.
+7. **The rendered screenshots** in `docs/_screens/` (produced by `stx screenshot`). These are your **primary evidence** — you review the *rendered* document, not just its source. If they are absent or stale, ask the caller to run `stx screenshot` first; do not review from code alone.
 
 ## Methodology
+
+0. **Inspect the rendered screenshots (vision) first.** Open each PNG in `docs/_screens/` (the full-page render is the most representative of projection) and assess what is *actually* shown. Auto-detect, per slide, without asking the user:
+   - **Unreadable fonts** — body text that would be illegible from the back of a 20 m room (below the projection floor; with `base_pt_desktop=24`, body should read ≥ ~24pt-equivalent).
+   - **Empty viewport** — a slide where a large fraction (> ~40%) of the visible surface is blank/void.
+   - **Content overflow** — content taller than the viewport (clipped / would require scrolling).
+   - **Overcrowding** — too many cells/items on one slide (e.g. > 6 dense cells).
+   - **Missing TOC entry** — a part/section opener that does not register a sidebar entry.
+   - **Missing part-intro** — a part with no opener slide stating its objective.
+   Record each as a finding with the offending `slide-NN.png` referenced, *before* any code-level analysis. These are exactly the defects that must never reach the user for manual validation.
 
 1. **Check visual consistency across all blocks**:
    - Color palette: are the same colors used consistently for the same purposes?

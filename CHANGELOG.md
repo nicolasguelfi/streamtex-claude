@@ -6,6 +6,83 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 Prior to this Changelog, changes are tracked in the git history of this repository (see `git log` on `main`).
 
+## [0.3.3] — 2026-05-21 — Universal authoring trinity (plan + design rules + packs) for all doc types
+
+Closes the GSE-ODOO root cause: `/stx-ce:go` produced 50 slides without ever
+invoking the `slide-designer` agent or the design rules (scored 0/20).
+
+### Changed
+
+- **`ce-go`**: new *Step 0ter — Inventory Specialized Artefacts*. The
+  orchestrator must enumerate `.claude/<role>/{agents,skills,guidelines,templates}/`
+  and delegate to specialists (notably `slide-designer`) — authoring slides
+  freehand is now defined as a defect, not a shortcut.
+- **`ce-prototype`**: Phase 4 now authors pilot blocks **via the
+  `slide-designer` agent**; Phase 5 is a **mandatory automated visual gate** —
+  `stx screenshot` → vision review by `visual-reviewer`/`slide-reviewer` →
+  self-correct loop — that runs even in autonomous / `/remote-control` mode
+  (the agent's vision review replaces the human eye, never bypasses the gate).
+  Phase 6 now asks the user to judge only editorial choices, since mechanical
+  defects are caught automatically.
+- **`ce-produce`**: slide/content authoring delegated to `slide-designer`
+  (the "command-driven, no standalone agents" framing that orphaned the agent
+  is corrected); global verification adds a rendered visual check; new
+  **anti-amplification rule** (capture + review every ~10 blocks; no parallel
+  authoring before one rendered batch passes the gate).
+- **`ce-assess`**: new requirement **R27 — Design Guideline** selection
+  (`maximize-viewport` / `minimalist-visual` / …), persisted to
+  `custom/design-guideline.md` for slide projects.
+- **`visual-reviewer` / `slide-reviewer` agents**: now review the **rendered
+  screenshots** (`docs/_screens/`, via vision) as primary evidence, with an
+  auto-detection checklist (unreadable fonts, > ~40% empty viewport, overflow,
+  overcrowding, missing TOC entries / part-intros).
+- **`ce-conventions`**: new §12 *Always-ask decisions* — output language must
+  be asked (never inferred), and deliverable paths announced each phase.
+- **`slide-design-rules`**: new *Rule 14* — keep slides telegraphic with
+  detail in `st_hover_tooltip` (placement opposite the icon, readable
+  content); the image zone must not be systematic (offer a symmetric
+  4-bullet variant) to avoid an over-commercial deck.
+
+### Added — universal authoring trinity (plan + design rules + packs) for ALL document types
+
+Generalizes the slide-only design pipeline so every document type (presentation,
+manual/report, course, collection) gets the same enforced trinity.
+
+- **`authoring-gate` skill** (`shared/skills/authoring-gate.md`) — the single
+  contract every block-authoring path runs before writing: (A) plan present
+  (soft-block QCM if absent, with an "ad-hoc assumed" escape), (B) design
+  rules + designer specialization resolved by `identity.type`, (C) component
+  resolved and recorded in `components.applied`. Wired into `ce-prototype`,
+  `ce-produce`, `ce-go`, and the direct `/stx-block:new|slide-new|init` — so the
+  trinity holds in CE **and** outside it.
+- **`document-designer` umbrella agent** + two new specializations
+  **`web-document-designer`** (manual/report/collection hub) and
+  **`course-designer`** (course); `slide-designer` is now explicitly the
+  `presentation` specialization. Non-slide documents are no longer authored
+  freehand.
+- **Two new rule overlays**: `web-document-design-rules.md` (reading flow,
+  scroll, content idioms) and `course-design-rules.md` (pedagogy, extends the
+  web-document overlay).
+- **`stx-block:audit`**: new *Reuse & trinity* WARNING checks (block with no
+  component and no justification; design project with no resolved guideline).
+
+### Changed — design rules hierarchy
+
+- **`visual-design-rules.md` is now the neutral, format-agnostic base** (was
+  titled "for Slides"). Slide geometry stays in `slide-design-rules.md`; the
+  documentation/teaching idioms (canonical explain→code→render→detail section,
+  "every example has code", WRONG/CORRECT boxes) moved to the web-document
+  overlay where they belong. Slide authoring is unaffected (base + slide overlay
+  ⊇ the previous content).
+
+### Fixed — deployment (dangling references)
+
+- Registered three files that were **referenced across the profile but absent
+  from `manifest.toml`**, so they were never deployed to projects:
+  `shared/skills/modular-design-philosophy.md` (read by `slide-designer`,
+  `project-architect`, and most design files), `shared/references/grid_layout_guidelines.md`,
+  and `shared/references/plotly_guidelines.md`.
+
 ## [0.3.2] — 2026-05-20 — Pack naming convention `streamtex-pack-{name}`
 
 ### Changed

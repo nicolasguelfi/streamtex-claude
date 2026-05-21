@@ -183,3 +183,10 @@ Auto-trigger rule for PROTOTYPE (decided in `ce-go` Step 3.5):
 | User explicitly asks for design validation | `Oui` |
 
 In all cases the QCM in `ce-go` Step 3.5 is the user's escape hatch from the auto-decision. In `dialog_level: minimal`, the QCM is skipped only when the recommendation is `Non`.
+
+## 12. Always-ask decisions (never infer)
+
+Two decisions must be surfaced explicitly at the start of a cycle and never inferred from context (both were silently wrong in the GSE-ODOO run):
+
+- **Output language.** Do not infer the document's language from the language of the prompt. Surface a QCM (e.g. *"Langue du document ?"* → `Anglais` / `Français` / `Discutons-en`) during ASSESS, before producing any content, and record it in `decisions_log`.
+- **Deliverable paths.** At the end of each phase, state the absolute paths of the artefacts produced (plan, assess report, master plan, prototype report, screenshots in `docs/_screens/`). The user should never have to ask where things were written.

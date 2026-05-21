@@ -2,6 +2,17 @@ Create a new StreamTeX block file.
 
 Arguments: $ARGUMENTS (block name and optional description, e.g. "bck_intro_welcome - Welcome screen with title and subtitle")
 
+## Authoring gate (MANDATORY before authoring content)
+
+When this command authors real block **content** (not just an empty scaffold),
+run the **`authoring-gate`** skill first
+(`.claude/shared/skills/authoring-gate.md`). It enforces the trinity — plan +
+design rules/agent for the document's `identity.type` + component resolution —
+and delegates authoring to the right designer specialization (`slide-designer`
+/ `web-document-designer` / `course-designer`). The steps below are the
+scaffolding mechanics the gate relies on; do not bypass it to write content
+freehand. (For a genuine one-off, the gate offers an "ad-hoc assumed" path.)
+
 ## Steps
 
 ### Step 0 — Read pattern catalog (MANDATORY)

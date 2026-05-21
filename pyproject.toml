@@ -1,6 +1,6 @@
 [project]
 name = "streamtex-claude"
-version = "0.3.2"
+version = "0.3.3"
 description = "Claude AI profiles, skills, agents, and commands for the StreamTeX ecosystem (installed via `stx claude update`)."
 readme = "README.md"
 authors = [{ name = "Nicolas Guelfi" }]

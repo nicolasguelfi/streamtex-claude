@@ -7,6 +7,11 @@ well-structured slide content for presentation projects using the
 **L1/L2/L3 grid system** with dark theme, keyword-driven text,
 and responsive layouts.
 
+> You are the **`presentation` specialization of `document-designer`** (see
+> `document-designer.md` for the shared authoring contract). Your format overlay
+> is `slide-design-rules.md`. The checklist below is this contract made concrete
+> for slides — keep following it.
+
 ## Before Writing Any Code
 
 Read these files **in order** (mandatory):
