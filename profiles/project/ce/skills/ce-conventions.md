@@ -2,40 +2,40 @@
 
 Shared reference for all CE skills. Read this before invoking any QCM, before writing the master plan, before producing a snapshot, and before deciding the scope of a cycle.
 
-## 1. QCM universel
+## 1. Universal QCM
 
 Every interaction with the user goes through `AskUserQuestion`. The contract:
 
-- **1 to 3 business options**, the first one suffixed `(Recommandé)`.
-- **One option `Discutons-en`** that opens a free dialogue on the question.
-- **`Autre`** is auto-injected by the QCM tool — never declare it in the options list.
+- **1 to 3 business options**, the first one suffixed `(Recommended)`.
+- **One option `Let's discuss`** that opens a free dialogue on the question.
+- **`Other`** is auto-injected by the QCM tool — never declare it in the options list.
 
-The total of declared options must stay within the tool's limit of 4. In the common case: 1 recommended + 1 alternative + `Discutons-en` = 3 declared options. When relevant, a second alternative replaces or supplements one of these.
+The total of declared options must stay within the tool's limit of 4. In the common case: 1 recommended + 1 alternative + `Let's discuss` = 3 declared options. When relevant, a second alternative replaces or supplements one of these.
 
 ### 1.1 Recommendation rule
 
 Every QCM has a recommended default. The LLM that emits the question must, before calling `AskUserQuestion`:
 
 1. Compute its own recommendation using project state, master plan, producer profile, and conversation context.
-2. Place that recommendation as option 1, with the `(Recommandé)` suffix and a short description of *why*.
+2. Place that recommendation as option 1, with the `(Recommended)` suffix and a short description of *why*.
 3. Provide at least one alternative when relevant.
-4. Always include `Discutons-en` as the last business option.
+4. Always include `Let's discuss` as the last business option.
 
-If no clear recommendation emerges, the LLM does **not** ask a closed QCM — it opens a `Discutons-en`-style dialogue from the start.
+If no clear recommendation emerges, the LLM does **not** ask a closed QCM — it opens a `Let's discuss`-style dialogue from the start.
 
 ### 1.2 Multi-selection
 
 When the question accepts multiple answers, use `multiSelect: true` and:
 
-- Name the recommended subset explicitly in the question text (e.g., *"Recommandé : 1 et 3"*).
+- Name the recommended subset explicitly in the question text (e.g., *"Recommended: 1 and 3"*).
 - Order options: recommended first, neutral second, risky last.
 
 For lists longer than 4 candidate items, use the **aggregated pattern**:
 
-- Option 1: `Tout` *(Recommandé)*
-- Option 2: `Recommandés uniquement` (with the recommended subset described in the question text)
-- Option 3: `Sélection à préciser` (the user replies with item numbers via `Discutons-en` or `Autre`)
-- Option 4: `Discutons-en`
+- Option 1: `All` *(Recommended)*
+- Option 2: `Recommended only` (with the recommended subset described in the question text)
+- Option 3: `Selection to be specified` (the user replies with item numbers via `Let's discuss` or `Other`)
+- Option 4: `Let's discuss`
 
 ### 1.3 Dialog level modulation
 
@@ -53,7 +53,7 @@ Regardless of level, the QCM format is identical (see 1.1).
 
 | Artifact | Path |
 |---|---|
-| Master plan — pilotage (YAML) | `docs/master-plan.yaml` |
+| Master plan — orchestration (YAML) | `docs/master-plan.yaml` |
 | Master plan — content (Markdown) | `docs/master-plan.md` |
 | Master plan snapshots | `docs/master-plan/archive/YYYY-MM-DD-NNN.yaml` and `.md` |
 | Assess reports | `docs/assess/YYYY-MM-DD-<name>-assess-<pathway>.md` |
@@ -73,9 +73,9 @@ A paired snapshot of the master plan (`<archive>/YYYY-MM-DD-NNN.yaml` + `<archiv
 Trigger points where snapshot must be considered:
 
 1. At the start of any CE skill that may mutate state — compute diff against last snapshot; if different, snapshot before writing.
-2. On user demand — QCM "Snapshot du plan actuel ? (Oui (Recommandé) / Non / Discutons-en)".
-3. Before destructive operations (TOC removal, batch reconciliation, etc.) — same QCM, default `Oui`.
-4. At session end via "interruption douce" — QCM with default `Oui`.
+2. On user demand — QCM "Snapshot the current plan? (Yes (Recommended) / No / Let's discuss)".
+3. Before destructive operations (TOC removal, batch reconciliation, etc.) — same QCM, default `Yes`.
+4. At session end via "soft interruption" — QCM with default `Yes`.
 
 Retention: all snapshots are kept indefinitely. `ce-compound` proposes partial purge via QCM when the archive grows large.
 
@@ -87,18 +87,18 @@ Every QCM presented to the user produces an entry in `master-plan.yaml -> decisi
 
 ```yaml
 - timestamp: 2026-05-13T14:32:11Z
-  question: "Avant de produire les 8 blocs de la section, je propose de produire un bloc pilote pour valider les styles. Procéder ainsi ?"
-  options_presented: ["Oui (Recommandé)", "Non, produire directement", "Discutons-en", "Autre"]
-  recommendation: "Oui (Recommandé)"
-  answer: "Oui (Recommandé)"
+  question: "Before producing the 8 section blocks, I propose producing a pilot block to validate styles. Proceed?"
+  options_presented: ["Yes (Recommended)", "No, produce directly", "Let's discuss", "Other"]
+  recommendation: "Yes (Recommended)"
+  answer: "Yes (Recommended)"
   skill: ce-prototype
 ```
 
 - `timestamp` is ISO 8601 UTC.
 - `question` is the verbatim text shown to the user.
-- `options_presented` lists every option, including `Discutons-en` and `Autre`, with the `(Recommandé)` suffix preserved on the recommended one.
-- `recommendation` echoes the option that bore the `(Recommandé)` suffix.
-- `answer` is either the selected option, the free text for `Autre`, or a one-paragraph summary of the dialogue that followed `Discutons-en`.
+- `options_presented` lists every option, including `Let's discuss` and `Other`, with the `(Recommended)` suffix preserved on the recommended one.
+- `recommendation` echoes the option that bore the `(Recommended)` suffix.
+- `answer` is either the selected option, the free text for `Other`, or a one-paragraph summary of the dialogue that followed `Let's discuss`.
 - `skill` identifies the CE skill that captured this decision.
 - `dialog_level` is **not** recorded.
 
@@ -109,9 +109,9 @@ At the start of any CE skill that may write blocks (`ce-produce`, `ce-fix`, `ce-
 1. Compare the order of `bck_*` in `book.py` against the TOC `blocks` lists in `master-plan.yaml`.
 2. Classify divergences: `added_in_code`, `missing_in_code`, `renamed`, `reordered`.
 3. Present **a single proposal** built by the LLM covering all divergences. QCM:
-   - Option 1: *"Appliquer la proposition globale"* `(Recommandé)`
-   - Option 2: *"Voir le détail bloc par bloc"* (drill-down to per-divergence QCM)
-   - Option 3: `Discutons-en`
+   - Option 1: *"Apply the global proposal"* `(Recommended)`
+   - Option 2: *"See block-by-block detail"* (drill-down to per-divergence QCM)
+   - Option 3: `Let's discuss`
 4. Refused divergences become entries in `coherence_debt`.
 
 If no divergence is detected, do not surface the topic — silent passage.
@@ -120,7 +120,7 @@ If no divergence is detected, do not surface the topic — silent passage.
 
 Entries in `decisions_log` can be reopened automatically by the orchestrator when new information emerges (new sources collected, divergent observations during REVIEW, contradictory user input). The reopening is itself a new QCM that references the prior decision in its question text:
 
-> *"En itération 1 nous avions choisi <option> pour <question>. Les nouveaux éléments (<résumé>) suggèrent de reconsidérer. Que faites-vous ?"*
+> *"In iteration 1 we chose <option> for <question>. New elements (<summary>) suggest reconsidering. What do you do?"*
 
 The orchestrator never silently overrides a prior decision — it always asks.
 
@@ -130,10 +130,10 @@ Objectives in `master-plan.yaml -> objectives` have free-text criteria. The orch
 
 Surface a question only when the judgment identifies a significant deviation. The judgment + proposal pair forms the QCM:
 
-> *"L'objectif <id> (<title>) semble en retard : <judgment>. Proposition :"*
-> 1. *"Ajouter une section dédiée au prochain incrément"* `(Recommandé)`
-> 2. *"Réviser l'objectif"*
-> 3. `Discutons-en`
+> *"Objective <id> (<title>) appears behind schedule: <judgment>. Proposal:"*
+> 1. *"Add a dedicated section in the next increment"* `(Recommended)`
+> 2. *"Revise the objective"*
+> 3. `Let's discuss`
 
 In `dialog_level: minimal`, this surfacing is deferred to the next fundamental gate.
 
@@ -161,11 +161,11 @@ The orchestrator (`ce-go`, `ce-continue`) detects the appropriate scope by readi
 | All sections produced, review pending | Global review then fix |
 | Document complete | New iteration on improvement, or end of project |
 
-The QCM question reflects the detected state and proposes the corresponding scope as `(Recommandé)`. Alternatives are always available, plus `Discutons-en`.
+The QCM question reflects the detected state and proposes the corresponding scope as `(Recommended)`. Alternatives are always available, plus `Let's discuss`.
 
 ## 10. Soft interruption
 
-At the end of any CE skill or when the user signals end of session, propose a final snapshot via QCM with default `Oui`. If the master plan has not changed since the last snapshot, skip the QCM silently.
+At the end of any CE skill or when the user signals end of session, propose a final snapshot via QCM with default `Yes`. If the master plan has not changed since the last snapshot, skip the QCM silently.
 
 ## 11. PROTOTYPE vs PRODUCE boundary
 
@@ -177,16 +177,16 @@ Auto-trigger rule for PROTOTYPE (decided in `ce-go` Step 3.5):
 
 | Condition | PROTOTYPE recommendation |
 |---|---|
-| First iteration of the document, no pattern in catalog yet | `Oui` |
-| Increment introduces a new visual territory (new palette, new profile, new layout class) | `Oui` |
-| Increment continues a style territory already validated, all patterns already mapped | `Non` |
-| User explicitly asks for design validation | `Oui` |
+| First iteration of the document, no pattern in catalog yet | `Yes` |
+| Increment introduces a new visual territory (new palette, new profile, new layout class) | `Yes` |
+| Increment continues a style territory already validated, all patterns already mapped | `No` |
+| User explicitly asks for design validation | `Yes` |
 
-In all cases the QCM in `ce-go` Step 3.5 is the user's escape hatch from the auto-decision. In `dialog_level: minimal`, the QCM is skipped only when the recommendation is `Non`.
+In all cases the QCM in `ce-go` Step 3.5 is the user's escape hatch from the auto-decision. In `dialog_level: minimal`, the QCM is skipped only when the recommendation is `No`.
 
 ## 12. Always-ask decisions (never infer)
 
 Two decisions must be surfaced explicitly at the start of a cycle and never inferred from context (both were silently wrong in the GSE-ODOO run):
 
-- **Output language.** Do not infer the document's language from the language of the prompt. Surface a QCM (e.g. *"Langue du document ?"* → `Anglais` / `Français` / `Discutons-en`) during ASSESS, before producing any content, and record it in `decisions_log`.
+- **Output language.** Do not infer the document's language from the language of the prompt. Surface a QCM (e.g. *"Document language?"* → `English` / `French` / `Let's discuss`) during ASSESS, before producing any content, and record it in `decisions_log`.
 - **Deliverable paths.** At the end of each phase, state the absolute paths of the artefacts produced (plan, assess report, master plan, prototype report, screenshots in `docs/_screens/`). The user should never have to ask where things were written.
