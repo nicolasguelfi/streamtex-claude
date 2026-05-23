@@ -121,7 +121,7 @@ streamtex-dev/                  # Workspace root
       stx_manual_ce/
       stx_manual_deploy/
       stx_manual_developer/
-      stx_manual_patterns/
+      stx_manual_reuse/
       stx_manuals_collection/
     shared-blocks/
   streamtex-claude/             # Profils Claude
@@ -156,7 +156,7 @@ streamtex-dev/                  # Workspace root
 | Developer | 8505 |
 | AI | 8506 |
 | CE | 8507 |
-| Patterns | 8508 |
+| Reuse | 8508 |
 
 ```bash
 ./run-manuals.sh --all         # Lance les 8 manuels
@@ -164,7 +164,7 @@ streamtex-dev/                  # Workspace root
 ./run-manuals.sh --developer   # Lance seulement le developer
 ./run-manuals.sh --ai          # Lance seulement l'AI
 ./run-manuals.sh --ce          # Lance seulement le CE
-./run-manuals.sh --patterns    # Lance seulement le patterns
+./run-manuals.sh --reuse       # Lance seulement le reuse
 ```
 
 ### Flux de dependances
@@ -473,6 +473,7 @@ claude
 |-----------|-----------|-------------|
 | stx-block (15) | init, update, audit, fix, tool, slide-new, style-refactor, new, preview, customize, upgrade, collection-new, course-generate, test, lint | Cycle de vie complet du projet (creation, edition, audit, correction, tests, lint) |
 | stx-ce (14) | collect, assess, plan, prototype, produce, review, fix, compound, go, status, task, continue, pause, integrate | Compound Document Engineering — methodologie de production iterative et incrementale |
+| stx-pe (7) | go, bootstrap, specialize, refine, audit, adopt, publish | Pack Engineering — extraction et gestion de packs partages |
 | Import (6) | marp-analyze, marp, html, html-block, html-batch, html-audit | Import Marp/HTML vers StreamTeX |
 | Export (1) | html | Export StreamTeX vers HTML |
 | stx-issue (6) | bug, feature, question, docs, comment, list | Issues GitHub (shared) |
