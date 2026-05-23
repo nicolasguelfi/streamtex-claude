@@ -54,10 +54,10 @@ For every block to be rewritten, verify :
 
 If any check fails, the orchestrator surfaces a QCM at G3 :
 
-> "Pré-conditions échouées pour <X> blocs (<liste>). Que faites-vous ?"
-> - Corriger automatiquement les pré-conditions et continuer (Recommandé)
-> - Skipper ces blocs et continuer
-> - Discutons-en
+> "Pre-conditions failed for <X> blocks (<list>). What do you do?"
+> - Automatically fix the pre-conditions and continue (Recommended)
+> - Skip these blocks and continue
+> - Let's discuss
 
 ## 4. Post-retrofit validation per project
 
@@ -91,11 +91,11 @@ is reachable via `git revert HEAD` if a deferred regression is discovered.
 
 → **G3 (pre-RETROFIT)** : `pack-orchestrator` surfaces the QCM :
 
-> "Plan de retrofit prêt : <N> blocs à réécrire sur <M> projets, <K>
-> skipped. Mode actuel : dry-run.
-> Que faites-vous ?"
+> "Retrofit plan ready: <N> blocks to rewrite across <M> projects, <K>
+> skipped. Current mode: dry-run.
+> What do you do?"
 >
-> - Appliquer tout (Recommandé) — bascule dry-run → apply
-> - Appliquer projet par projet (revue intermédiaire)
-> - Lancer un dry-run sur un sous-ensemble pour inspection
-> - Discutons-en
+> - Apply all (Recommended) — switch dry-run → apply
+> - Apply project by project (intermediate review)
+> - Run a dry-run on a subset for inspection
+> - Let's discuss

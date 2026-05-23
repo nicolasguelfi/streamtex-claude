@@ -74,10 +74,10 @@ The orchestrator presents :
 > "Retrofit plan ready : <N> blocks across <M> projects, <K> skipped.
 > Mode: dry-run. Apply ?"
 >
-> - Apply all (Recommandé)
+> - Apply all (Recommended)
 > - Apply project by project (intermediate review)
 > - Stay in dry-run, inspect a subset
-> - Discutons-en
+> - Let's discuss
 
 If `--mode apply` was passed AND G3 approved → continue. Otherwise stop
 after writing the plan.

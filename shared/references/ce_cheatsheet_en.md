@@ -24,7 +24,7 @@ Snapshots in `docs/master-plan/archive/YYYY-MM-DD-NNN.{yaml,md}` whenever the pl
 
 ## QCM convention
 
-All user interactions go through QCMs with: 1 option `(Recommandé)` + alternatives + `Discutons-en` + auto-injected `Autre`. The producer profile field `dialog_level` (`minimal`/`guided`/`exhaustive`) modulates the frequency of QCMs — never the format.
+All user interactions go through QCMs with: 1 option `(Recommended)` + alternatives + `Let's discuss` + auto-injected `Other`. The producer profile field `dialog_level` (`minimal`/`guided`/`exhaustive`) modulates the frequency of QCMs — never the format.
 
 ## Commands (14)
 
@@ -36,7 +36,7 @@ All user interactions go through QCMs with: 1 option `(Recommandé)` + alternati
 | `/stx-ce:prototype` | Validate styles by example + capture patterns into local catalog |
 | `/stx-ce:produce` | Execute the plan increment, apply mapped patterns |
 | `/stx-ce:review` | Multi-perspective review (5 agents) — read-only evaluation |
-| `/stx-ce:fix [--severity LEVEL]` | Fix findings + propose ré-application of new patterns to prior blocks |
+| `/stx-ce:fix [--severity LEVEL]` | Fix findings + propose re-application of new patterns to prior blocks |
 | `/stx-ce:compound` | Capitalize learnings + enrich local components catalog |
 | `/stx-ce:integrate` | Route solutions + promote local patterns to shared catalog |
 | `/stx-ce:go` | Orchestrated cycle with contextual scope dialog and fundamental gates |

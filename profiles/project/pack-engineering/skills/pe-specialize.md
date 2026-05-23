@@ -17,7 +17,7 @@ existing components.
 Triggers (from `ce-task.md` PACK_SPECIALIZE archetype or `/stx-pe:specialize`) :
 - "specialize streamtex-pack-design for projects A B C"
 - "fork streamtex-pack-design with our extensions"
-- "étendre <pack> avec nos composants"
+- "extend <pack> with our components"
 
 ## Inputs
 
@@ -31,11 +31,11 @@ Triggers (from `ce-task.md` PACK_SPECIALIZE archetype or `/stx-pe:specialize`) :
 
 1. **Confirm parameters + clone upstream** :
 
-   > "Fork `<upstream-name>` (rev `<rev>`) en `<fork-name>` à partir de
-   > <N> projets : <list>. Chemin cible : `<path>`. Confirmer ?"
-   > - OK, cloner + bootstrap fork (Recommandé)
-   > - Modifier le nom / chemin
-   > - Discutons-en
+   > "Fork `<upstream-name>` (rev `<rev>`) as `<fork-name>` from
+   > <N> projects: <list>. Target path: `<path>`. Confirm?"
+   > - OK, clone + bootstrap fork (Recommended)
+   > - Modify the name / path
+   > - Let's discuss
 
 2. **Initialize fork** : clone upstream into `--fork-target-path`,
    rewrite `pyproject.toml` (new name, dependency on upstream), update
@@ -59,7 +59,7 @@ Triggers (from `ce-task.md` PACK_SPECIALIZE archetype or `/stx-pe:specialize`) :
    - Step 6 AUDIT : focused on the fork's added components.
 
 5. **Optionally Step 7 PUBLISH** — with `--pr-upstream <upstream-repo>`
-   prompted in QCM : "Promouvoir N composants matures vers <upstream> ?"
+   prompted in QCM : "Promote N mature components to <upstream>?"
 
 ## Outputs
 
@@ -71,9 +71,9 @@ Triggers (from `ce-task.md` PACK_SPECIALIZE archetype or `/stx-pe:specialize`) :
 
 After implementation :
 
-> "Le fork ajoute <N> composants au-dessus de `<upstream>`. Parmi eux,
-> <K> sont matures (≥ 2 projets, contrat stable). Proposer un PR upstream ?"
-> - Oui, PR pour les <K> matures (Recommandé)
-> - Non, garder fork local
-> - Sélection à préciser
-> - Discutons-en
+> "The fork adds <N> components on top of `<upstream>`. Among them,
+> <K> are mature (≥ 2 projects, stable contract). Propose an upstream PR?"
+> - Yes, PR for the <K> mature ones (Recommended)
+> - No, keep fork local
+> - Selection to be specified
+> - Let's discuss

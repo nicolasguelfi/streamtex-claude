@@ -59,11 +59,11 @@ project). To capture cross-project patterns, use bootstrap or specialize.
 5. **No Step 6 AUDIT by default** (refine is incremental — full audit is
    a separate cycle). The orchestrator suggests :
 
-   > "<N> nouveaux composants ajoutés au pack. Lancer un audit santé pour
-   > vérifier la cohérence globale ?"
-   > - Non, conserver pour plus tard (Recommandé en refine)
-   > - Oui, lancer `/stx-pe:audit <pack>`
-   > - Discutons-en
+   > "<N> new components added to the pack. Launch a health audit to
+   > verify global coherence?"
+   > - No, keep for later (Recommended in refine)
+   > - Yes, launch `/stx-pe:audit <pack>`
+   > - Let's discuss
 
 6. **Step 7 PUBLISH** : if the pack has its own semver lifecycle, propose
    a patch bump (refine usually adds, doesn't change). Otherwise leave the
@@ -80,8 +80,8 @@ project). To capture cross-project patterns, use bootstrap or specialize.
 
 After detection of new clusters :
 
-> "<N> nouveaux idiomes visuels détectés dans les blocs modifiés depuis
-> `<since>`. Aucun n'est déjà couvert par le pack actuel. Continuer ?"
-> - Oui (Recommandé)
-> - Étendre le scan à toute la durée (ignorer --since)
-> - Discutons-en
+> "<N> new visual idioms detected in blocks modified since
+> `<since>`. None is already covered by the current pack. Continue?"
+> - Yes (Recommended)
+> - Widen the scan to the full duration (ignore --since)
+> - Let's discuss

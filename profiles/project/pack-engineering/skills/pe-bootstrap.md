@@ -27,11 +27,11 @@ Triggers (from `ce-task.md` PACK_BOOTSTRAP archetype or `/stx-pe:bootstrap`) :
 
 1. **Confirm parameters** — orchestrator surfaces a parameter-confirmation QCM :
 
-   > "Bootstrap d'un nouveau pack `<proposed-name>` à partir de <N> projets :
-   > <list>. Chemin cible : `<target-path>`. DS initiale : `<ds>`. Confirmer ?"
-   > - OK, lancer (Recommandé)
-   > - Modifier le nom / chemin / DS
-   > - Discutons-en
+   > "Bootstrap a new pack `<proposed-name>` from <N> projects:
+   > <list>. Target path: `<target-path>`. Initial DS: `<ds>`. Confirm?"
+   > - OK, launch (Recommended)
+   > - Modify the name / path / DS
+   > - Let's discuss
 
 2. **Initialize pack-master-plan** — write `docs/pack-engineering/pack-master-plan.{yaml,md}`
    in the pilot project (= the directory where the orchestrator is invoked,
@@ -45,7 +45,7 @@ Triggers (from `ce-task.md` PACK_BOOTSTRAP archetype or `/stx-pe:bootstrap`) :
    - Step 5 RETROFIT → G3
    - Step 6 AUDIT (auto-run)
 
-4. **Optionally Step 7 PUBLISH** — surface QCM "Publier ?".
+4. **Optionally Step 7 PUBLISH** — surface QCM "Publish?".
 
 ## Outputs
 
@@ -57,12 +57,12 @@ Triggers (from `ce-task.md` PACK_BOOTSTRAP archetype or `/stx-pe:bootstrap`) :
 
 The QCM phrasing in Step 0 is adapted :
 
-> "Aucun pack-master-plan existant — j'initialise un cycle bootstrap.
-> <N> projets seront analysés. <proposed-name> est le nom suggéré pour
-> le nouveau pack (basé sur le workspace name). Confirmer le nom ?"
-> - Garder <proposed-name> (Recommandé)
-> - Renommer
-> - Discutons-en
+> "No existing pack-master-plan — initializing a bootstrap cycle.
+> <N> projects will be analyzed. <proposed-name> is the suggested name
+> for the new pack (based on the workspace name). Confirm the name?"
+> - Keep <proposed-name> (Recommended)
+> - Rename
+> - Let's discuss
 
 ## Defaults
 

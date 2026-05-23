@@ -80,9 +80,9 @@ them all.>
 <No gate — audit is read-only. The orchestrator surfaces a follow-up QCM
 asking what the user wants to act on, but doesn't gate.>
 
-> "L'audit a identifié <N> recommandations (<H> HIGH, <M> MEDIUM, <L> LOW).
-> Souhaitez-vous lancer un cycle de refine pour corriger les HIGH ?"
+> "The audit identified <N> recommendations (<H> HIGH, <M> MEDIUM, <L> LOW).
+> Do you want to launch a refine cycle to fix the HIGH items?"
 >
-> - Oui, lancer `/stx-pe:refine` ciblé sur les HIGH (Recommandé)
-> - Non, conserver le rapport pour plus tard
-> - Discutons-en
+> - Yes, launch `/stx-pe:refine` targeted at the HIGH items (Recommended)
+> - No, keep the report for later
+> - Let's discuss

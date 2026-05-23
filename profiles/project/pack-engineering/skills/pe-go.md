@@ -33,14 +33,14 @@ Per `pack-orchestrator.md` Methodology Step 0. Loads or initializes
 
 Surface QCM with the candidates table summary :
 
-> "L'analyse a trouvé <N> candidats à extraire dans <M> projets.
-> Recommandés (≥ 2 projets ET ≥ <threshold> occurrences) : <K>.
-> Que faites-vous ?"
+> "Analysis found <N> candidates to extract across <M> projects.
+> Recommended (≥ 2 projects AND ≥ <threshold> occurrences): <K>.
+> What do you do?"
 >
-> - Approuver toute la liste recommandée (Recommandé)
-> - Sélection à préciser (drill-down par candidat)
-> - Élargir aux candidats single-project (+<X>)
-> - Discutons-en
+> - Approve the full recommended list (Recommended)
+> - Selection to be specified (drill-down per candidate)
+> - Widen to include single-project candidates (+<X>)
+> - Let's discuss
 
 Capture decision : `mining_validated` in `decisions_log`.
 
@@ -60,15 +60,15 @@ section in `pack-master-plan.yaml`.
 
 Surface QCM with the conflicts/rejections summary :
 
-> "<N> composants conçus avec contrat complet. <C> conflits résolus.
-> <R> composants rejetés (raison: <r>).
-> Que faites-vous ?"
+> "<N> components designed with full contract. <C> conflicts resolved.
+> <R> components rejected (reason: <r>).
+> What do you do?"
 >
-> - Tout approuver et passer à l'implémentation (Recommandé)
-> - Recommandés uniquement (excluant les conflits non-résolus)
-> - Sélection à préciser (drill-down par composant)
-> - Réviser un composant en particulier
-> - Discutons-en
+> - Approve all and proceed to implementation (Recommended)
+> - Recommended only (excluding unresolved conflicts)
+> - Selection to be specified (drill-down per component)
+> - Revise a specific component
+> - Let's discuss
 
 Capture decision : `design_approved`.
 
@@ -112,14 +112,14 @@ done
 
 After ADOPT but before any block rewrite, surface the dry-run plan :
 
-> "Plan de retrofit prêt : <N> blocs à réécrire sur <M> projets, <K>
-> skipped. Mode actuel : dry-run.
-> Que faites-vous ?"
+> "Retrofit plan ready: <N> blocks to rewrite across <M> projects, <K>
+> skipped. Current mode: dry-run.
+> What do you do?"
 >
-> - Appliquer tout (Recommandé)
-> - Appliquer projet par projet (revue intermédiaire)
-> - Lancer un dry-run sur un sous-ensemble pour inspection
-> - Discutons-en
+> - Apply all (Recommended)
+> - Apply project by project (intermediate review)
+> - Run a dry-run on a subset for inspection
+> - Let's discuss
 
 Capture decision : intermediate, full apply decision logged at end of
 RETROFIT as `retrofit_validated`.
@@ -144,12 +144,12 @@ Only triggered if `retrofit.blocks_reverted` is non-empty AND
 
 Surface :
 
-> "<N> blocs ont échoué le smoke render après retrofit. Que faites-vous ?"
+> "<N> blocks failed the smoke render after retrofit. What do you do?"
 >
-> - Revert les <N> blocs et continuer sans eux (Recommandé)
-> - Inspecter chaque bloc en détail
-> - Annuler tout le retrofit
-> - Discutons-en
+> - Revert the <N> blocks and continue without them (Recommended)
+> - Inspect each block in detail
+> - Cancel the entire retrofit
+> - Let's discuss
 
 Capture decision in `decisions_log`.
 
@@ -167,12 +167,12 @@ standalone in audit-only mode.
 
 Follow-up suggestion (not a gate) :
 
-> "L'audit a identifié <N> recommandations (<H> HIGH, <M> MEDIUM, <L> LOW).
-> Souhaitez-vous lancer un cycle de refine pour corriger les HIGH ?"
+> "The audit identified <N> recommendations (<H> HIGH, <M> MEDIUM, <L> LOW).
+> Do you want to launch a refine cycle to fix the HIGH items?"
 >
-> - Oui (Recommandé)
-> - Non, conserver le rapport pour plus tard
-> - Discutons-en
+> - Yes (Recommended)
+> - No, keep the report for later
+> - Let's discuss
 
 ### Step 7 — PUBLISH (optional, gated)
 
@@ -182,13 +182,13 @@ cycle.
 
 Surface QCM :
 
-> "Le pack `<name>` est prêt à publier (<count> composants, version
-> <new-version> calculée). Que faites-vous ?"
+> "The pack `<name>` is ready to publish (<count> components, version
+> <new-version> computed). What do you do?"
 >
-> - Publier sur PyPI + git tag (Recommandé)
-> - Git tag uniquement (pas de PyPI)
-> - Conserver local, ne rien publier
-> - Discutons-en
+> - Publish on PyPI + git tag (Recommended)
+> - Git tag only (no PyPI)
+> - Keep local, do not publish
+> - Let's discuss
 
 If user authorizes → invoke `pack-publisher`.
 
@@ -209,7 +209,7 @@ After termination :
 
 The orchestrator finally posts a summary message :
 
-> "Cycle PE terminé. <résumé>. Prochaines étapes recommandées : <list>."
+> "PE cycle complete. <summary>. Recommended next steps: <list>."
 
 ## Sub-mode skill references
 

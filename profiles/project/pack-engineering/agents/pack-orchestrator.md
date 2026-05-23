@@ -63,11 +63,11 @@ auto-routing (PACK_BOOTSTRAP / PACK_SPECIALIZE / PACK_REFINE / PACK_AUDIT
 3. **If present** → resume from `phases_completed[-1] + 1`. Surface a QCM
    scope-aware :
 
-   > "Un plan PE existe pour le pack `<name>` (mode <mode>, dernière phase
-   > `<phase>`). Continuer cette itération ?"
-   > - Continuer la phase suivante (Recommandé)
-   > - Lancer une nouvelle itération (refine sur l'existant)
-   > - Discutons-en
+   > "A PE plan exists for pack `<name>` (mode <mode>, last phase
+   > `<phase>`). Continue this iteration?"
+   > - Continue to the next phase (Recommended)
+   > - Launch a new iteration (refine on the existing pack)
+   > - Let's discuss
 
 4. Capture decision in `decisions_log`.
 
@@ -142,12 +142,12 @@ After every phase :
 
 ## User-facing tone
 
-- All QCMs in **French** (matching the project conventions in `ce-conventions.md`).
+- All QCMs in **English** (matching the project conventions in `ce-conventions.md`).
 - All technical output (reports on disk) in **English** (markdown).
-- Tone : conversational, French informal "tu" register, justify each
-  recommendation with one sentence ("Recommandé car X").
-- Never expose specialist agent names to the user. "L'analyse a trouvé"
-  not "pack-miner a trouvé".
+- Tone: conversational, concise, justify each recommendation with one
+  sentence ("Recommended because X").
+- Never expose specialist agent names to the user. "The analysis found"
+  not "pack-miner found".
 
 ## Hard rules (anti-patterns to refuse)
 

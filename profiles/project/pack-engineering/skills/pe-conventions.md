@@ -24,12 +24,12 @@ PE strictly reuses the **universal QCM format** defined in
 `.claude/ce/skills/ce-conventions.md` §1 :
 
 ```
-"<question scope-aware en français>"
+"<scope-aware question in English>"
 
-- Option 1 suffixed `(Recommandé)` + justification one-liner
+- Option 1 suffixed `(Recommended)` + justification one-liner
 - 0-2 business alternatives
-- `Discutons-en`
-- (`Autre` — auto-injected by the harness)
+- `Let's discuss`
+- (`Other` — auto-injected by the harness)
 ```
 
 Read `ce-conventions.md` once per orchestrator invocation ; do not duplicate
@@ -70,7 +70,7 @@ Format :
   entry: design_approved
   scope: bootstrap
   decision: "Approved 12 components ; rejected 3 (too project-specific)"
-  rationale: "G2 QCM — option 'Tout valider' selected"
+  rationale: "G2 QCM — option 'Approve all' selected"
 ```
 
 ## 5. Pack master plan schema

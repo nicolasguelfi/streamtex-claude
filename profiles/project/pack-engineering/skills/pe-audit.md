@@ -14,7 +14,7 @@ modifies no source files.
 
 Triggers (from `ce-task.md` PACK_AUDIT archetype or `/stx-pe:audit`) :
 - "audit my pack"
-- "vérifier la santé de <pack>"
+- "check the health of <pack>"
 - "find unused components / duplicates in <pack>"
 
 Note : audit is also auto-run by `bootstrap` and `specialize` at Step 6.
@@ -39,12 +39,12 @@ cycle.
    sibling directories for `stx.toml` files declaring the pack. Surface
    QCM if zero or many found :
 
-   > "Audit du pack `<name>`. <N> projets consommateurs trouvés :
-   > <list>. Inclure dans l'analyse ?"
-   > - Oui, tous (Recommandé)
-   > - Sélection à préciser
-   > - Aucun (audit du pack seul, sans usage stats)
-   > - Discutons-en
+   > "Audit of pack `<name>`. <N> consumer projects found:
+   > <list>. Include in the analysis?"
+   > - Yes, all (Recommended)
+   > - Selection to be specified
+   > - None (audit the pack alone, no usage stats)
+   > - Let's discuss
 
 3. **Initialize pack-master-plan** (only if a plan file does NOT already
    exist) : write a minimal plan with `pack.mode = audit-only`. If a
@@ -58,11 +58,11 @@ cycle.
 5. **No gate** — audit is read-only. The report is presented to the
    user with a follow-up QCM if findings warrant action :
 
-   > "L'audit a identifié <N> recommandations : <H> HIGH, <M> MEDIUM,
-   > <L> LOW. Que faites-vous ?"
-   > - Lancer un cycle refine pour corriger les HIGH (Recommandé)
-   > - Conserver le rapport pour plus tard
-   > - Discutons-en
+   > "The audit identified <N> recommendations: <H> HIGH, <M> MEDIUM,
+   > <L> LOW. What do you do?"
+   > - Launch a refine cycle to fix the HIGH items (Recommended)
+   > - Keep the report for later
+   > - Let's discuss
 
 6. **No Step 7 PUBLISH** — audit doesn't change the pack so no version bump.
 
@@ -78,9 +78,9 @@ cycle.
 
 When the audit detects HIGH-severity issues :
 
-> "Les issues HIGH suivantes sont actionnables immédiatement : <list>.
-> Lancer un cycle refine ciblé sur ces composants ?"
-> - Oui (Recommandé)
-> - Sélection à préciser
-> - Non, je traiterai manuellement
-> - Discutons-en
+> "The following HIGH issues are immediately actionable: <list>.
+> Launch a refine cycle targeted at these components?"
+> - Yes (Recommended)
+> - Selection to be specified
+> - No, I'll handle it manually
+> - Let's discuss

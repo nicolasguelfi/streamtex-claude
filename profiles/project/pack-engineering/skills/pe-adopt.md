@@ -44,20 +44,20 @@ later.
    `[kits]` section. If `--kit` not provided AND > 1 kit available,
    surface QCM :
 
-   > "Pack `<name>` propose <N> kits : <list-with-counts>. Lequel
-   > installer dans les projets ?"
-   > - <default-kit-name> (Recommandé)
-   > - Sélection à préciser
-   > - Aucun kit (juste `stx pack add`)
-   > - Discutons-en
+   > "Pack `<name>` offers <N> kits: <list-with-counts>. Which one to
+   > install in the projects?"
+   > - <default-kit-name> (Recommended)
+   > - Selection to be specified
+   > - No kit (just `stx pack add`)
+   > - Let's discuss
 
 3. **Confirm projects** : surface QCM with the list of consumer projects :
 
-   > "Adopter `<pack>` (kit `<kit>`) dans <N> projets : <list>.
-   > Confirmer ?"
-   > - OK, installer (Recommandé)
-   > - Sélection à préciser
-   > - Discutons-en
+   > "Adopt `<pack>` (kit `<kit>`) in <N> projects: <list>.
+   > Confirm?"
+   > - OK, install (Recommended)
+   > - Selection to be specified
+   > - Let's discuss
 
 4. **Initialize or extend pack-master-plan** : if a plan exists in
    pilot project, append entry with mode `adopt`. Otherwise create a
@@ -93,9 +93,9 @@ later.
 
 If installation fails on any project (CLI error, network, etc.) :
 
-> "L'installation a échoué sur <N> projet(s) : <list-with-errors>.
-> Que faites-vous ?"
-> - Réessayer les projets échoués
-> - Marquer comme skipped et continuer
-> - Annuler tout et restaurer les `stx.toml` (Recommandé si > 50% échoue)
-> - Discutons-en
+> "Installation failed on <N> project(s): <list-with-errors>.
+> What do you do?"
+> - Retry the failed projects
+> - Mark as skipped and continue
+> - Cancel everything and restore the `stx.toml` (Recommended if > 50% failing)
+> - Let's discuss

@@ -32,7 +32,7 @@ Phase reports: `docs/pack-engineering/<ts>/{discovery,design,audit-report,retrof
 
 ## QCM convention
 
-All user interactions go through QCMs with: 1 option `(Recommandé)` + alternatives + `Discutons-en` + auto-injected `Autre`. `dialog_level: minimal` skips G2 and G4 (uses recommended defaults); G1 and G3 always surface.
+All user interactions go through QCMs with: 1 option `(Recommended)` + alternatives + `Let's discuss` + auto-injected `Other`. `dialog_level: minimal` skips G2 and G4 (uses recommended defaults); G1 and G3 always surface.
 
 ## Commands (7)
 

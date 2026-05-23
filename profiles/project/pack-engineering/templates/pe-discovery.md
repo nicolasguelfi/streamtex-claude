@@ -65,11 +65,11 @@ on : dominant style tag, dominant tag attribute, structural primitive.>
 
 → **G1 (post-DISCOVERY)** : `pack-orchestrator` surfaces the QCM to the user :
 
-> "J'ai trouvé <N> candidats à extraire dans <M> projets (<dist>).
-> Recommandés : <K> (≥ 2 projets ET ≥ <threshold> occurrences).
-> Que faites-vous ?"
+> "Found <N> candidates to extract across <M> projects (<dist>).
+> Recommended: <K> (≥ 2 projects AND ≥ <threshold> occurrences).
+> What do you do?"
 >
-> - Approuver toute la liste recommandée (Recommandé)
-> - Sélection à préciser (drill-down par candidat)
-> - Élargir aux candidats single-project (3 candidats supplémentaires)
-> - Discutons-en
+> - Approve the full recommended list (Recommended)
+> - Selection to be specified (drill-down per candidate)
+> - Widen to include single-project candidates (3 additional candidates)
+> - Let's discuss

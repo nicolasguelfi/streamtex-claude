@@ -152,12 +152,12 @@ target DS. If gaps exist, document them in §4 of `pack-master-plan.md`.>
 
 → **G2 (post-DESIGN)** : `pack-orchestrator` surfaces the QCM :
 
-> "<N> composants conçus avec contrat complet. Recommandé : approuver
-> tous, sauf <K> qui ont des conflits non résolus.
-> Que faites-vous ?"
+> "<N> components designed with full contract. Recommended: approve
+> all, except <K> with unresolved conflicts.
+> What do you do?"
 >
-> - Tout approuver et passer à l'implémentation (Recommandé)
-> - Recommandés uniquement (excluant les conflits)
-> - Sélection à préciser (drill-down par composant)
-> - Réviser un composant en particulier
-> - Discutons-en
+> - Approve all and proceed to implementation (Recommended)
+> - Recommended only (excluding conflicts)
+> - Selection to be specified (drill-down per component)
+> - Revise a specific component
+> - Let's discuss

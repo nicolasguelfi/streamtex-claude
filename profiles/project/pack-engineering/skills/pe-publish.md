@@ -68,10 +68,10 @@ Hard rules).
 
 5. **Final QCM** if user opted for tag-only :
 
-   > "Tag `v<version>` créé localement. Pousser vers `origin` maintenant ?"
-   > - Oui (Recommandé)
-   > - Plus tard, manuellement
-   > - Discutons-en
+   > "Tag `v<version>` created locally. Push to `origin` now?"
+   > - Yes (Recommended)
+   > - Later, manually
+   > - Let's discuss
 
 ## Outputs
 
@@ -87,15 +87,15 @@ Hard rules).
 
 If the working tree is dirty :
 
-> "Le pack a des modifications non commitées : <files>. Que faites-vous ?"
-> - Annuler le publish — commiter manuellement d'abord (Recommandé)
-> - Faire un commit auto "chore: pre-release housekeeping"
-> - Discutons-en
+> "The pack has uncommitted changes: <files>. What do you do?"
+> - Cancel the publish — commit manually first (Recommended)
+> - Make an auto commit "chore: pre-release housekeeping"
+> - Let's discuss
 
 If computed bump disagrees with `--bump` user override :
 
-> "Le bump calculé d'après `decisions_log` est `<computed>` (raison :
-> <reason>). L'utilisateur demande `<override>`. Confirmer le forçage ?"
-> - OK, forcer `<override>` (Recommandé si justifié)
-> - Utiliser le bump calculé `<computed>`
-> - Discutons-en
+> "The bump computed from `decisions_log` is `<computed>` (reason:
+> <reason>). The user requests `<override>`. Confirm the override?"
+> - OK, force `<override>` (Recommended if justified)
+> - Use the computed bump `<computed>`
+> - Let's discuss
