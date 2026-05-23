@@ -191,6 +191,17 @@ def install_profile(profile_name: str, target_dir: Path,
     total_files = 0
     extends = manifest.get("profile", {}).get("extends", "")
 
+    # Semantics when [profile] extends another profile:
+    # - Parent profile is installed first (recursive), delivering all of its
+    #   own [commands]/[skills]/[agents]/[templates]/[tools]/[guidelines]
+    #   AND its full [shared] block.
+    # - Child's own [commands]/[skills]/[agents]/[templates]/[tools]/[guidelines]
+    #   manifest blocks are IGNORED — child contributions must live in
+    #   profiles/<name>/overlay/ (copied verbatim below).
+    # - Child's [shared] block runs additively on top of the parent's
+    #   already-installed shared files; entries in the parent's list that
+    #   are NOT in the child's list stay installed from the parent step.
+
     if extends:
         # Install parent profile first
         print(f"  Installing parent profile '{extends}'...")
