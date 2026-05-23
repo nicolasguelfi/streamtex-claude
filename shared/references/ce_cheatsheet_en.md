@@ -121,7 +121,7 @@ All user interactions go through QCMs with: 1 option `(Recommandé)` + alternati
 
 **Priority levels**: CRITICAL (unresolved critical findings) > HIGH (source drift, remaining production, checkpoint active items) > MEDIUM (stale reviews, source updates) > LOW (missing phases) > INFO (up to date)
 
-## Agents (18)
+## Agents (21)
 
 ### COLLECT (2)
 | Agent | Role |
@@ -147,6 +147,11 @@ All user interactions go through QCMs with: 1 option `(Recommandé)` + alternati
 | `domain-researcher` | Research external best practices and references |
 | `learnings-researcher` | Search docs/solutions/ for past patterns |
 
+### PROTOTYPE (1)
+| Agent | Role |
+|-------|------|
+| `prototype-designer` | Pilot block(s) selection, pattern strategy (reuse/adapt/create), user-facing QCMs with justified recommendations |
+
 ### REVIEW (5 perspectives)
 | Perspective | Agent | Evaluates |
 |-------------|-------|-----------|
@@ -167,7 +172,13 @@ All user interactions go through QCMs with: 1 option `(Recommandé)` + alternati
 |-------|------|
 | `ad-hoc-reviewer` | Custom-criteria review of scoped blocks |
 
-## Templates (17)
+### TRANSVERSE (2)
+| Agent | Role | Invoked from |
+|-------|------|--------------|
+| `plan-reconciler` | Detects divergences between live block registry in `book.py` and master plan TOC, proposes single coherent reconciliation | PLAN, PRODUCE, FIX, CONTINUE, STATUS |
+| `objective-monitor` | Reads project objectives from master plan, produces textual judgment of current status, proposes corrections when deviation detected | CONTINUE, COMPOUND, ASSESS, STATUS, REVIEW |
+
+## Templates (19)
 
 ### COLLECT (1)
 | Template | Purpose |
@@ -188,6 +199,11 @@ All user interactions go through QCMs with: 1 option `(Recommandé)` + alternati
 | `plan-improve` | Production plan for improve pathway | B |
 | `plan-create` | Production plan for create pathway | C |
 
+### PROTOTYPE (1)
+| Template | Purpose |
+|----------|---------|
+| `prototype-report` | Pilot block report: visual choices validated, patterns extracted/reused, stored in `docs/prototypes/YYYY-MM-DD-NNN-<scope>-prototype.md` |
+
 ### REVIEW (1)
 | Template | Purpose |
 |----------|---------|
@@ -205,7 +221,7 @@ All user interactions go through QCMs with: 1 option `(Recommandé)` + alternati
 | `feedback-summary` | Ecosystem feedback summary (bugs, features) |
 | `dev-report` | Dev governance report (repo changes, PRs) |
 
-### TASK (4)
+### TASK (5)
 | Template | Purpose |
 |----------|---------|
 | `task-review` | Targeted review findings |
@@ -213,6 +229,11 @@ All user interactions go through QCMs with: 1 option `(Recommandé)` + alternati
 | `task-analysis` | Source document structured analysis |
 | `task-report` | Task execution summary |
 | `checkpoint` | Session checkpoint for pause/resume |
+
+### ORCHESTRATION (1)
+| Template | Purpose |
+|----------|---------|
+| `master-plan` | Schema reference for `docs/master-plan.yaml` + `docs/master-plan.md` (the runtime files). Not copied — CE skills construct the runtime files programmatically from this schema. Canonical source for `master-plan.yaml -> <field>` references across skills/agents |
 
 ## COMPOUND — 3 Axes of Capitalization
 
