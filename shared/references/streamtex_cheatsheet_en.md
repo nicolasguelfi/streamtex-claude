@@ -270,6 +270,19 @@ caps.default_size   # "1536x1024"
 caps.default_quality  # "auto"
 ```
 
+**Errors**: `AIImageError` is the public exception raised by `generate_image()`
+and `st_ai_image()` for provider failures, invalid prompts, missing API keys,
+or unsupported size/quality combinations. Catch it to fall back gracefully:
+
+```python
+from streamtex import generate_image, AIImageError
+
+try:
+    img = generate_image("a hero illustration", provider="openai")
+except AIImageError as e:
+    st_write(s.warn, f"Image generation failed: {e}")
+```
+
 ### AI Image — Editable Image Editor
 
 ```python
@@ -1189,6 +1202,49 @@ class ProjectBlockHelper(BlockHelper):
 helper = ProjectBlockHelper()
 helper.show_comparison(old_code, new_code)
 ```
+
+## Hover Tooltip (`st_hover_tooltip`)
+
+Inline icon that reveals a tooltip panel on `:hover`. Use for the
+"telegraphic slide + detail-on-hover" pattern (keywords on the slide,
+explanations one hover away). Palette-neutral; routes through
+`st_html` so it is export/PDF-aware.
+
+```python
+from streamtex import st_hover_tooltip
+
+# Minimal: icon + entries (term/definition pairs)
+st_hover_tooltip(
+    icon="ℹ️",
+    title="Key terms",
+    entries=[
+        ("Pack", "Python package shipping reusable components."),
+        ("DS",   "Design system: tokens + bundles selectable per project."),
+    ],
+)
+
+# Full signature:
+# st_hover_tooltip(
+#     icon: str = "ℹ️",
+#     title: str = "",
+#     entries: list[tuple[str, str]] | None = None,
+#     *,
+#     scale: str = "1.8vw",         # base font unit; title=1.3×, term=1.1×, def=1.0×
+#     title_style: str | None = None,  # CSS override for panel title
+#     term_style: str | None = None,   # CSS override for each term
+#     def_style: str | None = None,    # CSS override for each definition
+#     width: str = "40vw",
+#     height: str = "auto",
+#     max_height: str = "80vh",     # internal scrollbar above this
+#     position: str = "center",     # "left" | "center" | "right" — panel side opposite icon
+#     direction: str = "down",      # "up" | "down" — panel opens above or below
+#     bg_color: str = "rgba(17,17,17,0.94)",
+# )
+```
+
+**When to use**: dense slides where extra context would crowd the layout —
+the tooltip stays one gesture away without consuming pixels. Promoted from
+the ai4se6d/FC presentation widget (new in 0.7.8).
 
 ## Raw HTML (`st_html`)
 
@@ -2539,6 +2595,24 @@ rules / When to use / When NOT to use). Spec A2.
 
 `snake_case` everywhere (filename, frontmatter `name`, code annotations
 `# @pattern: <name>`).
+
+### Types
+
+```python
+from streamtex import ComponentMeta, DesignSystemProtocol, ReuseArchitectureError
+```
+
+- **`ComponentMeta`** — TypedDict describing a component's `__component_meta__`
+  contract: `granularity` (`primitive` | `composition` | `block`),
+  `bundles_required` (list of bundle names the active DS must provide),
+  optional `related` (free cross-references). Surfaced by `stx component show`
+  and validated by `stx validate`.
+- **`DesignSystemProtocol`** — `Protocol` that every design system must
+  implement (tokens accessor, bundle resolver). Used for type-checking
+  custom DS implementations against the reuse contract.
+- **`ReuseArchitectureError`** — base exception raised by the resolver
+  for `PR002`/`PR003`/`PR004` lifecycle states (drift install, indirect,
+  manifest broken, collision). Catch to handle pack-resolution failures.
 
 ## Tips and Best Practices
 
