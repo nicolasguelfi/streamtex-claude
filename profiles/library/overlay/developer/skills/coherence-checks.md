@@ -142,8 +142,10 @@ Reference file for `/stx-coherence:audit`. Defines 45 check categories (28 stand
 - WARNING if block lacks `class BlockStyles`
 - WARNING if block lacks `def build()` function
 - WARNING if block lacks `bs = BlockStyles` alias
-- WARNING if block has `build()` not wrapped in `with st_block(...):`
+- WARNING if `build()` calls `st_write` / `st_list` / `st_image` / etc. **immediately after** `show_explanation(...)`, `show_details(...)`, or `show_code(...)` — these are functions (not context managers), so trailing content renders **outside** the box. Either move the content into a `with st_block(...):` wrapper, or accept the flat layout. (Cf. CLAUDE.md gotcha "show_explanation() is a function, NOT a context manager".)
 - INFO if block doesn't use `show_code()` or `show_explanation()` (may be intentional)
+
+**Note on `with st_block(...)` usage** — `st_block` is for **individual styled containers inside** `build()` (cards, banners, decorated boxes). It is NOT required as an outer wrapper around the whole `build()` body. The block framework already provides the outer container; calling `st_write` / `st_space` / `show_explanation` directly at the top of `build()` is the canonical "flat" pattern and is correct. A block uses `with st_block(...)` only where it needs a custom visual container around a sub-section.
 
 ---
 
