@@ -1,6 +1,6 @@
 # CE Fix
 
-Skill for the FIX phase of the Compound Engineering cycle. Load the latest review report, apply automated corrections, verify each fix, propose ré-application of new patterns to prior blocks, and produce a traceability report.
+Skill for the FIX phase of the Compound Engineering cycle. Load the latest review report, apply automated corrections, verify each fix, propose re-application of new patterns to prior blocks, and produce a traceability report.
 
 Read `.claude/ce/skills/ce-conventions.md` before invoking any user-facing question. Before mutating any block, run the `plan-reconciler` agent — silent passage if aligned, QCM if divergence.
 
@@ -85,13 +85,13 @@ For each automatable finding:
 
 3. List remaining findings (manual + failed), grouped by severity.
 
-### Phase 4.5: Component Re-application (cohérence inter-itérations)
+### Phase 4.5: Component Re-application (inter-iteration coherence)
 
 If the current iteration (or a recent prior iteration) introduced new components in `master-plan.yaml -> components.applied` that are not yet applied to all candidate blocks, surface a QCM:
 
-*"Le composant `<component_name>` a été défini en itération <N>. <M> blocs déjà produits utilisent une composition similaire ad-hoc. Réaligner ?"*
+*"The component `<component_name>` was defined in iteration <N>. <M> already-produced blocks use a similar ad-hoc composition. Realign?"*
 
-Options: `Réaligner tous les blocs (Recommandé)` / `Sélection à préciser` / `Non, inscrire en dette de cohérence` / `Discutons-en`.
+Options: `Realign all blocks (Recommended)` / `Selection to be specified` / `No, record as coherence debt` / `Let's discuss`.
 
 Refusals create entries in `master-plan.yaml -> coherence_debt` with affected blocks. Acceptances trigger `/stx-block:update --target <block>` with the component as design directive.
 
@@ -101,7 +101,7 @@ Update statuses in the YAML for each modified block: `fixed`. Append `decisions_
 
 Surface QCM following `ce-conventions.md`. Options:
 
-- *"Continuer vers COMPOUND"* `(Recommandé)`
-- *"Re-revue"* (`/stx-ce:review`)
-- *"Fix more — abaisser la sévérité"*
-- `Discutons-en`
+- *"Continue to COMPOUND"* `(Recommended)`
+- *"Re-review"* (`/stx-ce:review`)
+- *"Fix more — lower the severity threshold"*
+- `Let's discuss`

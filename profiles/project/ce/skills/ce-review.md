@@ -78,7 +78,7 @@ If more than 5 agents would run, switch to serial mode to avoid context saturati
    - Comparison against assessment requirements (if available)
    - Comparison against plan objectives (if available)
 3. Update each reviewed block's status in `master-plan.yaml -> toc[*].sections[*].blocks[*].status` to `reviewed`.
-4. **GATE (fundamental)**: surface QCM following `ce-conventions.md`. Options: `Lancer FIX (Recommandé)` / `Examiner les findings d'abord` / `Sauter vers COMPOUND` / `Discutons-en`.
+4. **GATE (fundamental)**: surface QCM following `ce-conventions.md`. Options: `Launch FIX (Recommended)` / `Examine findings first` / `Skip to COMPOUND` / `Let's discuss`.
 
 ### After Review
 

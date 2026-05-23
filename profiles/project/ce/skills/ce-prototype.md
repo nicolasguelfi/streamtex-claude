@@ -2,7 +2,7 @@
 
 Skill for the PROTOTYPE phase of the Compound Engineering cycle. Sits between PLAN and PRODUCE. Validates visual styles and identifies / reuses graphic patterns **by example** — by producing one (or a small set of) pilot block(s), extracting reusable patterns, and validating the design with the user before mass production.
 
-Read `.claude/ce/skills/ce-conventions.md` before invoking any user-facing question. All interactions follow the universal QCM format with `(Recommandé)` + `Discutons-en` + auto-injected `Autre`.
+Read `.claude/ce/skills/ce-conventions.md` before invoking any user-facing question. All interactions follow the universal QCM format with `(Recommended)` + `Let's discuss` + auto-injected `Other`.
 
 ## When this phase runs
 
@@ -33,12 +33,12 @@ Use the `prototype-designer` agent to select the pilot block(s):
 
 Surface QCM:
 
-*"Produire un seul bloc pilote ou un jeu couvrant les archétypes du scope ?"*
+*"Produce a single pilot block or a set covering the scope's archetypes?"*
 
 Options:
-- `Un seul bloc pilote (Recommandé)`
-- `Un jeu couvrant les archétypes`
-- `Discutons-en`
+- `Single pilot block (Recommended)`
+- `Set covering the archetypes`
+- `Let's discuss`
 
 ### Phase 3: Plan Patterns for the Pilot
 
@@ -49,13 +49,13 @@ For the chosen pilot block(s), the `prototype-designer` agent proposes a pattern
 
 Surface QCM (multi-select if several patterns are proposed):
 
-*"Patterns proposés pour le bloc pilote. Recommandé : <liste explicite>. Que faites-vous ?"*
+*"Patterns proposed for the pilot block. Recommended: <explicit list>. What do you do?"*
 
 Options:
-- `Tout (Recommandé)` — applies the full proposal
-- `Recommandés uniquement` — applies the subset marked recommended
-- `Sélection à préciser` — drill down to a per-pattern dialog
-- `Discutons-en`
+- `All (Recommended)` — applies the full proposal
+- `Recommended only` — applies the subset marked recommended
+- `Selection to be specified` — drill down to a per-pattern dialog
+- `Let's discuss`
 
 ### Phase 4: Produce the Pilot Block(s)
 
@@ -63,7 +63,7 @@ For each pilot block:
 
 1. Scaffold the block with `/stx-block:new` (or `/stx-block:slide-new` for presentations).
 2. **Author the block through the `authoring-gate` skill** (`.claude/shared/skills/authoring-gate.md`) — never freehand. The gate resolves the plan, the design rules + designer specialization **for this document's `identity.type`** (slide-designer / web-document-designer / course-designer), and the component to apply, then delegates authoring to that specialization with the patterns validated in Phase 3. This is identical for every document type — only the resolved overlay/agent differ.
-3. Use the `Propositions brutes` from `master-plan.md` for the pilot's section as initial content.
+3. Use the `Draft content proposals` from `master-plan.md` for the pilot's section as initial content.
 4. Run `/stx-block:audit --target <block>` to verify structural correctness.
 5. Update `master-plan.yaml -> toc[*].sections[*].blocks[*].status` to `prototyped`.
 
@@ -81,27 +81,27 @@ This phase is never skipped — not even in `dialog_level: minimal` and not in a
 
 The pilot has already passed the automated visual gate (Phase 5). Present the captured screenshots (`docs/_screens/`) and the vision-review summary, then surface QCM — the user now judges only the *subjective/editorial* choices (tone, palette, message density), not the mechanical defects already caught:
 
-*"Bloc pilote produit et validé visuellement (auto-revue : <n défauts corrigés>). Voici le rendu (docs/_screens/). Confirmez les choix éditoriaux."*
+*"Pilot block produced and visually validated (auto-review: <n defects fixed>). Here is the rendering (docs/_screens/). Confirm editorial choices."*
 
 Options:
-- `Valider et continuer (Recommandé)`
-- `Ajuster les styles avant production`
-- `Repartir d'une autre piste`
-- `Discutons-en`
+- `Validate and continue (Recommended)`
+- `Adjust styles before production`
+- `Start over from another direction`
+- `Let's discuss`
 
-If `Ajuster` or `Repartir`: loop back to Phase 3 with the user's input. If `Valider`: proceed to Phase 7.
+If `Adjust` or `Start over`: loop back to Phase 3 with the user's input. If `Validate`: proceed to Phase 7.
 
 ### Phase 7: Pattern Capture (draft → local)
 
 For each new composition that emerged from the pilot and is not yet in the catalog, surface a QCM:
 
-*"Composition visuelle candidate à devenir un pattern nommé : <description>. La capturer dans le catalogue local ?"*
+*"Visual composition candidate for promotion to a named pattern: <description>. Capture it in the local catalog?"*
 
 Options:
-- `Oui, capturer dans le catalogue local (Recommandé)` — runs `stx component new <name>` (extracting the visual idiom from `<pilot_block>` into the new component scaffold), writing to the primary local pack (`./mypack/components/`)
-- `Non, garder en code ad-hoc`
-- `Renommer / ajuster avant de capturer`
-- `Discutons-en`
+- `Yes, capture in the local catalog (Recommended)` — runs `stx component new <name>` (extracting the visual idiom from `<pilot_block>` into the new component scaffold), writing to the primary local pack (`./mypack/components/`)
+- `No, keep as ad-hoc code`
+- `Rename / adjust before capturing`
+- `Let's discuss`
 
 For each component captured, update `master-plan.yaml -> components.applied` with `level: local` and the pilot block in `blocks: [...]`.
 
@@ -119,14 +119,14 @@ Update `master-plan.yaml`:
 
 Surface QCM:
 
-*"Le prototypage est validé. Continuer la production des blocs restants du scope ?"*
+*"The prototyping is validated. Continue producing the remaining blocks in the scope?"*
 
 Options:
-- `Oui, lancer PRODUCE (Recommandé)`
-- `Non, je veux ajuster le plan d'abord`
-- `Discutons-en`
+- `Yes, launch PRODUCE (Recommended)`
+- `No, I want to adjust the plan first`
+- `Let's discuss`
 
-If `Oui`: suggest `/stx-ce:produce`. If `Non`: suggest `/stx-ce:task "amend plan"` or `/stx-ce:plan` (re-planning).
+If `Yes`: suggest `/stx-ce:produce`. If `No`: suggest `/stx-ce:task "amend plan"` or `/stx-ce:plan` (re-planning).
 
 Append a `decisions_log` entry for every QCM in this phase.
 

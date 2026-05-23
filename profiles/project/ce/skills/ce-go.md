@@ -2,7 +2,7 @@
 
 Skill for the orchestrated workflow of the Compound Engineering cycle. The cycle may cover the full document or an increment (part, section, single block) — the scope is determined by dialogue with the user at the start, not by flags.
 
-Read `.claude/ce/skills/ce-conventions.md` before invoking any user-facing question. All interactions follow the universal QCM format with `(Recommandé)` + `Discutons-en` + auto-injected `Autre`.
+Read `.claude/ce/skills/ce-conventions.md` before invoking any user-facing question. All interactions follow the universal QCM format with `(Recommended)` + `Let's discuss` + auto-injected `Other`.
 
 ## Workflow
 
@@ -20,17 +20,17 @@ Before executing any phase, the orchestrator builds a contextual proposal by rea
    - Document complete → propose new objectives or end of project.
 4. **Surface scope QCM** (skipped only if first iteration on empty project — then ASSESS handles initialization directly):
 
-   Question (adapted to current state): *"Le plan définit X parties / Y sections, Z blocs produits sur N prévus. Comment voulez-vous procéder dans ce cycle ?"*
+   Question (adapted to current state): *"The plan defines X parts / Y sections, Z blocks produced out of N planned. How do you want to proceed in this cycle?"*
 
    Options:
-   - *"Continuer l'incrément courant"* `(Recommandé)` — when partial work exists
-   - *"Démarrer la prochaine section / partie"* — when current is complete
-   - *"Discutons-en"* — opens dialogue
-   - (Autre — auto-injected, captures custom scope description)
+   - *"Continue the current increment"* `(Recommended)` — when partial work exists
+   - *"Start the next section / part"* — when current is complete
+   - *"Let's discuss"* — opens dialogue
+   - (Other — auto-injected, captures custom scope description)
 
    Other state-specific phrasings:
-   - First iteration on new document: *"Aucun plan détecté. Quelle ampleur pour ce premier cycle ?"* → `Document complet (Recommandé)` / `Une première section pilote` / `Discutons-en`.
-   - Document complete: *"Tous les blocs sont produits et revus. Que faites-vous ?"* → `Nouvel incrément sur amélioration (Recommandé)` / `Clore le projet` / `Discutons-en`.
+   - First iteration on new document: *"No plan detected. What scope for this first cycle?"* → `Full document (Recommended)` / `A first pilot section` / `Let's discuss`.
+   - Document complete: *"All blocks are produced and reviewed. What do you do?"* → `New improvement increment (Recommended)` / `Close the project` / `Let's discuss`.
 
 5. **Capture decision** in `decisions_log` and set the internal `scope` for downstream phases.
 
@@ -38,24 +38,24 @@ Before executing any phase, the orchestrator builds a contextual proposal by rea
 
 Before launching the main CE pipeline, analyze the prompt for Pack Engineering intent. If detected, **suspend ce-go and hand off to `pack-orchestrator`** — PE is its own lifecycle and must not interleave with CE phases.
 
-Trigger keywords (case-insensitive, French + English) :
+Trigger keywords (case-insensitive, English):
 
 | Sub-mode | Triggers |
 |---|---|
-| `bootstrap` | "extract pack", "from scratch", "bootstrap pack", "new pack from projects", "factoriser composants depuis", "extraire un pack" |
-| `specialize` | "specialize pack", "fork pack", "extend pack", "upstream pack", "spécialiser <pack>", "étendre <pack>" |
-| `refine` | "refine pack", "enrichir pack", "capture emerged patterns", "add to pack" |
-| `audit` | "audit pack", "pack health", "unused components", "santé du pack" |
+| `bootstrap` | "extract pack", "from scratch", "bootstrap pack", "new pack from projects", "factor components from" |
+| `specialize` | "specialize pack", "fork pack", "extend pack", "upstream pack" |
+| `refine` | "refine pack", "enrich pack", "capture emerged patterns", "add to pack" |
+| `audit` | "audit pack", "pack health", "unused components" |
 | `adopt` | "adopt pack in projects", "install pack in N projects", "wire pack" |
 | `publish` | NEVER auto-routed (requires explicit `/stx-pe:publish`) |
 
 Routing :
 1. If a single PE trigger is detected with high confidence → confirm with QCM :
 
-   > "L'intention détectée concerne l'ingénierie de pack (sous-mode `<mode>`). Lancer le cycle PE plutôt que CE ?"
-   > - Oui, lancer `/stx-pe:<mode>` (Recommandé)
-   > - Non, continuer en CE
-   > - Discutons-en
+   > "Detected intent concerns pack engineering (sub-mode `<mode>`). Launch the PE cycle instead of CE?"
+   > - Yes, launch `/stx-pe:<mode>` (Recommended)
+   > - No, continue with CE
+   > - Let's discuss
 
 2. If confirmed → invoke `pack-orchestrator` with the chosen verb and stop ce-go. The orchestrator handles its own lifecycle (gates G1-G4) and writes outputs to `docs/pack-engineering/`.
 
@@ -112,18 +112,18 @@ The following flags remain implemented but are inferred from dialogue rather tha
 - If `--from-plan <path>` is set: load the specified plan and skip generation.
 - Auto-detect interactive mode: enable `--interactive` if COLLECT found 10 or more sources or the project has 20 or more existing blocks.
 - If `--interactive` flag was explicitly set: use interactive mode regardless.
-- **GATE (fundamental)**: surface QCM to validate the plan. Options: `Approuver (Recommandé)` / `Réviser` / `Discutons-en`.
+- **GATE (fundamental)**: surface QCM to validate the plan. Options: `Approve (Recommended)` / `Revise` / `Let's discuss`.
 
 #### Step 3.5: PROTOTYPE
 
 - Determine whether PROTOTYPE is needed for this increment:
-  - Auto-recommended (`Oui`) when at least one of: no patterns validated yet for the current visual territory; design choices in PLAN differ significantly from prior iterations; user has not yet seen a produced block in this style.
-  - Auto-recommended (`Non`) when the increment continues a style territory already validated.
-- Surface QCM (skipped only in `dialog_level: minimal` if recommendation is `Non`):
+  - Auto-recommended (`Yes`) when at least one of: no patterns validated yet for the current visual territory; design choices in PLAN differ significantly from prior iterations; user has not yet seen a produced block in this style.
+  - Auto-recommended (`No`) when the increment continues a style territory already validated.
+- Surface QCM (skipped only in `dialog_level: minimal` if recommendation is `No`):
 
-  *"Avant de produire les N blocs prévus, je propose de produire un bloc pilote pour valider styles et patterns. Procéder ainsi ?"*
+  *"Before producing the N planned blocks, I propose producing a pilot block to validate styles and patterns. Proceed?"*
 
-  Options: `Oui (Recommandé / non recommandé selon contexte)` / `Non, produire directement` / `Plusieurs blocs pilotes (couvrir les archétypes)` / `Discutons-en`.
+  Options: `Yes (Recommended / not recommended depending on context)` / `No, produce directly` / `Several pilot blocks (cover archetypes)` / `Let's discuss`.
 - If accepted: run `/stx-ce:prototype` for the increment.
 
 #### Step 4: PRODUCE
@@ -136,15 +136,15 @@ The following flags remain implemented but are inferred from dialogue rather tha
 #### Step 5: REVIEW
 
 - Run `/stx-ce:review` with the current scope.
-- **GATE (fundamental)**: surface QCM to validate the review results. Options: `Lancer FIX (Recommandé)` / `Examiner les findings d'abord` / `Discutons-en`.
+- **GATE (fundamental)**: surface QCM to validate the review results. Options: `Launch FIX (Recommended)` / `Examine findings first` / `Let's discuss`.
 
 #### Step 6: FIX
 
 - Run `/stx-ce:fix` to correct automatable findings from the review.
-- If new patterns were introduced in PROTOTYPE, propose ré-application to prior blocks via QCM (cohérence inter-itérations).
+- If new patterns were introduced in PROTOTYPE, propose re-application to prior blocks via QCM (inter-iteration coherence).
 - If `--review-only` is set: skip this step unless the user explicitly requests fixes.
-- **GATE (fundamental)**: surface QCM to validate the fix results. Options: `Continuer vers COMPOUND (Recommandé)` / `Re-revue` / `Discutons-en`.
-- If user chooses re-revue: loop back to Step 5.
+- **GATE (fundamental)**: surface QCM to validate the fix results. Options: `Continue to COMPOUND (Recommended)` / `Re-review` / `Let's discuss`.
+- If user chooses re-review: loop back to Step 5.
 
 #### Step 7: COMPOUND
 
@@ -155,7 +155,7 @@ The following flags remain implemented but are inferred from dialogue rather tha
 
 - Run `/stx-ce:integrate` to route solutions to their operational destinations, including pattern promotion to the shared catalog (`streamtex-pack-design` pack) for patterns judged generic enough.
 - Present the routing plan to the user.
-- **GATE (fundamental)**: surface QCM to validate which integrations to execute. Options: `Tout exécuter (Recommandé)` / `Sélection à préciser` / `Aucun` / `Discutons-en`.
+- **GATE (fundamental)**: surface QCM to validate which integrations to execute. Options: `Execute all (Recommended)` / `Selection to be specified` / `None` / `Let's discuss`.
 - This step runs after COMPOUND if solutions or local patterns were produced. Skip if no new solutions and no new patterns.
 
 #### Step 9: Final Report
@@ -190,11 +190,11 @@ When running from `/stx-ce:go`, individual phases operate in pipeline mode, modu
 - `guided` (default): phases surface QCMs at all structuring decisions (scope, pathway, design choices, PROTOTYPE confirmation, pattern promotion, reconciliation).
 - `exhaustive`: phases surface QCMs even on minor choices.
 - Phases auto-detect context from the master plan and previous phase outputs rather than prompting unnecessarily.
-- Error handling: if a phase fails, report the error, save progress (master plan snapshot if state changed), and surface a QCM: `Retenter (Recommandé)` / `Passer` / `Abandonner` / `Discutons-en`.
+- Error handling: if a phase fails, report the error, save progress (master plan snapshot if state changed), and surface a QCM: `Retry (Recommended)` / `Skip` / `Abort` / `Let's discuss`.
 
 ### End-of-Cycle Soft Interruption
 
-After Step 9, surface a QCM: *"Snapshot final du plan ?"* with default `Oui` (per `ce-conventions.md`). Skip silently if the master plan has not changed since the last snapshot.
+After Step 9, surface a QCM: *"Final snapshot of the plan?"* with default `Yes` (per `ce-conventions.md`). Skip silently if the master plan has not changed since the last snapshot.
 
 ### Related Commands
 

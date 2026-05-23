@@ -98,8 +98,8 @@ If a master plan is present:
 
 1. Compare `docs/master-plan.yaml` and `docs/master-plan.md` against the most recent paired snapshot in `docs/master-plan/archive/`.
 2. If either file differs from its last snapshot:
-   - Surface a QCM: *"Le plan a évolué pendant cette session. Snapshot avant pause ?"* with options `Oui (Recommandé)`, `Non`, `Discutons-en`.
-   - Default `Oui`: write paired snapshot `docs/master-plan/archive/YYYY-MM-DD-NNN.{yaml,md}` (next available NNN for the day).
+   - Surface a QCM: *"The plan changed during this session. Snapshot before pause?"* with options `Yes (Recommended)`, `No`, `Let's discuss`.
+   - Default `Yes`: write paired snapshot `docs/master-plan/archive/YYYY-MM-DD-NNN.{yaml,md}` (next available NNN for the day).
 3. If both files are identical to the last snapshot: skip silently.
 
 Append a `decisions_log` entry if a QCM was surfaced.

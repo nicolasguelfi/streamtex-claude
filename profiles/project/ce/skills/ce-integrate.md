@@ -42,15 +42,15 @@ Classification heuristics:
 
 Present the proposed routing to the user as a multi-select QCM following the universal format (see `ce-conventions.md`). The QCM includes both solutions and pattern promotion proposals:
 
-*"Routages proposés (<N>) : <résumé en prose mentionnant les destinations recommandées>. Que faites-vous ?"*
+*"Proposed routings (<N>): <prose summary mentioning recommended destinations>. What do you do?"*
 
 Options:
-- `Tout exécuter (Recommandé)` — proceed with every recommended routing
-- `Recommandés uniquement` — apply the subset marked recommended
-- `Sélection à préciser` — drill down per item
-- `Discutons-en`
+- `Execute all (Recommended)` — proceed with every recommended routing
+- `Recommended only` — apply the subset marked recommended
+- `Selection to be specified` — drill down per item
+- `Let's discuss`
 
-`Autre` (auto-injected) captures custom instructions.
+`Other` (auto-injected) captures custom instructions.
 
 For long routing lists (> 4 items), use the aggregated pattern from `ce-conventions.md` section 1.2.
 

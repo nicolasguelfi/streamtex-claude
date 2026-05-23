@@ -59,7 +59,7 @@ Read these files:
    - Critical path (what must be built first)
 7. **Map candidate components**: for each planned block, propose one or more components from the catalog (or mark as "ad-hoc" if no existing component fits). The mapping is written to `master-plan.yaml -> components.applied`.
 8. **Present skeleton for validation**:
-   - In interactive mode: present the skeleton and iterate with user feedback via QCM (`Approuver (Recommandé)` / `Réviser` / `Discutons-en`).
+   - In interactive mode: present the skeleton and iterate with user feedback via QCM (`Approve (Recommended)` / `Revise` / `Let's discuss`).
    - In batch mode: produce the full skeleton document.
 
 ## Output Format

@@ -95,13 +95,13 @@ This phase complements the patterns already captured at the local level during P
 2. For each candidate, the **learnings-researcher** agent checks if a similar pattern already exists in the primary local pack (`./mypack/components/`) (local) or in the shared `streamtex-pack-design` pack.
 3. Surface a multi-select QCM listing the candidates:
 
-   *"<N> compositions visuelles émergentes détectées. Recommandé : capturer toutes celles marquées (✓). Que faites-vous ?"*
+   *"<N> emergent visual compositions detected. Recommended: capture all those marked (✓). What do you do?"*
 
    Options:
-   - `Tout capturer (Recommandé)` — runs `stx component new <name>` for each candidate (extracting the recurring visual idiom from `<block>` into the new component)
-   - `Recommandés uniquement` — captures the marked subset
-   - `Sélection à préciser` — drill down per candidate
-   - `Discutons-en`
+   - `Capture all (Recommended)` — runs `stx component new <name>` for each candidate (extracting the recurring visual idiom from `<block>` into the new component)
+   - `Recommended only` — captures the marked subset
+   - `Selection to be specified` — drill down per candidate
+   - `Let's discuss`
 
 4. For each captured component, update `master-plan.yaml -> components.applied` with `level: local`, the new component name, and the blocks that use it.
 5. Promotion `draft → local` is implicit when capture is done at this step. Promotion `local → shared` happens in INTEGRATE.
@@ -223,13 +223,13 @@ Run the `objective-monitor` agent. Update `master-plan.yaml -> objectives[*].sta
 
 Scan `docs/master-plan/archive/` for accumulated snapshots. If the count exceeds 20 paired snapshots, surface a QCM:
 
-*"Le master plan contient <N> snapshots dans `docs/master-plan/archive/`. Proposer une purge ?"*
+*"The master plan contains <N> snapshots in `docs/master-plan/archive/`. Propose a purge?"*
 
 Options:
-- `Garder les 10 plus récents (Recommandé)` — moves older to `archive/old/`
-- `Garder tous` — no action
-- `Sélection à préciser` — drill down per snapshot
-- `Discutons-en`
+- `Keep the 10 most recent (Recommended)` — moves older to `archive/old/`
+- `Keep all` — no action
+- `Selection to be specified` — drill down per snapshot
+- `Let's discuss`
 
 The purge moves files to `archive/old/` rather than deleting them — recovery remains possible.
 

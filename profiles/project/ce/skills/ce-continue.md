@@ -77,7 +77,7 @@ If a master plan is present, run two agents before drift detection:
 
 1. **plan-reconciler** — detects divergences between `book.py` and the master plan TOC.
    - If `STATUS: aligned`: no action, continue silently.
-   - Otherwise: surface the reconciliation QCM as defined in `ce-conventions.md` (one global proposal + `Discutons-en` + drill-down option).
+   - Otherwise: surface the reconciliation QCM as defined in `ce-conventions.md` (one global proposal + `Let's discuss` + drill-down option).
    - Refused divergences are written to `coherence_debt` in the YAML.
 2. **objective-monitor** — judges objective status.
    - The status table is always shown in the briefing.
@@ -153,15 +153,15 @@ Generate a prioritized list of recommendations based on the inspection and drift
 
 Present the briefing + drift + proposals to the user as a QCM following the universal format (see `ce-conventions.md`):
 
-- Option 1: the highest-priority proposal `(Recommandé)`.
+- Option 1: the highest-priority proposal `(Recommended)`.
 - Option 2: an alternative proposal from the list (if any).
-- Option 3: `Discutons-en` (free dialogue about the next step).
-- `Autre` is auto-injected for free-form task description (dispatches to `/stx-ce:task`).
+- Option 3: `Let's discuss` (free dialogue about the next step).
+- `Other` is auto-injected for free-form task description (dispatches to `/stx-ce:task`).
 
 **Dispatch logic**:
 - **Option 1 or 2 selected**: Execute the corresponding command.
-- **`Discutons-en`**: Open dialogue to refine the user's intent, then dispatch.
-- **`Autre`**: Dispatch to `/stx-ce:task "<user text>"`.
+- **`Let's discuss`**: Open dialogue to refine the user's intent, then dispatch.
+- **`Other`**: Dispatch to `/stx-ce:task "<user text>"`.
 
 Append a `decisions_log` entry for the user's choice.
 

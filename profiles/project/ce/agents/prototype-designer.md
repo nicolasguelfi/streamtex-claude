@@ -62,7 +62,7 @@ Compose:
 - **Question text**: list the candidate patterns and their classifications. Name the recommended subset explicitly.
 - **Recommended option**: by default, "apply all `reuse_as_is` and `reuse_adapted` + capture all `create_new`".
 - **Alternative**: "apply only the `reuse_*` patterns and defer `create_new` capture".
-- **Drill-down option**: `Sélection à préciser` triggers per-pattern dialog in PROTOTYPE Phase 3.
+- **Drill-down option**: `Selection to be specified` triggers per-pattern dialog in PROTOTYPE Phase 3.
 
 ### Step 5 — Capture decisions
 

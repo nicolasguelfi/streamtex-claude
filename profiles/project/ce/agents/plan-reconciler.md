@@ -34,9 +34,9 @@ Read these files:
      - If unclear → propose aligning the plan on `book.py` (live state is authoritative by default).
    - Bundle all decisions into a single proposal narrative readable by the user.
 5. **Surface the QCM**:
-   - Option 1: *"Appliquer la proposition globale"* `(Recommandé)` — applies all defaults.
-   - Option 2: *"Voir le détail bloc par bloc"* — emits one QCM per divergence with the same three options (align plan / align code / inscrire en dette de cohérence).
-   - Option 3: `Discutons-en`.
+   - Option 1: *"Apply the global proposal"* `(Recommended)` — applies all defaults.
+   - Option 2: *"See block-by-block detail"* — emits one QCM per divergence with the same three options (align plan / align code / record as coherence debt).
+   - Option 3: `Let's discuss`.
 6. **Record outcomes**:
    - Apply accepted reconciliations: update `master-plan.yaml -> toc` and `master-plan.md` accordingly; update `book.py` if alignment direction is "code on plan".
    - Refused divergences → write entries in `master-plan.yaml -> coherence_debt` with affected blocks.
@@ -58,7 +58,7 @@ When divergences exist, return a single Markdown block:
 | Block | Side present | Default direction | Rationale |
 |-------|--------------|-------------------|-----------|
 | `bck_intro` | code only | align plan on code | block recently added in book.py, no plan entry |
-| `bck_old` | plan only | inscrire en dette | already produced under another name, manual cleanup needed |
+| `bck_old` | plan only | record as debt | already produced under another name, manual cleanup needed |
 | ... | ... | ... | ... |
 
 ### Summary
@@ -72,7 +72,7 @@ When divergences exist, return a single Markdown block:
 - `ce-produce` before writing any new block.
 - `ce-fix` before modifying any block.
 - `ce-task` write archetypes (TARGETED PRODUCTION, PLAN AMENDMENT) before mutating state.
-- On user demand from `ce-status` ("Vérifier la cohérence plan / code").
+- On user demand from `ce-status` ("Check plan / code coherence").
 
 ## Silent passage
 

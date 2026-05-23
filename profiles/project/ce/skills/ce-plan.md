@@ -99,8 +99,8 @@ Before writing the plan increment, snapshot the master plan if either file diffe
 - Append the current iteration entry in `iterations` with scope, pathway, started date.
 
 **Subsequent iterations**:
-- Update only the nodes in the current scope: refine titles, sources, notes, propositions brutes in the MD; refine statuses, components mapping in the YAML.
-- If the user requested a global structural change during this PLAN, surface a QCM before applying it: *"Modifier le squelette global du master plan ?"* → `Appliquer (Recommandé)` / `Limiter à l'incrément courant` / `Discutons-en`.
+- Update only the nodes in the current scope: refine titles, sources, notes, draft content proposals in the MD; refine statuses, components mapping in the YAML.
+- If the user requested a global structural change during this PLAN, surface a QCM before applying it: *"Modify the master plan's global skeleton?"* → `Apply (Recommended)` / `Limit to the current increment` / `Let's discuss`.
 - Append a new entry in `iterations`.
 3. The plan document must include:
    - Document structure with all sections and blocks
@@ -116,5 +116,5 @@ Before writing the plan increment, snapshot the master plan if either file diffe
    - Reference traceability strategy: decide per-project whether references are displayed (inline attribution, bibliography) or hidden (source-code `# REF:` comments only). In all cases, every factual claim must be traceable in the block source.
    - Deployment configuration (if applicable)
    - Total effort estimate
-4. **GATE (fundamental)**: surface QCM to validate the plan. Options: `Approuver et continuer (Recommandé)` / `Demander des modifications` / `Discutons-en`. Append `decisions_log` entry.
+4. **GATE (fundamental)**: surface QCM to validate the plan. Options: `Approve and continue (Recommended)` / `Request modifications` / `Let's discuss`. Append `decisions_log` entry.
 5. Suggest next step: PROTOTYPE (`/stx-ce:prototype`) if styles/patterns need validation; otherwise PRODUCE (`/stx-ce:produce`).

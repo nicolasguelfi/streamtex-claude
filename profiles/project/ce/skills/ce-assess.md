@@ -2,7 +2,7 @@
 
 Skill for the ASSESS phase of the Compound Engineering cycle. Evaluate existing material and define objectives through structured dialogue with the user. Initializes or enriches the master plan.
 
-Read `.claude/ce/skills/ce-conventions.md` before any user-facing question. All interactions follow the universal QCM format with `(Recommandé)` + `Discutons-en` + auto-injected `Autre`.
+Read `.claude/ce/skills/ce-conventions.md` before any user-facing question. All interactions follow the universal QCM format with `(Recommended)` + `Let's discuss` + auto-injected `Other`.
 
 ## Workflow
 
@@ -43,7 +43,7 @@ Evaluation strategy depends on the detected pathway.
 
 ### Phase 2: Dialogue with User
 
-Ask focused questions to capture requirements R1 through R26. Use AskUserQuestion following the universal QCM format defined in `ce-conventions.md`: 1 to 2 business options (first one `(Recommandé)`), `Discutons-en`, and auto-injected `Autre`.
+Ask focused questions to capture requirements R1 through R26. Use AskUserQuestion following the universal QCM format defined in `ce-conventions.md`: 1 to 2 business options (first one `(Recommended)`), `Let's discuss`, and auto-injected `Other`.
 
 In subsequent iterations (master plan already exists), only ask the questions whose answers are missing or stale; pre-fill the rest from the existing master plan and confirm in a single recap QCM.
 
@@ -88,11 +88,11 @@ In subsequent iterations (master plan already exists), only ask the questions wh
    - R24: AI image mode — generation mode (manual | auto), seed strategy for reproducibility (fixed seed | random)
 8. **Design Guideline** (R27) — *for presentations and slide projects*:
    - R27: the active design guideline that orients every slide's layout, font sizing, density, and image strategy. Surface a QCM with a context-aware recommendation, options read from `.claude/designer/guidelines/`:
-     - `maximize-viewport` `(Recommandé for auditorium / pitch decks)` — every pixel serves content, no artificial void.
+     - `maximize-viewport` `(Recommended for auditorium / pitch decks)` — every pixel serves content, no artificial void.
      - `minimalist-visual` — keywords + generous whitespace.
      - `dense-informative` — data-heavy reference slides.
      - `academic-structured` — structured lecture material.
-     - `Discutons-en`.
+     - `Let's discuss`.
    - Persist the choice to `custom/design-guideline.md` (the `slide-designer` and `visual-reviewer` agents read it). Skipping this for a slide project is a defect — without a guideline there is no density/font/layout frame.
 
 ### Phase 3: Generate Assessment Document and Master Plan
@@ -112,7 +112,7 @@ Following the `master-plan.md` template in `.claude/ce/templates/`:
 
 1. **First iteration** (master plan absent):
    - Create `docs/master-plan.yaml` with: identity (from R1-R3), objectives (free-text criteria consolidated from R8 and context), an empty `toc` (filled in PLAN), transverse_decisions defaults (filled progressively), empty components/iterations/decisions_log/coherence_debt, pointers to the assess report just written.
-   - Create `docs/master-plan.md` with: vue d'ensemble paragraph, objectives in prose, transverse_decisions narrative skeleton, empty TOC with a placeholder note "à renseigner en PLAN".
+   - Create `docs/master-plan.md` with: overview paragraph, objectives in prose, transverse_decisions narrative skeleton, empty TOC with a placeholder note "to be filled in PLAN".
    - Do **not** take a snapshot — the files have just been created, there is nothing to archive.
 2. **Subsequent iteration** (master plan present):
    - Read both files.

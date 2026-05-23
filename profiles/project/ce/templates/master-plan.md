@@ -6,7 +6,7 @@
 
 The **master plan** is the living reference for the document being produced. It is stored as **two paired files** in the project's `docs/` directory:
 
-- `docs/master-plan.yaml` — pilotage and automation metadata (machine-readable)
+- `docs/master-plan.yaml` — orchestration and automation metadata (machine-readable)
 - `docs/master-plan.md` — detailed content plan (human-readable, may contain raw content drafts)
 
 Snapshots are taken as paired files in `docs/master-plan/archive/YYYY-MM-DD-NNN.yaml` and `docs/master-plan/archive/YYYY-MM-DD-NNN.md` with identical timestamp prefix.
@@ -22,7 +22,7 @@ Update the relevant file(s) at the end of any CE skill that mutates state. If at
 ## File 1 — `docs/master-plan.yaml`
 
 ```yaml
-# Master plan — pilotage et automatisation
+# Master plan — orchestration and automation
 # Single source of truth for orchestration decisions
 
 identity:
@@ -100,9 +100,9 @@ decisions_log:
   # Append-only. One entry per user QCM answer captured by the orchestrator.
   - timestamp: <YYYY-MM-DDTHH:MM:SSZ>
     question: <verbatim question text>
-    options_presented: [<option1>, <option2>, "Discutons-en", "Autre"]
-    recommendation: <option that carried the (Recommandé) suffix>
-    answer: <option selected, or free text if "Autre", or summary of dialogue if "Discutons-en">
+    options_presented: [<option1>, <option2>, "Let's discuss", "Other"]
+    recommendation: <option that carried the (Recommended) suffix>
+    answer: <option selected, or free text if "Other", or summary of dialogue if "Let's discuss">
     skill: <which CE skill captured this decision>
   # ...
 
@@ -147,118 +147,118 @@ status_legend:
 ```markdown
 # Master Plan — <document title>
 
-> Plan détaillé du contenu. Source de vérité pour la production des blocs.
-> Référence le fichier `docs/master-plan.yaml` pour le pilotage et les statuts.
+> Detailed content plan. Source of truth for block production.
+> References `docs/master-plan.yaml` for orchestration and statuses.
 
-## Vue d'ensemble
+## Overview
 
-<Paragraphe libre décrivant le document, son public, son intention pédagogique
-ou éditoriale. Doit refléter ce qui a été capté en ASSESS et raffiné au fil
-des itérations.>
+<Free paragraph describing the document, its audience, its pedagogical or
+editorial intent. Should reflect what was captured in ASSESS and refined
+across iterations.>
 
-## Objectifs
+## Objectives
 
-<Liste numérotée des objectifs en prose. Pour chacun, une formulation lisible
-de ce qui doit être atteint, suivie en italique de l'état actuel.>
+<Numbered list of objectives in prose. For each: a readable formulation of
+what must be achieved, followed in italics by the current status.>
 
-1. **<Objectif 1>** — <description en prose>. *(en cours / atteint / non atteint / abandonné)*
-2. **<Objectif 2>** — <description>. *(...)* 
+1. **<Objective 1>** — <prose description>. *(in progress / met / unmet / abandoned)*
+2. **<Objective 2>** — <description>. *(...)* 
 
-## Décisions transverses
+## Transverse decisions
 
-<Section narrative consolidant les choix de palette, profils, bibliographie,
-images IA, export, spacing, guideline active. Lisible directement par
-l'utilisateur. La forme structurée est dans le YAML.>
+<Narrative section consolidating palette, presentation profiles, bibliography,
+AI images, export, spacing, active guideline choices. Directly readable by
+the user. The structured form lives in the YAML.>
 
-- **Palette** : <description en prose>
-- **Profils de présentation** : <description en prose>
-- **Bibliographie** : <description en prose ou "aucune">
-- **Images IA** : <description en prose ou "aucune">
-- **Export** : <description en prose>
-- **Guideline active** : <nom ou "aucune">
+- **Palette**: <prose description>
+- **Presentation profiles**: <prose description>
+- **Bibliography**: <prose description or "none">
+- **AI images**: <prose description or "none">
+- **Export**: <prose description>
+- **Active guideline**: <name or "none">
 
-## Table des matières détaillée
+## Detailed table of contents
 
-> Pour chaque nœud du TOC : titre, intention, sources, notes de conception,
-> propositions brutes de contenu. Les sous-sections peuvent descendre à
-> n'importe quel niveau (section / sous-section / sous-sous-section).
+> For each TOC node: title, intent, sources, design notes, draft content
+> proposals. Subsections may descend to any depth (section / subsection /
+> sub-subsection).
 
-### Partie 1 — <Titre>
+### Part 1 — <Title>
 
-**Intention** : <ce que cette partie doit produire chez le lecteur>.
+**Intent**: <what this part should produce in the reader>.
 
-#### Section 1.1 — <Titre>
+#### Section 1.1 — <Title>
 
-**Intention** : <ce que cette section doit produire>.
+**Intent**: <what this section should produce>.
 
-**Sources** :
-- <référence au matériel collecté, page, chapitre, URL>
+**Sources**:
+- <reference to collected material, page, chapter, URL>
 - ...
 
-**Notes de conception** :
-- <composants applicables, contraintes visuelles>
+**Design notes**:
+- <applicable components, visual constraints>
 
-**Propositions brutes de contenu** :
+**Draft content proposals**:
 
-> <Brouillon de contenu — peut être du texte rédigé, des bullet points,
-> des exemples, des esquisses de callouts. Ce contenu sera affiné en
-> PRODUCE puis transposé en blocs StreamTeX.>
+> <Content draft — may be written text, bullet points, examples, callout
+> sketches. This content will be refined in PRODUCE then transposed into
+> StreamTeX blocks.>
 
-##### Sous-section 1.1.1 — <Titre>
+##### Subsection 1.1.1 — <Title>
 
-<Même structure que ci-dessus, récursive selon la profondeur du document.>
+<Same structure as above, recursive to the depth of the document.>
 
-#### Section 1.2 — <Titre>
+#### Section 1.2 — <Title>
 <...>
 
-### Partie 2 — <Titre>
+### Part 2 — <Title>
 <...>
 
-## Composants visuels mobilisés
+## Visual components used
 
-<Liste en prose des composants du catalogue utilisés, avec mention de leur
-niveau (brouillon / local / partagé) et des blocs qui les consomment.>
+<Prose list of catalog components used, with their level (draft / local /
+shared) and the blocks that consume them.>
 
-- `<component_name>` (local) — utilisé dans <bloc(s)>. <Notes éventuelles sur
-  l'extrapolation appliquée>.
+- `<component_name>` (local) — used in <block(s)>. <Optional notes on the
+  applied extrapolation>.
 
-## Dette de cohérence
+## Coherence debt
 
-<Cette section n'existe que si au moins une divergence est documentée.
-Chaque entrée résulte d'un refus de réconciliation ou de ré-application
-de composant, capturé en QCM.>
+<This section exists only if at least one divergence is documented. Each
+entry results from a refused reconciliation or refused component
+re-application, captured in a QCM.>
 
-- **<id>** (créée le <date>) — <description de la divergence>. Blocs
-  concernés : <liste>. Résolution : <pendante / résolue le <date>>.
+- **<id>** (created on <date>) — <divergence description>. Affected blocks:
+  <list>. Resolution: <pending / resolved on <date>>.
 
-## Risques et points d'attention
+## Risks and watch points
 
-<Section facultative, utile quand des objectifs sont en `unmet`
-ou que la production rencontre des obstacles structurants.>
+<Optional section, useful when objectives are `unmet` or production hits
+structural obstacles.>
 
-## Historique des itérations
+## Iteration history
 
-<Bref résumé en prose des cycles CE exécutés. Détails techniques dans le YAML.>
+<Brief prose summary of executed CE cycles. Technical details live in the YAML.>
 
-- **Itération 1** (<date>) — scope : <document/part/section>. <Une à deux
-  phrases sur ce qui a été produit ou amélioré>.
-- **Itération 2** — ...
+- **Iteration 1** (<date>) — scope: <document/part/section>. <One or two
+  sentences on what was produced or improved>.
+- **Iteration 2** — ...
 ```
 
 ## Snapshot policy
 
 A new paired snapshot is written to `docs/master-plan/archive/YYYY-MM-DD-NNN.{yaml,md}` (incrementing NNN per day starting at 001) **only if at least one of the two files differs from the most recent snapshot**. This naturally enforces "at most one snapshot per session" while allowing context-justified additional snapshots.
 
-The user may explicitly request a snapshot at any time. The orchestrator may propose one (QCM, default "Oui") before destructive operations (TOC removals, large refactors, batch reconciliations) or at session end ("interruption douce").
+The user may explicitly request a snapshot at any time. The orchestrator may propose one (QCM, default "Yes") before destructive operations (TOC removals, large refactors, batch reconciliations) or at session end ("soft interruption").
 
 ## Reconciliation policy
 
 When the orchestrator detects divergence between `book.py` (the live `bck_*` registry order) and the master plan TOC, it produces a single proposal with the full reconciliation reasoning, presented as a QCM:
 
-- **Appliquer la proposition globale** *(Recommandé)*
-- **Voir le détail bloc par bloc** (drills down to per-divergence QCM)
-- **Discutons-en**
-- (Autre — auto-injected)
+- **Apply the global proposal** *(Recommended)*
+- **See block-by-block detail** (drills down to per-divergence QCM)
+- **Let's discuss**
+- (Other — auto-injected)
 
 If the user refuses individual divergences, those become entries in `coherence_debt`.
 

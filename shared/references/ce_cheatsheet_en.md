@@ -17,8 +17,8 @@ Scope is chosen by dialogue at the start — no flags required.
 
 Two paired files at the project root, updated by every CE skill:
 
-- `docs/master-plan.yaml` — pilotage (identity, objectives, TOC statuses, components mapping, decisions log)
-- `docs/master-plan.md` — contenu détaillé (TOC hiérarchique + propositions brutes par nœud)
+- `docs/master-plan.yaml` — orchestration (identity, objectives, TOC statuses, components mapping, decisions log)
+- `docs/master-plan.md` — detailed content (hierarchical TOC + draft proposals per node)
 
 Snapshots in `docs/master-plan/archive/YYYY-MM-DD-NNN.{yaml,md}` whenever the plan differs from the last snapshot.
 

@@ -79,7 +79,7 @@ If the master plan is present:
 
 1. Invoke the **objective-monitor** agent to produce the status table and any significant deviation briefing.
 2. Read `coherence_debt` from the YAML. List any unresolved entries.
-3. Invoke the **plan-reconciler** agent (silent mode). If `STATUS: aligned`, do not display anything. Otherwise include a one-line warning ("Divergences plan / book.py détectées — exécutez `/stx-ce:continue` pour réconcilier").
+3. Invoke the **plan-reconciler** agent (silent mode). If `STATUS: aligned`, do not display anything. Otherwise include a one-line warning ("Plan / book.py divergences detected — run `/stx-ce:continue` to reconcile").
 
 ### Phase 6: Display Dashboard
 

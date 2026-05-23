@@ -56,9 +56,9 @@ Always produce a Markdown briefing, even when nothing is significant:
 <Paragraph judgment in prose: why the deviation is significant, what evidence supports it.>
 
 Proposals:
-1. <Recommended action> — `(Recommandé)`
+1. <Recommended action> — `(Recommended)`
 2. <Alternative action>
-3. Discutons-en
+3. Let's discuss
 
 <End for each.>
 
