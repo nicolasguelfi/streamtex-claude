@@ -100,6 +100,59 @@ jobs:
               if not template.exists() and not extends:
                   errors.append(f'{profile_dir.name}: missing CLAUDE.md.j2')
 
+              # For profiles with extends: every file present in overlay/
+              # should also be declared somewhere in the manifest. Files in
+              # overlay/ that are NOT declared are 'silent extras' — they
+              # get installed but the manifest does not document them,
+              # which makes future drift hard to spot.
+              if extends:
+                  overlay = profile_dir / 'overlay'
+                  if overlay.is_dir():
+                      # Build the set of manifest-declared file paths
+                      # (relative to overlay/) for this profile.
+                      declared_in_overlay = set()
+                      for subdir, files in manifest.get('commands', {}).items():
+                          for fname in files:
+                              declared_in_overlay.add(f'commands/{subdir}/{fname}')
+                      for subdir, files in manifest.get('skills', {}).items():
+                          fs = skill_paths.get(subdir, f'skills/{subdir}')
+                          for fname in files:
+                              declared_in_overlay.add(f'{fs}/{fname}')
+                      for subdir, files in manifest.get('agents', {}).items():
+                          fs = agent_paths.get(subdir, f'agents/{subdir}')
+                          for fname in files:
+                              declared_in_overlay.add(f'{fs}/{fname}')
+                      for subdir, files in manifest.get('guidelines', {}).items():
+                          for fname in files:
+                              # guideline subdir mapping mirrors the install.py
+                              # CATEGORY_PATHS (designer or designer/presentation).
+                              if subdir == 'presentation':
+                                  declared_in_overlay.add(f'designer/presentation/guidelines/{fname}')
+                              else:
+                                  declared_in_overlay.add(f'designer/guidelines/{fname}')
+                      for subdir, files in manifest.get('templates', {}).items():
+                          for fname in files:
+                              declared_in_overlay.add(f'designer/templates/{fname}')
+                      for subdir, files in manifest.get('tools', {}).items():
+                          for fname in files:
+                              declared_in_overlay.add(f'designer/tools/{fname}')
+
+                      # Files that ALWAYS live at overlay/ root and are
+                      # never declared in a manifest category.
+                      always_allowed = {'CLAUDE.md.j2', 'settings.json'}
+
+                      for f in overlay.rglob('*'):
+                          if not f.is_file():
+                              continue
+                          rel = str(f.relative_to(overlay))
+                          if rel in always_allowed:
+                              continue
+                          if rel not in declared_in_overlay:
+                              errors.append(
+                                  f'{profile_dir.name}: silent-extra in overlay/ — '
+                                  f'{rel} is installed but not declared in manifest'
+                              )
+
               print(f'  ✓ {name}: manifest valid')
 
           if errors:
