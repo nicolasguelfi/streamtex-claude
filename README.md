@@ -265,7 +265,7 @@ Shared files (references and commands) are set read-only (0o444) to signal they 
 
 `stx claude update --all` and `stx claude check` scan:
 - Top-level workspace directories (e.g., `streamtex/`, `streamtex-docs/`)
-- Subdirectories of `projects/` (e.g., `projects/stx-ai4se/`)
+- Subdirectories of `projects/` (e.g., `projects/<my-project>/`)
 
 Projects are identified by the `.claude/.stx-profile` marker file.
 

@@ -18,7 +18,7 @@ Supported source types: .docx, .pptx, .pdf, .tex, .md, .html, .py (StreamTeX), i
 ## Examples
 
 - `/stx-ce:collect ~/courses/info101/` — Scan a course folder
-- `/stx-ce:collect --project stx-ai4se` — Analyze existing project
+- `/stx-ce:collect --project <my-project>` — Analyze existing project
 - `/stx-ce:collect ~/slides/ ~/notes/` — Scan multiple paths
 
 ## Required Readings

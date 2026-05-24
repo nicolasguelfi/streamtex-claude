@@ -101,7 +101,9 @@ to provide a contextual answer.
 
 ## Section 2 — Ecosystem map
 
-### Repos (8)
+### Ecosystem repos (4)
+
+The four canonical repositories every StreamTeX user interacts with:
 
 | Repo | GitHub | Type | Role |
 |------|--------|------|------|
@@ -109,10 +111,8 @@ to provide a contextual answer.
 | `streamtex-docs` | `nicolasguelfi/streamtex-docs` | docs | Manuals and documentation |
 | `streamtex-claude` | `nicolasguelfi/streamtex-claude` | claude | Claude AI profiles |
 | `streamtex-pack-design` | `nicolasguelfi/streamtex-packs` (subdir `streamtex-pack-design`) | reuse | Official reuse-architecture pack (Python components, design systems, kits) |
-| `stx-ai4se` | `nicolasguelfi/stx-ai4se` | project | AI4SE presentation project |
-| `stx-html-example` | `nicolasguelfi/stx-html-example` | project | HTML example project |
-| `stx-modelsward` | `nicolasguelfi/stx-modelsward` | project | MODELSWARD project |
-| `stx-aiai18h` | `nicolasguelfi/stx-aiai18h` | project | AIAI 18h project |
+
+User projects (e.g. presentations, courses, manuals) live under `projects/<my-project>/` in the workspace — see the layout below. They are not part of the canonical ecosystem.
 
 ### Workspace layout
 
@@ -145,11 +145,10 @@ streamtex-dev/                  # Workspace root
       kits/                     # 4 kits (project/manual/course/slides)
       _pack_manifest.toml       # PackManifest (format 0.1)
     pyproject.toml              # declares streamtex.packs entry point
-  projects/                     # User projects
-    stx-ai4se/
-    stx-html-example/
-    stx-aiai18h/
-    stx-modelsward/
+  projects/                     # User projects (one subdirectory per project)
+    <my-project>/                # scaffold via `stx project new <my-project>`
+    <my-presentation>/
+    ...                          # any number of project subdirectories
 ```
 
 ### Manual ports (run-manuals.sh)
@@ -695,7 +694,7 @@ the profile.
 
 `stx claude update --all` and `stx claude check` scan:
 - The top-level directories of the workspace (e.g., `streamtex/`, `streamtex-docs/`)
-- The subdirectories of `projects/` (e.g., `projects/stx-ai4se/`, `projects/stx-modelsward/`)
+- The subdirectories of `projects/` (e.g., `projects/<my-project>/`)
 
 They detect projects via the `.claude/.stx-profile` marker.
 
