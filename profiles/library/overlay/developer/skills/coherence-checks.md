@@ -327,18 +327,17 @@ Then for each code block, parse function calls and verify parameter names and en
 
 ### Sub-check 12a: Test file coverage
 
-**Method**: For each source module `streamtex/<module>.py`, check if a corresponding `tests/test_<module>.py` exists.
+**Method**: For each source module `streamtex/<module>.py` with public functions, check that the public functions are exercised by **any** test file (not necessarily a file named `tests/test_<module>.py`). The audit must follow imports: a `from streamtex.<module> import <func>` in any `tests/test_*.py` counts as coverage for `<func>`.
 
 **Rules**:
-- WARNING if a source module with public functions has no corresponding test file
-- WARNING if `test_presentation.py` does not exist (presentation module must have dedicated tests)
-- INFO: report module → test file mapping and coverage ratio
+- WARNING only if a source module has public functions AND **none** of those functions is referenced by any test file
+- WARNING if `test_presentation.py` does not exist (presentation module must have dedicated tests — exception kept because of its size and visibility)
+- INFO: report module → test files providing coverage (one module can be covered by several test files, that is normal)
 
-**Known exceptions** (modules not expected to have dedicated test files):
-- `__init__.py`, `constants.py`, `enums.py`, `utils.py` (tested indirectly)
-- `block_helpers.py` — covered indirectly by `test_export_guard.py`
-- `search.py` — covered indirectly by `test_book_search_markers.py`
-- `loading.py` — JS overlay injection, requires live Streamlit runtime (tested indirectly via `test_book_integration.py`)
+**Note on file naming**: a strict `test_<module>.py` per `<module>.py` convention is **not required**. Functions are routinely grouped by feature rather than by source module — e.g., blocks.py functions are covered by test_lazy_blocks.py / test_load_atomic.py / test_resolve_content.py; book.py functions are covered by test_book_integration.py / test_book_search_markers.py / test_export_guard.py / test_bib.py / test_export_enrich.py. These are valid coverage arrangements and must NOT trigger the warning.
+
+**Known exceptions** (modules genuinely without public surface to test):
+- `__init__.py`, `constants.py`, `enums.py`, `utils.py` (re-exports / constants / type aliases)
 - Modules with only re-exports or trivial wrappers
 
 ### Sub-check 12b: Signature drift
@@ -1177,12 +1176,18 @@ print(f'st_* functions: {len(st_fns)}')
 - `assert len(x) > 0` without checking content
 
 ### 37b: Empty tests
-- Test functions with no `assert` statement
+
+A valid assertion is any of: a bare `assert ...` statement, a mock-validation method call (`mock.assert_called_once_with(...)`, `mock.assert_any_call(...)`, `mock.assert_not_called()`, etc.), or a `pytest.raises(...)` / `pytest.warns(...)` context manager. Counting only the keyword `assert` is incorrect — it misses the entire mock-validation pattern, which is the standard way to test wrapper functions that delegate to an external API.
+
+- Test functions with **no** assertion of any of the kinds above
 - Test functions where the only assertion is in a `try/except` that catches the assertion error
-- Test functions that only call the function without asserting anything about the result
+- Test functions that only call the function without checking anything (no `assert`, no `mock.assert_*`, no `pytest.raises`)
 
 ### 37c: Over-mocked tests
-- Tests where `@patch` decorators outnumber `assert` statements
+
+When comparing `@patch` count against "assertion" count, the assertion side MUST include `mock.assert_*` method calls (see 37b). A test that has 3 `@patch` decorators and 1 `mock.assert_called_once_with(...)` is NOT over-mocked — the mock-validation IS the assertion.
+
+- Tests where `@patch` decorators **clearly** outnumber assertions of any kind (bare `assert` + `mock.assert_*` + `pytest.raises`)
 - Tests where the mock's return value IS the expected value (testing the mock, not the code)
 - Tests that mock internal implementation details (brittle coupling)
 
