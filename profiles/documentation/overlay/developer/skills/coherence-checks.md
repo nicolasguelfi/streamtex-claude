@@ -231,7 +231,6 @@ Reference file for `/stx-coherence:audit`. Defines 45 check categories (28 stand
 | CLAUDE.md files | `*/CLAUDE.md`, `projects/*/CLAUDE.md` | Full content |
 
 **Explicit exceptions** (allowed in French or other languages):
-- `streamtex-claude/shared/commands/stx-guide.md` — French by design (user-facing guide)
 - `streamtex-claude/cursor/*.md` — Internal planning documents (not user-facing)
 - Manual content that demonstrates multilingual features (e.g., i18n examples)
 - Inline code identifiers (variable/function names are language-neutral)
