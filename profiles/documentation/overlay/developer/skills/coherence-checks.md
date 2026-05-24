@@ -6,15 +6,21 @@ Reference file for `/stx-coherence:audit`. Defines 45 check categories (28 stand
 
 ## Check 1: API Coverage (scope: library, all)
 
-**Goal**: Every public export in the library should be documented in at least one manual.
+**Goal**: Every public export in the library should be discoverable by users — either via a manual block (preferred, with a live example) **or** via the cheatsheet / coding standards (acceptable for utility helpers and types that don't need a dedicated walkthrough).
 
-**Source**: `streamtex/streamtex/__init__.py` — extract all names from import statements.
-**Target**: `streamtex-docs/manuals/**/blocks/**/*.py` — grep for usage of each export.
+**Sources**: `streamtex/streamtex/__init__.py` — extract all names from import statements.
+
+**Targets** (any of these counts as documentation):
+- `streamtex-docs/manuals/**/blocks/**/*.py` — preferred for user-facing widgets
+- `streamtex-claude/shared/references/streamtex_cheatsheet_en.md` — acceptable for helpers, types, exceptions
+- `streamtex-claude/shared/references/coding_standards.md` — acceptable for conventions / patterns
 
 **Rules**:
-- WARNING if an exported function/class appears in ZERO block files
-- INFO if an export appears in blocks but has no `show_code()` example
+- WARNING if an exported function/class appears in **neither** a block file **nor** the cheatsheet **nor** the coding standards
+- INFO if an export only appears in blocks but has no `show_code()` example
 - SKIP internal names (prefixed with `_`), type aliases, and re-exports of enums
+
+**Why both targets count**: helper functions (DI getters like `get_block_spacing`, introspection helpers like `is_cached` / `list_providers`, registries like `FileCategoryRegistry`) don't need a dedicated manual page — a clear cheatsheet entry with one usage example is sufficient documentation. Demanding a manual block for every export forced low-value pages.
 
 **Presentation exports to verify**: `PresentationConfig`, `set_presentation_config`, `get_presentation_config`, `st_presentation_footer`, `add_presentation_options`
 
@@ -972,15 +978,16 @@ print(f'st_* functions: {len(st_fns)}')
 2. Detect dead code patterns:
    - Variables assigned but never referenced after assignment (excluding `bs = BlockStyles` which is used by the framework)
    - Functions `def` defined but never called within the same file
-   - `import` statements where the imported name is never used in the file (beyond ruff F401 which is suppressed)
+   - `import` statements where the imported name is never used in the file **and** there is no `# noqa: F401` marker on the import (which signals "intentional re-export")
    - `if False:` or `if 0:` blocks (AI sometimes disables code this way)
    - Consecutive duplicate function calls with identical arguments (AI stuttering)
 3. Exclude framework-required patterns: `bs = BlockStyles`, `def build()`, `class BlockStyles`
+4. **Skip re-export modules**: a file is considered a re-export shim when its only top-level content is `from X import a, b, c` lines (no logic, no `def`, no `class`, no `if __name__ ...`). The block-helper modules (e.g., `manuals/<name>/blocks/helpers.py`) are typical re-export shims that route a curated subset of streamtex names into a single local import path.
 
 **Rules**:
 - WARNING if a variable is assigned but never referenced (excluding `bs`, `_static_dir`, `_repo_root`)
 - WARNING if a function is defined but never called in the file
-- WARNING if an import is never used (and is not `streamtex` or `custom.styles`)
+- WARNING if an import is never used **AND** has no `# noqa: F401` AND the file is not a re-export shim (per step 4)
 - WARNING if consecutive identical calls exist (e.g., two `st_write()` with same content)
 - INFO: report total blocks scanned, total dead code instances found
 
@@ -988,6 +995,8 @@ print(f'st_* functions: {len(st_fns)}')
 - `bs = BlockStyles` — used by the framework's block rendering
 - `_static_dir`, `_repo_root` — path variables used in file operations
 - Variables starting with `_` — intentionally unused (Python convention)
+- Imports tagged `# noqa: F401` — intentional re-exports (Python convention, also respected by ruff)
+- Re-export shim files (per step 4)
 
 ---
 
@@ -1226,16 +1235,18 @@ When comparing `@patch` count against "assertion" count, the assertion side MUST
    - `except Exception: return None` (swallowing exception, returning default)
    - `except Exception: return ""` / `return []` / `return {}` (swallowing with empty default)
    - `except Exception: ...` (ellipsis body — Python 3 equivalent of pass)
-3. Exclude patterns that are intentionally silent:
-   - `except ImportError: pass` — valid for optional dependency checks
-   - `except (FileNotFoundError, OSError): pass` — valid for optional file operations
-   - Blocks with logging/warning before the pass/return
+3. Exclude patterns that are intentionally silent (do NOT warn on these):
+   - **Narrow exception types**: `except ImportError: pass`, `except (FileNotFoundError, OSError): pass`, `except (TypeError, ValueError): pass`, etc. The audit must look at the exception **type** caught, not just the body. A narrow type is itself documentation of intent.
+   - **Explanatory comment within the except block** (any comment line — `#` — within the indented body or the line preceding the `except:` line). The comment signals the author considered the case and chose silence deliberately. Examples accepted: `# best-effort cleanup`, `# optional fallback`, `# fdback to default`, `# protocol may not be runtime-checkable in older Pythons`, etc.
+   - **Blocks with logging / warning / `console.print` before the `pass` / `return`** — the exception was handled, just not re-raised.
 
 **Rules**:
-- WARNING if a bare `except: pass` is found (always a code smell)
-- WARNING if `except Exception: pass` is found without logging
-- WARNING if `except Exception: return <default>` swallows errors without logging
-- INFO: report total try/except blocks, silent ones, and patterns
+- WARNING if a **bare** `except:` is found (always a code smell — too broad, even with a comment)
+- WARNING if `except Exception: pass` is found AND there is no explanatory comment AND no narrow type AND no logging
+- WARNING if `except Exception: return <default>` swallows errors AND there is no explanatory comment AND no logging
+- INFO: report total try/except blocks, silent ones with rationale found, silent ones without
+
+**Why these escape hatches**: in a rendering library the right pattern is often "try the enriched render, fall back to plain text on any error". Forcing logging on every such fallback creates noise; an explanatory comment + narrow exception type already conveys intent to the next reader.
 
 ---
 

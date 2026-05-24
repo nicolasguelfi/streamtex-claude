@@ -939,6 +939,40 @@ stx.InspectorConfig(
 )
 ```
 
+### FileCategoryRegistry — extend the inspector editor
+
+Maps file extensions to editor categories (Python / Diagrams / Data / Texts).
+The inspector uses this registry to pick the right `streamlit-ace` syntax mode
+and validator. Register a custom category to teach the inspector about a new
+file type your project edits.
+
+```python
+from streamtex import FileCategoryRegistry
+from streamtex.inspector import FileCategory
+
+registry = FileCategoryRegistry()
+
+# Inspect what's pre-registered (Python, Diagrams, Data, Texts).
+# Unknown extensions fall back to a generic "Text" category.
+category = registry.detect("examples/my_block.py")   # returns the Python category
+
+# Add a new category — e.g., YAML config files with a custom validator.
+def _yaml_validator(content: str) -> str | None:
+    import yaml
+    try:
+        yaml.safe_load(content)
+    except yaml.YAMLError as exc:
+        return f"YAML error: {exc}"
+    return None
+
+registry.register(FileCategory(
+    name="YAML",
+    extensions={".yaml", ".yml"},
+    ace_mode="yaml",
+    validator=_yaml_validator,
+))
+```
+
 ## Block Infrastructure
 
 ### Block Registry — blocks/__init__.py
