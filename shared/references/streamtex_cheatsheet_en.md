@@ -283,6 +283,22 @@ except AIImageError as e:
     st_write(s.warn, f"Image generation failed: {e}")
 ```
 
+**Introspection helpers**:
+
+```python
+from streamtex import is_cached, list_providers
+
+# Check whether an image for the given parameters is already on disk
+# (deterministic hash of prompt + provider + size + quality + seed).
+if is_cached("a hero illustration", provider="openai", size="1536x1024"):
+    st_write(s.body, "Cache hit — no API call needed.")
+
+# List the names of all registered providers (openai, google, fal, ...).
+# Useful for sidebar selectors or smoke checks before calling generate_image.
+for name in list_providers():
+    st_write(s.body, f"- {name}")
+```
+
 ### AI Image — Editable Image Editor
 
 ```python

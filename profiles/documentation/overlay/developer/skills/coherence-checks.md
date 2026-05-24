@@ -1249,11 +1249,10 @@ When comparing `@patch` count against "assertion" count, the assertion side MUST
 
 **Method**:
 1. Extract all public function parameter names across the library
-2. Group parameters by semantic concept:
+2. Group parameters by semantic concept (NOT by surface name — see "Known accepted variations" below for why `title` / `label` / `name` belong to different semantic groups despite often being grouped at first glance):
    - Style-related: `style`, `l_style`, `list_style`, `grid_style`, `block_style`
    - Content-related: `text`, `content`, `body`, `value`, `data`
    - Configuration: `config`, `settings`, `options`, `params`
-   - Label/title: `label`, `title`, `name`, `heading`, `caption`
 3. Flag cases where the same concept uses different names across functions at the same level of API
 
 **Rules**:
@@ -1261,9 +1260,14 @@ When comparing `@patch` count against "assertion" count, the assertion side MUST
 - WARNING if a parameter name changed between function versions but the old name still appears in docs/examples
 - INFO: report naming patterns found, consistency score
 
-**Known accepted variations**:
+**Known accepted variations** (NOT inconsistencies — distinct semantic concepts):
 - `l_style` (st_list) vs `style` (st_block) — different component types, different naming is acceptable
 - Abbreviated vs full names within the same function (e.g., `t` for Tags alias) — convention, not inconsistency
+- **`title` vs `label` vs `name`** — these denote three different concepts and must NOT be flagged together:
+  - **`title`** = section / panel / heading text shown to the user (used by `st_bibliography`, `st_presentation_footer`, `st_hover_tooltip`)
+  - **`label`** = caption or label text that annotates something else (used by `st_metric`, `st_write`, `st_marker`)
+  - **`name`** = semantic identifier used for filename / cache key / DOM id (used by `st_image` where `name="hero_intro"` controls the on-disk filename of an AI-generated image)
+  - The audit's older grouping "Label/title" lumped these three; that grouping was wrong and is removed from the Method step above.
 
 ---
 

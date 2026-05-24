@@ -33,12 +33,19 @@ You have access to the following CLIs and you CAN use them to act directly:
 ```bash
 # GitHub — list the ecosystem repos
 gh repo list nicolasguelfi --json name,url -q '.[] | select(.name | contains("streamtex"))'
-
-# Hetzner/Coolify — deploy and manage services (production)
-/stx-deploy:status                    # Infrastructure status
-/stx-deploy:deploy                    # Deploy a project
-/stx-deploy:update                    # Update deployments
 ```
+
+For Hetzner/Coolify, deployment is driven by **Claude slash commands**
+(not shell commands). Invoke them inside `claude` — they are skills,
+not entries in the `stx` CLI:
+
+| Slash command | What it does |
+|---|---|
+| `/stx-deploy:status` | Infrastructure status (read-only) |
+| `/stx-deploy:deploy` | Deploy a project |
+| `/stx-deploy:update` | Update deployments |
+
+Full inventory of the `/stx-deploy` namespace lives in §4g.
 
 ## $ARGUMENTS routing
 
