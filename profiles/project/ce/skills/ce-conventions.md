@@ -66,6 +66,15 @@ Regardless of level, the QCM format is identical (see 1.1).
 
 `YYYY-MM-DD-NNN` increments NNN per day, starting at 001, separately per artifact family.
 
+### 2bis. Master plan schema — transverse references
+
+Two `docs/master-plan.yaml` sections are widely consumed but lack a single canonical home in any one skill. Their semantics are summarized here so the master-plan schema definitions in `master-plan.md` always have an operational consumer:
+
+- **`master-plan.yaml -> transverse_decisions`** — captures the cross-cutting design choices that apply to the whole document: palette, presentation_preset, view_modes per profile, bibliography source/format/style, ai_image provider/model/default_size, export asset_mode/mode, spacing strategy, active_guideline. Read by `ce-plan` (when proposing or refining the plan), `ce-prototype` (to apply the chosen palette/preset to pilot blocks), and `ce-produce` (to ensure every produced block honors the chosen styles). Updated whenever the user decides — or revises — a transverse choice. The QCMs that mutate this section follow the universal format defined in §1.
+- **`master-plan.yaml -> status_legend`** — embedded self-describing reference for what each status value means for blocks (`planned | prototyped | produced | reviewed | fixed | done`) and objectives (`pending | in_progress | met | unmet | abandoned`). Read by `ce-status` when rendering the dashboard, by `objective-monitor` when judging deviations, and by any agent that surfaces a status to the user. Never edited at runtime — copied verbatim from the schema during initial ASSESS.
+
+When in doubt about the meaning of a status value, dereference `status_legend` instead of inventing a new convention.
+
 ## 3. Snapshot mechanism
 
 A paired snapshot of the master plan (`<archive>/YYYY-MM-DD-NNN.yaml` + `<archive>/YYYY-MM-DD-NNN.md`) is written when **at least one of the two files differs from the most recent snapshot**. This rule naturally enforces "at most one snapshot per session" without an explicit session id.

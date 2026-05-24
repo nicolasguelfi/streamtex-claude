@@ -235,6 +235,39 @@ stx install --preset PRESET       # Upgrade the workspace to a higher preset
 > **Deprecated commands**: `clone`, `sync`, `link`, `hooks` still work
 > but print a warning and redirect to `stx update`.
 
+#### Presets
+
+`stx install --preset <name>` controls which repos get cloned into the
+workspace and which Claude profile gets installed in the default project.
+
+| Preset | Repos cloned | Default project profile | Use case |
+|--------|--------------|-------------------------|----------|
+| `basic` | none | `project` | Single-project work, no docs / no shared library access |
+| `user` | `streamtex-claude` | `project` | Use StreamTeX as a library + benefit from Claude profiles |
+| `standard` *(default)* | `streamtex-docs` + `streamtex-claude` | `project` | Author projects with full access to manuals + Claude |
+| `power` | `streamtex-docs` + `streamtex-claude` | `project` (+ inspector extras) | Same as standard, plus the live-edit `inspector` UI |
+| `developer` | `streamtex` + `streamtex-docs` + `streamtex-claude` | `project` | Full ecosystem dev — editable library install, all repos |
+
+Upgrading goes one direction (no downgrade): `stx install --preset standard`
+in a `basic` workspace adds the missing repos without removing anything.
+
+#### Profiles
+
+A Claude **profile** is what `stx claude install <name>` copies into a
+project's `.claude/` directory: commands, skills, agents, guidelines,
+templates. Profiles extend each other.
+
+| Profile | Extends | Purpose |
+|---------|---------|---------|
+| `project` *(base)* | — | Author StreamTeX projects (manuals, courses, slides). Ships stx-block / stx-ce / stx-pe commands + designer skills + CE/PE agents and templates. |
+| `library` | `project` | Develop the `streamtex` library itself. Adds `developer/architecture.md` + `developer/coherence-checks.md` skills. |
+| `documentation` | `project` | Author/maintain `streamtex-docs` manuals. Adds the `stx-docs` release command + the documentation-side coherence-checks skill. |
+| `presentation` | `project` | Author live-projection presentations (10–20 m auditorium distance). Adds presentation-design-rules + fullscreen-presentation-rules skills + the `presentation-designer` agent. |
+
+Child profiles only **add** to the parent; the parent's commands and
+shared resources remain available. See `coherence-checks.md` Check 4
+for how install.py composes the layers.
+
 ### Development links
 
 ```bash
