@@ -1,1 +1,6 @@
 __pycache__/
+
+# This package distributes Claude profiles, not Python deps (pyproject has
+# dependencies = []). uv generates a lock anyway when called — we don't
+# track it because it has no runtime meaning here.
+uv.lock
