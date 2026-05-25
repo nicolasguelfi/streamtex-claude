@@ -170,10 +170,102 @@ INTEGRATE promotion (§8.3) has four destinations (Q12):
    push + `gh pr create`.
 4. **PyPI pack** → refused (PR001).
 
+## Extended artifacts (manifest 0.2+) — beyond Python
+
+The original pack contract (manifest format 0.1) ships **only Python**
+artifacts: components, design systems, kits, CLI templates, project
+blueprints. Manifest format **0.2** is **additive** — it unlocks an
+optional `[pack.data]` section that lets a pack also ship eight data-first
+and documentation categories.
+
+### The 8 extended categories
+
+| Category | Filesystem convention | Canonical format | Used for |
+|---|---|---|---|
+| **palette** | `<pack>/palettes/<name>.json` | JSON | Color tokens + semantic dimensions ; Python view generated via `streamtex.core.artifacts.palette.load_palette()` |
+| **ai_prompt** | `<pack>/ai_prompts/<name>/{prefix,suffix-*}.txt` | TXT | Reusable AI image-generation prompts (PREFIX + scene + SUFFIX-orientation) |
+| **archetype** | `<pack>/archetypes/<name>.md` | Markdown + YAML frontmatter | Reusable visual scene compositions (bridge, horizon, balance, …) |
+| **guideline** | `<pack>/guidelines/<name>.md` | Markdown + YAML frontmatter | Opposable rules (R1-R13) ; agents and humans must respect |
+| **skill** | `<pack>/skills/<name>.md` | Markdown + Claude Code frontmatter | Pack-scoped Claude Code skills, installed to `.claude/custom/skills/<pack>__<name>.md` |
+| **agent** | `<pack>/agents/<name>.md` | Markdown + Claude Code frontmatter | Pack-scoped Claude Code agents |
+| **asset** | `<pack>/assets/_manifest.toml` + binaries | TOML + bytes | Logos, fonts, images with license tracking |
+| **integration** | `<pack>/integrations/<framework>/` | Open contract | Recipe per third-party framework (streamtex, figma, midjourney, …) |
+
+### Declaring extended artifacts
+
+In `_pack_manifest.toml`:
+
+```toml
+[manifest]
+format = "0.2"
+
+[pack.data]
+palettes = ["main"]
+ai_prompts = ["scene_generation"]
+archetypes = ["bridge", "horizon", "balance"]
+guidelines = ["graphic-line"]
+skills = ["author-helper"]
+agents = ["design-reviewer"]
+assets = ["assets"]            # bundle name (matches dir name)
+integrations = ["streamtex", "figma"]
+```
+
+The list must match the on-disk slugs. An unlisted file on disk is **not**
+enumerated by `discover_artifacts`. Format 0.1 packs (no `[pack.data]`)
+still work unchanged.
+
+### Generic CLI
+
+```bash
+stx artifact list                            # all categories, all packs
+stx artifact list --kind palette             # filter by category
+stx artifact list --pack streamtex-pack-gse  # filter by pack
+stx artifact show <name> --kind <k>          # formatted view
+stx artifact validate                        # validate every artifact
+stx artifact install <name> --kind skill     # install into .claude/custom/
+```
+
+### Lifecycle hooks
+
+Skills and agents are the only categories with a project-side install
+step: they're copied to `.claude/custom/skills/` (or `agents/`) so Claude
+Code discovers them. Convention:
+
+- Filename in the project: `<pack_slug>__<name>.md` (e.g.
+  `gse__gse-author.md`). Avoids cross-pack collisions.
+- Confirmation prompt by default at `stx artifact install` ; `--yes` to
+  skip.
+
+The other categories (palette, ai_prompt, archetype, guideline, asset,
+integration) are consumed **lazily at runtime** from the installed pack —
+no copy step.
+
+### When to use which category
+
+| You want to ship … | Category |
+|---|---|
+| Color tokens for components AND for outside tools (Figma, Midjourney) | palette |
+| A reusable prompt template for AI image generation | ai_prompt |
+| A reusable visual composition pattern (with "use when / forbidden" guardrails) | archetype |
+| Opposable spec rules ("R1: one idea per slide") | guideline |
+| Domain expertise Claude Code should pick up automatically | skill |
+| A multi-step agent workflow Claude Code should invoke | agent |
+| Logos, fonts, images with license tracking | asset |
+| Recipe for using the pack from another tool (Figma, Midjourney, …) | integration |
+
+`streamtex-pack-gse v2.0.0` ships all 8 categories — see it as the
+reference example of a 0.2-format pack.
+
 ## Where to learn more
 
 - `streamtex/documentation/maintenance/reuse-architecture/PLAN.md` —
   authoritative spec (3888 lines).
-- `streamtex-pack-design` (in `streamtex-packs` monorepo) — the official reference pack.
+- `streamtex/documentation/maintenance/design-packs/RFC-extended-artifacts.md`
+  — the RFC behind manifest 0.2 + the 8 extended categories (local to
+  workspace, not in the public repo).
+- `streamtex-pack-design` (in `streamtex-packs` monorepo) — the official
+  reference pack for the Python artifacts (manifest 0.1).
+- `streamtex-pack-gse v2.0.0` — the reference example for manifest 0.2
+  extended artifacts.
 - CLI: `stx pack --help`, `stx component --help`, `stx ds --help`,
-  `stx kit --help`, `stx validate --help`.
+  `stx kit --help`, `stx artifact --help`, `stx validate --help`.
