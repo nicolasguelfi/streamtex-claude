@@ -6,6 +6,34 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 Prior to this Changelog, changes are tracked in the git history of this repository (see `git log` on `main`).
 
+## [0.3.4] — 2026-05-25 — /stx-guide: pack-dev + alignment sections + which-stx-command skill
+
+### Added
+
+- **`/stx-guide`**: new §4.12 *Pack development* documenting the
+  existing `stx pack add --dev` and `stx dev` link/unlink/status
+  workflows for iterating on a pack while a consumer (manual, project)
+  consumes the local source.
+- **`/stx-guide`**: new §4.13 *Alignment & sync* documenting when to
+  use `stx update` vs `stx sync` vs `uv sync` vs their `--upgrade-deps`
+  / `--locked` variants, with a robust alignment sequence and
+  troubleshooting for `uv.lock` flip-flop.
+- **`/stx-guide` Section 6**: new *Decision table — which command for
+  my situation?* — one-line answer per common situation, with pointers
+  to detailed sections.
+- **New skill `which-stx-command`** (shared, auto-loaded as
+  `.claude/developer/skills/which-stx-command.md`): lazy-loader that
+  routes decision-style questions ("which command should I run for X?",
+  "how do I sync/align?") to the relevant section of `/stx-guide`.
+  Single source of truth: all content stays in `stx-guide.md`.
+- **Two new recognized topics** in `/stx-guide`: `pack-dev` and
+  `alignment`.
+
+### Notes
+
+- Requires streamtex >= 0.7.15 for the documented `stx sync` and
+  `stx update --upgrade-deps` commands.
+
 ## [0.3.3] — 2026-05-21 — Universal authoring trinity (plan + design rules + packs) for all doc types
 
 Closes the GSE-ODOO root cause: `/stx-ce:go` produced 50 slides without ever

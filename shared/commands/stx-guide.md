@@ -56,7 +56,7 @@ If `$ARGUMENTS` matches a **recognized topic** (see list below): reply with the 
 If `$ARGUMENTS` is a **free-form question** in natural language: use the full knowledge base
 to provide a contextual answer.
 
-### Recognized topics (20)
+### Recognized topics (22)
 
 | Topic | Description |
 |-------|-------------|
@@ -80,6 +80,8 @@ to provide a contextual answer.
 | `release` | Full release workflow (dev: publish + propagate) |
 | `update` | Update your workspace (user: receive updates) |
 | `reuse` | Reuse architecture mechanism: packs, components, design systems, kits; see `reuse-architecture` skill |
+| `pack-dev` | Develop a pack: link a local pack source into a consumer, iterate, then revert to PyPI/git-tag |
+| `alignment` | Align library + stx + workspace + docs deterministically: which command to use when |
 
 ### Examples of accepted free-form questions
 
@@ -900,6 +902,127 @@ stx project new my-project
 
 ---
 
+### 4.12 Pack development (topic: `pack-dev`)
+
+Use this workflow when you're modifying a pack (e.g. `streamtex-pack-design`)
+and want to see the changes live inside a consumer (a manual, a project).
+
+#### The 3 needs of a pack developer
+
+| Need | What you do | Command |
+|------|-------------|---------|
+| A. Iterate on the pack itself | Edit code, run tests, lint | `cd streamtex-packs/<pack> && uv run pytest` |
+| B. Test the pack live in a consumer | Link the local pack source into the consumer's `[tool.uv.sources]` | `stx pack add --dev <path-to-pack>` (run from the consumer dir) |
+| C. Revert to "production-like" (PyPI / git-tag) | Unlink the pack | `stx pack remove <pack-name>` (run from the consumer dir) |
+
+#### Detailed workflow
+
+```bash
+# 1. Move to the consumer (e.g. a manual) that will use the local pack
+cd streamtex-docs                       # or streamtex-docs/manuals/<manual>
+
+# 2. Link the local pack in editable mode
+stx pack add --dev ../streamtex-packs/streamtex-pack-design
+
+# 3. Re-sync the consumer's venv so the editable link is materialized
+stx sync                                # uv sync --locked
+
+# 4. Iterate: edit files inside streamtex-packs/streamtex-pack-design/
+#    The consumer sees changes immediately on next `stx run`.
+
+# 5. (Optional) Run tests of the pack itself
+cd ../streamtex-packs/streamtex-pack-design
+uv run pytest
+
+# 6. When done, revert to the published version
+cd ../../streamtex-docs
+stx pack remove streamtex-pack-design
+stx sync --upgrade-deps                 # refresh the lock to PyPI/git-tag
+```
+
+#### Generic local source linking (`stx dev`)
+
+`stx dev` is the lower-level mechanism that powers pack linking. It works
+for **any** local source you want to consume in editable mode (the library
+itself, a sibling repo, etc.):
+
+```bash
+# One-time per machine: declare the local source
+stx dev register streamtex /path/to/streamtex
+
+# In each consumer: link / unlink / inspect
+stx dev link streamtex      # adds [tool.uv.sources] entry + uv sync
+stx dev status              # shows what is currently linked
+stx dev unlink streamtex    # reverts to PyPI version
+```
+
+The link state is stored in `.stx-dev.json` (gitignored — link is local
+to the developer's machine, not committed). The committed lock stays in
+PyPI mode so CI builds reproduce what users will install.
+
+---
+
+### 4.13 Alignment & sync — which command for which situation (topic: `alignment`)
+
+Use this when you need to align the library, the stx CLI, the workspace
+repos, and the documents to a known-good, reproducible state.
+
+#### Mental model
+
+| Command | Scope | Modifies lock? |
+|---------|-------|----------------|
+| `uv sync` (raw uv) | Current pyproject only | Yes — refreshes from pyproject |
+| `uv sync --locked` | Current pyproject only | No — fails if lock and pyproject diverge |
+| **`stx sync`** | Current project | No (uses `--locked`). Walks up to find `pyproject.toml`. |
+| `stx sync --upgrade-deps` | Current project | Yes — refreshes lock from pyproject |
+| **`stx update`** | Entire workspace (3 repos + `projects/*`) | No (uses `--locked` per repo). Default — deterministic. |
+| `stx update --upgrade-deps` | Entire workspace | Yes — runs `uv lock --upgrade-package streamtex` to pull the latest streamtex from PyPI, then `uv sync` |
+
+`stx update` orchestrates 8 steps (pull, clone, sync, project migrations,
+global commands, profiles, hooks, CLI version check). `stx sync` is the
+narrow project-level version that only does the `uv sync --locked` step
+for a single `pyproject.toml`.
+
+#### Robust alignment sequence
+
+For most daily work, this sequence is enough and always works:
+
+```bash
+# 1. Workspace-wide alignment (deterministic, no lock churn)
+cd /path/to/streamtex-dev
+stx update
+
+# 2. If a new streamtex version was published, pull it into the lock
+stx update --upgrade-deps     # runs uv lock --upgrade-package streamtex + uv sync
+
+# 3. Verify
+stx status
+```
+
+For one-off project sync (a manual you're hacking on, a pack subdir,
+a standalone document folder outside any workspace):
+
+```bash
+cd <project>
+stx sync                       # deterministic sync to the lock
+# If pyproject changed and lock is now stale:
+stx sync --upgrade-deps        # refresh lock from pyproject
+```
+
+#### Troubleshooting alignment
+
+- **"lock out of date" error** → `stx update --upgrade-deps` (or
+  `stx sync --upgrade-deps` per-project). Default mode is strict for a
+  reason — the divergence is real and worth knowing about.
+- **`uv.lock` keeps changing between runs** (flip-flop) → you may be
+  alternating `UV_NO_SOURCES=1` on/off. CI uses it; local dev usually
+  does not. Pick one mode for your committed lock and stick to it.
+- **Pack edits not visible in consumer** → check `stx dev status` /
+  `stx pack list`. If the pack is not linked, link it via
+  `stx pack add --dev <path>` or `stx dev link <repo>`.
+
+---
+
 ## Section 4b — AI image generation (topic: `ai-images`)
 
 StreamTeX integrates 3 AI providers to generate images from text prompts.
@@ -1643,12 +1766,35 @@ stx validate
 
 ## Section 6 — Quick reference card
 
+### Decision table — which command for my situation?
+
+| Your situation | Run this |
+|----------------|----------|
+| I edited code in the library (`streamtex/`) | `uv run pytest tests/ -v` in `streamtex/` (no sync needed if already editable-linked) |
+| I edited code in a manual (`streamtex-docs/manuals/X`) | Nothing — `stx run` picks it up |
+| I edited a pack (`streamtex-packs/<pack>`) | If linked: edit suffices. If not: `stx pack add --dev <path>` from a consumer, then `stx sync` |
+| I want everything aligned before commit | `stx update` (workspace-wide, deterministic) |
+| streamtex was published — I want the new version | `stx update --upgrade-deps` (pulls latest streamtex into the lock) |
+| `uv.lock` keeps churning between runs | See troubleshooting in §4.13 (UV_NO_SOURCES toggling) |
+| I'm in a project folder outside the workspace | `stx sync` (locked, deterministic) |
+| Lock is out of date — uv complains | `stx sync --upgrade-deps` (or `stx update --upgrade-deps` for workspace) |
+| Verify what's currently dev-linked | `stx dev status` and/or `stx pack list` |
+| Revert a pack to its published version | `stx pack remove <pack-name>` from the consumer dir |
+| I want to release a new streamtex version | `/stx-guide release` for the full workflow |
+| I want to receive an existing release as a user | `/stx-guide update` for the full workflow |
+
+For the underlying rationale (`uv sync` vs `stx update` vs `stx sync`, the
+lock flip-flop problem, alignment sequences), see §4.13.
+
 ### stx commands
 
 | Task | Command |
 |------|---------|
 | Initialize a workspace | `stx install .` |
 | Update everything | `stx update` |
+| Sync a single project | `stx sync` |
+| Refresh deps in current project | `stx sync --upgrade-deps` |
+| Refresh streamtex in workspace | `stx update --upgrade-deps` |
 | Workspace state | `stx status` |
 | Upgrade the preset | `stx install --preset developer` |
 | Create a project (minimal) | `stx project new <name>` |
