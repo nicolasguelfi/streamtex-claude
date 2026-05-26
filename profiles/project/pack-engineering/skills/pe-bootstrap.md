@@ -22,6 +22,16 @@ Triggers (from `ce-task.md` PACK_BOOTSTRAP archetype or `/stx-pe:bootstrap`) :
 - `--pack-name <name>` (optional ; orchestrator proposes a default).
 - `--target-path <path>` (optional ; defaults to `../<pack-name>/`).
 - `--active-ds <ref>` (optional ; defaults to `default` — orchestrator scaffolds a minimal DS).
+- `--categories <list>` (optional, manifest 0.2+) : comma-separated list of
+  extended artifact categories to scaffold under `[pack.data]` in addition
+  to the default Python artifacts. Choices:
+  `palette,ai_prompt,archetype,guideline,skill,agent,asset,integration`.
+  Example: `--categories palette,ai_prompt,skill`. When provided, the
+  orchestrator scaffolds the matching subdirectories and pre-populates
+  the manifest `[pack.data]` section. Each requested category is enumerated
+  by the pack-miner (Step 1 DISCOVERY) to look for data-first idioms in
+  the source projects (palette JSON files, AI prompt text files,
+  archetype-shaped markdown, etc.).
 
 ## Workflow
 
@@ -70,6 +80,28 @@ The QCM phrasing in Step 0 is adapted :
 - `--min-projects 2`.
 - `--dedup-against-packs true` (pack-miner skips clusters already covered
   by `streamtex-pack-design` if installed).
+- `--categories` empty (= manifest 0.1 only ; no `[pack.data]` section
+  is written, the pack stays Python-only by default — the most common
+  bootstrap scenario).
 - DS scaffolded with 5 minimal bundles : `colors`, `titles`, `body`,
   `callouts`, `card_grid` (enough for the most common components).
 - Initial kit `recommended` containing the top-5 components by usage count.
+
+## Manifest 0.2 categories — when to enable each
+
+If the source projects contain any of the following idioms, enable the
+matching category via `--categories`:
+
+| Source idiom found in the N projects | Add category |
+|---|---|
+| A JSON palette file shared across projects | `palette` |
+| AI image generation prompts (prefix + suffixes) | `ai_prompt` |
+| Reusable visual scene descriptions in markdown | `archetype` |
+| Project-side `design-guideline.md` files | `guideline` |
+| `.claude/custom/skills/*.md` files repeated across projects | `skill` |
+| Trainer / domain-specific agents in `.claude/custom/agents/` | `agent` |
+| Logo / font files copy-pasted across projects | `asset` |
+| A `custom/` recipe pointing at an external system | `integration` |
+
+The pack-miner reports candidates per category in its DISCOVERY output
+so the orchestrator can prompt the user to enable / disable each.
