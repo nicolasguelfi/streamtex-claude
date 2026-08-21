@@ -152,6 +152,9 @@ st_image(
     model=None,                     # AI model override
     ai_size=None,                   # AI image size (e.g. "1024x1024")
     quality="standard",             # AI quality ("standard" or "hd")
+    overlay=None,                   # MediaOverlay badge inside the display box
+    crop=None,                      # Edge crop: (top, right, bottom, left) % or CropConfig
+    natural_size=None,              # (W, H) natural px dims (required for crop on http(s) URIs)
 )
 ```
 
@@ -172,6 +175,12 @@ st_image(s.container.sizes.height_auto, uri="image.png")
 
 # Image with light background (adds white bg for dark-mode compatibility)
 st_image(uri="diagram.png", light_bg=True)
+
+# Edge cropping — % cut from each edge, CSS inset order (top, right, bottom, left);
+# width = the VISIBLE zone; height must stay "auto".
+st_image(uri="captures/x.png", width="44vw", crop=(4, 0, 10, 6))
+# Remote URI: pass the natural dimensions explicitly
+st_image(uri="https://cdn.example/x.png", crop=(4, 0, 10, 6), natural_size=(2560, 1800))
 
 # Editable AI image — unified st_image with editing panel
 st_image(uri="ai/concept.png", editable=True, name="concept",
