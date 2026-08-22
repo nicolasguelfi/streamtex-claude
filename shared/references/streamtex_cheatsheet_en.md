@@ -2073,9 +2073,14 @@ text = resolve_content(file="docs/intro.txt")        # Reads file via resolve_st
 ```python
 from streamtex import configure_image_path
 
-# configure_image_path(base_path) — set the base path for static image URI resolution
+# configure_image_path(base_path, fs_root=None) — set the base path for static image URI resolution
 # Default is "app/static/images". Call before rendering images if using a custom layout.
 configure_image_path("app/static/assets")
+
+# fs_root (optional): filesystem dir holding the bytes behind base_path — only
+# used by crop= to read natural dimensions (URL-vs-base64 emission unchanged).
+# Without it, crop= derives the dir from Streamlit's app/static convention.
+configure_image_path("app/static/media", fs_root=Path(__file__).parent / "static/media")
 ```
 
 ### add_wrap_all_option
