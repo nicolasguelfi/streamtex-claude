@@ -769,9 +769,29 @@ st_book(
     chrome_banner=True,             # Show browser recommendation banner (Chrome/Edge)
     doc_version=None,               # str | None — version string shown in sidebar
     loading=True,                   # Show loading overlay with progress (default True)
+    block_args=(),                  # Positional args forwarded verbatim to every block.build()
+    block_kwargs=None,              # Keyword args forwarded verbatim to every block.build()
     banner_color="rgba(211,47,47,0.8)",  # Shorthand — prefer banner=BannerConfig(...)
 )
 ```
+
+### st_book — block_args / block_kwargs (one parameter for every block)
+
+```python
+# book.py — the projected language, passed to every build() (and to the separator)
+import os
+lang = os.environ.get("STX_LANG", "en")          # static export: one pass per language
+st_book(blocks, block_kwargs={"lang": lang})
+
+# blocks/bck_*.py — keep a default so the block stays callable without kwargs
+def build(lang: str = "en", **_):
+    st_write(s.large, T({"en": "Welcome", "fr": "Bienvenue"}, lang))
+```
+
+- Forwarded as `st_include(module, *block_args, **block_kwargs)` — same values for every block.
+- The pagination cache key includes a fingerprint of the kwargs: `{"lang": "fr"}` gets its own
+  TOC / markers / page titles and its own `.stx_cache/page_cache-<fp>.json`. Keep kwargs to plain data.
+- Passing unknown kwargs directly to `st_book(...)` is deprecated — use `block_kwargs=`.
 
 ### Presentation Profiles — Display Configurations
 
@@ -1564,6 +1584,7 @@ bib_config = BibConfig(
     citation_style=CitationStyle.AUTHOR_YEAR,
     hover_enabled=True,             # Hover preview of citations
     hover_show_abstract=True,
+    locale="en",                    # Connector words: "en" (& / and / In / pp.) or "fr" (et / Dans / p. / n°)
 )
 
 # Load sources (supports .bib, .json, .ris, .csl-json)
@@ -2452,6 +2473,8 @@ stx export html [PATH]             # export project to static HTML (for dual/sta
 stx export html -o /app/static-html/ .  # custom output directory
 stx export html --asset-mode embedded .  # inline base64 assets (single file)
 stx export html --title "My Doc" .      # custom HTML title
+stx export html --lang fr .             # <html lang="fr"> (default: $STX_LANG, then "en")
+STX_LANG=fr stx export html --suffix -fr .  # one variable for blocks AND <html lang>; writes <project>-fr.html
 ```
 
 ### Deployment — Other platforms
