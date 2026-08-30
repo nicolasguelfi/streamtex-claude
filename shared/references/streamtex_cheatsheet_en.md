@@ -501,6 +501,11 @@ from streamtex import st_marker, MarkerConfig, st_book
 st_marker("Section Start", visible=True)   # Visible marker (dashed border + label)
 st_marker("Hidden Waypoint")               # Invisible marker (default)
 st_marker("Nav Only", hidden=True)         # PageDown stops here, not shown in sidebar list
+st_marker(T(leaf, lang), key="electricity")  # Stable key for deep links (survives translation)
+
+# Deep links (paginated mode, app AND static export): ?marker=<key-or-slug> | ?page=<n> (1-based)
+from streamtex import page_url
+page_url("https://x/waves?lang=fr", marker="electricity")  # → https://x/waves?lang=fr&marker=electricity
 
 # Auto-markers from TOC headings (in book.py)
 marker_config = MarkerConfig(
