@@ -103,12 +103,16 @@ with st_list(
     with l.item(): st_write("Centered item")
 
 # Inherited alignment — a list has no alignment of its own by default,
-# so a container that centres its text centres its lists too.
-# The bullet stays OUTSIDE the text (standard CSS); add `text_align="center"`
-# on the list to bring it into the line.
+# so a container that centres its text centres its lists too, bullet
+# included: an inherited "center"/"right" moves the bullet into the line
+# exactly like the explicit parameter (0.7.34). Nothing to pass.
 with st_block(s.center_txt):
     with st_list(list_type=lt.unordered, li_style=bs.content) as l:
-        with l.item(): st_write("Inherits the centring")
+        with l.item(): st_write("Inherits the centring, bullet and all")
+
+# Which means: declare the alignment ONCE for the whole deck and drop the
+# per-list parameters entirely.
+set_presentation_config(PresentationConfig(text_align="center"))
 ```
 
 ### st_list — Full Signature
@@ -119,8 +123,10 @@ st_list(
     l_style=s.none,                     # Style for the list container (ListStyle for custom symbols)
     li_style=s.none,                    # Style for individual list items
     text_align=None,                    # TEXT: "left"|"center"|"right"|"justify" — bullet moves
-                                        #   into the line for center/right; width untouched.
-                                        #   None = inherit from the container (default)
+                                        #   into the line for center/right; width untouched,
+                                        #   nested lists keep the full width of their item.
+                                        #   None = inherit from the container (default) — an
+                                        #   inherited center/right moves the bullet too
     block_align=None,                   # BOX: "left"|"center"|"right" — width: fit-content
                                         #   + auto margins; the list becomes as wide as its content
     align=None,                         # DEPRECATED synonym of block_align

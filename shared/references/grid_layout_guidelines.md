@@ -53,14 +53,19 @@ with st_grid(2, cell_styles=Style("text-align:center;", "cell_c")) as g:
             with l.item(): st_write("centred too")
 ```
 
-Inherited centring leaves the bullet OUTSIDE the text, which is what plain
-CSS does. To pull the bullet into the line so bullet and text centre as one
-unit, declare it on the list:
+Inherited centring carries the bullet with it: since 0.7.34 a list whose
+EFFECTIVE alignment is `center` or `right` — declared on the list, on the
+cell, on the block, or on `PresentationConfig(text_align=…)` — puts its
+marker inside the line, so bullet and text centre as one unit. Declaring it
+on the list is then only a way to override the cell:
 
 ```python
-        with st_list(text_align="center") as l:
-            with l.item(): st_write("bullet centred with its text")
+        with st_list(text_align="left") as l:     # this one stays left
+            with l.item(): st_write("in a centred cell")
 ```
+
+Neither form changes a width: the list keeps the cell, and a nested list
+keeps the full width of the item that carries it, however long its text.
 
 ### Rule
 
