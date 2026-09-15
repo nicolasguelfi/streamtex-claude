@@ -37,3 +37,34 @@ The zoom applies only to the content inside the cell.
 
 **MANDATORY**: Never wrap `st_zoom()` around `g.cell()`. Always nest `st_zoom()`
 inside the cell context manager.
+
+## Aligning text inside a cell
+
+`cell_styles` carries `text-align` like any CSS, and it is INHERITED by
+everything in the cell — paragraphs, blocks, and (since 0.7.33) lists, which
+used to force themselves back to the left.
+
+```python
+# The whole cell, list included, is centred
+with st_grid(2, cell_styles=Style("text-align:center;", "cell_c")) as g:
+    with g.cell():
+        st_write("centred")
+        with st_list() as l:            # inherits the centring
+            with l.item(): st_write("centred too")
+```
+
+Inherited centring leaves the bullet OUTSIDE the text, which is what plain
+CSS does. To pull the bullet into the line so bullet and text centre as one
+unit, declare it on the list:
+
+```python
+        with st_list(text_align="center") as l:
+            with l.item(): st_write("bullet centred with its text")
+```
+
+### Rule
+
+**Prefer `text_align=` over `block_align=` inside a grid.** `text_align`
+never changes the list width, so the cell geometry stays stable;
+`block_align` (and its deprecated synonym `align`) resizes the list to its
+content, so editing one item moves the layout.

@@ -82,13 +82,33 @@ with st_block(s.center_txt):
         with l.item(): st_write("First item")
         with l.item(): st_write("Second item")
 
-# Centered list (bullet + text centered as a unit)
+# Centered list — TEXT centering (keeps the list full width)
+# `text_align` moves the bullet INTO the line, so bullet and text centre
+# together (the CSS `text-align` + `list-style-position: inside` pair).
+# The list keeps its container's width: safe inside a grid cell.
+with st_list(
+    list_type=lt.unordered,
+    li_style=bs.content,
+    text_align="center") as l:
+    with l.item(): st_write("Centered item")
+
+# Centered list — BOX centering (list becomes as wide as its content)
+# `block_align` shrinks the list to `width: fit-content` and centres the box.
+# The bullet column stays aligned. Beware: the width now follows the text,
+# so editing one item changes the layout — avoid in a fixed-geometry grid.
+with st_list(
+    list_type=lt.unordered,
+    li_style=bs.content,
+    block_align="center") as l:
+    with l.item(): st_write("Centered item")
+
+# Inherited alignment — a list has no alignment of its own by default,
+# so a container that centres its text centres its lists too.
+# The bullet stays OUTSIDE the text (standard CSS); add `text_align="center"`
+# on the list to bring it into the line.
 with st_block(s.center_txt):
-    with st_list(
-        list_type=lt.unordered,
-        li_style=bs.content,
-        align="center") as l:
-        with l.item(): st_write("Centered item")
+    with st_list(list_type=lt.unordered, li_style=bs.content) as l:
+        with l.item(): st_write("Inherits the centring")
 ```
 
 ### st_list — Full Signature
@@ -98,7 +118,12 @@ st_list(
     list_type=lt.unordered,             # lt.ordered or lt.unordered
     l_style=s.none,                     # Style for the list container (ListStyle for custom symbols)
     li_style=s.none,                    # Style for individual list items
-    align=None,                         # "center" to center list block, None for left (default)
+    text_align=None,                    # TEXT: "left"|"center"|"right"|"justify" — bullet moves
+                                        #   into the line for center/right; width untouched.
+                                        #   None = inherit from the container (default)
+    block_align=None,                   # BOX: "left"|"center"|"right" — width: fit-content
+                                        #   + auto margins; the list becomes as wide as its content
+    align=None,                         # DEPRECATED synonym of block_align
     alt_li_styles=None,                 # list[Style] — cycle styles per list item (optional)
 )
 ```
