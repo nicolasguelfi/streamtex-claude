@@ -19,7 +19,8 @@ This project uses **uv** for dependency management. You MUST:
 Before writing any block code, you MUST read:
 1. `.claude/references/coding_standards.md` — full coding standards (single source of truth)
 2. `.claude/references/streamtex_cheatsheet_en.md` — syntax reference
-3. `book.py` — to understand how blocks are wired
+3. The book that wires the blocks: `book.py` at the root, or — in a multi-module project — the
+   `book.py` of the module you work on (`modules/<module>/book.py`, one book per document)
 
 ## Coding Standards
 See `.claude/references/coding_standards.md` for the full reference. Key rules:
@@ -58,7 +59,8 @@ See `.claude/references/coding_standards.md` for the full reference. Key rules:
 - Style composition: `Style + Style`, `Style + string`, `Style - string`
 
 ### Media & Visual
-- `st_image(style, uri=)` — Local / URL image handling with base64 encoding
+- `st_image(style, uri=)` — Local / URL images: inlined as base64 by default; **served** (not inlined)
+  once the book calls `configure_image_path()` + `set_static_sources()` — prefer serving for large media
 - `st_image(style, prompt=, editable=True, name=, provider=, ai_size=)` — AI image generation + editor panel (Prompt / AI / Edit / History tabs); requires `streamtex[ai]`
 - `generate_image(prompt, provider=...)` — Programmatic generation without rendering
 - `st_code(style, code=, language=)` — Code blocks with Pygments
@@ -78,6 +80,9 @@ stx run
 ```
 
 ## Project Structure
+Check which layout this project uses before assuming one.
+
+Single document:
 ```
 {{ project_name }}/
 ├── book.py                 # Entry point
@@ -90,6 +95,17 @@ stx run
 ├── static/images/          # Static assets
 └── .streamlit/config.toml  # Streamlit config
 ```
+
+Several documents (one book per module, shared blocks and a local pack):
+```
+{{ project_name }}/
+├── stx.toml                # packs, design system, [claude] declaration
+├── modules/<module>/       # one document each: book.py, blocks/, custom/, static/, .streamlit/
+├── modules/shared-blocks/  # blocks and helpers shared by the modules (or a local pack)
+└── <name>_pack/            # local pack: components + design system
+```
+A block keeps its own explicit settings (zoom, heights, spacing) — do not factor per-slide values
+into shared helpers unless the author asks: each slide must stay easy to specialise.
 
 ## Customization
 - `.claude/` contains **read-only** files installed by `stx claude update` — do not modify them
