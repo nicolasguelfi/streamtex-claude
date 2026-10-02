@@ -6,6 +6,31 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 Prior to this Changelog, changes are tracked in the git history of this repository (see `git log` on `main`).
 
+## [0.3.5] — 2026-10-03 — Project mode documented, CLAUDE.md templates for multi-module projects
+
+Companion of streamtex 0.7.35 (lot A, boards `claude1` / `lots1`).
+
+### Added
+
+- **README — two ways to install** (#23): project mode (`[claude]` in
+  `stx.toml`, `stx claude sync`, `.claude/stx.lock`) next to the classic
+  machine mode (`~/.claude/commands` copied by `stx update`), with
+  `stx claude global status | remove` and `global_commands = false`.
+
+### Changed
+
+- **`project` and `presentation` CLAUDE.md templates** (#24): describe both
+  layouts (single book / one book per module with shared blocks and a
+  local pack), served media (`configure_image_path`) instead of "base64",
+  and that a block keeps its own explicit settings.
+- **`profiles/project/settings.json`** (#25): `git add` and `git commit`
+  are no longer granted by default (read-only git commands stay). Existing
+  installs keep theirs: settings are merged, never pruned.
+- **`install.py`** delegates to the streamtex installer when streamtex
+  (≥ 0.7.35) is importable, so both ways of installing give the same
+  result (nicolasguelfi/streamtex#65); the standalone path stays for
+  environments without streamtex, such as this repository's CI.
+
 ## [0.3.4] — 2026-05-25 — /stx-guide: pack-dev + alignment sections + which-stx-command skill
 
 ### Added

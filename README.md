@@ -254,12 +254,58 @@ stx claude update . --force # Override everything including CLAUDE.md
 | `profiles/<profile>/commands/` | `.claude/commands/` |
 | `profiles/<profile>/*/skills/` | `.claude/*/skills/` |
 | `profiles/<profile>/*/agents/` | `.claude/*/agents/` |
-| `profiles/<profile>/CLAUDE.md` | `CLAUDE.md` (preserved unless `--force`) |
+| `profiles/<profile>/CLAUDE.md.j2` | `CLAUDE.md` when stx owns it, otherwise `.claude/CLAUDE.md` (see below) |
+| `profiles/<profile>/settings.json` | `.claude/settings.json` (merged into an existing file) |
 
 Shared files (references and commands) are set read-only (0o444) to signal they are managed automatically.
 
-> **Global commands**: `stx update` also copies `shared/commands/` to `~/.claude/commands/`,
-> making commands like `/stx-guide` available globally — even outside any project directory.
+**Your CLAUDE.md is never overwritten.** stx writes the root `CLAUDE.md` only when it produced it
+(absent, or identical to the render of the installed template). A hand-written root `CLAUDE.md`
+is left untouched and the profile text goes to `.claude/CLAUDE.md`; Claude Code loads both.
+Child profiles (`extends`, e.g. `presentation` → `project`) install their parent, then their
+`overlay/`. stx never commits: `stx claude update --commit` untracks `.claude/` on request.
+
+### Two ways to install: per project, or per machine
+
+| | **Project mode** (recommended) | **Machine mode** (classic) |
+|---|---|---|
+| Declared in | the project's `stx.toml` (`[claude]`, see below) | nothing — `stx claude install <profile>` |
+| Commands live in | the project's `.claude/commands/` only | the project **and** `~/.claude/commands/` (copied by `stx update`) |
+| Kept up to date by | `stx claude sync` (also run by `stx update`) | `stx claude update` |
+| Remembers what it installed | `.claude/stx.lock` (sha256 of every file) | — |
+| Your edits to installed files | kept and reported; `--force` replaces them (backup) | kept unless `--force` |
+| Uninstall | `stx claude sync --remove` | by hand |
+
+```toml
+# stx.toml of the project
+[claude]
+mode = "project"
+profile = "presentation"     # project | presentation | library | documentation
+include = []                 # extra profiles merged in
+exclude = []                 # groups left out, e.g. ["stx-ce", "ce", "stx-pe", "pack-engineering"]
+```
+
+```bash
+stx claude sync --dry-run    # what would change — nothing written
+stx claude sync              # install / update / prune; writes .claude/stx.lock
+stx claude sync --remove     # uninstall (custom/ and your edits kept)
+```
+
+Git keeps the declaration (`stx.toml`) and `.claude/stx.lock`; the copies are ignored
+(`.claude/*` except `custom/`, `.stx-profile`, `stx.lock`). After a clone: `stx claude sync`.
+
+> **Global commands** (machine mode): `stx update` copies `shared/commands/` to
+> `~/.claude/commands/`, making commands like `/stx-guide` available everywhere. A project that
+> also has them locally then loads both copies (`stx claude check` reports the duplicates).
+> To work in project mode only:
+>
+> ```bash
+> stx claude global status        # what stx copied into ~/.claude/commands
+> stx claude global remove --yes  # remove those copies (files you changed are kept)
+> ```
+>
+> and turn the copy off in `~/.config/streamtex/config.toml` (`[claude]` `global_commands = false`),
+> or pass `--no-global-commands` to `stx update` / `stx install`.
 
 ### How projects are discovered
 
@@ -267,7 +313,8 @@ Shared files (references and commands) are set read-only (0o444) to signal they 
 - Top-level workspace directories (e.g., `streamtex/`, `streamtex-docs/`)
 - Subdirectories of `projects/` (e.g., `projects/<my-project>/`)
 
-Projects are identified by the `.claude/.stx-profile` marker file.
+Projects are identified by the `.claude/.stx-profile` marker file, or by a project-mode
+`[claude]` declaration in their `stx.toml` (the workspace root included, in that case).
 
 ## Related
 

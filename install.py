@@ -160,8 +160,25 @@ def _render_template(template_path: Path, output_path: Path,
     output_path.write_text(claude_md, encoding="utf-8")
 
 
+def _library_installer():
+    """The streamtex library installer, when it is importable and recent enough.
+
+    One implementation for every way of installing a profile
+    (nicolasguelfi/streamtex#65): ``stx claude install`` and this script give
+    the same result. The standalone code below remains for environments
+    without streamtex (e.g. this repository's CI).
+    """
+    try:
+        from streamtex.cli import claude_cmd
+    except Exception:  # noqa: BLE001 — any import problem means "not available"
+        return None
+    if not hasattr(claude_cmd, "plan_install"):  # older streamtex: diverging installer
+        return None
+    return claude_cmd.install_profile
+
+
 def install_profile(profile_name: str, target_dir: Path,
-                    project_name: str = "") -> bool:
+                    project_name: str = "", *, _top: bool = True) -> bool:
     """Install a Claude AI profile into the target directory.
 
     Args:
@@ -172,6 +189,19 @@ def install_profile(profile_name: str, target_dir: Path,
     Returns:
         True if installation succeeded
     """
+    library = _library_installer() if _top else None
+    if library is not None and (not project_name or project_name == target_dir.name):
+        if not (PROFILES_DIR / profile_name / "manifest.toml").exists():
+            print(f"Error: Profile '{profile_name}' not found at {PROFILES_DIR / profile_name}")
+            return False
+        installed = library(str(Path(__file__).parent), profile_name, str(target_dir))
+        print(f"Installed profile '{profile_name}' -> {target_dir} (streamtex library installer)")
+        print(f"  {len(installed)} files installed")
+        return True
+    if _top:
+        print("Note: streamtex not importable (or --name differs from the folder name) — "
+              "standalone installer; it writes CLAUDE.md and settings.json directly.")
+
     profile_dir = PROFILES_DIR / profile_name
     manifest_path = profile_dir / "manifest.toml"
 
@@ -205,7 +235,7 @@ def install_profile(profile_name: str, target_dir: Path,
     if extends:
         # Install parent profile first
         print(f"  Installing parent profile '{extends}'...")
-        install_profile(extends, target_dir, project_name)
+        install_profile(extends, target_dir, project_name, _top=False)
 
         # Then overlay additional files
         overlay_dir = profile_dir / "overlay"
