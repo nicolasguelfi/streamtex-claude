@@ -108,7 +108,7 @@ PresentationProfile(
     name="Presenter",
     mode=ViewMode.PAGINATED,
     layout=PageLayout(width=90, zoom=100),
-    breaks=SlideBreakDisplayConfig(mode=SlideBreakMode.HIDDEN, space=0),
+    breaks=SlideBreakDisplayConfig(mode=SlideBreakMode.HIDDEN, before=0, after=0),
 )
 ```
 

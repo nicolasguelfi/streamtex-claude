@@ -89,7 +89,7 @@ For each slide reviewed:
   - Suggest adding the annotation and aligning to the pattern's code
     skeleton.
 - If a referenced component is missing from the catalog:
-  - Flag as a broken reference; suggest `/stx-component:new` or
+  - Flag as a broken reference; suggest `/stx-component:run new` or
     `stx pack sync`.
 
 ### New review criterion: pack-first compliance

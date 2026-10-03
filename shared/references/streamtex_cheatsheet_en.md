@@ -2688,8 +2688,8 @@ stx validate [--strict]                           # aggregate validation, exit 0
 
 ### Slash commands (Claude)
 
-`/stx-component:list` `/stx-component:show <name>` `/stx-component:new`
-`/stx-validate` `/stx-component:validate`
+`/stx-component:run list` `/stx-component:run show <name>` `/stx-component:run new`
+`/stx-validate` `/stx-component:run validate`
 
 ### Format
 

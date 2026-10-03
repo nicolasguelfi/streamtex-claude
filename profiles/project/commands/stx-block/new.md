@@ -27,7 +27,7 @@ If the user **named a pattern** explicitly in their request (e.g.
 - Respect strictly the INVARIANTS section.
 - Adjust within PARAMS only.
 - Refuse anything matching INTERDITS; propose creating a new pattern
-  with `/stx-component:new` instead.
+  with `/stx-component:run new` instead.
 
 If the user did NOT name a pattern but the request matches one in the
 catalog, mention it as an option ("This looks like the `stat_hero`
@@ -44,7 +44,7 @@ project's `custom/styles.py` and palette, not a copy-paste.
    - "code demo / walkthrough" → `feature_walkthrough`
    - "steps / process / exercise" → `exercise_flow`
    - "summary / conclusion / takeaways" → `takeaways` or `narrative_transition`
-   For unmatched intents, scaffold from scratch and consider `/stx-component:new` to capture the new component into the project's primary local pack.
+   For unmatched intents, scaffold from scratch and consider `/stx-component:run new` to capture the new component into the project's primary local pack.
 3a. **Load guideline**: If `custom/design-guideline.md` exists in the target project,
     read it and load the referenced guideline from `.claude/designer/guidelines/`.
 3b. **Load patterns**: Check `custom/design-guideline.md` for a `## Patterns` section.

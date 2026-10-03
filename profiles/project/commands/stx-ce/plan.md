@@ -70,7 +70,7 @@ When planning the production:
 2. For each block in the plan, **declare which pattern(s)** it will use
    (if any) — written explicitly in the plan deliverable.
 3. If the plan reveals **gaps** (a pattern is missing for a needed
-   primitive), propose `/stx-component:new` during PLAN itself, before
+   primitive), propose `/stx-component:run new` during PLAN itself, before
    PRODUCE.
 
 The plan deliverable should have a "Patterns used" column or section

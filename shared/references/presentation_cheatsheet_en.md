@@ -10,9 +10,9 @@ Quick reference for creating presentations with StreamTeX + Claude AI skills.
 ┌─────────────────────────────────────────────────────┐
 │  /stx-block:init "description..."                       │  ← Generate full project
 │           ↓                                         │
-│  /stx-block:slide-audit                                 │  ← Validate all slides
+│  /stx-block:audit                                       │  ← Validate all slides
 │           ↓                                         │
-│  /stx-block:slide-fix                                   │  ← Auto-fix violations
+│  /stx-block:fix                                         │  ← Auto-fix violations
 │           ↓                                         │
 │  /stx-block:slide-new "bck_name — description..."       │  ← Refine one slide
 │           ↓                                         │
@@ -20,7 +20,7 @@ Quick reference for creating presentations with StreamTeX + Claude AI skills.
 │           ↓                                         │
 │  /stx-block:customize "changes..."                      │  ← Adjust theme/fonts
 │           ↓                                         │
-│  /stx-block:style-audit + style-refactor                │  ← Ensure consistency
+│  /stx-block:style-refactor                              │  ← Ensure consistency
 └─────────────────────────────────────────────────────┘
 ```
 
@@ -51,10 +51,9 @@ Quick reference for creating presentations with StreamTeX + Claude AI skills.
 ### Audit and fix
 
 ```bash
-/stx-block:slide-audit       # Check all blocks against design rules
-/stx-block:slide-fix         # Auto-fix violations (spacing, line length, styles)
-/stx-block:style-audit       # Check style consistency across all blocks
-/stx-block:style-refactor    # Extract inline CSS into reusable styles
+/stx-block:audit             # Check all blocks against design rules
+/stx-block:fix               # Auto-fix violations (spacing, line length, styles)
+/stx-block:style-refactor    # Audit style consistency, extract inline CSS into reusable styles
 /stx-block:preview           # Validate block structure (imports, BlockStyles, build)
 ```
 
@@ -485,10 +484,9 @@ Style: telegraphic keywords, bold colored accents.
 | `/stx-block:customize` | Adjust theme, fonts, colors |
 | `/stx-block:upgrade` | Upgrade to latest conventions |
 | `/stx-block:slide-new` | Create or regenerate one slide |
-| `/stx-block:slide-audit` | Validate all slides |
-| `/stx-block:slide-fix` | Auto-fix violations |
-| `/stx-block:style-audit` | Check style consistency |
-| `/stx-block:style-refactor` | Extract/optimize styles |
+| `/stx-block:audit` | Validate all slides |
+| `/stx-block:fix` | Auto-fix violations |
+| `/stx-block:style-refactor` | Audit and extract/optimize styles |
 | `/stx-block:new` | Create block from blueprint |
 | `/stx-block:preview` | Validate block structure |
 

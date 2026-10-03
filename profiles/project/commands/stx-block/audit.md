@@ -142,7 +142,7 @@ When auditing a block:
   pattern (matches Visual + Structure), suggest adding the annotation
   and aligning with the pattern.
 - If a component is named in the block but doesn't exist in the
-  catalog, flag it as a broken reference. Suggest `/stx-component:new` or
+  catalog, flag it as a broken reference. Suggest `/stx-component:run new` or
   `stx pack sync`.
 
 #### Guideline Compliance (if active guideline exists)

@@ -101,7 +101,7 @@ PresentationProfile(
     name="Workshop",
     mode=ViewMode.CONTINUOUS,
     layout=PageLayout(width=90, zoom=90),
-    breaks=SlideBreakDisplayConfig(mode=SlideBreakMode.FULL, space=3),
+    breaks=SlideBreakDisplayConfig(mode=SlideBreakMode.FULL, before=0, after=3),
 )
 ```
 

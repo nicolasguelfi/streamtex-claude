@@ -68,6 +68,29 @@ documentation overlays) stay identical.
   backport (it showed an overwrite of a read-only `.claude/` copy). `/stx-guide`: "19 checks" → 51 + 1-bis + 28a,
   `integrity` scope listed, layer composition points to Check 18.
 
+### Fixed — ghost APIs and stale advice in the profiles (board `audit1`)
+
+- Designer templates and `modular-design-philosophy`: `st_book` has no
+  `design_system=` parameter (it never had); the design system is created in the
+  block and passed to pack components (`design_system=DS`).
+- `visual-design-rules`: the legacy `ptn_*` patterns → `streamtex-pack-design`
+  components.
+- `streamtex_cheatsheet_en.md`: `ptn_cite` → `cite`; `GSheetSource(tab=)`;
+  `TOCConfig(sidebar_max_level=)`; `st_image(prompt=)` instead of `st_ai_image()`;
+  the `StreamTeX_Styles` section removed (alias removed in streamtex 0.7.14);
+  `BibParseError` documented as exported but not raised.
+- Six designer/presentation guidelines: `SlideBreakDisplayConfig(space=)` →
+  `before=` / `after=`; LaTeX import conventions: `Style(font_color=)` →
+  `Style("color: …;", id)`.
+- Slash commands that do not exist: `/stx-component:new|list|show|validate` →
+  `/stx-component:run <sub>`; `/stx-block:slide-audit|slide-fix|style-audit` →
+  `/stx-block:audit`, `/stx-block:fix`, `/stx-block:style-refactor`;
+  `/stx-import:pptx|gdocs` marked "no command yet".
+- "The star import shadows `list()`" is history since streamtex 0.7.36
+  (testing-patterns, documentation CLAUDE.md template, `/stx-guide`).
+- `/stx-guide`: `stx claude update` has no `--prune`; `--yes`, `--commit`, `--force`
+  described as they are.
+
 ## [0.3.5] — 2026-10-03 — Project mode documented, CLAUDE.md templates for multi-module projects
 
 Companion of streamtex 0.7.35 (lot A, boards `claude1` / `lots1`).

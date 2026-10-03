@@ -26,7 +26,7 @@ If the user **named a pattern** explicitly in their request (e.g.
 - Respect strictly the INVARIANTS section.
 - Adjust within PARAMS only.
 - Refuse anything matching INTERDITS; propose creating a new pattern
-  with `/stx-component:new` instead.
+  with `/stx-component:run new` instead.
 
 If the user did NOT name a pattern but the request matches one in the
 catalog, mention it as an option ("This looks like the `stat_hero`

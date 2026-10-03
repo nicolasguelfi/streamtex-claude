@@ -112,7 +112,7 @@ PresentationProfile(
     name="Auditorium",
     mode=ViewMode.PAGINATED,
     layout=PageLayout(width=100, zoom=80),
-    breaks=SlideBreakDisplayConfig(mode=SlideBreakMode.HIDDEN, space=0),
+    breaks=SlideBreakDisplayConfig(mode=SlideBreakMode.HIDDEN, before=0, after=0),
 )
 ```
 

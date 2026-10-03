@@ -350,6 +350,6 @@ CE pipeline at three points:
   pattern conform to that pattern (no INVARIANT violation).
 
 If a pattern is missing from the catalog, propose
-`/stx-component:new` during PLAN/PRODUCE rather than improvising.
+`/stx-component:run new` during PLAN/PRODUCE rather than improvising.
 
 See `streamtex_cheatsheet_en.md` for the pattern CLI/slash commands.
