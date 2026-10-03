@@ -4,3 +4,6 @@ __pycache__/
 # dependencies = []). uv generates a lock anyway when called — we don't
 # track it because it has no runtime meaning here.
 uv.lock
+
+# Python environment (a symlink to ~/.venvs/... in Dropbox projects)
+.venv
