@@ -273,7 +273,7 @@ templates. Profiles extend each other.
 | `presentation` | `project` | Author live-projection presentations (10–20 m auditorium distance). Adds presentation-design-rules + fullscreen-presentation-rules skills + the `presentation-designer` agent. |
 
 Child profiles only **add** to the parent; the parent's commands and
-shared resources remain available. See `coherence-checks.md` Check 4
+shared resources remain available. See `coherence-checks.md` Check 18
 for how install.py composes the layers.
 
 ### Development links
@@ -1843,12 +1843,13 @@ lock flip-flop problem, alignment sequences), see §4.13.
 
 | Task | Command |
 |------|---------|
-| Full audit (19 checks) | `/stx-coherence:audit` or `/stx-coherence:audit all` |
+| Full audit (51 checks + 1-bis + 28a) | `/stx-coherence:audit` or `/stx-coherence:audit all` |
 | API + cheatsheet audit | `/stx-coherence:audit library` |
 | Blocks + manuals audit | `/stx-coherence:audit docs` |
 | Profile sync + stx-guide audit | `/stx-coherence:audit profiles` |
 | Blocks + structure + templates audit | `/stx-coherence:audit blocks` |
 | English language audit | `/stx-coherence:audit language` |
+| Release & install integrity audit (1-bis, 46-51) | `/stx-coherence:audit integrity` |
 | Fix step by step | `/stx-coherence:fix` (implicit audit → plan → fix one by one with confirmation) |
 | Fix errors only | `/stx-coherence:fix --errors-only` |
 | View the plan without executing | `/stx-coherence:fix --dry-run` |

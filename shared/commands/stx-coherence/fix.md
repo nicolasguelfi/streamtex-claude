@@ -30,10 +30,10 @@ Parse `$ARGUMENTS` as: `[OPTIONS]`
 
 ### Phase 1: Discovery
 
-1. **Run implicit audit**: Execute the `/stx-coherence:audit all` logic silently (do NOT display the full audit report). This includes all 45 checks: standard (1-28), AI quality (29-41), and CLI (42-45).
+1. **Run implicit audit**: Execute the `/stx-coherence:audit all` logic silently (do NOT display the full audit report). This includes all 51 numbered checks plus 1-bis and 28a: standard (1-28, 1-bis, 28a), AI quality (29-41), CLI (42-45) and release & install integrity (46-51).
 2. **Collect all findings**: Gather all ERRORs and WARNINGs with their metadata:
    - Severity (ERROR / WARNING)
-   - Check category (which of the 45 checks)
+   - Check category (which of the 51 checks, or 1-bis / 28a)
    - File path and line number
    - Description of the issue
    - Source of truth (if applicable)
@@ -41,13 +41,14 @@ Parse `$ARGUMENTS` as: `[OPTIONS]`
 ### Phase 2: Plan Generation
 
 1. **Sort findings** into an optimal execution order:
-   - **Priority 1**: File sync errors (Check 4) — copy from source of truth, no risk
+   - **Priority 1**: File sync findings (Check 4) — backports of local improvements into the `streamtex-claude` source only (out-of-date copies are left to `stx claude update`, see "File sync fixes" below)
    - **Priority 2**: Source-of-truth fixes — fix the source first, then propagate
    - **Priority 3**: Code fixes in documentation blocks (Checks 13-15) — parameter names, enum values
    - **Priority 4**: Badge/counter fixes (Check 8) — requires counting first
    - **Priority 5**: Structural improvements (Checks 6-7) — templates, block structure
    - **Priority 6**: AI quality fixes (Checks 29-41) — ghost API calls, dead code, explanation drift, test quality
    - **Priority 7**: CLI coherence fixes (Checks 42-45) — help text, stx-guide, deploy scripts, optional deps
+   - **Priority 7b**: Release & install integrity fixes (Checks 1-bis, 46-51) — fix the code or the test named by the check; never relax a test to make it pass
    - **Priority 8**: Exception list updates — adding known exceptions to coherence-checks.md
    - **Priority 9**: WARNINGs that require a decision (multiple options)
 
@@ -63,8 +64,8 @@ Parse `$ARGUMENTS` as: `[OPTIONS]`
 Found: N errors, M warnings
 
 ### Execution order:
-  1. [E1] SYNC coding_standards.md — copy from source of truth
-  2. [E2] SYNC streamtex_cheatsheet_en.md — copy from source of truth
+  1. [W1] BACKPORT coding_standards.md — local improvement → streamtex-claude source
+  2. [E2] FIX streamtex_cheatsheet_en.md:2078 — TOCConfig(max_level=) → sidebar_max_level= (ghost param)
   3. [E3] FIX stx-guide.md:1124 — list_style= → l_style= (invalid param)
   ...
 
@@ -86,14 +87,14 @@ Present the issue with full context:
 
 ```
 ─────────────────────────────────────────────
-Fix 1/N — [E1] File Sync: coding_standards.md
+Fix 1/N — [W1] Backport: coding_standards.md
 ─────────────────────────────────────────────
 
-**Problem**: The copy in `streamtex-docs/references/coding_standards.md` (794 lines)
-is out of sync with the source of truth `streamtex-claude/shared/references/coding_standards.md`
-(815 lines).
+**Problem**: The installed copy `streamtex-docs/.claude/references/coding_standards.md` (815 lines)
+contains a section that the source of truth `streamtex-claude/shared/references/coding_standards.md`
+(794 lines) does not have.
 
-**Missing content**: Claude Code Integration section, User Customization section,
+**Local improvement**: Claude Code Integration section, User Customization section,
 updated MarkerConfig defaults.
 
 **Check**: #4 (Profile File Sync)
@@ -105,9 +106,10 @@ Show exactly what will change:
 
 ```
 **Proposed fix**:
-  Action: Copy source → destination (full file replacement)
-  Source: streamtex-claude/shared/references/coding_standards.md
-  Target: streamtex-docs/references/coding_standards.md
+  Action: Backport the three sections (local copy → source, never the reverse)
+  From:   streamtex-docs/.claude/references/coding_standards.md
+  Into:   streamtex-claude/shared/references/coding_standards.md
+  Then:   stx claude update --all (propagates the source to every installed copy)
 
   # For code edits, show the diff:
   # File: streamtex-claude/shared/commands/stx-guide.md
@@ -136,7 +138,7 @@ After applying:
 3. Show a brief confirmation:
 
 ```
-✓ Fix applied — coding_standards.md synced (815 lines)
+✓ Fix applied — coding_standards.md backported into the source (815 lines)
 ```
 
 4. If the fix requires propagation (e.g., `stx claude update --all`), note it:
