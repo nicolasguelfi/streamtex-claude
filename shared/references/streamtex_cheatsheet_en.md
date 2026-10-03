@@ -1742,7 +1742,9 @@ BibConfig.projection(strict=True, locale="fr")   # any field can be overridden
 
 Since 0.7.38 BibTeX values are TeX-decoded (`\'e`, `{\"O}`, `\&`, `{GPT}` → `GPT`), `{{United Nations}}`
 is one institutional author, `origdate` / ancient years show "c. 380 BCE", and long URLs wrap in
-`st_bibliography`.
+`st_bibliography`. Since 0.7.42 a `shortauthor` field shortens the citation only:
+`author = {{European Parliament and Council}}, shortauthor = {EU}` cites "(EU, 2024)", the
+bibliography keeps the full name.
 
 ### Output Formats (BibFormat)
 
