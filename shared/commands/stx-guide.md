@@ -302,9 +302,11 @@ stx claude diff [PATH]            # Compare installed files vs source repo
                                   # Statuses: identical, modified, missing, extra
 
 stx claude update [PATH]          # Update files from the source repo
-  --force                         # Also overwrite CLAUDE.md (preserved by default)
+  --force                         # Overwrite locally-modified files and the root CLAUDE.md (auto-backup in .claude/.backup/)
   --all                           # Update ALL projects in the workspace at once
-  --prune                         # Remove orphan files no manifest declares anymore
+  -y, --yes                       # Skip the confirmation before overwriting or removing
+  --commit                        # Untrack managed .claude/ files and commit (default: print the git commands)
+                                  # Orphan files (no manifest declares them) are removed by default
 
 stx claude check                  # Check sync of all profiles in the workspace
                                   # Scans projects and subdirectories of projects/
@@ -1713,9 +1715,9 @@ stx validate
 
 ## Section 5 — Known gotchas
 
-### 1. `from streamtex import *` shadows `list()`
-**Problem**: `st_list` overwrites the `list()` builtin.
-**Solution**: use `[*iterable]` instead of `list(iterable)`.
+### 1. `from streamtex import *` and `list()` (fixed in 0.7.36)
+**Before 0.7.36**: the star import also exported the `list` submodule, which shadowed the builtin `list()`.
+**Since 0.7.36**: the star import exports only `__all__`; `list()` is the builtin again. Use `[*iterable]` only in code that must run on older versions.
 
 ### 2. `st.html()` strips scripts (Streamlit 1.54+)
 **Problem**: Streamlit strips `<script>` tags inside `st.html()`.

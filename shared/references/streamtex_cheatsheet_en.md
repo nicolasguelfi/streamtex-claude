@@ -311,7 +311,7 @@ caps.default_quality  # "auto"
 ```
 
 **Errors**: `AIImageError` is the public exception raised by `generate_image()`
-and `st_ai_image()` for provider failures, invalid prompts, missing API keys,
+and `st_image(prompt=...)` for provider failures, invalid prompts, missing API keys,
 or unsupported size/quality combinations. Catch it to fall back gracefully:
 
 ```python
@@ -1630,9 +1630,9 @@ bib_sources = ["references.bib"]
 st_book([...], bib_sources=bib_sources, bib_config=bib_config)
 
 # In-text citations (inside blocks)
-from streamtex.bib import ptn_cite, st_cite, st_bibliography
+from streamtex.bib import cite, st_cite, st_bibliography
 st_cite("author2024key")           # Inline citation widget
-ptn_cite("key1", "key2")               # Multi-key inline citation string
+cite("key1", "key2")               # Multi-key inline citation string
 st_bibliography()                   # Render full bibliography
 ```
 
@@ -1695,16 +1695,14 @@ reset_bib_registry()
 registry = get_bib_registry()
 registry.register(entry)             # Register a single BibEntry
 registry.register_many(entries)      # Register a list of BibEntry objects
-registry.ptn_cite("key")                 # Mark key as cited, returns 1-based number
+registry.cite("key")                 # Mark key as cited, returns 1-based number
 cited = registry.get_cited_entries()  # List of cited BibEntry in citation order
 all_entries = registry.get_all_entries()  # All registered entries
 registry.reset()                     # Clear all entries and citations
 
-# BibParseError — raised when bibliography file parsing fails
-try:
-    entries = load_bib("malformed.bib")
-except BibParseError as e:
-    print(f"Parse error: {e}")
+# A malformed entry is logged and skipped (load_bib returns the entries it could read);
+# a missing file raises FileNotFoundError. BibParseError is exported but not raised today.
+entries = load_bib("refs.bib")
 ```
 
 #### Multi-Format Loaders
@@ -1754,13 +1752,13 @@ with open("output.bib", "w") as f:
 ```python
 from streamtex import st_refs, BibRefs, generate_bib_stubs
 
-# st_refs — global BibRefs proxy; attribute access calls ptn_cite()
+# st_refs — global BibRefs proxy; attribute access calls cite()
 st_write(s.big, "According to ", st_refs.vaswani2017, " transformers...")
-# Equivalent to: st_write(s.big, "According to ", ptn_cite("vaswani2017"), "...")
+# Equivalent to: st_write(s.big, "According to ", cite("vaswani2017"), "...")
 
-# BibRefs — proxy class mapping attribute access to ptn_cite() calls
+# BibRefs — proxy class mapping attribute access to cite() calls
 refs = BibRefs()
-html_citation = refs.some_key          # Returns ptn_cite("some_key") HTML string
+html_citation = refs.some_key          # Returns cite("some_key") HTML string
 
 # generate_bib_stubs(*paths, output_path) — generate typed Python module for IDE completion
 content = generate_bib_stubs("refs.bib", output_path="custom/bib_refs.py")
@@ -1835,7 +1833,7 @@ set_gsheet_config(config)
 cfg = get_gsheet_config()               # Optional[GSheetConfig] — None if not set
 
 # Define source
-src = GSheetSource(sheet_id="abc123", tab_name="Sheet1")
+src = GSheetSource(sheet_id="abc123", tab="Sheet1")
 src = GSheetSource.from_url("https://docs.google.com/spreadsheets/d/abc123/...")
 
 # Load data
@@ -1938,11 +1936,9 @@ except GSheetError as e:
 ```python
 from streamtex import BibParseError
 
-# BibParseError — raised when bibliography file parsing fails
-try:
-    entries = load_bib("refs.bib")
-except BibParseError as e:
-    st.error(f"Bibliography parse error: {e}")
+# Exported for compatibility, but NOT raised by the parser today: load_bib()
+# logs and skips a malformed entry, and raises FileNotFoundError for a missing file.
+# To fail on a citation of an unknown key, use BibConfig(strict=True).
 ```
 
 ### BibRegistry
@@ -1955,7 +1951,7 @@ registry = get_bib_registry()
 registry.register(entry)             # Register a BibEntry (overwrites if key exists)
 registry.register_many(entries)      # Register multiple entries
 entry = registry.get("key")          # Retrieve by key (None if not found)
-num = registry.ptn_cite("key")           # Mark as cited, returns 1-based citation number
+num = registry.cite("key")           # Mark as cited, returns 1-based citation number
 cited = registry.get_cited_entries()  # Cited entries in citation order
 all_e = registry.get_all_entries()   # All registered entries
 keys = registry.list_keys()          # Sorted list of all keys
@@ -1997,19 +1993,6 @@ overridden = header * sg.create("A1", s.text.colors.red)  # A1 gets red
 
 # Subtract styles
 cleaned = combined - sg.create("A1:A5", s.text.colors.white)
-```
-
-### StreamTeX_Styles
-
-```python
-from streamtex import StreamTeX_Styles
-
-# StreamTeX_Styles — alias for StxStyles, the full aggregation class
-# Provides: .none, .text, .container, .visibility, .bold, .italic,
-#           .center_txt, .reset, .GIANT through .tiny, .light_bg
-# Used as the base class for project Styles:
-#   class Styles(StxStyles):
-#       project = Custom
 ```
 
 ### ListStyle
@@ -2075,7 +2058,7 @@ from streamtex import reset_toc_registry, TOCConfig
 
 # reset_toc_registry(toc_config) — clear all registered TOC entries for the current run
 reset_toc_registry()                          # Reset with default TOCConfig
-reset_toc_registry(TOCConfig(max_level=3))    # Reset with custom config
+reset_toc_registry(TOCConfig(sidebar_max_level=3))    # Reset with custom config
 ```
 
 ### toc_entries

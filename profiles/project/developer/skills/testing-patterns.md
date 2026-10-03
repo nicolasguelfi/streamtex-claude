@@ -111,6 +111,6 @@ def test_buffer_push_pop():
 ## Important Gotchas
 
 - **Singleton state**: `toc.py` and `marker.py` accumulate state across calls. Always call `reset_toc_registry()` or equivalent in test setup.
-- **`from streamtex import *`**: This shadows Python's `list()` builtin. In test code, use `[*iterable]` instead of `list(iterable)`.
+- **`from streamtex import *`**: since streamtex 0.7.36 it exports only the public API (`__all__`) and no longer shadows Python's `list()` builtin. Code that must also run on 0.7.35 or older still needs `[*iterable]` instead of `list(iterable)`.
 - **`st.html()` vs `components.html()`**: Since Streamlit 1.54+, `st.html()` strips `<script>` tags. Features needing JS (marker, zoom) use `components.html()` instead.
 - **Export buffer stack**: If a test opens a context manager but doesn't close it (exception in test), the buffer stack leaks. Use try/finally or pytest fixtures.

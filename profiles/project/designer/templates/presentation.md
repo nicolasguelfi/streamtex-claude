@@ -42,13 +42,21 @@ stx ds new default --pack mypack
 # visual identity (colors, callouts, titles, body)
 ```
 
-Then in `book.py`:
+Then in each block that uses it — `st_book` takes no design system: it is
+passed explicitly where it is used (`design_system=` is a parameter of pack
+components, not of `st_book`):
 
 ```python
-from mypack.design_systems.default import DesignSystem as ProjectDS
-from streamtex import st_book
+from streamtex import st_write
+from mypack.design_systems.default import DesignSystem
 
-st_book([...], design_system=ProjectDS())
+DS = DesignSystem()
+
+
+def build():
+    st_write(DS.titles.section, "Title")      # the design system's styles
+    # a pack component receives it explicitly:
+    # callout(design_system=DS, variant="info", title="…", body="…")
 ```
 
 This puts reusable styles in the pack (versionable, scope-able,

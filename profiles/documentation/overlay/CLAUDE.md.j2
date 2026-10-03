@@ -115,8 +115,9 @@ Anything that follows (st_list, st_write, etc.) is rendered **outside** the box.
 - **GOOD**: `with st_block(s.project.containers.explanation_box):` then `st_write(...)` + `st_list(...)` inside
 - Same logic for `show_details()` and `show_code()` — they are functions, not context managers
 
-### `from streamtex import *` shadows `list()`
-`st_list` overrides the Python builtin `list()`. Use `[*iterable]` instead of `list(iterable)`.
+### `from streamtex import *` and `list()`
+Since streamtex 0.7.36 the star import exports only the public API (`__all__`) and no longer
+shadows the builtin `list()`. Only code that must run on 0.7.35 or older needs `[*iterable]`.
 
 ### Multiple inline styles: ONE `st_write` with tuples
 Multiple `st_write` calls stack vertically. For inline text with different styles:
