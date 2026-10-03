@@ -68,6 +68,44 @@ documentation overlays) stay identical.
   backport (it showed an overwrite of a read-only `.claude/` copy). `/stx-guide`: "19 checks" → 51 + 1-bis + 28a,
   `integrity` scope listed, layer composition points to Check 18.
 
+### Added — streamtex 0.7.35-0.7.40 in the references (streamtex-docs#11)
+
+Every signature and option below was checked against streamtex 0.7.40 (`inspect.signature`, `stx … --help`).
+
+- `streamtex_cheatsheet_en.md`: what `from streamtex import *` exports (`__all__` only, no sub-module,
+  `list` no longer shadowed) and the explicit `streamtex.i18n` / `streamtex.facts` imports;
+  `st_image(max_vw=, max_vh=, align=)` with the author's decision (`align=` is explicit, the
+  `text-align` of a style passed to `st_image` does not place the image); `ScaleConfig.amphi()`;
+  `st_book(lang=, scale=)`, `doc_version="auto"`, `[book.defaults]` (the `BOOK_DEFAULT_KEYS`);
+  `ProjectBlockRegistry(blocks_dir, shared_dirs=[…])` and `list_shared_blocks()`;
+  `BibConfig(strict=True)`, `BibConfig.projection()`; `CollectionConfig(card_border=, card_text_color=)`,
+  `next_project()`, `st_next_deck()`; `st_slide`, `SLIDE_CONTAINER`, `set_slide_container`,
+  `get_slide_container`; new sections on `load_json` / `load_toml` / `load_text` / `watch_file`,
+  `kept_widget` / `kept_value`, `env_flag` / `is_editable` / `is_exportable`, `streamtex.i18n`
+  (`T`, `TF`, `current_lang`, `with_lang`, `set_languages`) and `streamtex.facts` (`fact`, `stale_facts`,
+  `facts/<source>.toml`); CLI: `stx run --set` with `[[run.documents]]`, `stx validate --build` options and
+  `[[validate.rules]]`, `stx deploy diff` / `ci`, `stx claude sync`, `stx claude global status | remove`,
+  `stx claude install --dry-run`, `--global-commands`.
+- `presentation_cheatsheet_en.md`: `st_slide` (thin: title, marker and zoom stay in the block),
+  `ScaleConfig.amphi()`, `stx run --set` to project several documents.
+- `coding_standards.md`: the star-import rule, explicit image placement with `st_image(align=)`,
+  `uv run stx validate --build` (and `--published`) before publishing, `doc_version="auto"`, `stx run --set`.
+- `/stx-guide`: Section 3 gains `stx run` (with `--set`, `--doc`, `--list`, `--kill`, `--fresh`, `--lang`,
+  `--ports-offset`, `--open`, `--chrome-profile`, `[[run.documents]]`), `stx validate` (`--build`, `--book`,
+  `--timeout`, `--snapshot`, `--against`, `--published`, the limits of the fingerprint, `[[validate.rules]]`),
+  `stx claude install --dry-run / --yes`, `stx claude sync [--dry-run/--force/--remove]`, project mode
+  (`[claude]`, `.claude/stx.lock` format 1), `stx claude global status / remove`,
+  `--global-commands / --no-global-commands`, `stx deploy diff`, `stx deploy ci`, and a section
+  "Installation: project mode vs machine mode"; quick-reference rows for the new commands; the `CLAUDE.md`
+  propagation row and the global-commands note describe 0.7.35 behaviour.
+
+### Fixed — `/stx-guide` counters measured against the manifests
+
+- §4.2b, `project` profile (measured on `profiles/project/manifest.toml` and an `install.py` run):
+  Skills 8 → 15 (9 own + 6 shared), Agents 3 → 8 (6 own + 2 shared), Agents CE 18 → 21, Templates CE
+  17 → 19, Import 6 → 7 (`/stx-import:latex`, also in §4f and Section 6).
+- `streamtex_cheatsheet_en.md`: `st_book(chrome_banner=)` defaults to `False` (the signature said `True`).
+
 ### Fixed — ghost APIs and stale advice in the profiles (board `audit1`)
 
 - Designer templates and `modular-design-philosophy`: `st_book` has no

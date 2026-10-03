@@ -60,6 +60,15 @@ from streamtex.enums import Tags as t, ListTypes as lt
 from custom.styles import Styles as s
 ```
 
+**The star import exports exactly `streamtex.__all__`** (streamtex ≥ 0.7.36):
+- It brings the public API only — **no sub-module** any more. Import a sub-module explicitly when you need
+  one (`from streamtex.bib import cite`, `import streamtex.styles as sts`); never rely on the star import
+  for a module name.
+- `list` is the builtin again (`streamtex/list.py` no longer shadows it): write `list(...)` normally.
+- `streamtex.i18n` (`T`, `TF`, `current_lang`, `with_lang`, `set_languages`) and `streamtex.facts`
+  (`fact`, `stale_facts`) are deliberately **not** in `__all__`: import them explicitly
+  (`from streamtex.i18n import T, current_lang`). A project that defines its own `T` keeps it.
+
 ### Entry Point (`book.py`)
 ```python
 import tomllib
@@ -83,6 +92,10 @@ The `_doc_version` is read from the project's `pyproject.toml` (not the library)
 ```python
 st_book([...], doc_version=_doc_version)
 ```
+
+Since streamtex 0.7.39, `st_book([...], doc_version="auto")` reads `[project].version` of the nearest
+`pyproject.toml` itself (also settable once for every book as `doc_version = "auto"` in `[book.defaults]`
+of `stx.toml`).
 
 ## 5. sx vs st — When to Use What
 - **ALL layout and content** -> `stx.*`: st_write, st_image, st_grid, st_list, st_block, st_span, st_space, st_br, st_overlay, st_html
@@ -153,6 +166,22 @@ It is **forbidden** to simulate a component with more generic functions (`st_wri
 | Images | `st_image()` | `st.image()`, `st.markdown("![]()")` |
 | Code blocks | `st_code()` | `st.code()`, markdown fenced blocks |
 | Spacing | `st_space()`, `st_br()` | Empty `st_write("")`, `st.markdown("<br>")` |
+
+### Images — placement is explicit (`st_image(align=)`)
+
+An image is inline: by default it follows the `text-align` of its container. To place ONE image, pass
+`align="left" | "center" | "right"` (streamtex ≥ 0.7.37). The `text-align` of a style passed to `st_image`
+does **not** place the image — `st_image(s.center_txt, uri=...)` does **not** centre it. This is the
+author's decision (reinterpreting the style changed the HTML of 102 blocks of a real project): keep
+placement explicit.
+
+```python
+st_image(uri="logo.png", width="20%", align="center")      # CORRECT
+st_image(s.center_txt, uri="logo.png", width="20%")         # WRONG — not centred
+```
+
+Bound an image on a slide with `max_vw=` / `max_vh=` (ratio kept, `height` stays `"auto"`), written per
+call so each visual keeps its own bounds.
 
 ### Lists — MANDATORY `st_list()` usage
 
@@ -387,9 +416,27 @@ cd manuals/stx_manual_advanced && stx run
 # Multiple projects simultaneously (different ports)
 ./run-manuals.sh --intro --advanced --collection
 ./run-manuals.sh --all                        # Launch all manuals
+
+# Project with several documents declared in stx.toml [[run.documents]] (streamtex >= 0.7.39)
+stx run --set                                 # all of them, background, fixed ports
+stx run --list / stx run --kill               # state / stop
 ```
 
 ## 11. Deployment
+
+**Before publishing or deploying** (streamtex ≥ 0.7.36), run the real build of every block in the
+project's environment and fix every error:
+
+```bash
+uv run stx validate --build               # build() of every block of every book.py: exceptions,
+                                          # images that resolve to nothing, inlined media > 512 KB,
+                                          # styled st_block with an empty body
+uv run stx validate --build --published   # same, against the PUBLISHED streamtex without local sources
+                                          # (what the Docker image installs)
+```
+
+For a refactoring pass, capture `--snapshot before.json` first, then check `--against before.json`.
+`stx deploy ci` writes a GitHub workflow that runs ruff + `stx validate --build` on every push.
 - **Docker**: `docker build --build-arg FOLDER=projects/<project_name> -t streamtex-app .`
 - **Multiple on VM**: Run each on different port, load-balance with nginx/caddy
 - **Hugging Face Spaces**: Push Docker image to HF Space via git remote
