@@ -319,9 +319,12 @@ For existing projects, no action required. The `s.large`/`s.huge`/etc.
 tokens continue to work. Migration to the indexed scale + base_pt
 is recommended for new projects only.
 
-## [Unreleased]
+### Also in 0.3.1 — pack-first doctrine and indexed font scale
 
-### Added
+(Written under « Unreleased » on 2026-05-20, commit 88c2d05, before the 0.3.1
+entry above was added the same day; filed here on 2026-10-03, board `audit2`.)
+
+#### Added
 
 - New skill: `shared/skills/modular-design-philosophy.md` — codifies
   the pack-first design doctrine + indexed-scale guidance.
@@ -329,7 +332,7 @@ is recommended for new projects only.
   `shared/references/streamtex_cheatsheet_en.md` mirroring the
   streamtex-docs cheatsheet.
 
-### Changed
+#### Changed
 
 - `shared/references/coding_standards.md` extended with a
   "Style storage hierarchy (pack-first)" section and a
