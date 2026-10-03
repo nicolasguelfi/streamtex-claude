@@ -77,7 +77,7 @@ If the user **named a pattern** explicitly in their request (e.g.
 - Respect strictly the INVARIANTS section.
 - Adjust within PARAMS only.
 - Refuse anything matching INTERDITS; propose creating a new pattern
-  with `/stx-component:new` instead.
+  with `/stx-component:run new` instead.
 
 If the user did NOT name a pattern but the request matches one in the
 catalog, mention it as an option ("This looks like the `stat_hero`
@@ -115,7 +115,7 @@ If the mode is ambiguous, state what you detected and ask for confirmation.
    - "code demo / walkthrough" → `feature_walkthrough`
    - "steps / process / exercise" → `exercise_flow`
    - "conclusion / takeaways" → `takeaways`, `narrative_transition`
-   - For unmatched intents, scaffold a custom block and consider `/stx-component:new` to capture it into the primary local pack.
+   - For unmatched intents, scaffold a custom block and consider `/stx-component:run new` to capture it into the primary local pack.
 3. **Determine naming**: Assign `bck_<name>.py` using a semantic name (no numbered prefix)
 4. **Load guideline context**:
    - Load the active guideline (resolve from project default → block override)

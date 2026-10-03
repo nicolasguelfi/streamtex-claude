@@ -10,9 +10,9 @@ Quick reference for creating presentations with StreamTeX + Claude AI skills.
 ┌─────────────────────────────────────────────────────┐
 │  /stx-block:init "description..."                       │  ← Generate full project
 │           ↓                                         │
-│  /stx-block:slide-audit                                 │  ← Validate all slides
+│  /stx-block:audit                                       │  ← Validate all slides
 │           ↓                                         │
-│  /stx-block:slide-fix                                   │  ← Auto-fix violations
+│  /stx-block:fix                                         │  ← Auto-fix violations
 │           ↓                                         │
 │  /stx-block:slide-new "bck_name — description..."       │  ← Refine one slide
 │           ↓                                         │
@@ -20,7 +20,7 @@ Quick reference for creating presentations with StreamTeX + Claude AI skills.
 │           ↓                                         │
 │  /stx-block:customize "changes..."                      │  ← Adjust theme/fonts
 │           ↓                                         │
-│  /stx-block:style-audit + style-refactor                │  ← Ensure consistency
+│  /stx-block:style-refactor                              │  ← Ensure consistency
 └─────────────────────────────────────────────────────┘
 ```
 
@@ -51,10 +51,9 @@ Quick reference for creating presentations with StreamTeX + Claude AI skills.
 ### Audit and fix
 
 ```bash
-/stx-block:slide-audit       # Check all blocks against design rules
-/stx-block:slide-fix         # Auto-fix violations (spacing, line length, styles)
-/stx-block:style-audit       # Check style consistency across all blocks
-/stx-block:style-refactor    # Extract inline CSS into reusable styles
+/stx-block:audit             # Check all blocks against design rules
+/stx-block:fix               # Auto-fix violations (spacing, line length, styles)
+/stx-block:style-refactor    # Audit style consistency, extract inline CSS into reusable styles
 /stx-block:preview           # Validate block structure (imports, BlockStyles, build)
 ```
 
@@ -70,6 +69,32 @@ Quick reference for creating presentations with StreamTeX + Claude AI skills.
 ```bash
 stx run
 ```
+
+**Projecting several documents** (one book per module, e.g. opening / survey / closing): declare them
+once in `stx.toml` and start them together (streamtex ≥ 0.7.39):
+
+```toml
+[[run.documents]]
+id = "opening"
+book = "modules/opening/book.py"
+port = 8731
+
+[[run.documents]]
+id = "survey"
+book = "modules/survey/book.py"
+port = 8732
+```
+
+```bash
+stx run --set --open --chrome-profile ~/.stx-projection-chrome   # all documents, background, fixed ports
+stx run --set --lang fr          # every URL carries ?lang=fr
+stx run --list                   # state + URLs        stx run --kill [--doc survey]   # stop
+stx run --set --fresh            # stop, clear the page cache, restart (after editing data/helpers)
+```
+
+Each document receives `$STX_URL_<ID>` of every document (cross-document links; `st_next_deck()` uses
+them). The dedicated Chrome profile allows media autoplay during the projection. State and logs:
+`.stx_run/`.
 
 ---
 
@@ -177,6 +202,15 @@ st_book(
         curve=ScaleCurve.WORD_PROCESSOR,    # default
     ),
 )
+```
+
+**Lecture hall preset** (streamtex ≥ 0.7.37): `ScaleConfig.amphi()` = base 30 pt, tablet ×0.70,
+mobile ×0.55 — readable from the back of a lecture hall, still usable on a phone. It sets the document
+base only; blocks keep their own `st_zoom` and sizes. Override any field:
+
+```python
+st_book([...slides...], scale=ScaleConfig.amphi())                    # lecture hall, 10-20 m
+st_book([...slides...], scale=ScaleConfig.amphi(base_pt_desktop=28))  # slightly smaller room
 ```
 
 The legacy `s.huge`/`s.Large`/etc. tokens above remain valid for
@@ -302,6 +336,28 @@ st_slide_break(marker_label="concept_details")
 st_slide_break()                                              # Full (rule + spacer + marker)
 st_slide_break(config=SlideBreakConfig(mode=SlideBreakMode.MARKER_ONLY))  # Hidden marker
 ```
+
+### `st_slide` — one slide of a block (streamtex ≥ 0.7.37)
+
+A **thin** helper: `st_slide(cut=False, style=None)` writes the break before the slide (`cut=True`) and
+opens the slide container — nothing else. **The title, the marker, the zoom, the alignment and every size
+stay written in the block**, slide by slide, so any slide can be specialised later.
+
+```python
+def build():
+    with st_slide():                       # first slide of the block: no break
+        st_write(bs.title, "Why containers?", tag=t.div, toc_lvl="1")
+        ...
+    with st_slide(cut=True):               # st_slide_break(), then the container
+        st_write(bs.title, "Images vs containers", tag=t.div, toc_lvl="2")
+        ...
+    with st_slide(cut=True, style=ns("min-height: 60vh;", "short")):   # ADDED to the container, this slide only
+        ...
+```
+
+Default container `SLIDE_CONTAINER` (≥ 80 vh, 10 vh margins, content centred vertically). Change it once
+for the whole deck in `book.py` with `set_slide_container(style)` (e.g. the design system's own
+container; `None` restores the default); `get_slide_container()` returns the current one.
 
 ---
 
@@ -485,10 +541,9 @@ Style: telegraphic keywords, bold colored accents.
 | `/stx-block:customize` | Adjust theme, fonts, colors |
 | `/stx-block:upgrade` | Upgrade to latest conventions |
 | `/stx-block:slide-new` | Create or regenerate one slide |
-| `/stx-block:slide-audit` | Validate all slides |
-| `/stx-block:slide-fix` | Auto-fix violations |
-| `/stx-block:style-audit` | Check style consistency |
-| `/stx-block:style-refactor` | Extract/optimize styles |
+| `/stx-block:audit` | Validate all slides |
+| `/stx-block:fix` | Auto-fix violations |
+| `/stx-block:style-refactor` | Audit and extract/optimize styles |
 | `/stx-block:new` | Create block from blueprint |
 | `/stx-block:preview` | Validate block structure |
 

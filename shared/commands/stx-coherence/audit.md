@@ -5,24 +5,31 @@ Arguments: $ARGUMENTS (optional scope — default: all)
 ## Steps
 
 1. **Locate workspace root**: Find the nearest parent directory containing `stx.toml`.
-   The workspace root contains: `streamtex/`, `streamtex-docs/`, `streamtex-claude/`, `projects/`.
+   The workspace root contains the five repositories `streamtex/`, `streamtex-docs/`, `streamtex-claude/`,
+   `streamtex-packs/` and `streamtex-landing/`. Projects are audited only when declared in `stx.toml` as
+   `[repos.<name>]` with `type = "project"` (there is no `projects/` folder convention); checks scoped to
+   declared projects are reported **N/A** when none is declared.
 
-2. **Load rules**: Read `.claude/developer/skills/coherence-checks.md`.
+2. **Load rules**: Read `.claude/developer/skills/coherence-checks.md` — start with its "Conventions" section
+   (introspection instead of hand lists, read-only commands run from `streamtex/` with `uv run --frozen`,
+   what counts as a justification). Run the "How to check" command of each check and report its output; a
+   finding that the check's command cannot reproduce is not reported as a finding.
 
 3. **Determine scope** from arguments:
-   - `all` (default) — Run ALL checks (standard + ai + cli = checks 1-45)
-   - `standard` — Checks 1-28 (original ecosystem coherence checks)
+   - `all` (default) — Run ALL checks (standard + ai + cli + integrity = checks 1-51, plus 1-bis and 28a)
+   - `standard` — Checks 1-28 + 1-bis + 28a (original ecosystem coherence checks)
    - `ai` — Checks 29-41 (AI-generated code quality: ghost API, dead code, explanation drift, cross-block contradictions, unused exports, version claims, test quality, silent failures, naming coherence, secret leaks, hardcoded URLs)
    - `cli` — Checks 42-45 (CLI coherence: help↔code, stx-guide↔CLI, deploy scripts↔Docker, optional deps↔imports)
+   - `integrity` — Checks 1-bis + 46-51 (release & install integrity: star-import boundary, identical installers, `stx.lock` / `.stx-profile` formats, `stx.toml` sections documented and validated, generated deploy templates ↔ `UV_NO_SOURCES`, silent fallback on undeclared dependencies, no absolute paths outside the repo in tests)
    - `reuse` — Use `stx validate` directly (PV/CV/DV/KV/BV codes — see `reuse-architecture` skill).
-   - `library` — Checks 1 + 2 + 5 + 9 + 10 + 12 + 17 + 22 (API coverage, cheatsheet sync, version alignment, README links, language, test coverage sync, CHANGELOG freshness, release pipeline)
+   - `library` — Checks 1 + 1-bis + 2 + 5 + 9 + 10 + 12 + 17 + 22 (API coverage, star-import boundary, cheatsheet sync, version alignment, README links, language, test coverage sync, CHANGELOG freshness, release pipeline)
    - `docs` — Checks 3 + 6 + 7 + 10 + 13 + 14 + 15 + 16 (cross-manual consistency, block structure, template freshness, language, blocks→library API, example signatures, enum coherence, static files)
-   - `profiles` — Checks 4 + 8 + 10 + 11 + 18 + 19 + 20 + 21 (profile file sync, stx-guide sync, language, artifact API validation, manifest file existence, CLI template registry sync, issue template sync, command namespace prefix)
+   - `profiles` — Checks 4 + 8 + 10 + 11 + 18 + 19 + 20 + 21 + 46 + 47 (profile file sync, stx-guide sync, language, artifact API validation, manifest file existence, CLI template registry sync, issue template sync, command namespace prefix and existence, identical installers, lock/profile formats)
    - `blocks` — Checks 3 + 6 + 7 + 10 + 13 + 14 + 15 + 16 (block patterns, structure, template freshness, language, blocks→library API, example signatures, enum coherence, static files)
    - `artifacts` — Check 11 only (Claude artifact API validation)
-   - `tests` — Check 12 only (test coverage sync)
+   - `tests` — Checks 12 + 37 + 51 (test coverage sync, test quality, no absolute paths outside the repo)
    - `language` — Check 10 only (language consistency)
-   - `ce` — Checks 23-28 + 28a (CE agent sync, CE template sync, CE docs structure, CE cheatsheet sync, CE command registration, CE plan-solution coherence, CE master plan schema integrity)
+   - `ce` — Checks 23-28 + 28a (CE agent sync, CE template sync, CE docs structure, CE cheatsheet sync, CE command registration, CE plan-solution coherence, CE master plan schema integrity); 25 and 28 are N/A when no CE project is declared in `stx.toml` `[repos]`
 
 4. **Execute checks** for the selected scope. For each check:
    - Read the specified source files
@@ -80,6 +87,8 @@ Arguments: $ARGUMENTS (optional scope — default: all)
 | Test quality issues      | N             |
 | Secret leaks             | N             |
 | CLI coherence issues     | N             |
+| Integrity issues (46-51) | N             |
+| N/A checks               | list (reason) |
 
 ### Summary
 | Category | Status | Issues |

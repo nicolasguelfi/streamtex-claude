@@ -148,20 +148,21 @@ the scoping/annotation system (`@guideline` comments).
 
 ---
 
-## Canonical pattern implementations
+## Canonical component implementations
 
-The reuse-architecture catalog provides reference implementations of
-the visual rules described in this skill:
+The reuse architecture provides reference implementations of the visual
+rules described in this skill, as components of `streamtex-pack-design`
+(the legacy `ptn_*` patterns were replaced by these components):
 
-| Rule area | Canonical pattern |
+| Rule area | Canonical component |
 |---|---|
-| Highlighted information box | `ptn_callout` (info / warning / critical / success variants) |
-| Responsive cards grid | `ptn_card_grid` |
-| Comparison table with header + active rows | `ptn_comparison_table` |
-| Numbered key takeaways list | `ptn_takeaways` |
-| Source citation footer | `ptn_cite` |
-| Inline keyword/accent/highlight | `ptn_inline_emphasis` |
+| Highlighted information box | `streamtex_design.components.callout.callout` (info / warning / critical / success variants) |
+| Responsive cards grid | `streamtex_design.components.card_grid.card_grid` |
+| Comparison table with header + active rows | `streamtex_design.components.comparison_table.comparison_table` |
+| Numbered key takeaways list | `streamtex_design.components.takeaways.takeaways` |
+| Source citation footer | `streamtex_design.components.cite.cite` |
+| Inline keyword/accent/highlight | `streamtex_design.components.inline_emphasis.inline_emphasis` |
 
-When generating, **prefer composing patterns** over inlining custom
-visual structures — patterns encode the project palette and stay
-consistent with the deck's identity.
+When generating, **prefer composing components** over inlining custom
+visual structures — components take the design system explicitly
+(`design_system=DS`) and stay consistent with the deck's identity.

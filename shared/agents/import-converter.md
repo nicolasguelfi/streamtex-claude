@@ -81,8 +81,8 @@ HTML imports require a mandatory color audit:
 | **Marp** | `/stx-import:marp` | `import-formats/marp/` | Active |
 | **HTML** | `/stx-import:html` | `import-formats/html/` | Active |
 | **LaTeX** | `/stx-import:latex` | `import-formats/latex/` | Active |
-| PowerPoint | `/stx-import:pptx` | `import-formats/pptx/` | Planned |
-| Google Docs | `/stx-import:gdocs` | `import-formats/gdocs/` | Planned |
+| PowerPoint | — (no command yet) | `import-formats/pptx/` | Planned |
+| Google Docs | — (no command yet) | `import-formats/gdocs/` | Planned |
 
 ## Output format
 

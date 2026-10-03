@@ -221,8 +221,8 @@ Map to `custom/styles.py`:
 
 ```python
 class ColorsCustom:
-    myblue = Style(font_color="#3498DB")
-    accent = Style(font_color="#5DADE2")  # resolved color value
+    myblue = Style("color: #3498DB;", "myblue")
+    accent = Style("color: #5DADE2;", "accent")  # resolved color value
 ```
 
 ### Beamer Themes

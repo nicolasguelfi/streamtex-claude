@@ -23,6 +23,17 @@ import streamtex.styles as sts
 import blocks
 ```
 
+**What `from streamtex import *` brings (since 0.7.36)**: exactly `streamtex.__all__` — the public
+API (functions, classes, configs, enums, `SLIDE_CONTAINER`…). It no longer exports any sub-module, so
+`list` is the builtin again (`streamtex/list.py` used to shadow it). Sub-modules stay importable
+explicitly (`from streamtex.bib import cite`). Two modules are deliberately **outside** the star import,
+so that projects defining their own names keep them — import them explicitly:
+
+```python
+from streamtex.i18n import T, TF, current_lang, with_lang, set_languages   # multilingual documents
+from streamtex.facts import fact, stale_facts                               # facts of a versioned source
+```
+
 ## Style Organization
 
 ### Custom Style Class
@@ -185,9 +196,23 @@ st_image(
     quality="standard",             # AI quality ("standard" or "hd")
     overlay=None,                   # MediaOverlay badge inside the display box
     crop=None,                      # Edge crop: (top, right, bottom, left) % or CropConfig
-    natural_size=None,              # (W, H) natural px dims (required for crop on http(s) URIs)
+    natural_size=None,              # (W, H) natural px dims (crop / max_vh on http(s) URIs)
+    max_vw=None,                    # bound on the displayed width, in vw (0.7.37)
+    max_vh=None,                    # bound on the displayed height, in vh (0.7.37)
+    align=None,                     # "left" | "center" | "right" — place THIS image (0.7.37)
 )
 ```
+
+**`max_vw=` / `max_vh=`** — per-call bounds: the image takes `min(width, max_vw vw, max_vh vh × ratio)`
+without distortion, the ratio read from the local or served file, `natural_size=`, or the cropped zone
+(`crop=`). `height` must stay `"auto"`. Without a readable ratio (remote URI, no `natural_size`) the bounds
+become CSS `max-width` / `max-height` (never enlarged). Not available on `st_video`.
+
+**`align=` is explicit (author's decision).** By default an image is inline and follows the `text-align`
+of its container. The `text-align` of a style passed to `st_image` does **not** place the image (it applies
+to the `<img>` itself): `st_image(s.center_txt, uri=...)` does **not** centre it. Use `align="center"`
+(or centre the container). Reinterpreting the style was rejected: it changed the HTML of 102 blocks of a
+real project. `align=None` keeps the emitted HTML identical to before.
 
 ### Images and Media
 
@@ -212,6 +237,12 @@ st_image(uri="diagram.png", light_bg=True)
 st_image(uri="captures/x.png", width="44vw", crop=(4, 0, 10, 6))
 # Remote URI: pass the natural dimensions explicitly
 st_image(uri="https://cdn.example/x.png", crop=(4, 0, 10, 6), natural_size=(2560, 1800))
+
+# Bounded on a slide: never wider than 60vw nor taller than 55vh, ratio kept
+st_image(uri="diagrams/arch.png", max_vw=60, max_vh=55)
+
+# Place one image (the style's text-align would NOT do it)
+st_image(uri="logo.png", width="20%", align="center")
 
 # Editable AI image — unified st_image with editing panel
 st_image(uri="ai/concept.png", editable=True, name="concept",
@@ -311,7 +342,7 @@ caps.default_quality  # "auto"
 ```
 
 **Errors**: `AIImageError` is the public exception raised by `generate_image()`
-and `st_ai_image()` for provider failures, invalid prompts, missing API keys,
+and `st_image(prompt=...)` for provider failures, invalid prompts, missing API keys,
 or unsupported size/quality combinations. Catch it to fall back gracefully:
 
 ```python
@@ -666,6 +697,16 @@ st_book(
 | Workshop interactive | 20–22 | Slightly larger for shared screens |
 | Dense / data-heavy | 16 | Still ≥ floor (18.67px) |
 | Minimalist generous | 20–22 | Generous whitespace + larger type |
+| Lecture hall (amphi) | 30 | `ScaleConfig.amphi()` preset |
+
+**`ScaleConfig.amphi(**overrides)`** (0.7.37) — the lecture-hall preset: base 30 pt, tablet ×0.70,
+mobile ×0.55. It sets the document BASE only; every block keeps its own `st_zoom` and sizes. Any field can
+be overridden:
+
+```python
+st_book(blocks, scale=ScaleConfig.amphi())
+st_book(blocks, scale=ScaleConfig.amphi(base_pt_desktop=28))
+```
 
 **Never override individual paliers** — change `base_pt_desktop` once.
 Out-of-range indices clamp silently: `s.scale[-1]` → `s.scale[0]`,
@@ -802,14 +843,51 @@ st_book(
     pdf_config=None,                # PdfConfig for PDF export defaults
     exports=None,                   # List[ExportConfig] — auto-export to disk (new)
     presentation_profiles=None,     # List[PresentationProfile] — display profiles
-    chrome_banner=True,             # Show browser recommendation banner (Chrome/Edge)
-    doc_version=None,               # str | None — version string shown in sidebar
+    chrome_banner=False,            # Show browser recommendation banner (Chrome/Edge)
+    doc_version=None,               # str | None — version shown in sidebar; "auto" = pyproject version
     loading=True,                   # Show loading overlay with progress (default True)
+    scale=None,                     # ScaleConfig — indexed font scale for this document
     block_args=(),                  # Positional args forwarded verbatim to every block.build()
     block_kwargs=None,              # Keyword args forwarded verbatim to every block.build()
+    lang=None,                      # "auto" | "fr" | ... — build(lang=...) for every block (0.7.37)
     banner_color="rgba(211,47,47,0.8)",  # Shorthand — prefer banner=BannerConfig(...)
 )
 ```
+
+Every parameter NOT passed by the book is taken from `[book.defaults]` of the nearest `stx.toml`
+(see below), then from the defaults above.
+
+### st_book — `[book.defaults]` in stx.toml (0.7.39)
+
+Book settings declared once for every book of a project (re-read live). Only the keys of
+`streamtex.book.BOOK_DEFAULT_KEYS` are read — book configuration, never block content; any other key is
+ignored with a warning. Anything the book passes (by keyword or position) wins.
+
+```toml
+# stx.toml
+[book.defaults]
+paginate = true
+page_width = 90
+zoom = 100
+export = true
+export_title = "AI4SE"
+loading = true
+chrome_banner = false
+banner_color = "rgba(0, 80, 160, 0.8)"
+doc_version = "auto"      # [project].version of the nearest pyproject.toml
+lang = "auto"
+```
+
+```python
+st_book(blocks, doc_version="auto")   # same, per book: replaces reading pyproject.toml by hand
+```
+
+### st_book — `lang=` (0.7.37)
+
+`lang="auto"` hands `streamtex.i18n.current_lang()` (`$STX_LANG` > `?lang=` > default) to every block as
+`build(lang=…)` — the same as `block_kwargs={"lang": current_lang()}`; an explicit code (`lang="fr"`) is
+passed as is; an explicit `"lang"` in `block_kwargs` wins; `None` forwards nothing. See
+**Multilingual documents — `streamtex.i18n`**.
 
 ### st_book — block_args / block_kwargs (one parameter for every block)
 
@@ -865,6 +943,9 @@ _doc_version = tomllib.loads(
 
 st_book(blocks, doc_version=_doc_version)  # shows "docs X.Y.Z · lib X.Y.Z" in sidebar + HTML export
 ```
+
+Since 0.7.39 the same in one argument: `st_book(blocks, doc_version="auto")` (or `doc_version = "auto"`
+in `[book.defaults]`).
 
 ```python
 from streamtex import (
@@ -1160,6 +1241,21 @@ registry.get_stats()                # {"total": N, "loaded": N, "composites": N,
 registry.invalidate()               # Clear cache and manifest (reload from disk)
 ProjectBlockRegistry.invalidate_all()  # Clear caches on ALL instances
 ```
+
+**Shared block directories** (0.7.39) — `ProjectBlockRegistry(blocks_dir, shared_dirs=[...])`:
+
+```python
+# blocks/__init__.py of one module of a multi-module project
+registry = ProjectBlockRegistry(
+    Path(__file__).parent,
+    shared_dirs=[Path(__file__).parents[2] / "shared-blocks"],
+)
+registry.bck_common_outro           # not found locally → looked up in shared_dirs (recursive)
+registry.list_shared_blocks()       # shared names not shadowed by a local block
+```
+
+A local block always wins. Iteration, `len()` and `list_blocks()` keep the module's own blocks only, so
+`st_book(registry)` is unchanged.
 
 #### Static Source Management
 
@@ -1630,11 +1726,23 @@ bib_sources = ["references.bib"]
 st_book([...], bib_sources=bib_sources, bib_config=bib_config)
 
 # In-text citations (inside blocks)
-from streamtex.bib import ptn_cite, st_cite, st_bibliography
+from streamtex.bib import cite, st_cite, st_bibliography
 st_cite("author2024key")           # Inline citation widget
-ptn_cite("key1", "key2")               # Multi-key inline citation string
+cite("key1", "key2")               # Multi-key inline citation string
 st_bibliography()                   # Render full bibliography
 ```
+
+**Strict citations and projection preset** (0.7.38):
+
+```python
+BibConfig(strict=True)              # cite() of an unknown key RAISES instead of printing "[key?]"
+BibConfig.projection()              # hover cards readable on a projected deck: card_width="780px", card_font_scale=2.0
+BibConfig.projection(strict=True, locale="fr")   # any field can be overridden
+```
+
+Since 0.7.38 BibTeX values are TeX-decoded (`\'e`, `{\"O}`, `\&`, `{GPT}` → `GPT`), `{{United Nations}}`
+is one institutional author, `origdate` / ancient years show "c. 380 BCE", and long URLs wrap in
+`st_bibliography`.
 
 ### Output Formats (BibFormat)
 
@@ -1695,16 +1803,14 @@ reset_bib_registry()
 registry = get_bib_registry()
 registry.register(entry)             # Register a single BibEntry
 registry.register_many(entries)      # Register a list of BibEntry objects
-registry.ptn_cite("key")                 # Mark key as cited, returns 1-based number
+registry.cite("key")                 # Mark key as cited, returns 1-based number
 cited = registry.get_cited_entries()  # List of cited BibEntry in citation order
 all_entries = registry.get_all_entries()  # All registered entries
 registry.reset()                     # Clear all entries and citations
 
-# BibParseError — raised when bibliography file parsing fails
-try:
-    entries = load_bib("malformed.bib")
-except BibParseError as e:
-    print(f"Parse error: {e}")
+# A malformed entry is logged and skipped (load_bib returns the entries it could read);
+# a missing file raises FileNotFoundError. BibParseError is exported but not raised today.
+entries = load_bib("refs.bib")
 ```
 
 #### Multi-Format Loaders
@@ -1754,13 +1860,13 @@ with open("output.bib", "w") as f:
 ```python
 from streamtex import st_refs, BibRefs, generate_bib_stubs
 
-# st_refs — global BibRefs proxy; attribute access calls ptn_cite()
+# st_refs — global BibRefs proxy; attribute access calls cite()
 st_write(s.big, "According to ", st_refs.vaswani2017, " transformers...")
-# Equivalent to: st_write(s.big, "According to ", ptn_cite("vaswani2017"), "...")
+# Equivalent to: st_write(s.big, "According to ", cite("vaswani2017"), "...")
 
-# BibRefs — proxy class mapping attribute access to ptn_cite() calls
+# BibRefs — proxy class mapping attribute access to cite() calls
 refs = BibRefs()
-html_citation = refs.some_key          # Returns ptn_cite("some_key") HTML string
+html_citation = refs.some_key          # Returns cite("some_key") HTML string
 
 # generate_bib_stubs(*paths, output_path) — generate typed Python module for IDE completion
 content = generate_bib_stubs("refs.bib", output_path="custom/bib_refs.py")
@@ -1777,6 +1883,8 @@ content = generate_bib_stubs("refs.bib", output_path="custom/bib_refs.py")
 title = "My Course Library"
 description = "A collection of StreamTeX courses"
 cards_per_row = 2
+card_border = "1px solid #ddd"      # card frame (default) — 0.7.39
+card_text_color = "#666"            # card description colour (default) — 0.7.39
 
 [projects.intro]
 title = "Introduction Course"
@@ -1800,7 +1908,27 @@ from streamtex import st_collection, CollectionConfig
 
 config = CollectionConfig.from_toml("collection.toml")
 st_collection(config=config, home_styles=s)
+
+# Same settings in Python (defaults keep the previous look)
+CollectionConfig(title="Trainings", card_border="2px solid #444", card_text_color="#ccc")
 ```
+
+### Next document of a collection (0.7.39)
+
+```python
+from streamtex import next_project, st_next_deck
+
+# next_project(config, current_key, *, wrap=False) -> (key, ProjectMeta) | None
+nxt = next_project(config, "intro")          # order = `order`, then key; None after the last one
+if nxt:
+    key, meta = nxt
+    st_write(f"Next: {meta.title}")
+
+# st_next_deck(config, current_key, label="Next →", *, lang=None, style="")
+st_next_deck(config, "intro", lang="fr")     # link; ?lang=fr carried in the address; nothing after the last
+```
+
+URLs honour the `STX_URL_<KEY>` override (one variable per document, set by `stx run --set`).
 
 ### Custom Collection with st_book
 
@@ -1835,7 +1963,7 @@ set_gsheet_config(config)
 cfg = get_gsheet_config()               # Optional[GSheetConfig] — None if not set
 
 # Define source
-src = GSheetSource(sheet_id="abc123", tab_name="Sheet1")
+src = GSheetSource(sheet_id="abc123", tab="Sheet1")
 src = GSheetSource.from_url("https://docs.google.com/spreadsheets/d/abc123/...")
 
 # Load data
@@ -1938,11 +2066,9 @@ except GSheetError as e:
 ```python
 from streamtex import BibParseError
 
-# BibParseError — raised when bibliography file parsing fails
-try:
-    entries = load_bib("refs.bib")
-except BibParseError as e:
-    st.error(f"Bibliography parse error: {e}")
+# Exported for compatibility, but NOT raised by the parser today: load_bib()
+# logs and skips a malformed entry, and raises FileNotFoundError for a missing file.
+# To fail on a citation of an unknown key, use BibConfig(strict=True).
 ```
 
 ### BibRegistry
@@ -1955,7 +2081,7 @@ registry = get_bib_registry()
 registry.register(entry)             # Register a BibEntry (overwrites if key exists)
 registry.register_many(entries)      # Register multiple entries
 entry = registry.get("key")          # Retrieve by key (None if not found)
-num = registry.ptn_cite("key")           # Mark as cited, returns 1-based citation number
+num = registry.cite("key")           # Mark as cited, returns 1-based citation number
 cited = registry.get_cited_entries()  # Cited entries in citation order
 all_e = registry.get_all_entries()   # All registered entries
 keys = registry.list_keys()          # Sorted list of all keys
@@ -1997,19 +2123,6 @@ overridden = header * sg.create("A1", s.text.colors.red)  # A1 gets red
 
 # Subtract styles
 cleaned = combined - sg.create("A1:A5", s.text.colors.white)
-```
-
-### StreamTeX_Styles
-
-```python
-from streamtex import StreamTeX_Styles
-
-# StreamTeX_Styles — alias for StxStyles, the full aggregation class
-# Provides: .none, .text, .container, .visibility, .bold, .italic,
-#           .center_txt, .reset, .GIANT through .tiny, .light_bg
-# Used as the base class for project Styles:
-#   class Styles(StxStyles):
-#       project = Custom
 ```
 
 ### ListStyle
@@ -2075,7 +2188,7 @@ from streamtex import reset_toc_registry, TOCConfig
 
 # reset_toc_registry(toc_config) — clear all registered TOC entries for the current run
 reset_toc_registry()                          # Reset with default TOCConfig
-reset_toc_registry(TOCConfig(max_level=3))    # Reset with custom config
+reset_toc_registry(TOCConfig(sidebar_max_level=3))    # Reset with custom config
 ```
 
 ### toc_entries
@@ -2246,6 +2359,33 @@ st_slide_break(
     config=None,               # Optional SlideBreakConfig override
     spacing=None,              # Optional Spacing override for this break
 )
+```
+
+### st_slide — one slide of a block (0.7.37)
+
+A **thin** helper: it writes exactly the two calls a block would write by hand — the break before the
+slide (`cut=True` → `st_slide_break()`), then the slide container. Nothing else: the title, the marker,
+the zoom, the alignment and every size stay written in the block, slide by slide.
+
+```python
+st_slide(cut=False, style=None)   # context manager; style is ADDED (+) to the container for this slide
+
+with st_slide():                          # first slide of the block (no break)
+    st_write(s.project.titles.slide_title, "Context", toc_lvl="1")
+    ...
+with st_slide(cut=True):                  # a break, then the slide
+    ...
+with st_slide(cut=True, style=ns("min-height: 60vh;", "short")):   # this slide only
+    ...
+```
+
+```python
+from streamtex import SLIDE_CONTAINER, set_slide_container, get_slide_container
+
+SLIDE_CONTAINER            # default: min-height 80vh; margin 10vh 0; flex column; justify-content center
+set_slide_container(s.project.containers.slide_center)   # once in book.py (e.g. the design system's container)
+set_slide_container(None)  # back to SLIDE_CONTAINER
+get_slide_container()      # the container st_slide currently uses
 ```
 
 ### SlideBreakMode Enum
@@ -2466,13 +2606,102 @@ with st_span(s.bold + s.text.colors.red):
     st_write("Inline bold red")
 ```
 
+## Data Files Read at Build Time (0.7.36)
+
+```python
+import streamtex as stx
+
+data = stx.load_json("data/survey.json")    # load_json(path) -> Any (parsed)
+cfg = stx.load_toml("data/params.toml")     # load_toml(path) -> dict
+txt = stx.load_text("data/intro.txt")       # load_text(path, encoding="utf-8") -> str
+path = stx.watch_file("data/chart.csv")     # watch_file(path) -> str (absolute path); read it yourself
+```
+
+The file is re-read when it changes (mtime and size) and registered: a cached page set (session or
+persisted) is discarded when one of these files changed — reloading the page is enough. The object
+returned by `load_json` / `load_toml` is shared between calls: copy it before mutating it.
+
+## Widget Values Across Pages (0.7.40)
+
+In a paginated book, Streamlit purges a widget key as soon as a rerun ends without that widget.
+`kept_widget(name, default=None)` returns the `key=` / `on_change=` pair that copies the value into a
+second, persistent key; `kept_value(name, default=None)` reads it on any page.
+
+```python
+st.radio("Language", ["en", "fr"], **stx.kept_widget("lang", default="en"))
+# ... on any other page
+lang = stx.kept_value("lang")      # "en" until the widget was changed
+```
+
+## Environment Switches (0.7.39)
+
+```python
+stx.is_editable()        # STX_EDITABLE (legacy IS_EDITABLE)
+stx.is_exportable()      # STX_EXPORTABLE (legacy IS_EXPORTABLE)
+stx.is_editable(env_file=".env")   # environment first, then the .env file, then False
+stx.env_flag("MY_FLAG", default=False, legacy="OLD_FLAG", env_file=".env")
+```
+
+Accepted values: `1/0`, `true/false`, `yes/no`, `on/off` (anything else raises `ValueError`); default
+`False`. Nothing in the library reads them implicitly — the project decides, e.g.
+`st_book(blocks, export=stx.is_exportable())` or `st_image(..., editable=stx.is_editable())`.
+
+## Multilingual Documents — `streamtex.i18n` (0.7.37)
+
+Not in the star import (projects that define their own `T` keep it): import explicitly.
+
+```python
+from streamtex.i18n import T, TF, current_lang, with_lang, set_languages
+
+set_languages(["en", "fr"], default="en")     # book.py: allowed languages + default
+current_lang()             # $STX_LANG (static export) > ?lang= in the address > default
+T({"en": "Welcome", "fr": "Bienvenue"})        # text in current_lang(); T(entry, lang=None, *, strict=False)
+st_write(s.large, *TF({"en": ("Your turn — ", (s.bold, "join")), "fr": ("À vous — ", (s.bold, "rejoindre"))}))
+with_lang("http://localhost:8732/?page=3#top", "fr")   # replaces/adds lang=, keeps other params and #fragment
+
+st_book(blocks, lang="auto")    # every block receives build(lang=current_lang())
+```
+
+- `T`: a missing language falls back on the default language, then on the first value; an EMPTY string is a
+  value; a bare string is returned as is unless `strict=True` (then it raises).
+- An unknown language in `?lang=` is ignored (default used); in `$STX_LANG` it raises (export error).
+
+## Versioned Facts — `streamtex.facts` (0.7.40)
+
+Facts read from an evolving source (counts, names, paths of a method or tool) live in one data file per
+source, `facts/<source>.toml` next to `stx.toml`, with the source version they were read from:
+
+```toml
+# facts/gse-one.toml
+[source]
+name = "GSE-One"
+version = "0.85.0"                 # version these facts were read from
+current = "../gensem/VERSION"      # optional: a text file or a pyproject.toml giving the CURRENT version
+[facts]
+agents = 23
+paths.registry = ".gse/registry"
+```
+
+```python
+from streamtex.facts import fact, stale_facts      # not in the star import
+st_write(f"{fact('gse-one', 'agents')} specialised agents")   # fact(source, key, *, root=None)
+fact("gse-one", "paths.registry")                  # dotted key = nested table
+stale_facts(project_root)                          # [StaleFacts(source, recorded, current, count)]
+```
+
+An unknown source or key raises `KeyError` (a fact never silently disappears from a slide); files are
+re-read when they change. `stx validate` warns when a source's current version differs from the recorded
+one, with the number of facts to re-check.
+
 ## CLI Commands
 
 ### Workspace Management
 
 ```bash
 stx install [--preset basic|user|standard|power|developer] [--project NAME]
+            [--global-commands | --no-global-commands]   # copy the stx-* commands to ~/.claude/commands (0.7.35)
 stx update  [--skip-sync] [--skip-profiles] [--dry-run] [--repair]
+            [--global-commands | --no-global-commands]
 stx status
 ```
 
@@ -2483,6 +2712,56 @@ stx project new NAME [--template project|collection|slides]
 stx run                             # launch Streamlit (shortcut for uv run streamlit run book.py)
 stx test [-v] [EXTRA_ARGS]         # run pytest
 stx lint [EXTRA_ARGS]              # run ruff check
+```
+
+### Several documents — `stx run --set` (0.7.39)
+
+```toml
+# stx.toml
+[[run.documents]]
+id = "opening"                          # → $STX_URL_OPENING in every document
+book = "modules/opening/book.py"
+port = 8731
+
+[[run.documents]]
+id = "survey"
+book = "modules/survey/book.py"
+port = 8732
+```
+
+```bash
+stx run --set                      # start every declared document in the background (fixed ports)
+stx run --set --doc survey         # only this one (--doc also filters --list / --kill)
+stx run --list [--lang fr]         # declared documents, state and URLs
+stx run --kill [--doc ID]          # stop them
+stx run --set --fresh              # stop, clear the page cache, start again
+stx run --set --lang fr            # URLs carry ?lang=fr
+stx run --set --ports-offset 100   # add 100 to every declared port
+stx run --set --open --chrome-profile ~/.stx-projection-chrome   # open them; projection profile (autoplay)
+```
+
+State and logs in `.stx_run/`; the project's `.venv` is used when present. `stx run` without these options
+is unchanged.
+
+### Validation (0.7.36–0.7.38)
+
+```bash
+uv run stx validate                       # packs, components, DS, kits + [[validate.rules]] + version coherence + hygiene
+uv run stx validate --build               # real build() of every block of every book.py (headless)
+uv run stx validate --build --book modules/a/book.py --timeout 300
+uv run stx validate --build --snapshot before.json    # HTML fingerprint of every block
+uv run stx validate --build --against before.json     # blocks that now render differently
+uv run stx validate --build --published   # against the PUBLISHED streamtex, without local sources
+```
+
+```toml
+# stx.toml — project rules run by stx validate
+[[validate.rules]]
+id = "no-hex"
+message = "no hexadecimal colour in a block"
+glob = "blocks/**/bck_*.py"
+forbid = '#[0-9a-fA-F]{6}\b'             # every match is a violation (path:line)
+severity = "error"                        # or "warning"
 ```
 
 ### Deployment — Hetzner/Coolify (recommended for production)
@@ -2518,6 +2797,8 @@ STX_LANG=fr stx export html --suffix -fr .  # one variable for blocks AND <html 
 ```bash
 stx deploy docker [PATH]           # build and run locally with Docker
 stx deploy huggingface [PATH]      # deploy to HuggingFace Spaces
+stx deploy diff [PATH]             # Dockerfile / entrypoint.sh / nginx.conf vs current templates (0.7.38)
+stx deploy ci [PATH] [--force]     # write .github/workflows/stx-validate.yml (ruff + stx validate --build)
 ```
 
 ### Claude / AI Profiles
@@ -2528,6 +2809,14 @@ stx claude update --all            # sync profiles from streamtex-claude repo
 stx claude check                   # verify profile installation
 stx claude diff .                  # show differences between installed and source
 stx claude list                    # list available profiles
+stx claude install PROFILE --dry-run   # list every file the install would write (0.7.35); --yes over foreign files
+
+# Project mode (0.7.35): [claude] mode = "project" / profile / include / exclude in stx.toml
+stx claude sync [--dry-run] [--force] [--remove]   # make .claude/ match stx.toml; records .claude/stx.lock
+
+# Machine mode: the stx-* commands copied into ~/.claude/commands
+stx claude global status           # current / outdated / obsolete / modified by you
+stx claude global remove [--yes]   # remove only stx copies (dry run without --yes)
 ```
 
 ### Development Links
@@ -2705,8 +2994,8 @@ stx validate [--strict]                           # aggregate validation, exit 0
 
 ### Slash commands (Claude)
 
-`/stx-component:list` `/stx-component:show <name>` `/stx-component:new`
-`/stx-validate` `/stx-component:validate`
+`/stx-component:run list` `/stx-component:run show <name>` `/stx-component:run new`
+`/stx-validate` `/stx-component:run validate`
 
 ### Format
 

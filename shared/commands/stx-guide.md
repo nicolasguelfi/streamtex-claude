@@ -63,10 +63,10 @@ to provide a contextual answer.
 | `overview` | Ecosystem overview (repos, architecture, dependencies) |
 | `workspace` | Set up and manage a StreamTeX workspace |
 | `new-project` | Create a new StreamTeX project |
-| `validate` | Validate a project's structure |
+| `validate` | Validate a project: structure (`stx project validate`), real build of every block (`stx validate --build`), project rules |
 | `deploy` | Deploy (Docker, Hetzner/Coolify, HuggingFace) |
 | `publish` | Publish to PyPI |
-| `claude-profiles` | Manage Claude AI profiles |
+| `claude-profiles` | Manage Claude AI profiles (project mode vs machine mode, `stx claude sync`) |
 | `testing` | Tests and linting |
 | `blocks` | Block system (registries, helpers, atomics) |
 | `styles` | Style system (composition, themes, grids) |
@@ -218,6 +218,32 @@ stx lint                    # Runs ruff check streamtex/
 stx lint -- --fix           # Auto-fix lint issues
 ```
 
+### Run
+
+```bash
+stx run [BOOK] [EXTRA_ARGS]       # Shortcut for streamlit run book.py
+  -p, --port PORT                 # Server port (default: Streamlit auto)
+  -b, --browser NAME              # chrome | firefox | safari | edge | none
+  --headless                      # Don't open any browser
+  -f, --force                     # Kill any process using the target port first
+
+# Several documents (streamtex >= 0.7.39) — declared in stx.toml:
+#   [[run.documents]]
+#   id = "opening"                  # -> $STX_URL_OPENING in every document
+#   book = "modules/opening/book.py"
+#   port = 8731
+stx run --set                     # Start every declared document together, in the background
+  --doc ID                        # With --set / --list / --kill: only this document
+  --fresh                         # With --set: stop, clear the page cache, start again
+  --lang CODE                     # With --set / --list: URLs carry ?lang=CODE
+  --ports-offset N                # With --set: add N to every declared port (default 0)
+  --open / --no-open              # With --set: open the documents
+  --chrome-profile DIR            # With --set --open: dedicated Chrome profile, media autoplay allowed
+stx run --list                    # Declared documents, their state and URLs
+stx run --kill [--doc ID]         # Stop the declared documents
+                                  # State and logs in .stx_run/; uses the project's .venv when present
+```
+
 ### Workspace (4 essential commands)
 
 ```bash
@@ -231,6 +257,8 @@ stx update                        # Pull + clone + sync + hooks + profiles + glo
   --skip-profiles                 # Skip Claude profile updates
   --dry-run                       # Show the steps without executing
   --repair                        # Enable repair checks (venv, __init__.py, paths)
+  --global-commands / --no-global-commands   # Copy (or not) the stx-* commands into ~/.claude/commands
+                                  # (also on `stx install`; default: machine setting, true if unset)
 
 stx status                        # Git status of every repo (branch, clean/dirty, ahead/behind)
 
@@ -273,7 +301,7 @@ templates. Profiles extend each other.
 | `presentation` | `project` | Author live-projection presentations (10–20 m auditorium distance). Adds presentation-design-rules + fullscreen-presentation-rules skills + the `presentation-designer` agent. |
 
 Child profiles only **add** to the parent; the parent's commands and
-shared resources remain available. See `coherence-checks.md` Check 4
+shared resources remain available. See `coherence-checks.md` Check 18
 for how install.py composes the layers.
 
 ### Development links
@@ -297,19 +325,65 @@ stx claude list                   # List available profiles (from streamtex-clau
 
 stx claude install PROFILE [PATH] # Install a profile into a project
                                   # Copies .claude/, CLAUDE.md, shared/references/
+  --dry-run                       # Show every file the install would write; write nothing
+  -y, --yes                       # Proceed even when files stx did not install would be replaced
+                                  # (without --yes the install stops and lists them)
+                                  # A user-authored root CLAUDE.md is never overwritten: the profile
+                                  # text goes to .claude/CLAUDE.md; settings.json is merged
 
 stx claude diff [PATH]            # Compare installed files vs source repo
                                   # Statuses: identical, modified, missing, extra
 
 stx claude update [PATH]          # Update files from the source repo
-  --force                         # Also overwrite CLAUDE.md (preserved by default)
+  --force                         # Overwrite locally-modified files and the root CLAUDE.md (auto-backup in .claude/.backup/)
   --all                           # Update ALL projects in the workspace at once
-  --prune                         # Remove orphan files no manifest declares anymore
+  -y, --yes                       # Skip the confirmation before overwriting or removing
+  --commit                        # Untrack managed .claude/ files and commit (default: print the git commands)
+                                  # Orphan files (no manifest declares them) are removed by default
 
 stx claude check                  # Check sync of all profiles in the workspace
                                   # Scans projects and subdirectories of projects/
                                   # Returns exit code 1 if files are out of sync
+                                  # Also reports command groups present both globally and in a
+                                  # project, and obsolete global groups (also in `stx status`)
+
+# Project mode (streamtex >= 0.7.35) — declared in the project's stx.toml:
+#   [claude]
+#   mode = "project"
+#   profile = "presentation"
+#   include = []                  # extra profiles merged in
+#   exclude = []                  # groups left out, e.g. ["stx-ce", "ce"]
+stx claude sync [PATH]            # Make .claude/ match [claude]; record .claude/stx.lock
+  --dry-run                       # Show what would change; write nothing
+  --force                         # Overwrite your local edits too (backup in .claude/.backup/)
+  --remove                        # Uninstall every file stx installed (custom/ kept)
+
+# Machine mode — the stx-* commands copied into ~/.claude/commands
+stx claude global status          # Classify each stx-* entry: current / outdated / obsolete / modified by you
+stx claude global remove          # Remove only stx copies (a file you changed is kept and listed)
+  -y, --yes                       # Remove (default: show what would be removed)
 ```
+
+### Installation: project mode vs machine mode
+
+| | Machine mode (classic, default) | Project mode (streamtex >= 0.7.35) |
+|---|---|---|
+| Declared in | nothing — `stx claude install PROFILE` once | `[claude]` in the project's `stx.toml` |
+| Installed by | `stx claude install` / `stx claude update`, `stx update` | `stx claude sync` (also run by `stx update`, `stx claude update --all`, `stx claude check`) |
+| Shared `stx-*` commands | copied into `~/.claude/commands` by `stx install` / `stx update` (`--no-global-commands`, or `[claude] global_commands = false` in `~/.config/streamtex/config.toml`, turns it off) | in the project's `.claude/commands` |
+| What git keeps | per project choice (`stx claude update --commit` untracks the copies) | `stx.toml` + `.claude/stx.lock`; the copies are ignored |
+| Local edits | `--force` replaces them (backup in `.claude/.backup/`) | 3-way comparison with the lock: upstream change applied, local edit kept and reported (`--force` replaces it), file no longer declared removed only if unchanged, foreign files and `custom/` never touched |
+
+`.claude/stx.lock` (written by `stx claude sync`, do not edit) records `format = 1`, the profile,
+`include` / `exclude`, the streamtex-claude source and revision, the `CLAUDE.md` hash and every installed
+file with its sha256. A lock without `format` (0.7.35-0.7.40) is read as format 1; a higher format (newer
+stx) is refused, never rewritten. `stx validate` checks the `[claude]` section. Note: `stx claude update`
+run with streamtex <= 0.7.34 does not know the lock and removes it — upgrade streamtex in project-mode
+projects.
+
+**Migrating a machine to project mode**: declare `[claude]` and run `stx claude sync` in every project
+first, then `stx claude global status` and `stx claude global remove --yes` (and
+`global_commands = false`) — removing the global copies first would leave projects without commands.
 
 ### Project
 
@@ -328,6 +402,37 @@ stx project validate [PATH]       # Validate a project's structure (10 checks)
                                   # .streamlit/config.toml, enableStaticServing,
                                   # pyproject.toml, .claude/, CLAUDE.md,
                                   # static/images/, block files def build
+
+stx validate                      # Pack + component + DS + kit validation of the current project,
+                                  # plus [[validate.rules]], version coherence (.stx-version /
+                                  # pyproject / uv.lock), hygiene (conflict markers, deprecated
+                                  # stx.toml sections), stale facts/<source>.toml, [claude] section
+  --strict                        # Promote warnings to errors (exit 2 when only warnings)
+  --build                         # Real build() of every block of every book.py (headless, no
+                                  # browser, one subprocess per book): exceptions, images that
+                                  # resolve to nothing, inlined media > 512 KB, styled st_block
+                                  # with an empty body. Run it as `uv run stx validate --build`
+  --book FILE                     # With --build: only this book.py (repeatable)
+  --timeout SECONDS               # With --build: seconds per book (default 180)
+  --snapshot FILE                 # With --build: write the HTML fingerprint of every block (JSON)
+  --against FILE                  # With --build: each block rendering differently from FILE = warning
+  --published                     # With --build: against the PUBLISHED streamtex, without local
+                                  # sources (local packs keep theirs, as in the Docker image)
+                                  # Limits of the fingerprint (--snapshot / --against):
+                                  # - the text rendered by st_markdown / show_explanation is NOT in it
+                                  #   (a change there is not reported);
+                                  # - inserting a block shifts the section numbering, so blocks you did
+                                  #   not edit can change fingerprint — read the list, don't count it
+
+# Project rules — [[validate.rules]] in stx.toml, run by every `stx validate`:
+#   [[validate.rules]]
+#   id = "no-hex"
+#   message = "no hexadecimal colour in a block"
+#   glob = "blocks/**/bck_*.py"   # relative to the project, ** accepted
+#   forbid = '#[0-9a-fA-F]{6}\b'  # every match is a violation (path:line)
+#   # require = 'st_marker\('     # every file WITHOUT a match is a violation
+#   # run = "uv run python tools/verify.py"   # non-zero exit fails
+#   severity = "warning"          # "error" (default) or "warning"
 
 stx project upgrade [PATH]        # Upgrade a project to the current StreamTeX version
   --check                         # Compatibility check only (no modifications)
@@ -362,6 +467,12 @@ stx deploy status PLATFORM [NAME] # Deployment status
   NAME                            # Service name (optional, auto-discover otherwise)
   --path PATH                     # Project directory for discovery
   --timeout SECONDS               # HTTP timeout (default: 10)
+
+stx deploy diff [PATH]            # How Dockerfile / entrypoint.sh / nginx.conf differ from the
+                                  # current templates (nothing written; stx deploy never
+                                  # overwrites existing files)
+stx deploy ci [PATH]              # Write .github/workflows/stx-validate.yml (ruff + stx validate --build)
+  --force                         # Overwrite an existing workflow file
 ```
 
 ### Publish
@@ -516,16 +627,16 @@ claude
 | stx-block (15) | init, update, audit, fix, tool, slide-new, style-refactor, new, preview, customize, upgrade, collection-new, course-generate, test, lint | Complete project lifecycle (creation, editing, audit, fixing, tests, lint) |
 | stx-ce (14) | collect, assess, plan, prototype, produce, review, fix, compound, go, status, task, continue, pause, integrate | Compound Document Engineering — iterative and incremental production methodology |
 | stx-pe (7) | go, bootstrap, specialize, refine, audit, adopt, publish | Pack Engineering — extraction and management of shared packs |
-| Import (6) | marp-analyze, marp, html, html-block, html-batch, html-audit | Import Marp/HTML to StreamTeX |
+| Import (7) | marp-analyze, marp, html, html-block, html-batch, html-audit, latex | Import Marp/HTML/LaTeX to StreamTeX |
 | Export (1) | html | Export StreamTeX to HTML |
 | stx-issue (6) | bug, feature, question, docs, comment, list | GitHub issues (shared) |
 | stx-pack / stx-component / stx-ds / stx-kit / stx-validate / stx-new (6) | sub-commands listed in §4h | Reuse architecture (packs, components, design systems, kits) |
-| Skills (8, project profile) | visual-design-rules, slide-design-rules, style-conventions, streamtex-quick-reference, reuse-architecture (shared), testing-patterns, stx-migrate, docs-lookup | Design rules |
+| Skills (15, project profile) | slide-design-rules, web-document-design-rules, course-design-rules, visual-design-rules, style-conventions, streamtex-quick-reference, testing-patterns, stx-migrate, docs-lookup + shared: import-conventions, hetzner-infrastructure, ssh-operations, reuse-architecture, modular-design-philosophy, authoring-gate | Design rules, conventions, deploy and import know-how |
 | Skills CE (15) | ce-conventions, ce-collect, ce-assess, ce-plan, ce-prototype, ce-produce, ce-review, ce-fix, ce-compound, ce-go, ce-status, ce-task, ce-continue, ce-pause, ce-integrate | CE skills paired with the 14 commands + reference conventions |
-| Agents (3, project profile) | slide-designer, slide-reviewer, project-architect | Specialized agents |
-| Agents CE (18) | source-scanner, import-assessor, audience-analyst, content-strategist, gap-analyst, format-explorer, angle-generator, structure-architect, domain-researcher, learnings-researcher, audience-advocate, pedagogy-analyst, visual-reviewer, style-consistency-checker, content-editor, feedback-detector, dev-governance, ad-hoc-reviewer | Specialized CE agents |
+| Agents (8, project profile) | document-designer, slide-designer, web-document-designer, course-designer, slide-reviewer, project-architect + shared: import-converter, deploy-operator | Specialized agents |
+| Agents CE (21) | source-scanner, import-assessor, audience-analyst, content-strategist, gap-analyst, format-explorer, angle-generator, structure-architect, domain-researcher, learnings-researcher, audience-advocate, pedagogy-analyst, visual-reviewer, style-consistency-checker, content-editor, feedback-detector, dev-governance, ad-hoc-reviewer, prototype-designer, plan-reconciler, objective-monitor | Specialized CE agents |
 | Templates (4) | project, presentation, collection, course | Claude templates for `/stx-block:init` |
-| Templates CE (17) | collect-report, assess-import/improve/create, plan-import/improve/create, review-report, solution, producer-profile, feedback-summary, dev-report, task-review, coverage-matrix, task-analysis, task-report, checkpoint | CE templates for artifacts |
+| Templates CE (19) | collect-report, assess-import/improve/create, plan-import/improve/create, review-report, solution, producer-profile, feedback-summary, dev-report, task-review, coverage-matrix, task-analysis, task-report, checkpoint, master-plan, prototype-report | CE templates for artifacts |
 | Tools (1) | survey-convert | Specialized tools |
 
 **Lifecycle**: `init` → `update` → `audit` → `fix` → `update` → ...
@@ -676,14 +787,18 @@ The installer and the `update` command copy these files from `streamtex-claude/`
 | `profiles/<profile>/commands/` | `.claude/commands/` |
 | `profiles/<profile>/*/skills/` | `.claude/*/skills/` |
 | `profiles/<profile>/*/agents/` | `.claude/*/agents/` |
-| `profiles/<profile>/CLAUDE.md` | `CLAUDE.md` (preserved unless `--force`) |
+| `profiles/<profile>/CLAUDE.md` | `CLAUDE.md` when stx owns it (absent, or equal to the previous render); otherwise `.claude/CLAUDE.md`, the root file untouched (`--force` takes it back, with a backup) |
 
 Shared files (`references/` and `commands/`) are read-only protected (0o444)
 to signal that they are managed automatically.
 
-> **Global commands**: `stx update` also copies `shared/commands/`
+> **Global commands**: by default `stx update` also copies `shared/commands/`
 > to `~/.claude/commands/`, making `/stx-guide` accessible from any
-> directory, even without a Claude profile installed.
+> directory, even without a Claude profile installed. Since streamtex 0.7.35
+> this is optional (`--no-global-commands`, or `[claude] global_commands = false`
+> in `~/.config/streamtex/config.toml`); `stx claude global status | remove`
+> inspects and removes the copies. See "Installation: project mode vs machine
+> mode" in Section 3.
 
 #### Why CLAUDE.md is preserved
 
@@ -1521,8 +1636,8 @@ These templates are also used from the GitHub web interface.
 
 ## Section 4f — Import and Export (topic: `import`, `export`)
 
-The `/stx-import` namespace groups 6 commands to import external content
-(Marp, HTML) into StreamTeX. The `/stx-export` namespace contains 1 command
+The `/stx-import` namespace groups 7 commands to import external content
+(Marp, HTML, LaTeX) into StreamTeX. The `/stx-export` namespace contains 1 command
 to export a StreamTeX project to HTML.
 
 ### Marp import
@@ -1549,6 +1664,13 @@ to export a StreamTeX project to HTML.
 
 # Audit the quality of an HTML-to-StreamTeX conversion
 > /stx-import:html-audit
+```
+
+### LaTeX import
+
+```bash
+# Convert a LaTeX document (article, beamer, book, report) into StreamTeX blocks
+> /stx-import:latex path/to/main.tex --profile slides     # beamer; default --profile document
 ```
 
 ### HTML export
@@ -1667,6 +1789,7 @@ stx component promote <name> --to=<pack>
 
 # Aggregate validation
 stx validate [--strict]
+uv run stx validate --build       # + real build() of every block (see Section 3, Project)
 ```
 
 ### Claude slash commands
@@ -1713,9 +1836,9 @@ stx validate
 
 ## Section 5 — Known gotchas
 
-### 1. `from streamtex import *` shadows `list()`
-**Problem**: `st_list` overwrites the `list()` builtin.
-**Solution**: use `[*iterable]` instead of `list(iterable)`.
+### 1. `from streamtex import *` and `list()` (fixed in 0.7.36)
+**Before 0.7.36**: the star import also exported the `list` submodule, which shadowed the builtin `list()`.
+**Since 0.7.36**: the star import exports only `__all__`; `list()` is the builtin again. Use `[*iterable]` only in code that must run on older versions.
 
 ### 2. `st.html()` strips scripts (Streamlit 1.54+)
 **Problem**: Streamlit strips `<script>` tags inside `st.html()`.
@@ -1782,6 +1905,8 @@ stx validate
 | Revert a pack to its published version | `stx pack remove <pack-name>` from the consumer dir |
 | I want to release a new streamtex version | `/stx-guide release` for the full workflow |
 | I want to receive an existing release as a user | `/stx-guide update` for the full workflow |
+| I am about to publish / deploy a project | `uv run stx validate --build` (add `--published` to test against the PyPI wheel) |
+| I refactor and want "rendered identically" | `stx validate --build --snapshot before.json`, then `--against before.json` |
 
 For the underlying rationale (`uv sync` vs `stx update` vs `stx sync`, the
 lock flip-flop problem, alignment sequences), see §4.13.
@@ -1824,6 +1949,13 @@ lock flip-flop problem, alignment sequences), see §4.13.
 | Reuse — sync packs | `stx pack sync` |
 | Reuse — list packs + state | `stx pack list` |
 | Reuse — validate (errors/warnings) | `stx validate [--strict]` |
+| Real build of every block | `uv run stx validate --build` |
+| Run every document of a project | `stx run --set` (`--list`, `--kill`, `--fresh`) |
+| Project mode: align `.claude/` with stx.toml | `stx claude sync` (`--dry-run` first) |
+| Inspect / remove global stx commands | `stx claude global status` / `stx claude global remove --yes` |
+| Preview a profile install | `stx claude install <profile> . --dry-run` |
+| Deploy files vs current templates | `stx deploy diff .` |
+| CI workflow (ruff + validate --build) | `stx deploy ci .` |
 | Reuse — promote a component | `stx component promote <name> --to <pack>` |
 
 ### Claude commands (issues)
@@ -1841,12 +1973,13 @@ lock flip-flop problem, alignment sequences), see §4.13.
 
 | Task | Command |
 |------|---------|
-| Full audit (19 checks) | `/stx-coherence:audit` or `/stx-coherence:audit all` |
+| Full audit (51 checks + 1-bis + 28a) | `/stx-coherence:audit` or `/stx-coherence:audit all` |
 | API + cheatsheet audit | `/stx-coherence:audit library` |
 | Blocks + manuals audit | `/stx-coherence:audit docs` |
 | Profile sync + stx-guide audit | `/stx-coherence:audit profiles` |
 | Blocks + structure + templates audit | `/stx-coherence:audit blocks` |
 | English language audit | `/stx-coherence:audit language` |
+| Release & install integrity audit (1-bis, 46-51) | `/stx-coherence:audit integrity` |
 | Fix step by step | `/stx-coherence:fix` (implicit audit → plan → fix one by one with confirmation) |
 | Fix errors only | `/stx-coherence:fix --errors-only` |
 | View the plan without executing | `/stx-coherence:fix --dry-run` |
@@ -1880,7 +2013,7 @@ lock flip-flop problem, alignment sequences), see §4.13.
 | Aggregate validation | `/stx-validate` |
 | New project | `/stx-new <name> [--kit <pack>:<kit_name>]` |
 
-### Claude commands (import — 6)
+### Claude commands (import — 7)
 
 | Task | Command |
 |------|---------|
@@ -1890,6 +2023,7 @@ lock flip-flop problem, alignment sequences), see §4.13.
 | Convert an HTML block | `/stx-import:html-block <description>` |
 | Batch HTML conversion | `/stx-import:html-batch` |
 | Audit an HTML conversion | `/stx-import:html-audit` |
+| Import LaTeX documents | `/stx-import:latex <description>` |
 
 ### Claude commands (export — 1)
 

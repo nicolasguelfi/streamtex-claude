@@ -33,7 +33,7 @@ Process findings from most severe to least severe.
 For each automatable finding:
 
 1. Run `/stx-block:fix --target <block>` with the specific fix instruction from the finding.
-2. For presentation projects, use `/stx-block:slide-fix` when appropriate.
+2. For presentation projects, `/stx-block:fix` also applies the slide design rules.
 3. For spacing findings, apply these specific fixes:
    - **Inconsistent spacing**: apply a uniform `SpacingConfig` via `set_spacing()` at book or profile level
    - **Unnecessary block-level overrides**: remove `set_block_spacing()` calls that duplicate the global/profile spacing; use `reset_block_spacing()` to clear them

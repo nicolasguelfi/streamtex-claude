@@ -6,6 +6,129 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 Prior to this Changelog, changes are tracked in the git history of this repository (see `git log` on `main`).
 
+## [Unreleased]
+
+Coherence-check catalog repaired after the 0.7.40 coherence audit (board `audit1`, 2026-10-03): the catalog had
+let the most serious defects of that audit through. Both copies of `coherence-checks.md` (library and
+documentation overlays) stay identical.
+
+### Added
+
+- **Conventions** section at the top of `coherence-checks.md`: the five repositories (`streamtex`,
+  `streamtex-docs`, `streamtex-claude`, `streamtex-packs`, `streamtex-landing`), projects audited only when
+  declared in `stx.toml` `[repos]` with `type = "project"` (N/A otherwise), introspection instead of
+  hand-written lists, read-only commands run from `streamtex/` with `uv run --frozen python`, and
+  "`# noqa` is not a justification".
+- **Check 1-bis — Star-import boundary**: runs `tests/test_star_import.py` (the star import exports exactly
+  `__all__`, never a module, never `T`, `TF`, `current_lang`, `with_lang`, `set_languages`, `fact`).
+- **Checks 46-51 — Release & install integrity** (new `integrity` scope; the numbers 46-49 were last used by
+  the `patterns` checks retired in 0.2.0):
+  46 identical installers (runs
+  `tests/test_cli_claude.py::test_library_installer_places_every_file_of_the_standalone_installer`),
+  47 `.claude/stx.lock` format (`format = 1`, higher format refused, never pruned) and `.claude/.stx-profile`,
+  48 `stx.toml` sections read by the library (`[claude]`, `[book.defaults]` / `BOOK_DEFAULT_KEYS`,
+  `[[run.documents]]`, `[[validate.rules]]`) documented and validated by `stx validate`,
+  49 generated deploy templates (`generate_dockerfile` / `generate_entrypoint` / `generate_ci_workflow`) and the
+  docs deploy files against the `UV_NO_SOURCES` discipline,
+  50 silent `except ImportError` fallback on an undeclared dependency,
+  51 no absolute path outside the repository read by `tests/`.
+- **Appendix A — Script G**, one ghost-API scanner shared by Checks 11, 14 and 29: displayed code
+  (`show_code()` strings, `static/examples` files loaded by `show_code(file=)`), designer templates and
+  guidelines, packs, class constructors, `from streamtex.x import y`, alias resolution and shadowing.
+- Every check that measures something now has an exact, runnable "How to check" command.
+
+### Changed
+
+- **Dead scopes removed**: `projects/`, `streamtex-docs/references/`, `streamtex-docs/README.md`; scopes
+  extended to `streamtex-packs` and `streamtex-landing` where relevant (Checks 4, 5, 9, 10, 21, 29, 35, 36, 40).
+  Checks 25 and 28 read the declared CE projects and are reported "N/A" when there is none.
+- **Introspection instead of lists**: Check 1 from `streamtex.__all__` plus the explicit `streamtex.i18n` /
+  `streamtex.facts` modules (7 vanished exceptions removed: the `export_*` buffer functions,
+  `StreamTeX_Styles`); Check 14 from every callable of `__all__` (classes and configs included) instead of 22
+  fixed functions; Check 15 from the enums of `__all__` and `streamtex.enums` (the non-existent
+  `ListTypes.custom` is gone); Check 18 from `install.py` `CATEGORY_PATHS` / `SHARED_DEST_PATHS` and the
+  `overlay/` rule of inheriting profiles; Check 4 from `stx claude check` / `stx claude diff`.
+- **Check 22 rewritten** to the real pipeline: `auto-tag.yml` publishes to PyPI on any push to `main` that
+  changes the version line (no approval gate; cancelling after the Publish step does nothing; several bumps in
+  one push publish only the last); the manual `uv publish` / `git tag` / `gh release` checklist is removed;
+  the docs image must install the version its CI tested (no `--upgrade-package`); no push without an explicit
+  request to the author.
+- **Wrong or tautological rules fixed**: Check 5 no longer compares `pyproject.toml` with `__version__` (read
+  from installed metadata) and checks PyPI, tags, CHANGELOG versions never published and the
+  `streamtex-claude` version; Check 12d compares with the previous release, not `git describe` on a tagged HEAD;
+  Check 3 drops the `textwrap` rules; Check 6 "content after `show_*`" becomes INFO; Check 28a regex captures
+  `[...]` groups; Check 30 uses `ruff --select F401,F841,F811`; Check 33 normalised bodies, private homonyms and
+  families to watch; Check 36 limited to streamtex claims (library code included, third-party versions
+  excluded); Check 37 flags `hasattr`/`callable` true by import and duplicated fixtures; Check 38 has a frozen
+  AST method with the silent forms enumerated and code in strings ignored; Check 39 adds test-file naming and
+  undefined tracking identifiers; Check 9 checks absolute links to untracked files; Check 16 evaluates computed
+  paths and detects committed LFS pointers; Check 21 checks that every cited `/stx-x:y` exists.
+- `/stx-coherence:audit`: scopes updated (`all` = 1-51 + 1-bis + 28a, new `integrity`, `tests` = 12 + 37 + 51),
+  five-repository workspace, N/A reporting. `/stx-coherence:fix`: counts updated, Check 4 example turned into a
+  backport (it showed an overwrite of a read-only `.claude/` copy). `/stx-guide`: "19 checks" → 51 + 1-bis + 28a,
+  `integrity` scope listed, layer composition points to Check 18.
+
+### Added — streamtex 0.7.35-0.7.40 in the references (streamtex-docs#11)
+
+Every signature and option below was checked against streamtex 0.7.40 (`inspect.signature`, `stx … --help`).
+
+- `streamtex_cheatsheet_en.md`: what `from streamtex import *` exports (`__all__` only, no sub-module,
+  `list` no longer shadowed) and the explicit `streamtex.i18n` / `streamtex.facts` imports;
+  `st_image(max_vw=, max_vh=, align=)` with the author's decision (`align=` is explicit, the
+  `text-align` of a style passed to `st_image` does not place the image); `ScaleConfig.amphi()`;
+  `st_book(lang=, scale=)`, `doc_version="auto"`, `[book.defaults]` (the `BOOK_DEFAULT_KEYS`);
+  `ProjectBlockRegistry(blocks_dir, shared_dirs=[…])` and `list_shared_blocks()`;
+  `BibConfig(strict=True)`, `BibConfig.projection()`; `CollectionConfig(card_border=, card_text_color=)`,
+  `next_project()`, `st_next_deck()`; `st_slide`, `SLIDE_CONTAINER`, `set_slide_container`,
+  `get_slide_container`; new sections on `load_json` / `load_toml` / `load_text` / `watch_file`,
+  `kept_widget` / `kept_value`, `env_flag` / `is_editable` / `is_exportable`, `streamtex.i18n`
+  (`T`, `TF`, `current_lang`, `with_lang`, `set_languages`) and `streamtex.facts` (`fact`, `stale_facts`,
+  `facts/<source>.toml`); CLI: `stx run --set` with `[[run.documents]]`, `stx validate --build` options and
+  `[[validate.rules]]`, `stx deploy diff` / `ci`, `stx claude sync`, `stx claude global status | remove`,
+  `stx claude install --dry-run`, `--global-commands`.
+- `presentation_cheatsheet_en.md`: `st_slide` (thin: title, marker and zoom stay in the block),
+  `ScaleConfig.amphi()`, `stx run --set` to project several documents.
+- `coding_standards.md`: the star-import rule, explicit image placement with `st_image(align=)`,
+  `uv run stx validate --build` (and `--published`) before publishing, `doc_version="auto"`, `stx run --set`.
+- `/stx-guide`: Section 3 gains `stx run` (with `--set`, `--doc`, `--list`, `--kill`, `--fresh`, `--lang`,
+  `--ports-offset`, `--open`, `--chrome-profile`, `[[run.documents]]`), `stx validate` (`--build`, `--book`,
+  `--timeout`, `--snapshot`, `--against`, `--published`, the limits of the fingerprint, `[[validate.rules]]`),
+  `stx claude install --dry-run / --yes`, `stx claude sync [--dry-run/--force/--remove]`, project mode
+  (`[claude]`, `.claude/stx.lock` format 1), `stx claude global status / remove`,
+  `--global-commands / --no-global-commands`, `stx deploy diff`, `stx deploy ci`, and a section
+  "Installation: project mode vs machine mode"; quick-reference rows for the new commands; the `CLAUDE.md`
+  propagation row and the global-commands note describe 0.7.35 behaviour.
+
+### Fixed — `/stx-guide` counters measured against the manifests
+
+- §4.2b, `project` profile (measured on `profiles/project/manifest.toml` and an `install.py` run):
+  Skills 8 → 15 (9 own + 6 shared), Agents 3 → 8 (6 own + 2 shared), Agents CE 18 → 21, Templates CE
+  17 → 19, Import 6 → 7 (`/stx-import:latex`, also in §4f and Section 6).
+- `streamtex_cheatsheet_en.md`: `st_book(chrome_banner=)` defaults to `False` (the signature said `True`).
+
+### Fixed — ghost APIs and stale advice in the profiles (board `audit1`)
+
+- Designer templates and `modular-design-philosophy`: `st_book` has no
+  `design_system=` parameter (it never had); the design system is created in the
+  block and passed to pack components (`design_system=DS`).
+- `visual-design-rules`: the legacy `ptn_*` patterns → `streamtex-pack-design`
+  components.
+- `streamtex_cheatsheet_en.md`: `ptn_cite` → `cite`; `GSheetSource(tab=)`;
+  `TOCConfig(sidebar_max_level=)`; `st_image(prompt=)` instead of `st_ai_image()`;
+  the `StreamTeX_Styles` section removed (alias removed in streamtex 0.7.14);
+  `BibParseError` documented as exported but not raised.
+- Six designer/presentation guidelines: `SlideBreakDisplayConfig(space=)` →
+  `before=` / `after=`; LaTeX import conventions: `Style(font_color=)` →
+  `Style("color: …;", id)`.
+- Slash commands that do not exist: `/stx-component:new|list|show|validate` →
+  `/stx-component:run <sub>`; `/stx-block:slide-audit|slide-fix|style-audit` →
+  `/stx-block:audit`, `/stx-block:fix`, `/stx-block:style-refactor`;
+  `/stx-import:pptx|gdocs` marked "no command yet".
+- "The star import shadows `list()`" is history since streamtex 0.7.36
+  (testing-patterns, documentation CLAUDE.md template, `/stx-guide`).
+- `/stx-guide`: `stx claude update` has no `--prune`; `--yes`, `--commit`, `--force`
+  described as they are.
+
 ## [0.3.5] — 2026-10-03 — Project mode documented, CLAUDE.md templates for multi-module projects
 
 Companion of streamtex 0.7.35 (lot A, boards `claude1` / `lots1`).
