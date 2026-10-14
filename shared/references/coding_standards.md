@@ -609,6 +609,10 @@ stop, include with `markers=False` (no stop, not listed, anchor kept) or
 `markers="hidden"` (stops kept, not listed) rather than editing the block:
 one file then serves both as a module entry and as an included item (#113).
 
+A block that only holds the order of other blocks (a *list block*) calls
+`st_sequence(ITEMS, *args, **kwargs)`: the break goes between items, never
+before the first, and each item carries its own marker (#118).
+
 ### When to use which?
 
 | Use Case | Registry / Function |

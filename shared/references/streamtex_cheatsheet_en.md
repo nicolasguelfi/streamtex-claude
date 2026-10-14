@@ -1252,6 +1252,23 @@ Nested inclusions inherit the override; the outer inclusion wins. The layout
 never changes. Typical use: a host slide that already has its marker includes
 a block that opens with its own → `markers=False`, one stop instead of two.
 
+**List blocks — `st_sequence`** (#118): include blocks in order with the
+standard break between two (the module's break settings, no marker: each item
+brings its own), never before the first, never after the last:
+
+```python
+from streamtex import st_sequence
+
+ITEMS = [bck_intro, bck_detail, bck_list_examples]   # atoms, composites, other lists
+
+def build(*args, **kwargs):
+    st_sequence(ITEMS, *args, **kwargs)              # args/kwargs reach every item
+```
+
+`separator="break"` (default) | `None` | a `SlideBreakConfig` | a block;
+`markers=` is passed to every item. One break before one inclusion:
+`st_include(block, break_before=True)` (or a `SlideBreakConfig`).
+
 ### Static Asset Resolution
 
 ```python
