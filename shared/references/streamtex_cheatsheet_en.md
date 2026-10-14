@@ -1274,6 +1274,13 @@ A block cannot include itself, directly or through other blocks:
 at the first re-entry, before anything of it is drawn. `stx validate --build`
 reports it with the chain; `stx export html` fails with exit code 1.
 
+**Reloading the page is enough** for every block reached through
+`st_include`, in any directory (#120): its file is watched by the page cache
+and, when it changed, executed again in place (same module object). Helper
+modules that blocks import (`shared/`, packs) are not reloaded. Opt-out:
+`stx.set_include_reload(False)` or `STX_INCLUDE_RELOAD=0`. The page cache
+lives next to the module's `book.py` (`<book dir>/.stx_cache/`).
+
 ### Static Asset Resolution
 
 ```python
