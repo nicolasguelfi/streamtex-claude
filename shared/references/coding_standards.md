@@ -762,10 +762,17 @@ indexes). Use `marker=True` to force-include a heading even when auto is off.
 
 ### Manual markers
 
-Call `st_marker("Label", visible=True)` for visible waypoints or
-`st_marker("Label")` for invisible ones (scroll-only targets).
-Use `st_marker("Label", hidden=True)` for navigation-only markers that
-do not appear in the sidebar marker list or widget popup.
+A marker has three independent roles (#116): **stop** (the arrows stop
+here), **listed** (in the marker list), **in TOC**. `st_marker("Label")` is
+a stop and listed; `st_marker("Label", hidden=True)` is a stop that is not
+listed; `stop=False` keeps an entry in the list without an arrow press;
+`toc_lvl="2"` links it to a TOC entry; `MarkerRoles(...)` gives all three at
+once. `visible=True` only draws a dashed line in the content: it has nothing
+to do with *listed*.
+
+Pick one way to navigate per book: a *document* takes its stops from its
+headings (`auto_marker_on_toc`); a *deck* takes one stop per slide from the
+slide's marker and links a heading to it with `st_write(..., marker="attach")`.
 
 ### Slide breaks (presentation mode)
 

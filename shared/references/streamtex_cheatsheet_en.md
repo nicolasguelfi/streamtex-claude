@@ -157,7 +157,7 @@ st_write(
     hover=True,                     # Enable hover effect on links (default: True)
     toc_lvl=None,                   # TOC level: "1", "+1", "-1"
     label="",                       # Custom TOC entry label
-    marker=None,                    # Per-heading marker control (True/False/None=auto)
+    marker=None,                    # Heading marker: None=auto, True, False, MarkerRoles(...), "attach"
     spacing=None,                   # Optional Spacing override (only effective with toc_lvl + auto_marker_on_toc)
 )
 
@@ -172,6 +172,10 @@ st_write(bs.subtitle, "Subsection", toc_lvl="+1")
 st_write(s.huge, "Appendix", toc_lvl="1", marker=False)
 # Force include in markers
 st_write(s.huge, "Important", toc_lvl="2", marker=True)
+# TOC entry + arrow stop, NOT in the marker list
+st_write(s.huge, "Detail", toc_lvl="2", marker=MarkerRoles.HIDDEN)
+# Link the TOC entry to the marker that opens the slide (no second stop)
+st_write(s.huge, "Detail", toc_lvl="2", marker="attach")
 ```
 
 ### st_image — Full Signature
@@ -560,10 +564,53 @@ toc = TOCConfig(
 from streamtex import st_marker, MarkerConfig, st_book
 
 # Place markers manually
-st_marker("Section Start", visible=True)   # Visible marker (dashed border + label)
-st_marker("Hidden Waypoint")               # Invisible marker (default)
-st_marker("Nav Only", hidden=True)         # PageDown stops here, not shown in sidebar list
+st_marker("Section Start", visible=True)   # dashed line + label in the content (unrelated to "listed")
+st_marker("Waypoint")                      # stop + listed (default; nothing drawn)
+st_marker("Nav Only", hidden=True)         # stop, NOT in the marker list
 st_marker(T(leaf, lang), key="electricity")  # Stable key for deep links (survives translation)
+```
+
+#### Marker roles (#116)
+
+Every marker has three independent roles: **stop** (arrows, keys and the
+counter `n / N` stop here), **listed** (☰ popup, Markers tab, page titles),
+**in TOC** (linked to a TOC entry). Every marker keeps its anchor and deep link.
+One value object, `MarkerRoles(stop=True, listed=True, toc_lvl=None)`, with
+`MarkerRoles.NAMED` / `.HIDDEN` / `.ANCHOR`, accepted by `st_marker(roles=)`,
+`st_write(marker=)`, `st_slide_break(marker=)`, `SlideBreakConfig.marker` and
+`MarkerConfig.toc_marker_roles`.
+
+| stop | listed | in TOC | Call |
+|:-:|:-:|:-:|---|
+| ✓ | ✓ | ✓ | `st_marker("Prompting", toc_lvl="1")` |
+| ✓ | ✓ | – | `st_marker("X")` |
+| ✓ | – | ✓ | `st_write(h, toc_lvl="2", marker=MarkerRoles.HIDDEN)` |
+| ✓ | – | – | `st_marker("X", hidden=True)` (break markers) |
+| – | ✓ | ✓ | `st_marker("Part B", stop=False, toc_lvl="+1")` |
+| – | ✓ | – | `st_marker("Part B", stop=False)` (inside a scrolling slide) |
+| – | – | ✓ | `st_marker("Annex", stop=False, listed=False, toc_lvl="1")` |
+| – | – | – | `st_marker(key="exercise-3", stop=False, listed=False)` (deep link only) |
+
+`st_marker(toc_lvl=)` registers a TOC entry and uses its anchor (no heading
+is rendered; needs a label). Contradictions raise: `hidden=True` with
+`listed=True` or `stop=False` → `ValueError`; `roles=` mixed with the
+keywords → `TypeError`.
+
+**Two ways to navigate — pick one per book.** A *document* gets its stops
+from its headings (`auto_marker_on_toc=1`, no breaks). A *deck* gets one stop
+per slide from the slide's own marker (the atom's `st_marker` or the break's)
+and keeps `auto_marker_on_toc=0`; a heading inside a slide is linked to that
+stop with `marker="attach"` (one stop, the marker keeps its roles):
+
+```python
+st_marker("Prompt patterns", hidden=True)                  # the atom's stop
+st_write(bs.title, "Prompt patterns", toc_lvl="2", marker="attach")
+```
+
+An automatic heading stop added to a slide opened by `st_slide_break` or
+`st_slide` that already has its stop raises a warning saying what to write.
+
+```python
 
 # Deep links (paginated mode, app AND static export): ?marker=<key-or-slug> | ?page=<n> (1-based)
 from streamtex import page_url
@@ -2360,7 +2407,11 @@ st_slide_break(
     marker_label="",           # Custom label for the hidden marker (default: auto)
     config=None,               # Optional SlideBreakConfig override
     spacing=None,              # Optional Spacing override for this break
+    zoom=None,                 # Shortcut for Spacing(zoom=N)
+    marker_hidden=None,        # listed role of a True marker (None = config.marker_hidden)
+    *, marker=None,            # True | False (no marker) | MarkerRoles(...) — wins over config.marker
 )
+# Every call starts a new slide, with or without a marker.
 ```
 
 ### st_slide — one slide of a block (0.7.37)
