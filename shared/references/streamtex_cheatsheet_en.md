@@ -1237,6 +1237,21 @@ def build():
 - `load_atomic_block(name, __file__)` loads `_atomic/{name}.py` relative to caller
 - Raises `BlockNotFoundError` / `BlockImportError` on failure
 
+**Markers of an included block** (#113): `st_include(block, markers=…)` sets the
+roles of every marker the included `build()` places (its `st_marker`, its
+breaks, its headings), at any depth:
+
+```python
+st_include(bck_atom)                         # unchanged (default)
+st_include(bck_atom, markers=False)          # no stop, not listed — anchor and deep link kept
+st_include(bck_composite, markers="hidden")  # stops kept, out of the marker list
+st_include(bck_part, markers={"toc": False}) # its headings leave the TOC
+```
+
+Nested inclusions inherit the override; the outer inclusion wins. The layout
+never changes. Typical use: a host slide that already has its marker includes
+a block that opens with its own → `markers=False`, one stop instead of two.
+
 ### Static Asset Resolution
 
 ```python

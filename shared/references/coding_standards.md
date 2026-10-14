@@ -604,6 +604,11 @@ def build():
 `load_atomic_block(name, __file__)` loads `_atomic/{name}.py` relative to the caller's directory.
 Raises `BlockNotFoundError` if not found, `BlockImportError` on import failure.
 
+An included block keeps its markers. When the host slide already has its own
+stop, include with `markers=False` (no stop, not listed, anchor kept) or
+`markers="hidden"` (stops kept, not listed) rather than editing the block:
+one file then serves both as a module entry and as an included item (#113).
+
 ### When to use which?
 
 | Use Case | Registry / Function |
