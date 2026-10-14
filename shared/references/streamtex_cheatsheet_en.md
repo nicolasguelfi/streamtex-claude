@@ -2478,7 +2478,7 @@ st_slide_break(
 # Every call starts a new slide, with or without a marker.
 ```
 
-### st_slide — one slide of a block (0.7.37; marker=, box=, break settings: #122, unreleased)
+### st_slide — one slide of a block (0.7.37; marker=, box=, break settings: #122, 0.7.46)
 
 A **thin** construction: the break before the slide (`cut=True`), the slide's marker, then the slide
 box. Nothing else: the title, the zoom of the content, the alignment and every size stay written in
