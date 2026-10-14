@@ -2913,6 +2913,11 @@ stx export html [PATH]             # export project to static HTML (for dual/sta
 stx export html -o /app/static-html/ .  # custom output directory
 stx export html --asset-mode embedded .  # inline base64 assets (single file)
 stx export html --title "My Doc" .      # custom HTML title
+stx export html --html-mode both .      # continuous slides.html + pages/ (one file per page, #106)
+# Module setting (stx.toml [book.defaults] or st_book): html_export_mode = "continuous" | "paginated" | "both"
+# Paginated: one file per page of the page map (st_book paginate_by), named after its block, never a
+# number (a repeated block: <section>--<block>.html); global TOC and search on every page; arrows cross
+# files; ?marker= / ?slide= / ?page= work; "both" adds a "Continuous view / Paginated view" button.
 stx export html --lang fr .             # <html lang="fr"> (default: $STX_LANG, then "en")
 STX_LANG=fr stx export html --suffix -fr .  # one variable for blocks AND <html lang>; writes <project>-fr.html
 ```
