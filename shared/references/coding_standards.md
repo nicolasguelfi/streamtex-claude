@@ -614,7 +614,9 @@ A block that only holds the order of other blocks (a *list block*) calls
 before the first, and each item carries its own marker (#118). The tree of
 list blocks has no cycle: the library refuses one with `IncludeCycleError`
 naming the chain (#119). Blocks reached through `st_include` reload with the
-page, wherever they live; no `sys.modules` purge or `rev` key is needed (#120).
+page, wherever they live, and so do the project modules they import
+(`shared/`, packs outside `site-packages`); no `sys.modules` purge or `rev`
+key is needed (#120).
 
 ### When to use which?
 

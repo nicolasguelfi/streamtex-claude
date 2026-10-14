@@ -1286,8 +1286,10 @@ no rule in the app (kept in exports).
 
 **Reloading the page is enough** for every block reached through
 `st_include`, in any directory (#120): its file is watched by the page cache
-and, when it changed, executed again in place (same module object). Helper
-modules that blocks import (`shared/`, packs) are not reloaded. Opt-out:
+and, when it changed, executed again in place (same module object). The
+project modules that blocks import (`shared/`, a pack outside
+`site-packages`) are followed too: a changed one runs again, then every
+module and block importing it, so no `sys.modules` purge is needed. Opt-out:
 `stx.set_include_reload(False)` or `STX_INCLUDE_RELOAD=0`. The page cache
 lives next to the module's `book.py` (`<book dir>/.stx_cache/`).
 
