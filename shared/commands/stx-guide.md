@@ -189,7 +189,7 @@ streamtex-claude
 
 streamtex-pack-design (pack, in streamtex-packs monorepo)
   |
-  +-- consumed by projects via `stx pack add github.com/.../streamtex-packs#subdirectory=streamtex-pack-design`
+  +-- consumed by projects via `stx pack add git:github.com/.../streamtex-packs@<rev>#subdirectory=streamtex-pack-design`
   +-- referenced via `[[packs]]` entries in stx.toml (cf. reuse-architecture skill)
 
 stx.toml
@@ -1772,7 +1772,7 @@ The official pack is `streamtex-pack-design`. The central skill is
 
 ```bash
 # Add the official pack
-stx pack add github.com/nicolasguelfi/streamtex-packs#subdirectory=streamtex-pack-design --rev pack-design-v0.2.4
+stx pack add git:github.com/nicolasguelfi/streamtex-packs@pack-design-v0.3.0#subdirectory=streamtex-pack-design
 
 # Inventory
 stx pack list [--trace]
