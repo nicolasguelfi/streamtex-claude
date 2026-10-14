@@ -555,7 +555,7 @@ toc = TOCConfig(
     sidebar_max_level=2,            # Number headings up to level 2
     search=True,                    # Full-text search in sidebar
 )
-# NumberingMode options: SIDEBAR_ONLY (default), ALL (sidebar + document), NONE
+# NumberingMode options: BOTH (default: sidebar + document), SIDEBAR_ONLY, MAIN_ONLY, NONE
 ```
 
 ### Marker Navigation
@@ -2478,7 +2478,7 @@ st_slide_break(
 # Every call starts a new slide, with or without a marker.
 ```
 
-### st_slide — one slide of a block (0.7.37, #122)
+### st_slide — one slide of a block (0.7.37; marker=, box=, break settings: #122, unreleased)
 
 A **thin** construction: the break before the slide (`cut=True`), the slide's marker, then the slide
 box. Nothing else: the title, the zoom of the content, the alignment and every size stay written in
