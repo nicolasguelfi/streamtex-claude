@@ -888,6 +888,7 @@ st_book(
     export=True,                    # Enable HTML export
     export_title="StreamTeX Export",
     paginate=False,                 # One block per page
+    paginate_by="entry",            # Pages: "entry" | N / "depth:N" | "leaf" (follow the tree, #121)
     view_modes=None,                # List[ViewMode] — restrict allowed view modes (None=both)
     banner=None,                    # BannerConfig for paginated navigation banners
     bib_sources=None,               # List of .bib/.json/.ris paths
@@ -1273,6 +1274,15 @@ A block cannot include itself, directly or through other blocks:
 `IncludeCycleError: Include cycle: lists.a → lists.b → lists.a` (#119), raised
 at the first re-entry, before anything of it is drawn. `stx validate --build`
 reports it with the chain; `stx export html` fails with exit code 1.
+
+**Pages that follow the tree** (#121): `st_book(..., paginate=True,
+paginate_by="leaf")` gives one page per leaf — an inclusion that includes no
+other block (an atom or a composite) — even for a module given as one root
+list block; `paginate_by=2` pages down to depth 2. Arrows, markers, TOC, HTML
+export and PDF are identical for every value; only pages and `?page=` change
+(`?marker=<key>` is the durable link). Local override:
+`st_include(block, page=True | False)`. A break at the head of a page draws
+no rule in the app (kept in exports).
 
 **Reloading the page is enough** for every block reached through
 `st_include`, in any directory (#120): its file is watched by the page cache
