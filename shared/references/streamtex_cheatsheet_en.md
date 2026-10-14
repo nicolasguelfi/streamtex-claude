@@ -2476,29 +2476,39 @@ st_slide_break(
 # Every call starts a new slide, with or without a marker.
 ```
 
-### st_slide — one slide of a block (0.7.37)
+### st_slide — one slide of a block (0.7.37, #122)
 
-A **thin** helper: it writes exactly the two calls a block would write by hand — the break before the
-slide (`cut=True` → `st_slide_break()`), then the slide container. Nothing else: the title, the marker,
-the zoom, the alignment and every size stay written in the block, slide by slide.
+A **thin** construction: the break before the slide (`cut=True`), the slide's marker, then the slide
+box. Nothing else: the title, the zoom of the content, the alignment and every size stay written in
+the block, slide by slide.
 
 ```python
-st_slide(cut=False, style=None)   # context manager; style is ADDED (+) to the container for this slide
+st_slide(cut=False, style=None, *, marker=None, key=None, roles=None,
+         box=True, zoom=None, spacing=None, config=None)   # context manager
 
-with st_slide():                          # first slide of the block (no break)
-    st_write(s.project.titles.slide_title, "Context", toc_lvl="1")
+with st_slide(marker="Context"):          # first slide of the block: its listed marker, then the box
+    st_write(s.project.titles.slide_title, "Context", toc_lvl="1", marker="attach")
     ...
-with st_slide(cut=True):                  # a break, then the slide
+with st_slide(cut=True, marker="Details", key="details"):   # a break, the slide's marker, the box
     ...
-with st_slide(cut=True, style=ns("min-height: 60vh;", "short")):   # this slide only
+with st_slide(cut=True, style=s.project.containers.slide_top):   # this slide only: style ADDED to the box
+    ...
+with st_slide(cut=True, marker="Long read", box=False):           # form D: scrolls, no box
     ...
 ```
+
+`marker=` (#122) — at most one marker per slide, with the #116 roles: `None` as before (with `cut`
+the break's usual hidden stop; without, none), `False` no marker, `True` a stop not listed,
+`"Label"` a stop listed; `key=` and `roles=` as `st_marker`. With `cut` it takes the place of the
+break's marker; without, it comes before the box. An explicit marker is placed whatever the break
+mode or the sidebar. `zoom=`, `spacing=`, `config=` set the break (need `cut=True`). Forms: **S**
+(default box), **B** inside a composite (`cut=True, box=False`), **D** a scrolling slide (`box=False`).
 
 ```python
 from streamtex import SLIDE_CONTAINER, set_slide_container, get_slide_container
 
 SLIDE_CONTAINER            # default: min-height 80vh; margin 10vh 0; flex column; justify-content center
-set_slide_container(s.project.containers.slide_center)   # once in book.py (e.g. the design system's container)
+set_slide_container(s.project.containers.slide_center)   # once in book.py; stored per session (#122)
 set_slide_container(None)  # back to SLIDE_CONTAINER
 get_slide_container()      # the container st_slide currently uses
 ```

@@ -353,7 +353,23 @@ def build():
         ...
     with st_slide(cut=True, style=ns("min-height: 60vh;", "short")):   # ADDED to the container, this slide only
         ...
+    with st_slide(cut=True, marker="Summary", key="summary"):          # the slide's own marker (#122)
+        ...
+    with st_slide(cut=True, marker="Long read", box=False):            # form D: no box, it scrolls
+        ...
 ```
+
+`marker=` (`None` | `False` | `True` | `"Label"`, with `key=` and `roles=` as `st_marker`) gives the
+slide its one marker; `zoom=` / `spacing=` / `config=` set its break (need `cut=True`); `box=False`
+writes forms B and D. `set_slide_container` and `set_slide_break_config` are stored per session.
+
+**Projects that have their own slide helper.** A project whose blocks call its own `slide(cut, style)`
+helper with the same meaning moves to `st_slide` with no visual change: (1) in `book.py` (or the
+generator that writes it), before `st_book`: `stx.set_slide_container(<the design system's slide
+box>)`; (2) the helper module becomes an alias, `from streamtex import st_slide as slide` — every
+existing `with slide(...)` keeps working and no block file is touched; (3) optionally, later, a
+codemod rewrites the import lines under the project's own rules; (4) only then use `marker=` on the
+slides and `box=False` for scrolling slides.
 
 Default container `SLIDE_CONTAINER` (≥ 80 vh, 10 vh margins, content centred vertically). Change it once
 for the whole deck in `book.py` with `set_slide_container(style)` (e.g. the design system's own
