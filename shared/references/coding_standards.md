@@ -611,7 +611,9 @@ one file then serves both as a module entry and as an included item (#113).
 
 A block that only holds the order of other blocks (a *list block*) calls
 `st_sequence(ITEMS, *args, **kwargs)`: the break goes between items, never
-before the first, and each item carries its own marker (#118).
+before the first, and each item carries its own marker (#118). The tree of
+list blocks has no cycle: the library refuses one with `IncludeCycleError`
+naming the chain (#119).
 
 ### When to use which?
 

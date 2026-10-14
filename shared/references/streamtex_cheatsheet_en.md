@@ -1269,6 +1269,11 @@ def build(*args, **kwargs):
 `markers=` is passed to every item. One break before one inclusion:
 `st_include(block, break_before=True)` (or a `SlideBreakConfig`).
 
+A block cannot include itself, directly or through other blocks:
+`IncludeCycleError: Include cycle: lists.a → lists.b → lists.a` (#119), raised
+at the first re-entry, before anything of it is drawn. `stx validate --build`
+reports it with the chain; `stx export html` fails with exit code 1.
+
 ### Static Asset Resolution
 
 ```python
