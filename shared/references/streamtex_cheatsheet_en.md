@@ -610,11 +610,19 @@ st_write(bs.title, "Prompt patterns", toc_lvl="2", marker="attach")
 An automatic heading stop added to a slide opened by `st_slide_break` or
 `st_slide` that already has its stop raises a warning saying what to write.
 
+**One number per marker: its slide number** (#117). Stops are numbered 1…N;
+any other marker takes the number of the slide it sits in. The counter
+`n / N`, the footer "Slide n / N", the ☰ popup, the Markers tab
+(`4–8. Section B`, the same text as the popup), the page titles and
+`?slide=n` all show it, in paginated, continuous and HTML export alike.
+
 ```python
 
-# Deep links (paginated mode, app AND static export): ?marker=<key-or-slug> | ?page=<n> (1-based)
+# Deep links (paginated mode, app AND static export):
+#   ?marker=<key-or-slug> > ?slide=<n> (the counter's number) > ?page=<n> (1-based)
 from streamtex import page_url
 page_url("https://x/waves?lang=fr", marker="electricity")  # → https://x/waves?lang=fr&marker=electricity
+page_url("https://x/waves", slide=37)                      # → https://x/waves?slide=37
 
 # Auto-markers from TOC headings (in book.py)
 marker_config = MarkerConfig(
@@ -2597,7 +2605,7 @@ set_presentation_config(PresentationConfig(
 | `aspect_ratio` | `str` | `"16/9"` | CSS aspect-ratio value ("16/9", "4/3", "16/10") |
 | `enforce_ratio` | `bool` | `True` | Apply aspect-ratio + overflow:hidden to slide container |
 | `footer` | `bool` | `True` | Show fixed slide counter bar at viewport bottom |
-| `counter_mode` | `str` | `"bloc"` | Counter display: `"bloc"` (section count) or `"slide"` (marker-based) |
+| `counter_mode` | `str` | `"bloc"` | Counter display: `"bloc"` (section count) or `"slide"` (slide number over the stops, as the widget counter) |
 | `footer_height` | `str` | `"48px"` | CSS height of the footer bar |
 | `footer_bg` | `str \| None` | `None` | Footer background colour (None = inherit from theme) |
 | `footer_text_color` | `str \| None` | `None` | Footer text colour (None = inherit from theme) |
