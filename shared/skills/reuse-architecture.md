@@ -120,7 +120,7 @@ primary = true
 type = "git"
 name = "streamtex-pack-design"
 ref = "github.com/nicolasguelfi/streamtex-packs"
-rev = "pack-design-v0.2.4"
+rev = "pack-design-v0.3.1"
 subdirectory = "streamtex-pack-design"
 
 [design_system]

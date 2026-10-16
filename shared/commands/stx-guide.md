@@ -1772,7 +1772,7 @@ The official pack is `streamtex-pack-design`. The central skill is
 
 ```bash
 # Add the official pack
-stx pack add git:github.com/nicolasguelfi/streamtex-packs@pack-design-v0.3.0#subdirectory=streamtex-pack-design
+stx pack add git:github.com/nicolasguelfi/streamtex-packs@pack-design-v0.3.1#subdirectory=streamtex-pack-design
 
 # Inventory
 stx pack list [--trace]

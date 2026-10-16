@@ -38,7 +38,7 @@ The sole user-facing agent is `pack-orchestrator` — it delegates each phase to
 ## Examples
 
 - `/stx-pe:go projects/manual-a projects/manual-b` — Bootstrap from 2 projects
-- `/stx-pe:go --mode specialize --upstream git:streamtex-pack-design@pack-design-v0.2.4 projects/*` — Fork upstream
+- `/stx-pe:go --mode specialize --upstream git:streamtex-pack-design@pack-design-v0.3.1 projects/*` — Fork upstream
 - `/stx-pe:go` (inside a project with active pack) — Refine
 - `/stx-pe:go --mode audit --pack ../streamtex-pack-design` — Standalone audit
 - `/stx-pe:go --mode publish ../streamtex-pack-design` — Release a mature pack

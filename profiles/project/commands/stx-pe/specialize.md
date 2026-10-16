@@ -25,7 +25,7 @@ The cycle clones the upstream, rewrites `pyproject.toml` / `_pack_manifest.toml`
 
 ## Examples
 
-- `/stx-pe:specialize git:github.com/nicolasguelfi/streamtex-packs@pack-design-v0.2.4#subdirectory=streamtex-pack-design projects/manual-a projects/manual-b`
+- `/stx-pe:specialize git:github.com/nicolasguelfi/streamtex-packs@pack-design-v0.3.1#subdirectory=streamtex-pack-design projects/manual-a projects/manual-b`
 - `/stx-pe:specialize pypi:streamtex-pack-design@^0.2 --fork-name design-edu projects/*`
 - `/stx-pe:specialize ../streamtex-pack-design --pr-upstream nicolasguelfi/streamtex-packs projects/*`
 
