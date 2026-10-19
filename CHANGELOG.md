@@ -12,6 +12,15 @@ Coherence-check catalog repaired after the 0.7.40 coherence audit (board `audit1
 let the most serious defects of that audit through. Both copies of `coherence-checks.md` (library and
 documentation overlays) stay identical.
 
+### Fixed
+
+- **`/stx-deploy:deploy` matches the `stx deploy` CLI** (streamtex#102). The command listed options that
+  `stx deploy hetzner` does not have (`--domain`, `--memory`, `--cpu`, `--env`, `--server`, `--folder`), gave
+  `streamlit-only` as the default serve mode (the CLI defaults to `dual`), wrote its own Dockerfile with
+  `uv sync --frozen --no-sources` (a combination uv refuses) and a hand-made `.stx-deploy.json` entry. It now
+  drives the CLI: `stx deploy preflight`, the generated deployment files (`stx deploy docker --build-only`,
+  `stx deploy diff`), `stx deploy hetzner` with its real options, and `stx deploy lock` for the login screen.
+
 ### Added
 
 - **Conventions** section at the top of `coherence-checks.md`: the five repositories (`streamtex`,
