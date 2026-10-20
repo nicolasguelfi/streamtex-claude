@@ -14,6 +14,8 @@ documentation overlays) stay identical.
 
 ### Added
 
+- **Cheatsheet: streamtex 0.7.57** (streamtex#52): a *Countdown Racks* section — `st_countdown`
+  chain and parallel, card types, alarms, break screen, editing.
 - **Cheatsheet: streamtex 0.7.55** (streamtex#107, streamtex#56). `st_video` gains its sizing and autoplay lines
   and the 0.7.55 options (`theater="slide" | "window"`, `fit`, `fullscreen=True`); the export section gives the
   per-module `st_book(notice=..., printable=...)` and `PrintConfig`, and says that no `stx export pdf` exists.

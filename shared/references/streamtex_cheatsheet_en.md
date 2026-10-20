@@ -1677,6 +1677,21 @@ stx.st_video(path, theater=True, fit="cover")          # fit="contain" (default)
 stx.st_video(path, fullscreen=True)                    # fullscreen on the first Play, leaves at the end
 ```
 
+### Countdown Racks (0.7.57)
+
+```python
+# chain: one card at a time, each zero starts the next; nothing runs before a click
+stx.st_countdown([("Intro", 0.5), ("Talk", 10), ("Questions", 5)], "chain", grid=(1, 3), rack_vh=40)
+# card types: (label, target, options) — stopwatch target in minutes, clock target "HH:MM"
+stx.st_countdown([("Now", None, {"type": "clock", "tz": "Europe/Luxembourg"}),
+                  ("Exercise", 2, {"type": "stopwatch"}),
+                  ("Back at", "14:30", {"type": "clock", "tz": "Europe/Luxembourg"})], "chain")
+# parallel + alarms (start muted; bells arm them) / break screen
+stx.st_countdown(steps, "parallel", config=stx.CountdownConfig(alarm="bell", alarm_volume=0.8))
+stx.st_countdown([("Back in", 15)], config=stx.CountdownConfig(autostart=True, show_global_buttons=False))
+# double-click digits = edit (countdown: time left; stopwatch/clock: target); labels are plain strings
+```
+
 ### Generic Fallback
 
 ```python
