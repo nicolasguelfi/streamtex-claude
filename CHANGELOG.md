@@ -14,6 +14,8 @@ documentation overlays) stay identical.
 
 ### Added
 
+- **Cheatsheet: streamtex 0.7.58** (streamtex#136, #111): `stx release`, its commands, sites,
+  passwords per site and the version check.
 - **Cheatsheet: streamtex 0.7.57** (streamtex#52): a *Countdown Racks* section — `st_countdown`
   chain and parallel, card types, alarms, break screen, editing.
 - **Cheatsheet: streamtex 0.7.55** (streamtex#107, streamtex#56). `st_video` gains its sizing and autoplay lines

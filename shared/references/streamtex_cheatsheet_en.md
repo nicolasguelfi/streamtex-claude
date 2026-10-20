@@ -2949,6 +2949,32 @@ stx export html --lang fr .             # <html lang="fr"> (default: $STX_LANG, 
 STX_LANG=fr stx export html --suffix -fr .  # one variable for blocks AND <html lang>; writes <project>-fr.html
 ```
 
+
+### Multi-Document Projects — `stx release` (0.7.58)
+
+Two long-lived Coolify applications for a whole project (static nginx for the HTML exports, live
+supervisord + router for one Streamlit process per site); per-site snapshots, both faces switched
+together, rollback. `stx deploy hetzner` stays for one document per application.
+
+```bash
+stx release lock                     # live image deps from uv.lock (.stx-release/requirements.txt, stx-version)
+stx release setup [--apply|--show live|--domains]   # Coolify apps via the API; manual steps printed
+stx release server-config            # nginx -t, then reload without interruption
+stx release publish [SITE…] [--group G] [--allow-skew] [--html-env K=V]
+stx release status                   # what each site SERVES, as a visitor
+stx release rollback SITE | sleep SITE | wake SITE | prune
+stx release passwd [SITE…]           # records without republishing; auth-status (labels, dates)
+stx release import --from state.json # take over the all-trainings prototype, nothing sent
+stx release convert-passwords --from OLD --to NEW   # same passwords, checked site by site
+stx release local up | down          # both applications in Docker on this machine
+```
+
+- Sites: `[[release.sites]]` in `stx.toml` (`site`, `book`, `group`, `faces`, `paths`, `exclude`, `explicit`)
+  or `[release] sites_from = "module:function"`; names written by the project, checked (DNS label, unique).
+- State: `.stx-release.json` (versioned, no secret). Passwords: `.stx-passwords.toml`,
+  `[default]` → `[<group>]` → `[<group>.sites.<site>]`, `open = true | ["html"]` (an empty string is refused).
+- Publishing is refused when the exporting streamtex is not the live image's, or a dirty working copy.
+
 ### Deployment — Other platforms
 
 ```bash
