@@ -12,6 +12,12 @@ Coherence-check catalog repaired after the 0.7.40 coherence audit (board `audit1
 let the most serious defects of that audit through. Both copies of `coherence-checks.md` (library and
 documentation overlays) stay identical.
 
+### Added
+
+- **Cheatsheet: streamtex 0.7.55** (streamtex#107, streamtex#56). `st_video` gains its sizing and autoplay lines
+  and the 0.7.55 options (`theater="slide" | "window"`, `fit`, `fullscreen=True`); the export section gives the
+  per-module `st_book(notice=..., printable=...)` and `PrintConfig`, and says that no `stx export pdf` exists.
+
 ### Fixed
 
 - **`/stx-deploy:deploy` matches the `stx deploy` CLI** (streamtex#102). The command listed options that

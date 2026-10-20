@@ -1668,6 +1668,13 @@ stx.st_graphviz(file="diagrams/graph.dot")
 stx.st_audio("path/to/audio.wav", format="audio/wav")
 stx.st_video("path/to/video.mp4")
 stx.st_video("https://www.youtube.com/watch?v=...")
+stx.st_video(path, width="50%", align="left")         # sized box, live and export
+stx.st_video(path, autoplay=True, loop=True)           # muted automatically; muted=False kept
+# A video that dominates the screen (0.7.55), live and export:
+stx.st_video(path, theater="slide")                    # screen height in the flow (theater=True)
+stx.st_video(path, theater="window", autoplay=True)    # covers the window on its slide; x / Esc / leaving closes
+stx.st_video(path, theater=True, fit="cover")          # fit="contain" (default) | "cover"
+stx.st_video(path, fullscreen=True)                    # fullscreen on the first Play, leaves at the end
 ```
 
 ### Generic Fallback
@@ -2917,6 +2924,9 @@ stx export html --asset-mode embedded .  # inline base64 assets (single file)
 stx export html --title "My Doc" .      # custom HTML title
 stx export html --html-mode both .      # continuous slides.html + pages/ (one file per page, #106)
 # Module setting (stx.toml [book.defaults] or st_book): html_export_mode = "continuous" | "paginated" | "both"
+# Usage notice and print rules per module (st_book, 0.7.55): notice="…" | {"en": …, "fr": …};
+# printable=False (no printing of app or HTML export: the sheet shows the notice; no PDF in the panel)
+# or printable=stx.PrintConfig(app_print=, app_pdf=, html_print=, app_html=). There is no `stx export pdf`.
 # Paginated: one file per page of the page map (st_book paginate_by), named after its block, never a
 # number (a repeated block: <section>--<block>.html); global TOC and search on every page; arrows cross
 # files; ?marker= / ?slide= / ?page= work; "both" adds a "Continuous view / Paginated view" button.
