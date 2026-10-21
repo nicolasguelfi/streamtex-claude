@@ -14,6 +14,8 @@ documentation overlays) stay identical.
 
 ### Added
 
+- **Cheatsheet: streamtex 0.7.61**: `stx release rebuild` and `setup --migrate live` (live image built
+  from a public repository).
 - **Cheatsheet: streamtex 0.7.58** (streamtex#136, #111): `stx release`, its commands, sites,
   passwords per site and the version check.
 - **Cheatsheet: streamtex 0.7.57** (streamtex#52): a *Countdown Racks* section — `st_countdown`

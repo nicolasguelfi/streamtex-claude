@@ -2958,7 +2958,8 @@ together, rollback. `stx deploy hetzner` stays for one document per application.
 
 ```bash
 stx release lock                     # live image deps from uv.lock (.stx-release/requirements.txt, stx-version)
-stx release setup [--apply|--show live|--domains]   # Coolify apps via the API; manual steps printed
+stx release setup [--apply|--show live|--domains|--migrate live]   # Coolify apps via the API; manual steps printed
+stx release rebuild [--face live]    # 0.7.61, target "repo": Coolify builds .stx-release/Dockerfile.live (lock, commit, push first)
 stx release server-config            # nginx -t, then reload without interruption
 stx release publish [SITE…] [--group G] [--allow-skew] [--html-env K=V]
 stx release status                   # what each site SERVES, as a visitor
