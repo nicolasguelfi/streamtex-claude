@@ -33,8 +33,8 @@ documentation overlays) stay identical.
 
 ### Fixed
 
-- **Cheatsheet and stx-guide: `s.idx_N` does not exist** — the paliers are `s.text.sizes.idx_N`
-  (streamtex#6).
+- **Cheatsheet, stx-guide and coding standards: `s.idx_N` does not exist** — the paliers are
+  `s.text.sizes.idx_N` (streamtex#6).
 - **`/stx-deploy:deploy` matches the `stx deploy` CLI** (streamtex#102). The command listed options that
   `stx deploy hetzner` does not have (`--domain`, `--memory`, `--cpu`, `--env`, `--server`, `--folder`), gave
   `streamlit-only` as the default serve mode (the CLI defaults to `dual`), wrote its own Dockerfile with

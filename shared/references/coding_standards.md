@@ -386,7 +386,7 @@ For new block code (post-2026-05), use the **indexed responsive scale**:
 
 - Tailwind aliases (`s.text_xs` … `s.text_9xl`) for readable code.
 - Subscript (`s.scale[N]`) for dynamic indices.
-- Direct attribute (`s.idx_N`) for IDE autocomplete.
+- Direct attribute (`s.text.sizes.idx_N`) for IDE autocomplete (`s.idx_N` does not exist).
 
 Pack design systems MUST use `var(--stx-scale-K, fallback_pt)` rather
 than hardcoded `font-size: Npx`. This keeps responsive sizing intact
