@@ -14,6 +14,13 @@ documentation overlays) stay identical.
 
 ### Added
 
+- **Cheatsheet: streamtex 0.7.63**: `stx export html --zoom` / `--page-width` (streamtex#139), `zoom` per
+  site in `[[release.sites]]`, `st_bibliography(label_style=…)` and its label following `citation_style`
+  (streamtex#23).
+- **Cheatsheet: the fixed pt scale** (`s.text.sizes.pt4` … `pt196`, `size(n, name)`), so blocks stop writing
+  raw `ns("font-size:36pt")` (streamtex#6).
+- **slide-design-rules, Rule 14: explanatory tooltips** (#22) — explain the notion (meaning → mechanism →
+  stakes), never paraphrase the slide; key each entry by the notion.
 - **Cheatsheet: streamtex 0.7.61**: `stx release rebuild` and `setup --migrate live` (live image built
   from a public repository).
 - **Cheatsheet: streamtex 0.7.58** (streamtex#136, #111): `stx release`, its commands, sites,
@@ -26,6 +33,8 @@ documentation overlays) stay identical.
 
 ### Fixed
 
+- **Cheatsheet and stx-guide: `s.idx_N` does not exist** — the paliers are `s.text.sizes.idx_N`
+  (streamtex#6).
 - **`/stx-deploy:deploy` matches the `stx deploy` CLI** (streamtex#102). The command listed options that
   `stx deploy hetzner` does not have (`--domain`, `--memory`, `--cpu`, `--env`, `--server`, `--folder`), gave
   `streamlit-only` as the default serve mode (the CLI defaults to `dual`), wrote its own Dockerfile with

@@ -640,6 +640,8 @@ See `.claude/designer/guidelines/_index.md` for the complete scoping system.
 Tooltip rules (mandatory):
 - **Open opposite the icon.** Icon at the right of a title → `position="left"`; icon near the slide bottom → `direction="up"`. The panel must never spill off-slide.
 - **Readable content.** Coloured title, short `(term, definition)` bullets, generous `scale` — never a wall of text. The tooltip is also where you explain technical / programming terms that appear on the slide.
+- **Explain the notion, never paraphrase the slide.** A tooltip that restates the bullets adds nothing. Each entry answers what the slide leaves unsaid: **meaning** (what the term is) → **mechanism** (how it works) → **stakes** (why it matters here). Take the definitions from the document's glossary when it has one.
+- **Key each entry by the notion**, not by the bullet label: the term in bold, then its explanation. Jargon that appears on the slide gets an entry; obvious words do not.
 
 **Do not make the image zone systematic.** Rule 2's L2 pairs image with text, but a deck where *every* slide has an image reads as a sales brochure (the GSE-ODOO "too commercial" feedback). Use images purposefully, not by default. Offer a **symmetric bullet variant**: instead of an image on the right column, place ~4 balanced bullet points — every grid cell carries centered (horizontally + vertically) text. Aim for the right balance between visual and substance: show you understand the audience's problem, not just sell.
 

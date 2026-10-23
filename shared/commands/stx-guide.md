@@ -1309,7 +1309,8 @@ s.large, s.big, s.medium, s.small       # (24pt..6pt)
 s.text_xs, s.text_base, s.text_lg       # Tailwind aliases (steps 0..28)
 s.text_3xl, s.text_7xl, s.text_9xl      # Titles, hero
 s.scale[N]                              # Dynamic access (N=0..28, clamped)
-s.idx_5                                 # Direct access (autocomplete)
+s.text.sizes.idx_5                      # Direct access (autocomplete)
+s.text.sizes.pt36                       # Fixed pt steps (pt4..pt196, not responsive)
 ```
 
 - **Font sizes** → see the `indexed-font-scale` skill (or

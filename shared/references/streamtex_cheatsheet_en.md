@@ -720,7 +720,23 @@ for level in range(4):
     st_write(s.scale[12 - level * 2], f"H{level+1} heading")
 
 # 3) Direct attribute (autocomplete-friendly)
-st_write(s.idx_6, "Specific palier")
+st_write(s.text.sizes.idx_6, "Specific palier")
+```
+
+`s.idx_6` does **not** exist: the paliers live under `s.text.sizes.idx_0` … `idx_28`.
+
+### Fixed pt scale (not responsive)
+
+When a block needs an exact print size, use the named pt steps instead of a
+raw `ns("font-size:36pt")`: `s.text.sizes.pt4`, `pt6`, `pt8`, `pt10`, `pt12`,
+`pt14`, `pt16`, `pt18`, `pt20`, `pt22`, `pt24`, `pt28`, `pt32`, `pt36`,
+`pt40`, `pt44`, `pt48`, `pt52`, `pt56`, `pt60`, `pt64`, `pt72`, `pt80`,
+`pt88`, `pt96`, `pt112`, `pt128`, `pt160`, `pt196`. Any other value:
+`s.text.sizes.size(30, "title_30pt")`. These do not follow `ScaleConfig`; for
+body text and titles prefer the indexed scale above.
+
+```python
+st_write(s.text.sizes.pt36 + s.bold, "Exactly 36pt")
 ```
 
 ### Per-document override (the recommended way)
@@ -1863,7 +1879,12 @@ from streamtex.bib import cite, st_cite, st_bibliography
 st_cite("author2024key")           # Inline citation widget
 cite("key1", "key2")               # Multi-key inline citation string
 st_bibliography()                   # Render full bibliography
+st_bibliography(label_style=CitationStyle.NUMERIC)   # [N] labels beside author-year citations
 ```
+
+Since 0.7.63 (streamtex#23) the label before each entry follows `BibConfig.citation_style`: in
+AUTHOR_YEAR (the default) the list shows `(Dart et al., 2013)`, as `cite()` does inline; NUMERIC and
+SUPERSCRIPT keep `[N]`.
 
 **Strict citations and projection preset** (0.7.38):
 
@@ -2947,6 +2968,8 @@ stx export html --html-mode both .      # continuous slides.html + pages/ (one f
 # files; ?marker= / ?slide= / ?page= work; "both" adds a "Continuous view / Paginated view" button.
 stx export html --lang fr .             # <html lang="fr"> (default: $STX_LANG, then "en")
 STX_LANG=fr stx export html --suffix -fr .  # one variable for blocks AND <html lang>; writes <project>-fr.html
+stx export html --zoom 80 .            # opens as at 80 % browser zoom (0.7.63, #139); multiplies st_zoom
+stx export html --page-width 90 .      # page width in % of the window
 ```
 
 
@@ -2970,7 +2993,8 @@ stx release convert-passwords --from OLD --to NEW   # same passwords, checked si
 stx release local up | down          # both applications in Docker on this machine
 ```
 
-- Sites: `[[release.sites]]` in `stx.toml` (`site`, `book`, `group`, `faces`, `paths`, `exclude`, `explicit`)
+- Sites: `[[release.sites]]` in `stx.toml` (`site`, `book`, `group`, `faces`, `paths`, `exclude`, `explicit`,
+  `zoom = 80` — the HTML face exported with `--zoom`, 0.7.63)
   or `[release] sites_from = "module:function"`; names written by the project, checked (DNS label, unique).
 - State: `.stx-release.json` (versioned, no secret). Passwords: `.stx-passwords.toml`,
   `[default]` → `[<group>]` → `[<group>.sites.<site>]`, `open = true | ["html"]` (an empty string is refused).
