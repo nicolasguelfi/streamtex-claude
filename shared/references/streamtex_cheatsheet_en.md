@@ -210,7 +210,8 @@ st_image(
 **`max_vw=` / `max_vh=`** — per-call bounds: the image takes `min(width, max_vw vw, max_vh vh × ratio)`
 without distortion, the ratio read from the local or served file, `natural_size=`, or the cropped zone
 (`crop=`). `height` must stay `"auto"`. Without a readable ratio (remote URI, no `natural_size`) the bounds
-become CSS `max-width` / `max-height` (never enlarged). Not available on `st_video`.
+become CSS `max-width` / `max-height` (never enlarged). `st_video` has the same bounds since 0.7.64.
+Inside `st_zoom`, the bounds are multiplied by the zoom like any length (`max_vh=50` in `st_zoom(130)` is 65 vh).
 
 **`align=` is explicit (author's decision).** By default an image is inline and follows the `text-align`
 of its container. The `text-align` of a style passed to `st_image` does **not** place the image (it applies
@@ -1686,6 +1687,10 @@ stx.st_video("path/to/video.mp4")
 stx.st_video("https://www.youtube.com/watch?v=...")
 stx.st_video(path, width="50%", align="left")         # sized box, live and export
 stx.st_video(path, autoplay=True, loop=True)           # muted automatically; muted=False kept
+stx.st_video(path, max_vw=100, max_vh=50)              # two bounds, as st_image (0.7.64): 16:9 → 960×540 at 1920×1080
+stx.st_video(url, max_vh=50, natural_size=(1920, 1080))  # URL, WebM, or an MP4 without -movflags +faststart
+# A local file under static/ (static serving on) is served from /app/static/, not read
+# into memory at every run; the HTML export copies it into data/ (0.7.64). Put videos there.
 # A video that dominates the screen (0.7.55), live and export:
 stx.st_video(path, theater="slide")                    # screen height in the flow (theater=True)
 stx.st_video(path, theater="window", autoplay=True)    # covers the window on its slide; x / Esc / leaving closes

@@ -14,6 +14,9 @@ documentation overlays) stay identical.
 
 ### Added
 
+- **Cheatsheet: streamtex 0.7.64**: `st_video(max_vw=, max_vh=, natural_size=)` (streamtex#141), the zoom
+  rule of the bounds (multiplied, as any length), and local videos under `static/` served instead of read
+  into memory (streamtex#140).
 - **Cheatsheet: streamtex 0.7.63**: `stx export html --zoom` / `--page-width` (streamtex#139), `zoom` per
   site in `[[release.sites]]`, `st_bibliography(label_style=…)` and its label following `citation_style`
   (streamtex#23).
