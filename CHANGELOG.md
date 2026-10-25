@@ -14,6 +14,8 @@ documentation overlays) stay identical.
 
 ### Added
 
+- **Cheatsheet: streamtex 0.7.65**: `stx release limit SITE N|all` (streamtex#146) and
+  `stx export html --up-to-slide N`.
 - **Cheatsheet: streamtex 0.7.64**: `st_video(max_vw=, max_vh=, natural_size=)` (streamtex#141), the zoom
   rule of the bounds (multiplied, as any length), and local videos under `static/` served instead of read
   into memory (streamtex#140).

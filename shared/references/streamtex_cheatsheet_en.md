@@ -2975,6 +2975,7 @@ stx export html --lang fr .             # <html lang="fr"> (default: $STX_LANG, 
 STX_LANG=fr stx export html --suffix -fr .  # one variable for blocks AND <html lang>; writes <project>-fr.html
 stx export html --zoom 80 .            # opens as at 80 % browser zoom (0.7.63, #139); multiplies st_zoom
 stx export html --page-width 90 .      # page width in % of the window
+stx export html --up-to-slide 12 .     # 0.7.65: slides 1-12 only (their block whole); later blocks never run
 ```
 
 
@@ -2991,7 +2992,8 @@ stx release rebuild [--face live]    # 0.7.61, target "repo": Coolify builds .st
 stx release server-config            # nginx -t, then reload without interruption
 stx release publish [SITE…] [--group G] [--allow-skew] [--html-env K=V]
 stx release status                   # what each site SERVES, as a visitor
-stx release rollback SITE | sleep SITE | wake SITE | prune
+stx release limit SITE N|all          # 0.7.65: participants see slides 1-N; HTML face alone, sessions kept; kept per site
+stx release rollback SITE | sleep SITE | wake SITE | prune   # rollback undoes the last change (a limit: HTML alone)
 stx release passwd [SITE…]           # records without republishing; auth-status (labels, dates)
 stx release import --from state.json # take over the all-trainings prototype, nothing sent
 stx release convert-passwords --from OLD --to NEW   # same passwords, checked site by site
