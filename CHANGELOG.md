@@ -14,6 +14,8 @@ documentation overlays) stay identical.
 
 ### Added
 
+- **Cheatsheet: streamtex 0.7.67**: a level per session in `.stx-passwords.toml`, "not open yet", scheduled
+  openings, `stx release limit … --label` (streamtex#148).
 - **Cheatsheet: streamtex 0.7.66**: `[admin]` and `full` in `.stx-passwords.toml`, one login across sites,
   full or limited HTML per password (streamtex#147).
 - **Cheatsheet: streamtex 0.7.65**: `stx release limit SITE N|all` (streamtex#146) and
