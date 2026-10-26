@@ -14,6 +14,8 @@ documentation overlays) stay identical.
 
 ### Added
 
+- **Cheatsheet: streamtex 0.7.69**: `stx release passwd` restarts no site process; `STX_PASSWORDS_FILE`
+  for rehearsals with dummy passwords.
 - **Cheatsheet: streamtex 0.7.67**: a level per session in `.stx-passwords.toml`, "not open yet", scheduled
   openings, `stx release limit … --label` (streamtex#148).
 - **Cheatsheet: streamtex 0.7.66**: `[admin]` and `full` in `.stx-passwords.toml`, one login across sites,

@@ -2995,6 +2995,8 @@ stx release status                   # what each site SERVES, as a visitor
 stx release limit SITE N|all          # 0.7.65: participants see slides 1-N; HTML face alone, sessions kept; kept per site
 stx release rollback SITE | sleep SITE | wake SITE | prune   # rollback undoes the last change (a limit: HTML alone)
 stx release passwd [SITE…]           # records without republishing; auth-status (labels, dates, [all slides])
+# 0.7.69: passwd restarts no site process (live participants stay connected);
+#   STX_PASSWORDS_FILE=dummy.toml stx release … reads another passwords file (rehearsals)
 # .stx-passwords.toml, 0.7.66: [admin] live/html = added to EVERY site; one login opens every site holding
 # the same password; no rule on password content. 0.7.67: one line per session, its level on the HTML face:
 #   html = [ { seance = "S1", mot = "…", limite = 120 | "all" | [["2026-11-10T14:00", "all"]], fin = "…" } ]
