@@ -14,6 +14,7 @@ documentation overlays) stay identical.
 
 ### Added
 
+- **Cheatsheet: streamtex 0.7.70**: `set_slide_note`, `st_slide_note`, `marker_href` (board `note1`).
 - **Cheatsheet: streamtex 0.7.69**: `stx release passwd` restarts no site process; `STX_PASSWORDS_FILE`
   for rehearsals with dummy passwords.
 - **Cheatsheet: streamtex 0.7.67**: a level per session in `.stx-passwords.toml`, "not open yet", scheduled

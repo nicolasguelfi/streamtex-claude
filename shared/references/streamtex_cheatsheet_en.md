@@ -2561,6 +2561,10 @@ SLIDE_CONTAINER            # default: min-height 80vh; margin 10vh 0; flex colum
 set_slide_container(s.project.containers.slide_center)   # once in book.py; stored per session (#122)
 set_slide_container(None)  # back to SLIDE_CONTAINER
 get_slide_container()      # the container st_slide currently uses
+# 0.7.70: a note closes every st_slide (app + HTML), per session; text or {en, fr}, or a function
+set_slide_note({"fr": "© 2026 …", "en": "© 2026 …"}, link="legal-notice")  # small grey line under the box, new tab
+st_slide_note()            # the same note on a page without st_slide
+marker_href("legal-notice")  # "?marker=legal-notice" (keeps ?lang= in the app); paginated export → entry file
 ```
 
 ### SlideBreakMode Enum
