@@ -2565,6 +2565,14 @@ get_slide_container()      # the container st_slide currently uses
 set_slide_note({"fr": "© 2026 …", "en": "© 2026 …"}, link="legal-notice")  # small grey line under the box, new tab
 st_slide_note()            # the same note on a page without st_slide
 marker_href("legal-notice")  # "?marker=legal-notice" (keeps ?lang= in the app); paginated export → entry file
+# 0.7.72: several notes, each placed by the designer (board note3)
+set_slide_notes(
+    SlideNote({"slides": "…", "document": "…", "html": "…", "phone": None, "default": "…"},  # None = not in that mode
+              place="below",   # below above left right across | screen-top/-bottom/-left/-right | bar-after-title bar-title bar-before-counter
+              link="legal-notice", opacity=0.7, style=None, layer="under"),   # under: content drawn over it hides it
+    SlideNote("© ACME", place="across"),   # watermark (opacity 0.08)
+)
+get_slide_notes()          # the notes of this session; set_slide_note(text) = SlideNote(text, "below", opacity=1)
 ```
 
 ### SlideBreakMode Enum
