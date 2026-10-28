@@ -3001,10 +3001,11 @@ together, rollback. `stx deploy hetzner` stays for one document per application.
 
 ```bash
 stx release lock                     # live image deps from uv.lock (.stx-release/requirements.txt, stx-version)
-stx release setup [--apply|--show live|--domains|--migrate live]   # Coolify apps via the API; manual steps printed
+stx release setup [--apply|--show live|--domains [--dry-run]|--migrate live]   # Coolify apps via the API; manual steps printed
+                                     # 0.7.74: --domains --dry-run shows added/removed domains, writes nothing
 stx release rebuild [--face live]    # 0.7.61, target "repo": Coolify builds .stx-release/Dockerfile.live (lock, commit, push first)
 stx release server-config            # nginx -t, then reload without interruption
-stx release publish [SITE…] [--group G] [--allow-skew] [--html-env K=V]
+stx release publish SITE… | --group G | --all [--allow-skew] [--html-env K=V]   # 0.7.74: no site → refused, --all for every site
 stx release status                   # what each site SERVES, as a visitor
 stx release limit SITE N|all          # 0.7.65: participants see slides 1-N; HTML face alone, sessions kept; kept per site
 stx release rollback SITE | sleep SITE | wake SITE | prune   # rollback undoes the last change (a limit: HTML alone)
@@ -3025,7 +3026,11 @@ stx release local up | down          # both applications in Docker on this machi
   or `[release] sites_from = "module:function"`; names written by the project, checked (DNS label, unique).
 - State: `.stx-release.json` (versioned, no secret). Passwords: `.stx-passwords.toml`,
   `[default]` → `[<group>]` → `[<group>.sites.<site>]`, `open = true | ["html"]` (an empty string is refused).
-- Publishing is refused when the exporting streamtex is not the live image's, or a dirty working copy.
+- Publishing is refused when the exporting streamtex is not the live image's, or a dirty working copy, or (0.7.74)
+  an editable working copy with commits in `streamtex/` after its tag `v<version>`.
+- `[release] verify = "module:function"` (0.7.74): `verify(site_name, html_dir)` after each HTML export, before any
+  copy, in the project's environment; `None` accepts, a message / `False` / an exception refuses (the site keeps
+  serving what it served). The check after the switch logs in with the first password still valid (0.7.74).
 
 ### Deployment — Other platforms
 
