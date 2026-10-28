@@ -14,6 +14,7 @@ documentation overlays) stay identical.
 
 ### Added
 
+- **Cheatsheet: streamtex 0.7.73**: `SlideNote(downloads=)`, the `pdf` mode, new lines (board `note5`).
 - **Cheatsheet: streamtex 0.7.72**: `set_slide_notes`, `SlideNote` (places, text per mode, opacity, layer; board `note3`).
 - **Cheatsheet: streamtex 0.7.70**: `set_slide_note`, `st_slide_note`, `marker_href` (board `note1`).
 - **Cheatsheet: streamtex 0.7.69**: `stx release passwd` restarts no site process; `STX_PASSWORDS_FILE`

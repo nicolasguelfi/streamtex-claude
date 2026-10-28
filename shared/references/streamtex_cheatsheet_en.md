@@ -2573,6 +2573,8 @@ set_slide_notes(
     SlideNote("© ACME", place="across"),   # watermark (opacity 0.08)
 )
 get_slide_notes()          # the notes of this session; set_slide_note(text) = SlideNote(text, "below", opacity=1)
+# 0.7.73: SlideNote(downloads="always"|"never"|"choice")  # into "Download as…" files (HTML, PDF); choice = a box, ticked
+#         text mode "pdf" (else html, else default); "\n" in a text = a new line
 ```
 
 ### SlideBreakMode Enum
