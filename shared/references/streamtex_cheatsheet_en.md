@@ -3011,6 +3011,10 @@ stx release limit SITE N|all          # 0.7.65: participants see slides 1-N; HTM
 stx release rollback SITE | sleep SITE | wake SITE | prune   # rollback undoes the last change (a limit: HTML alone)
 stx release remove SITE [--yes] [--force]   # 0.7.75: takes a site off the server (shows, asks; refuses a declared site
                                      #   unless --force); domains stay until setup --domains
+stx release media-report SITE [--list kept|dropped]   # 0.7.76: what media_per_site would serve (export media
+                                     #   by content + media_keep); nothing sent
+# [release] media_per_site = true (0.7.76, off by default): live face serves only the site's media under
+#   /app/static/; media_keep = ["downloads/*"] in [release] or a site's table adds globs
 stx release passwd [SITE…]           # records without republishing; auth-status (labels, dates, [all slides])
 # 0.7.69: passwd restarts no site process (live participants stay connected);
 #   STX_PASSWORDS_FILE=dummy.toml stx release … reads another passwords file (rehearsals)
