@@ -2731,7 +2731,7 @@ set_presentation_config(PresentationConfig(
 | `title` | `str` | `""` | Title displayed in the presentation footer |
 | `subtitle` | `str` | `""` | Optional subtitle (not currently rendered in footer) |
 | `aspect_ratio` | `str` | `"16/9"` | CSS aspect-ratio value ("16/9", "4/3", "16/10") |
-| `enforce_ratio` | `bool` | `True` | Apply aspect-ratio + overflow:hidden to slide container |
+| `enforce_ratio` | `bool` | `True` | Apply aspect-ratio + overflow:hidden to slide container (0.7.75: lifted on a page of several slides, which scrolls) |
 | `footer` | `bool` | `True` | Show fixed slide counter bar at viewport bottom |
 | `counter_mode` | `str` | `"bloc"` | Counter display: `"bloc"` (section count) or `"slide"` (slide number over the stops, as the widget counter) |
 | `footer_height` | `str` | `"48px"` | CSS height of the footer bar |
@@ -3009,6 +3009,8 @@ stx release publish SITE… | --group G | --all [--allow-skew] [--html-env K=V] 
 stx release status                   # what each site SERVES, as a visitor
 stx release limit SITE N|all          # 0.7.65: participants see slides 1-N; HTML face alone, sessions kept; kept per site
 stx release rollback SITE | sleep SITE | wake SITE | prune   # rollback undoes the last change (a limit: HTML alone)
+stx release remove SITE [--yes] [--force]   # 0.7.75: takes a site off the server (shows, asks; refuses a declared site
+                                     #   unless --force); domains stay until setup --domains
 stx release passwd [SITE…]           # records without republishing; auth-status (labels, dates, [all slides])
 # 0.7.69: passwd restarts no site process (live participants stay connected);
 #   STX_PASSWORDS_FILE=dummy.toml stx release … reads another passwords file (rehearsals)

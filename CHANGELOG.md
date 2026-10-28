@@ -14,6 +14,8 @@ documentation overlays) stay identical.
 
 ### Added
 
+- **Cheatsheet: streamtex 0.7.75**: `stx release remove` (#143); `enforce_ratio` lifted on a page of several
+  slides (#153) (board `ordre1`, wave 2).
 - **Cheatsheet: streamtex 0.7.74**: `stx release publish --all`, `setup --domains --dry-run`, `[release] verify`,
   skew check of an editable library ahead of its tag (board `ordre1`, #145, #144).
 - **Cheatsheet: streamtex 0.7.73**: `SlideNote(downloads=)`, the `pdf` mode, new lines (board `note5`).
