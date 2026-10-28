@@ -14,6 +14,8 @@ documentation overlays) stay identical.
 
 ### Added
 
+- **Cheatsheet: streamtex 0.7.78**: `stx release rebuild` without a paste in Coolify, the skew mark
+  said resolved, links to another site's files checked after publish (#149, #150, #155, board `vague3`).
 - **Cheatsheet: streamtex 0.7.77**: media per site also keeps the files the HTML export links to.
 - **Cheatsheet: streamtex 0.7.76**: `[release] media_per_site`, `media_keep`, `stx release media-report`
   (#142, board `media1`).

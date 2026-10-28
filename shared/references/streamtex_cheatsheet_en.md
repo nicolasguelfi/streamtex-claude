@@ -3004,9 +3004,12 @@ stx release lock                     # live image deps from uv.lock (.stx-releas
 stx release setup [--apply|--show live|--domains [--dry-run]|--migrate live]   # Coolify apps via the API; manual steps printed
                                      # 0.7.74: --domains --dry-run shows added/removed domains, writes nothing
 stx release rebuild [--face live]    # 0.7.61, target "repo": Coolify builds .stx-release/Dockerfile.live (lock, commit, push first)
+                                     # 0.7.78, Dockerfile kept in Coolify: written in Coolify's database over ssh (diff shown,
+                                     #   old one kept in <root>/dockerfiles/, read back), then rebuilt; --dry-run, --restore
 stx release server-config            # nginx -t, then reload without interruption
 stx release publish SITE… | --group G | --all [--allow-skew] [--html-env K=V]   # 0.7.74: no site → refused, --all for every site
-stx release status                   # what each site SERVES, as a visitor
+stx release status                   # what each site SERVES, as a visitor; 0.7.78: "(skew, resolved: …)" once
+                                     #   the live image runs the version that exported a site published with --allow-skew
 stx release limit SITE N|all          # 0.7.65: participants see slides 1-N; HTML face alone, sessions kept; kept per site
 stx release rollback SITE | sleep SITE | wake SITE | prune   # rollback undoes the last change (a limit: HTML alone)
 stx release remove SITE [--yes] [--force]   # 0.7.75: takes a site off the server (shows, asks; refuses a declared site
@@ -3015,6 +3018,7 @@ stx release media-report SITE [--list kept|dropped]   # 0.7.76: what media_per_s
                                      #   by content, files it links to under app/static/ since 0.7.77, + media_keep); nothing sent
 # [release] media_per_site = true (0.7.76, off by default): live face serves only the site's media under
 #   /app/static/; media_keep = ["downloads/*"] in [release] or a site's table adds globs
+#   0.7.78: links to another site's /app/static/ files checked after publish (404s named); media-report lists them
 stx release passwd [SITE…]           # records without republishing; auth-status (labels, dates, [all slides])
 # 0.7.69: passwd restarts no site process (live participants stay connected);
 #   STX_PASSWORDS_FILE=dummy.toml stx release … reads another passwords file (rehearsals)
