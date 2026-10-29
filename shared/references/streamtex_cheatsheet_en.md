@@ -1877,13 +1877,15 @@ stx.st_write(s.big, "Big text")
 stx.reset_zoom()                      # Restore inherited section zoom
 ```
 
-### Stage mode (0.7.80)
+### Stage mode (0.7.80; live app only since 0.7.81)
 
 Zoom shrinks the viewport units too: it changes the size of the page, not its shape. To see the
-projector's layout (1920×1080) on a 16:10 laptop, use the stage: Settings › "Stage 1920×1080" (and the
-HTML export's sidebar) opens the page in a new tab, in an iframe of 1920×1080 CSS px scaled to the window
-with black bands (inside, `50vw × 50vh` = 960 × 540 px). `?stage=1920x1080` in the URL opens it too;
-deep links (`?marker=`, `#anchor`) pass through and the arrow keys turn the slides.
+projector's layout (1920×1080) on a 16:10 laptop, use the stage of the live app: Settings › "Stage
+1920×1080" opens the page in a new tab, in an iframe of 1920×1080 CSS px scaled to the window with black
+bands (inside, `50vw × 50vh` = 960 × 540 px); "Exit stage" comes back. `?stage=1920x1080` in the URL
+opens it too; deep links (`?marker=`, `#anchor`) pass through and the arrow keys turn the slides. The
+HTML export has no stage. `[book.defaults] stage = false` in `stx.toml` turns it off for every document,
+published sites included (0.7.81: the release snapshot carries `[book.defaults]`).
 
 ```python
 st_book(blocks, stage=(1920, 1080))   # default; stage="1280x720"; stage=False: no link

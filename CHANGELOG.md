@@ -14,6 +14,8 @@ documentation overlays) stay identical.
 
 ### Added
 
+- **Cheatsheet: streamtex 0.7.81**: the stage mode is for the live app only, with "Exit stage";
+  `[book.defaults]` applies on published sites (#105).
 - **Cheatsheet: streamtex 0.7.80**: the glossary — `gloss()`, `st_glossary()`, `glossary_sources=`,
   never through `cite()` (#12); the stage mode — `st_book(stage=...)`, `?stage=WxH`, `[book.defaults]
   stage`, to check a `vw`/`vh` layout at the projector's size (#105) (board `vague4`, wave 4b).
