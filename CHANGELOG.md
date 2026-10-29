@@ -14,6 +14,9 @@ documentation overlays) stay identical.
 
 ### Added
 
+- **Cheatsheet: streamtex 0.7.80**: the glossary — `gloss()`, `st_glossary()`, `glossary_sources=`,
+  never through `cite()` (#12); the stage mode — `st_book(stage=...)`, `?stage=WxH`, `[book.defaults]
+  stage`, to check a `vw`/`vh` layout at the projector's size (#105) (board `vague4`, wave 4b).
 - **Cheatsheet: streamtex 0.7.79**: `stx styles dump` and the generated `streamtex_styles_api.md` (#6),
   `st_bibliography(chunk_size=N)` (#23), the SSH retry of `stx release` (#152), and the live face's
   `/app/static/` media public to whoever has their address (#154, kept so) (board `vague4`, wave 4a).

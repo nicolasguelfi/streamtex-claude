@@ -938,6 +938,9 @@ st_book(
     block_kwargs=None,              # Keyword args forwarded verbatim to every block.build()
     lang=None,                      # "auto" | "fr" | ... — build(lang=...) for every block (0.7.37)
     banner_color="rgba(211,47,47,0.8)",  # Shorthand — prefer banner=BannerConfig(...)
+    glossary_sources=None,          # 0.7.80: .yaml/.json/.bib terms for gloss() (see Glossary)
+    glossary_config=None,           # 0.7.80: GlossaryConfig(strict=True) — unknown key raises
+    stage=(1920, 1080),             # 0.7.80: stage size ("WxH" or [w, h]); False: no stage link
 )
 ```
 
@@ -963,6 +966,7 @@ chrome_banner = false
 banner_color = "rgba(0, 80, 160, 0.8)"
 doc_version = "auto"      # [project].version of the nearest pyproject.toml
 lang = "auto"
+stage = [1920, 1080]      # 0.7.80: the stage size of every document
 ```
 
 ```python
@@ -1873,6 +1877,20 @@ stx.st_write(s.big, "Big text")
 stx.reset_zoom()                      # Restore inherited section zoom
 ```
 
+### Stage mode (0.7.80)
+
+Zoom shrinks the viewport units too: it changes the size of the page, not its shape. To see the
+projector's layout (1920×1080) on a 16:10 laptop, use the stage: Settings › "Stage 1920×1080" (and the
+HTML export's sidebar) opens the page in a new tab, in an iframe of 1920×1080 CSS px scaled to the window
+with black bands (inside, `50vw × 50vh` = 960 × 540 px). `?stage=1920x1080` in the URL opens it too;
+deep links (`?marker=`, `#anchor`) pass through and the arrow keys turn the slides.
+
+```python
+st_book(blocks, stage=(1920, 1080))   # default; stage="1280x720"; stage=False: no link
+```
+
+Check a layout that depends on `vw`/`vh` on the stage before saying it fits the projector.
+
 ## Bibliography
 
 ```python
@@ -1920,6 +1938,25 @@ is one institutional author, `origdate` / ancient years show "c. 380 BCE", and l
 `st_bibliography`. Since 0.7.42 a `shortauthor` field shortens the citation only:
 `author = {{European Parliament and Council}}, shortauthor = {EU}` cites "(EU, 2024)", the
 bibliography keeps the full name.
+
+### Glossary (0.7.80)
+
+Define a term once; `gloss()` underlines it with dots and shows its definition on hover/focus, in CSS
+only (works live and in the HTML export; print hides it). Terms are NOT references: no citation number,
+never in `st_bibliography()` — do not send glossary terms through `cite()`.
+
+```python
+# glossary.yaml:  LLM: Large Language Model
+#                 RLHF: {title: Reinforcement Learning from Human Feedback, note: Tuned on human rankings.}
+# or in a .bib:   @glossary{GPT, title = {Generative Pre-trained Transformer}, note = {...}}
+st_book(blocks, glossary_sources=["glossary.yaml"])
+
+st_write(s.big, "How ", gloss("LLM"), " models learn")     # TOC label: "How LLM models learn"
+st_write(s.big, gloss("RLHF", text="human feedback"))      # other words shown
+st_glossary(title="Glossary", toc_lvl="1")                 # used terms, A to Z (only_used=False: all)
+```
+
+Unknown key: `[key?]` and a warning, or `KeyError` with `glossary_config=GlossaryConfig(strict=True)`.
 
 ### Output Formats (BibFormat)
 
