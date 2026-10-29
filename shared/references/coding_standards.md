@@ -215,11 +215,11 @@ with st_list(l_style=bs.body, li_style=bs.body, list_type=lt.ordered) as l:
 1. **Inline text**: Multiple `st_write()` calls STACK VERTICALLY. For inline mixed-style text, use ONE `st_write()` with tuple arguments:
    ```python
    # WRONG — stacks vertically
-   st_write(s.red, "Red")
-   st_write(s.blue, "Blue")
+   st_write(s.text.colors.red, "Red")
+   st_write(s.text.colors.blue, "Blue")
 
    # CORRECT — flows inline
-   st_write(s.Large, (s.red, "Red"), (s.blue, "Blue"))
+   st_write(s.Large, (s.text.colors.red, "Red"), (s.text.colors.blue, "Blue"))
    ```
 2. **Link font size**: Links default to 12pt. Include font size in link style when surrounding text is larger.
 3. **Dark mode**: Never hardcode black/white — let Streamlit handle Light/Dark mode.
@@ -687,8 +687,8 @@ from streamtex import BlockHelper
 class ProjectBlockHelper(BlockHelper):
     def show_comparison(self, before, after):
         # Custom method unique to this project
-        self.show_code(before, style=s.before_style)
-        self.show_code(after, style=s.after_style)
+        self.show_code(before, style=s.project.code.before)
+        self.show_code(after, style=s.project.code.after)
 
 helper = ProjectBlockHelper()
 helper.show_comparison(old_code, new_code)

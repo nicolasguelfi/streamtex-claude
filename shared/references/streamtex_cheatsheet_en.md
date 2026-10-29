@@ -356,7 +356,7 @@ from streamtex import generate_image, AIImageError
 try:
     img = generate_image("a hero illustration", provider="openai")
 except AIImageError as e:
-    st_write(s.warn, f"Image generation failed: {e}")
+    st_write(s.text.colors.red, f"Image generation failed: {e}")
 ```
 
 **Introspection helpers**:
@@ -367,12 +367,12 @@ from streamtex import is_cached, list_providers
 # Check whether an image for the given parameters is already on disk
 # (deterministic hash of prompt + provider + size + quality + seed).
 if is_cached("a hero illustration", provider="openai", size="1536x1024"):
-    st_write(s.body, "Cache hit — no API call needed.")
+    st_write(s.big, "Cache hit — no API call needed.")
 
 # List the names of all registered providers (openai, google, fal, ...).
 # Useful for sidebar selectors or smoke checks before calling generate_image.
 for name in list_providers():
-    st_write(s.body, f"- {name}")
+    st_write(s.big, f"- {name}")
 ```
 
 ### AI Image — Editable Image Editor
@@ -739,6 +739,20 @@ body text and titles prefer the indexed scale above.
 ```python
 st_write(s.text.sizes.pt36 + s.bold, "Exactly 36pt")
 ```
+
+### The generated styles reference (0.7.79)
+
+`.claude/references/streamtex_styles_api.md` lists every style of the library and of the project, generated
+from the code (`stx claude install` / `update` regenerate it): shortcuts, named sizes on three screens, the pt
+scale, the indexed scale, the other styles, `s.project.*`. Read it before writing a raw CSS size.
+
+```bash
+uv run stx styles dump                    # write it (default: custom/styles.py for the project's styles)
+uv run stx styles dump --format full -o - # every style with its CSS, printed
+uv run stx styles dump --check            # drifts: code vs default.css vs compute_scale(), s.xxx cited in .claude/ that do not exist
+```
+
+Project styles elsewhere than `custom/styles.py`: `[claude] styles = "shared.styles"` in `stx.toml`.
 
 ### Per-document override (the recommended way)
 
@@ -1483,7 +1497,7 @@ def show_details(text: str):
 from streamtex import show_code, show_explanation, show_details
 
 show_code("print('hello')")                          # Uses injected config style
-show_code("print('hello')", style=s.custom.style)    # Override with explicit style
+show_code("print('hello')", style=s.project.code.highlight)  # Override with explicit style
 show_code('{"key": "value"}', language="json", wrap=True)  # Wrapping for JSON
 show_code(file="examples/demo.py", start_line=5, end_line=15)  # From file with line range
 
@@ -1850,12 +1864,12 @@ stx.inject_zoom_logic(120, 50)       # Width 120%, Zoom 50%
 # only, via :has() selector (same pattern as st_block).  Composes with the
 # global page zoom and any section-level zoom.
 with stx.st_zoom(75):                 # 75% zoom for this block only
-    stx.st_write(s.body, "Dense content rendered at 75%")
-    stx.st_image(s.img, "diagram.png")
+    stx.st_write(s.big, "Dense content rendered at 75%")
+    stx.st_image(s.container.sizes.width_full, "diagram.png")
 
 # Imperative variants (no automatic cleanup; reset by st_slide_break or end of build()):
 stx.set_zoom(150)                     # Zoom 150% from now on
-stx.st_write(s.body, "Big text")
+stx.st_write(s.big, "Big text")
 stx.reset_zoom()                      # Restore inherited section zoom
 ```
 
@@ -1885,6 +1899,8 @@ st_cite("author2024key")           # Inline citation widget
 cite("key1", "key2")               # Multi-key inline citation string
 st_bibliography()                   # Render full bibliography
 st_bibliography(label_style=CitationStyle.NUMERIC)   # [N] labels beside author-year citations
+st_bibliography(chunk_size=12)      # 0.7.79: 12 entries per slide, st_slide_break() between chunks,
+                                    #   title repeated "References (2/5)", numbering goes on, TOC entry once
 ```
 
 Since 0.7.63 (streamtex#23) the label before each entry follows `BibConfig.citation_style`: in
@@ -3019,6 +3035,10 @@ stx release media-report SITE [--list kept|dropped]   # 0.7.76: what media_per_s
 # [release] media_per_site = true (0.7.76, off by default): live face serves only the site's media under
 #   /app/static/; media_keep = ["downloads/*"] in [release] or a site's table adds globs
 #   0.7.78: links to another site's /app/static/ files checked after publish (404s named); media-report lists them
+# The live face's /app/static/ media are public to whoever has their exact address, password or not (no listing;
+#   kept so on purpose, #154): put nothing confidential there. Pages and the HTML face stay behind the password.
+# 0.7.79: an SSH connection cut while opening (a network device cuts ~20 new connections in a few seconds) is tried
+#   again after 5, 15, 30 and 60 s; a command that ran and failed is never run twice (#152)
 stx release passwd [SITE…]           # records without republishing; auth-status (labels, dates, [all slides])
 # 0.7.69: passwd restarts no site process (live participants stay connected);
 #   STX_PASSWORDS_FILE=dummy.toml stx release … reads another passwords file (rehearsals)

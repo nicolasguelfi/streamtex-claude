@@ -90,8 +90,8 @@ Convert LaTeX content elements to StreamTeX components:
 |---|---|
 | `\textbf{...}` | `(s.bold, "...")` tuple in `st_write()` |
 | `\emph{...}` / `\textit{...}` | `(s.italic, "...")` tuple in `st_write()` |
-| `\underline{...}` | `(s.underline, "...")` tuple in `st_write()` |
-| `\texttt{...}` | `(s.code, "...")` tuple in `st_write()` |
+| `\underline{...}` | `(s.text.decors.underline_text, "...")` tuple in `st_write()` |
+| `\texttt{...}` | `(s.text.fonts.font_monospace, "...")` tuple in `st_write()` |
 | `\begin{itemize}` | `st_list()` with `l.item()` |
 | `\begin{enumerate}` | `st_list(list_type=lt.ordered)` with `l.item()` |
 | `\begin{figure}` / `\includegraphics` | `st_image(uri="images/...", width="...")` |

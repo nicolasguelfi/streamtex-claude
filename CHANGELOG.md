@@ -14,6 +14,9 @@ documentation overlays) stay identical.
 
 ### Added
 
+- **Cheatsheet: streamtex 0.7.79**: `stx styles dump` and the generated `streamtex_styles_api.md` (#6),
+  `st_bibliography(chunk_size=N)` (#23), the SSH retry of `stx release` (#152), and the live face's
+  `/app/static/` media public to whoever has their address (#154, kept so) (board `vague4`, wave 4a).
 - **Cheatsheet: streamtex 0.7.78**: `stx release rebuild` without a paste in Coolify, the skew mark
   said resolved, links to another site's files checked after publish (#149, #150, #155, board `vague3`).
 - **Cheatsheet: streamtex 0.7.77**: media per site also keeps the files the HTML export links to.
@@ -56,6 +59,12 @@ documentation overlays) stay identical.
 
 ### Fixed
 
+- **Style names that do not exist, found by `stx styles dump --check`** (streamtex#6, board `vague4`):
+  `s.red`/`s.blue` → `s.text.colors.red`/`blue` (coding standards, stx-guide), `s.underline`/`s.code` →
+  `s.text.decors.underline_text`/`s.text.fonts.font_monospace` (LaTeX import), `s.body`/`s.warn`/`s.img`/
+  `s.custom.style` in the cheatsheet and `s.before_style`/`s.after_style` in the coding standards → real or
+  `s.project.*` names. The legacy-size table of `modular-design-philosophy` had every size one step off
+  (`s.Large` given as 32pt): now the default.css values (`s.Large` = 48pt) and their nearest palier.
 - **Cheatsheet, stx-guide and coding standards: `s.idx_N` does not exist** — the paliers are
   `s.text.sizes.idx_N` (streamtex#6).
 - **`/stx-deploy:deploy` matches the `stx deploy` CLI** (streamtex#102). The command listed options that

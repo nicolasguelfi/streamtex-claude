@@ -1875,7 +1875,7 @@ stx validate
 
 ### 10. Multiple inline styles: ONE `st_write` with tuples
 **Problem**: multiple `st_write` calls stack vertically.
-**Solution**: `st_write(s.Large, (s.red, "Red "), (s.blue, "Blue"))` — one call.
+**Solution**: `st_write(s.Large, (s.text.colors.red, "Red "), (s.text.colors.blue, "Blue"))` — one call.
 
 ### 11. README.md: relative links broken on PyPI
 **Problem**: relative links (`[AI Guide](AI_GUIDE.md)`) work on GitHub but are **broken on PyPI**.

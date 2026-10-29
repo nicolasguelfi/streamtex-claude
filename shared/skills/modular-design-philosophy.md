@@ -20,18 +20,19 @@ for new code, translate it through this table:
 | Legacy token | Indexed equivalent | Palier index | Default pt @ base 18 |
 |---|---|---|---|
 | `s.tiny` (4pt) | `s.text_xs` | idx_5 | 14pt (floor) |
-| `s.small` (6pt) | `s.text_xs` | idx_5 | 14pt (floor) |
-| `s.little` (8pt) | `s.text_xs` | idx_5 | 14pt (floor) |
-| `s.medium` (12pt) | `s.text_xs` | idx_5 | 14pt (floor) |
-| `s.big` (16pt) | `s.text_base` | idx_7 | 18pt (BASE) |
-| `s.large` (24pt) | `s.text_2xl` | idx_10 | 24pt |
-| `s.Large` (32pt) | `s.text_4xl` | idx_12 | 32pt |
-| `s.LARGE` (48pt) | `s.text_6xl` | idx_15 | 48pt |
-| `s.huge` (64pt) | `s.text_7xl` | idx_16 | 60pt |
-| `s.Huge` (80pt) | `s.text_8xl` | idx_17 | 72pt |
-| `s.HUGE` (96pt) | `s.scale[18]` | idx_18 | 96pt |
-| `s.giant` (128pt) | `s.text_9xl` | idx_19 | 128pt |
-| `s.Giant` (160pt) | `s.scale[20]` | idx_20 | 156pt |
+| `s.small` (8pt) | `s.text_xs` | idx_5 | 14pt (floor) |
+| `s.little` (12pt) | `s.text_xs` | idx_5 | 14pt (floor) |
+| `s.medium` (16pt) | `s.text_sm` | idx_6 | 16pt |
+| `s.big` (24pt) | `s.text_2xl` | idx_10 | 24pt |
+| `s.large` (32pt) | `s.text_4xl` | idx_12 | 32pt |
+| `s.Large` (48pt) | `s.text_6xl` | idx_15 | 48pt |
+| `s.LARGE` (64pt) | `s.text_7xl` | idx_16 | 60pt |
+| `s.huge` (80pt) | `s.text_8xl` | idx_17 | 72pt |
+| `s.Huge` (96pt) | `s.scale[18]` | idx_18 | 96pt |
+| `s.HUGE` (104pt) | `s.scale[18]` | idx_18 | 96pt |
+| `s.giant` (112pt) | `s.text_9xl` | idx_19 | 128pt |
+| `s.Giant` (128pt) | `s.text_9xl` | idx_19 | 128pt |
+| `s.GIANT` (196pt) | `s.scale[27]` | idx_27 | 196pt |
 | `s.GIANT` (196pt) | `s.scale[27]` | idx_27 | 196pt |
 
 ### NEVER override individual paliers

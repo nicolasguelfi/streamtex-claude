@@ -72,8 +72,8 @@
 |---|---|
 | `\textbf{text}` | `(s.bold, "text")` tuple in `st_write()` |
 | `\emph{text}` / `\textit{text}` | `(s.italic, "text")` tuple in `st_write()` |
-| `\underline{text}` | `(s.underline, "text")` tuple in `st_write()` |
-| `\texttt{text}` | `(s.code, "text")` tuple in `st_write()` |
+| `\underline{text}` | `(s.text.decors.underline_text, "text")` tuple in `st_write()` |
+| `\texttt{text}` | `(s.text.fonts.font_monospace, "text")` tuple in `st_write()` |
 | `\textsc{text}` | `(s.bold, "text")` (approximate) |
 | `{\color{red} text}` | `(color_style, "text")` tuple with mapped color |
 | `\href{url}{text}` | `(link_style, "text")` tuple |
